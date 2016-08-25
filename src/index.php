@@ -76,6 +76,8 @@ if ( session_status() == PHP_SESSION_NONE ) {
       </ul>
       <ul class="nav navbar-nav navbar-right">
       	<?php 
+		include 'url/require.php';
+		
 			if ( isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] ) {
 				echo '
 				<li><a class="dropdown-hover" href="#">Hi, '. $_SESSION['Username'] .'</a>
@@ -88,22 +90,6 @@ if ( session_status() == PHP_SESSION_NONE ) {
 			}
 			else {
 				echo '<li><a href="url/register.php">Login</a></li>';
-				/*echo '
-				<li><a class="dropdown-hover" href="#">Login</a>
-					  <ul class="dropdown-content" aria-labelledby="dropdownMenu1" style="list-style-type:none; padding:0;">
-						<form class="navbar-form" style="overflow:hidden">
-							<div class="form-group">
-							  <label for="email">Email:</label>
-							  <input type="email" class="form-control" id="email" required>
-							</div>
-							<div class="form-group">
-							  <label for="pwd">Password:</label>
-							  <input type="password" class="form-control" id="pwd" required>
-							</div>
-							<button type="submit" class="btn btn-custom" style="float:right; margin-top:10px;">Submit</button>	
-						</form>
-					  </ul>
-				</li>';*/
 			}
 			if ( isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] ) {
 				echo '<li><a href="#">Favorites</a></li>';
@@ -142,67 +128,55 @@ if ( session_status() == PHP_SESSION_NONE ) {
 </div><br><br> -->
 
 <div id="homeContainer">
-<h3 style="padding-top:25px; padding-left:5vw;">Featured Deals 
-	<div style="float:right; margin-right:25px;">
-    	<a class=" nav-buttons glyphicon glyphicon-arrow-left" aria-hidden="true" onClick="owl.prev()"></a>
-    	<a class=" nav-buttons glyphicon glyphicon-arrow-right" aria-hidden="true" onClick="owl.next()"></a>
-    </div>
-</h3>
-<div id="owl-carousel" class="owl-carousel owl-theme" style="background:#e9e9e9; border-top: solid thin #ddd; border-bottom: solid thin #ddd;">
-  <div class="item">
-  	<div class="">
-      <div class="panel panel-display">
-        <div class="panel-heading">Jewel Title</div>
-        <div class="panel-body" style="position:relative;"><img src="http://www.lartdudiamant.fr/uploads/gallery/1456125034.jpg" class="img-responsive" alt="Image"></div>
-        <div class="panel-footer">
-        	<div class="sm-12" style="overflow:hidden;">
-                <div style="float:left">
-                	<span class="old-price">$99.99</span><br>
-                    <span class="discounted-price">$99.99</span>
-                </div><br>
-                <a class="btn btn-custom" style="float:right;">INFO</a>
-            </div>
+<?php
+$fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :category");
+$fetchFeatured->execute(array(":category" => "Featured"));
+
+if ( $fetchFeatured->rowCount() > 0 ) {
+	createSlider($fetchFeatured->fetchAll(), "Featured Deals");
+}
+
+function createSlider($sliderItems, $heading) { ?>
+    <h3 style="padding-top:25px; padding-left:5vw;"><?php echo $heading; ?> 
+        <div style="float:right; margin-right:25px;">
+            <a class=" nav-buttons glyphicon glyphicon-arrow-left" aria-hidden="true" onClick="owl.prev()"></a>
+            <a class=" nav-buttons glyphicon glyphicon-arrow-right" aria-hidden="true" onClick="owl.next()"></a>
         </div>
-      </div>
-    </div>
-  </div>
+    </h3>
+    <div id="owl-carousel" class="owl-carousel owl-theme" style="background:#e9e9e9; border-top: solid thin #ddd; border-bottom: solid thin #ddd;">
     <?php
-		$images[] = array(
-			"http://www.lartdudiamant.fr/uploads/gallery/1457611455.jpg",
-			"http://www.lartdudiamant.fr/uploads/gallery/DRP9660D.jpg",
-			"http://www.lartdudiamant.fr/uploads/gallery/N002D.jpg",
-			"http://www.lartdudiamant.fr/uploads/gallery/N002YD.jpg",
-			"http://www.lartdudiamant.fr/uploads/gallery/P11498D.jpg",
-			"http://www.lartdudiamant.fr/uploads/gallery/P11742D.jpg",
-			"http://www.lartdudiamant.fr/uploads/gallery/P11769D.jpg",
-			"http://www.lartdudiamant.fr/uploads/gallery/P7463D.jpg",
-			"http://www.lartdudiamant.fr/uploads/gallery/PXP8960WD.jpg",
-			"http://www.lartdudiamant.fr/uploads/gallery/PXP8960WD.jpg",
-		);
-		
-		
-		for ( $i = 0; $i < 10; $i++ ) {
-			echo '
-			<div class="item">
-			  <div class="">
-				<div class="panel panel-display">
-				  <div class="panel-heading">Jewel Title</div>
-				  <div class="panel-body" style="position:relative;"><img src="'. $images[0][$i] .'" class="img-responsive" alt="Image"></div>
-				  <div class="panel-footer">
-					  <div class="sm-12" style="overflow:hidden;">
-						  <div style="float:left">
-							  <span class="old-price">$99.99</span><br>
-							  <span class="discounted-price">$79.99</span>
-						  </div><br>
-						  <a class="btn btn-custom" style="float:right;">INFO</a>
-					  </div>
-				  </div>
+	foreach ( $sliderItems as $item ) {
+		if ( $item['discount'] > 0 ) {
+			$value = $item['item_value'] -  (($item['discount'] / 100 ) * $item['item_value']);
+			$price =  '<div style="float:left">
+					  <span class="old-price">€'. $item['item_value'] .'</span><br>
+					  <span class="discounted-price">€'. round($value, 2) .'</span>
+				  </div><br>';
+		} else {
+			$price = '<div style="float:left">
+					  <span class="discounted-price">€'. $item['item_value'] .'</span>
+				  </div><br>';
+		}
+		echo '
+		  <div class="item">
+			<div class="">
+			  <div class="panel panel-display">
+				<div class="panel-heading">'. $item['item_name'] .'</div>
+				<div class="panel-body" style="position:relative;"><img src="'. $item['image'] .'" class="img-responsive" alt="Image"></div>
+				<div class="panel-footer">
+					<div class="sm-12" style="overflow:hidden;">
+						'. $price .'
+						<a class="btn btn-custom" style="float:right;">INFO</a>
+					</div>
 				</div>
 			  </div>
-			</div>';
-		}
-	?>
-</div><br>
+			</div>
+		  </div>';
+	}
+?></div><?php 
+}
+?>
+<br>
 </div>
 
 <div class="container well">
@@ -226,30 +200,9 @@ if ( session_status() == PHP_SESSION_NONE ) {
 <script src="js/bootstrap.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script>
-/*$(document).ready(function() {
- 
-  var owl = $("#owl-carousel");
- 
-  owl.owlCarousel({
-     
-      itemsCustom : [
-        [0, 2],
-        [450, 3],
-        [600, 3],
-        [700, 3],
-        [1000, 4],
-        [1200, 5],
-        [1400, 5],
-        [1600, 6]
-      ],
-      navigation : true
- 
-  });
- 
-});*/
 $(document).ready(function() {
  
-  $("#owl-carousel").owlCarousel({
+  $(".owl-carousel").owlCarousel({
     itemsCustom : [
         [0, 3],
         [450, 3],
@@ -277,4 +230,3 @@ function showRegForm() {
 </script>
 
 </html>
-

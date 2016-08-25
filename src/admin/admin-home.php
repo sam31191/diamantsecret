@@ -44,9 +44,6 @@ if ( isset($_SESSION['modSession']) ) {
 </div>
 </div>
 
-<div class="container-fluid well" style="width:80%; margin-left:20%;">
-Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>Shit <br>
-</div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="../assets/bootstrap.min.js"></script>

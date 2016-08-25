@@ -35,14 +35,14 @@ if ( session_status() == PHP_SESSION_NONE ) {
       <?php 
 	  include '../url/require.php';
 	  if ( isset($_POST['Username']) && isset($_POST['Password']) ) {
-		  $authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `Username` = :username AND `Password` = :pass");
+		  $authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :username AND `password` = :pass");
 		  $authenticate->execute(array(":username" => $_POST['Username'], ":pass" => $_POST['Password']));
 		  
 		  if ( $authenticate->rowCount() > 0 ) {
 		  	$result = $authenticate->fetch(PDO::FETCH_ASSOC);
-			if ( $result['Admin'] > 0 ) {
+			if ( $result['type'] == 1 ) {
 				$_SESSION['modSession'] = true;
-				$log = $pdo->prepare("INSERT INTO `moderator_login` (Username, `Last Login`, `Login IP`) VALUES (:username, NOW(), :ip)");
+				$log = $pdo->prepare("INSERT INTO `moderator_login` (`username`, `last_login`, `login_ip`) VALUES (:username, NOW(), :ip)");
 				$log->execute(array(":username" => $_SESSION['Username'], ":ip" => get_client_ip())); 
 				header("Location: home.php");
 			}

@@ -6,8 +6,12 @@
     font-family: 'RobotoLight';
     src:url(../fonts/Roboto-Light.ttf);
 }
+@font-face {
+    font-family: 'Roboto';
+    src:url(../fonts/Roboto-Regular.ttf);
+}
 * {
-	font-family: 'RobotoLight';
+	font-family: 'Open Sans', sans-serif;
 }
 a:hover {
 	color: #911116;
@@ -243,3 +247,6 @@ footer{
 }
 /* Modal Var End */
 
+.table {
+	font-size: 14px;
+}
