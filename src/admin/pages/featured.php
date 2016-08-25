@@ -16,22 +16,82 @@ if ( isset($_SESSION['modSession']) ) {
 }
 include '../../url/require.php';
 
+	//echo var_dump($_POST);
 if ( isset($_POST['addItem']) ) {
-	echo var_dump($_POST);
+	//echo var_dump($_FILES);
 	if ( $_POST['discount'] > 0 ) {
 		$discount = $_POST['discount'];
 	} else {
 		$discount = 0;
 	}
+	
+	$images = "";
+	
+	$numOfImages = sizeof($_FILES['itemImage']['name']);
+	for ( $count = 0; $count < $numOfImages; $count++ ) {
+		$image_dir = "../../images/";
+		$image_ext = pathinfo($image_dir . basename($_FILES['itemImage']['name'][$count]), PATHINFO_EXTENSION);
+		$image_file = $image_dir . str_replace(" ", "_", $_POST['itemName']);
+		$thumb_file = $image_dir . "thumbnails/" . str_replace(" ", "_", $_POST['itemName']);
+		
+		$check = getimagesize($_FILES['itemImage']['tmp_name'][$count]);
+		if ( $check ) {
+			if ( file_exists($image_file . "." . $image_ext) ) {
+				$i = 1;
+				while ( file_exists($image_file . "_" . $i . "." . $image_ext) ) {
+					$i++;
+				}
+				$image_file .= "_" . $i;
+				$thumb_file .= "_" . $i; 
+			}
+			if ( move_uploaded_file($_FILES['itemImage']['tmp_name'][$count], $image_file . "." . $image_ext) ) {
+				create_thumb($image_file . "." . $image_ext, 200, 200, $thumb_file . '.' . $image_ext);
+			}
+		} else {
+			echo var_dump("Not Image");
+		}
+		
+		$images .= basename($image_file) . "." . $image_ext . "|";
+	}
+	
+	
+	//echo var_dump($images);
 	$addItem = $pdo->prepare("INSERT INTO `items` (`item_name`, `item_value`, `discount`, `image`, `category`) VALUES (:name, :value, :discount, :image, :category)");
 	$addItem->execute(array(
 		":name" => $_POST['itemName'],
 		":value" => $_POST['itemValue'],
 		":discount" => $discount,
-		":image" => $_POST['itemImage'],
+		":image" => $images,
 		":category" => "Featured"
 	));
 }
+
+function create_thumb($file, $w, $h,  $thumb_dir, $crop=FALSE) {
+		list($width, $height) = getimagesize($file);
+		$r = $width / $height;
+		if ($crop) {
+			if ($width > $height) {
+				$width = ceil($width-($width*abs($r-$w/$h)));
+			} else {
+				$height = ceil($height-($height*abs($r-$w/$h)));
+			}
+			$newwidth = $w;
+			$newheight = $h;
+		} else {
+			if ($w/$h > $r) {
+				$newwidth = $h*$r;
+				$newheight = $h;
+			} else {
+				$newheight = $w/$r;
+				$newwidth = $w;
+			}
+		}
+		$src = imagecreatefromjpeg($file);
+		$dst = imagecreatetruecolor($newwidth, $newheight);
+		imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+		
+		return imagejpeg($dst, $thumb_dir);
+	}
 ?>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -301,7 +361,7 @@ if ( isset($_POST['addItem']) ) {
                 	<th>Name</th>
                 	<th>Value</th>
                 	<th>Discount (%)</th>
-                	<th>Image URL</th>
+                	<th>Images</th>
                 </thead>
                 <tbody>
                 	<?php
@@ -311,6 +371,14 @@ if ( isset($_POST['addItem']) ) {
 					
 					foreach ( $result as $entry ) {
 						$price = '€'.$entry['item_value'];
+						
+						$images = explode ("|", $entry['image']);
+						$listImage = "";
+						foreach ( $images as $image ) {
+							if ( !is_null($image) ) {
+								$listImage .= $image . "   ";
+							}
+						}
 						if ( $entry['discount'] > 0 ) {
 							$discounted = $entry['item_value'] - (( $entry['discount'] / 100) * $entry['item_value']);
 							$price = '<small class="old-price">€' . $entry['item_value'] . '</small> <span class="glyphicon glyphicon-chevron-right"></span> €' . round($discounted, 2);
@@ -319,7 +387,7 @@ if ( isset($_POST['addItem']) ) {
 							echo '<td>'. $entry['item_name'] .'</td>';
 							echo '<td>'. $price .'</td>';
 							echo '<td>'. $entry['discount'] .'</td>';
-							echo '<td><a href="'. $entry['image'] .'">Image</a></td>';
+							echo '<td>'. $listImage .'</td>';
 						echo '</tr>';
 					}
 					?>
@@ -336,7 +404,7 @@ if ( isset($_POST['addItem']) ) {
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Add New Item</h4>
               </div>
-              <form method="post">
+              <form method="post" enctype="multipart/form-data">
               <div class="modal-body">
                 <div class="container">
                     <div class="col-sm-6">
@@ -360,7 +428,7 @@ if ( isset($_POST['addItem']) ) {
                     <div class="col-sm-12">
                         <div class="form-group">
                           <div class="col-sm-12"><label for="usr">Item Image</label></div>
-                          <input type="url" class="form-control" id="usr" autofocus placeholder="Image url" name="itemImage" required>
+                          <input type="file" class="form-control" id="usr" name="itemImage[]" multiple="multiple" required>
                         </div>
                     </div>
                 </div>

@@ -12,7 +12,8 @@
     <!-- Font Awesome -->
     <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
     <!-- Custom Theme Style -->
-    <link href="admin-assets/custom.min.css" rel="stylesheet">
+    <link href="../css/custom.min.css" rel="stylesheet">
+    <link href="admin-assets/admin.css" rel="stylesheet">
     <link href="../css/site.css" rel="stylesheet">
     <!-- Animate.css -->
     <link href="https://colorlib.com/polygon/gentelella/css/animate.min.css" rel="stylesheet">
@@ -39,15 +40,14 @@ if ( session_status() == PHP_SESSION_NONE ) {
 		  
 		  if ( $authenticate->rowCount() > 0 ) {
 		  	$result = $authenticate->fetch(PDO::FETCH_ASSOC);
-			if ( $result['type'] == 1 ) {
-				$_SESSION['modSession'] = true;
-				$log = $pdo->prepare("INSERT INTO `moderator_login` (`username`, `last_login`, `login_ip`) VALUES (:username, NOW(), :ip)");
-				$log->execute(array(":username" => $_SESSION['Username'], ":ip" => get_client_ip())); 
-				header("Location: home.php");
+			$_SESSION['loggedIn'] = true;
+			$_SESSION['Username'] = $result['username'];
+			
+			if ( $result['type'] > 0 ) {
+				$_SESSION['Admin'] = $result['type'];
 			}
-			else {
-				notify ("Invalid Admin Rank");
-			}
+			
+			notify ("Login Successful");
 		  }
 		  else {
 		  	notify ("Invalid Login");
@@ -82,17 +82,60 @@ if ( session_status() == PHP_SESSION_NONE ) {
               <div class="clearfix"></div>
 
               <div class="separator">
+              
+                <p class="change_link">New to site?
+                  <a href="#signup" class="to_register"> Create Account </a>
+                </p>
                 <div class="clearfix"></div>
                 <br />
 
                 <div>
-                  <h1><img src="http://www.arhaandiam.com/images/Arhaan_Small_logo.png"></h1>
+                  <h1><a href="../index.php"><img src="http://www.arhaandiam.com/images/Arhaan_Small_logo.png"></a></h1>
                   <p>©2016 All Rights Reserved. Privacy and Terms</p>
                 </div>
               </div>
             </form>
           </section>
         </div>
+        
+        
+        <div id="register" class="animate form registration_form">
+          <section class="login_content">
+            <form>
+              <h1>Create Account</h1>
+              <div>
+                <input type="text" class="form-control" placeholder="Username" required="" />
+              </div>
+              <div>
+                <input type="email" class="form-control" placeholder="Email" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" placeholder="Password" required="" />
+              </div>
+              <div>
+                <a class="btn btn-custom submit" href="index.html">Submit</a>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">Already a member ?
+                  <a href="#signin" class="to_register"> Log in </a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><a href="../index.php"><img src="http://www.arhaandiam.com/images/Arhaan_Small_logo.png"></a></h1>
+                  <p>©2016 All Rights Reserved. Privacy and Terms</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+        
+        
       </div>
     </div>
   </body>

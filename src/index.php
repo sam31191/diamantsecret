@@ -89,13 +89,13 @@ if ( session_status() == PHP_SESSION_NONE ) {
 				</li>';
 			}
 			else {
-				echo '<li><a href="url/register.php">Login</a></li>';
+				echo '<li><a href="url/login.php">Login</a></li>';
 			}
 			if ( isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] ) {
 				echo '<li><a href="#">Favorites</a></li>';
 			}
 			else {
-				echo '<li><a href="url/register.php">Sign up</a></li>';
+				echo '<li><a href="url/login.php#signup">Sign up</a></li>';
 			}
 			
 			if ( isset($_SESSION['Admin']) ) {
@@ -157,12 +157,14 @@ function createSlider($sliderItems, $heading) { ?>
 					  <span class="discounted-price">€'. $item['item_value'] .'</span>
 				  </div><br>';
 		}
+		$itemImages = explode("|", $item['image']);
+		$thumb = $itemImages[0];
 		echo '
 		  <div class="item">
 			<div class="">
 			  <div class="panel panel-display">
 				<div class="panel-heading">'. $item['item_name'] .'</div>
-				<div class="panel-body" style="position:relative;"><img src="'. $item['image'] .'" class="img-responsive" alt="Image"></div>
+				<div class="panel-body" style="position:relative;"><img src="images/thumbnails/'. $thumb .'" class="img-responsive" alt="Image"></div>
 				<div class="panel-footer">
 					<div class="sm-12" style="overflow:hidden;">
 						'. $price .'
