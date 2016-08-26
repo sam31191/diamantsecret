@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 25, 2016 at 03:16 PM
+-- Generation Time: Aug 26, 2016 at 08:59 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `mobileno` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Email` (`email`,`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `accounts`
@@ -43,7 +43,38 @@ CREATE TABLE IF NOT EXISTS `accounts` (
 
 INSERT INTO `accounts` (`id`, `email`, `username`, `password`, `type`, `mobileno`) VALUES
 (1, 'test@test', 'Test', 'test', 0, 0),
-(15, 'admin@admin', 'Admin', 'admin', 1, 0);
+(15, 'admin@admin', 'Admin', 'admin', 1, 0),
+(16, 'acc@acc', 'Acc', 'acc', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `diamonds`
+--
+
+CREATE TABLE IF NOT EXISTS `diamonds` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `key` varchar(11) NOT NULL,
+  `price` varchar(128) NOT NULL,
+  `shape` varchar(128) NOT NULL,
+  `carat` varchar(128) NOT NULL,
+  `color` varchar(128) NOT NULL,
+  `clarity` varchar(128) NOT NULL,
+  `cut` varchar(128) NOT NULL,
+  `polish` varchar(128) NOT NULL,
+  `lab` varchar(128) NOT NULL,
+  `fluorescence` varchar(128) NOT NULL,
+  `details` varchar(128) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `key` (`key`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `diamonds`
+--
+
+INSERT INTO `diamonds` (`id`, `key`, `price`, `shape`, `carat`, `color`, `clarity`, `cut`, `polish`, `lab`, `fluorescence`, `details`) VALUES
+(1, '', '99.99', 'Princess', '1.5', 'D', 'FL', 'EX', 'EX', 'GIA', 'FNT', '');
 
 -- --------------------------------------------------------
 
@@ -57,19 +88,25 @@ CREATE TABLE IF NOT EXISTS `items` (
   `item_value` varchar(11) NOT NULL,
   `discount` varchar(11) DEFAULT '0',
   `image` varchar(256) NOT NULL,
-  `category` varchar(11) NOT NULL,
+  `category` int(11) NOT NULL COMMENT 'Diamond = 1; Pendant = 2; Bracelet = 3; Ring = 4;',
+  `featured` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Item Name` (`item_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`id`, `item_name`, `item_value`, `discount`, `image`, `category`) VALUES
-(1, 'Dizzy Heart Pendant', '99.99', '20', 'https://cdn1.caratlane.com/media/catalog/product/J/P/JP00452-YGP900_1_lar.jpg', 'Featured'),
-(3, 'Dizzy Heart Pendant 2', '99.99', '0', 'https://cdn1.caratlane.com/media/catalog/product/J/P/JP00452-YGP900_1_lar.jpg', 'Featured'),
-(6, 'Test', '9.99', '10', 'https://i.ytimg.com/vi/Yt41V1Lt1IU/maxresdefault.jpg', 'Featured');
+INSERT INTO `items` (`id`, `item_name`, `item_value`, `discount`, `image`, `category`, `featured`) VALUES
+(1, 'Ring', '999.99', '10', 'Ring.jpg|', 4, 0),
+(2, 'Lamia Diamond Band', '799.99', '5', 'Lamia_Diamond_Band.jpg|', 4, 1),
+(3, 'Nine Diamond Band', '699.99', '0', 'Nine_Diamond_Band.jpg|', 4, 1),
+(4, 'Sabira Ring', '949.99', '10', 'Sabira_Ring.jpg|', 4, 1),
+(5, 'Forever Heart Solitaire', '1099.99', '0', 'Forever_Heart_Solitaire.jpg|', 2, 1),
+(6, 'Mona Twiddle Solitaire', '749.99', '15', 'Mona_Twiddle_Solitaire.jpg|', 2, 1),
+(7, 'Simple Solitaire', '499.99', '10', 'Simple_Solitaire.jpg|', 2, 1),
+(8, 'Victory Solitaire', '899.99', '0', 'Victory_Solitaire.jpg|', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -83,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `moderator_login` (
   `last_login` varchar(128) NOT NULL,
   `login_ip` varchar(128) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `moderator_login`
@@ -101,7 +138,11 @@ INSERT INTO `moderator_login` (`id`, `username`, `last_login`, `login_ip`) VALUE
 (9, 'Admin', '2016-08-24 23:43:15', '::1'),
 (10, 'Admin', '2016-08-25 14:49:42', '::1'),
 (11, 'Admin', '2016-08-25 14:50:12', '::1'),
-(12, 'Admin', '2016-08-25 18:45:02', '::1');
+(12, 'Admin', '2016-08-25 18:45:02', '::1'),
+(13, 'Admin', '2016-08-26 00:27:56', '::1'),
+(14, 'Admin', '2016-08-26 02:32:46', '::1'),
+(15, 'Admin', '2016-08-26 15:18:52', '::1'),
+(16, 'Admin', '2016-08-26 15:36:12', '::1');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
