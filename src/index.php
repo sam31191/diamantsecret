@@ -131,12 +131,20 @@ if ( session_status() == PHP_SESSION_NONE ) {
 <?php
 $fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `featured` = :feat");
 $fetchFeatured->execute(array(":feat" => 1));
-
-$fetchPendants = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
-$fetchPendants->execute(array(":cat" => 1));
-
 if ( $fetchFeatured->rowCount() > 0 ) {
 	createSlider($fetchFeatured->fetchAll(), "Featured Deals");
+}
+
+$fetchPendants = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
+$fetchPendants->execute(array(":cat" => 2));
+if ( $fetchPendants->rowCount() > 0 ) {
+	createSlider($fetchPendants->fetchAll(), "Pendants");
+}
+
+$fetchRings = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
+$fetchRings->execute(array(":cat" => 4));
+if ( $fetchRings->rowCount() > 0 ) {
+	createSlider($fetchRings->fetchAll(), "Rings");
 }
 
 function createSlider($sliderItems, $heading) { ?>
