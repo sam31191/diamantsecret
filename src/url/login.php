@@ -30,28 +30,36 @@ if ( session_status() == PHP_SESSION_NONE ) {
       <a class="hiddenanchor" id="signin"></a>
       
       
-<div class="alert-custom notification" id="notification">USERNAME INVALID</div>
+<div class="alert-custom notification" id="notification">Notification</div>
 
       <?php 
 	  include '../url/require.php';
 	  if ( isset($_POST['Username']) && isset($_POST['Password']) ) {
-		  $authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :username AND `password` = :pass");
-		  $authenticate->execute(array(":username" => $_POST['Username'], ":pass" => $_POST['Password']));
+		  $checkUser = $pdo->prepare("SELECT `username` FROM `accounts` WHERE `username` = :username");
+		  $checkUser->execute(array(":username" => $_POST['Username']));
 		  
-		  if ( $authenticate->rowCount() > 0 ) {
-		  	$result = $authenticate->fetch(PDO::FETCH_ASSOC);
-			$_SESSION['loggedIn'] = true;
-			$_SESSION['Username'] = $result['username'];
-			
-			if ( $result['type'] > 0 ) {
-				$_SESSION['Admin'] = $result['type'];
-			}
-			
-			notify ("Login Successful");
+		  if ( $checkUser->rowCount() > 0 ) {
+			  $authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :username AND `password` = :password");
+			  $authenticate->execute(array(":username" => $_POST['Username'], ":password" => $_POST['Password']));
+			  if ( $authenticate->rowCount() > 0 ) {
+				  $result = $authenticate->fetch(PDO::FETCH_ASSOC);
+				  $_SESSION['loggedIn'] = true;
+				  $_SESSION['Username'] = $result['username'];
+				  $_SESSION['Email'] = $result['email'];
+				  
+				  if ( $result['type'] > 0 ) {
+				  	$_SESSION['Admin'] = $result['type'];
+				  }
+				  
+				  header("Location: ../index.php");
+			  } else {
+			  	notify ( "Incorrect Password" );
+			  }
+			  
+		  } else {
+		  	notify (  "Invalid Username" );
 		  }
-		  else {
-		  	notify ("Invalid Login");
-		  }
+		  
 	  }
 	  
 	  function notify( $message ) {

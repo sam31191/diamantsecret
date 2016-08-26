@@ -17,7 +17,7 @@ if ( isset($_SESSION['modSession']) ) {
 include '../../url/require.php';
 
 	//echo var_dump($_POST);
-/*if ( isset($_POST['addItem']) ) {
+if ( isset($_POST['addItem']) ) {
 	//echo var_dump($_FILES);
 	if ( $_POST['discount'] > 0 ) {
 		$discount = $_POST['discount'];
@@ -62,9 +62,16 @@ include '../../url/require.php';
 		":value" => $_POST['itemValue'],
 		":discount" => $discount,
 		":image" => $images,
-		":category" => "Featured"
+		":category" => 2
 	));
-}*/
+} else if ( isset($_POST['featuredAdd']) ) {
+	$addFeatured = $pdo->prepare("UPDATE `items` SET `featured` = 1 WHERE `id` = :id");
+	$addFeatured->execute(array(":id" => $_POST['featuredAdd']));
+	
+} else if ( isset ($_POST['featuredRemove']) ) {
+	$removeFeatured = $pdo->prepare("UPDATE `items` SET `featured` = 0 WHERE `id` = :id");
+	$removeFeatured->execute(array(":id" => $_POST['featuredRemove']));
+}
 
 function create_thumb($file, $w, $h,  $thumb_dir, $crop=FALSE) {
 		list($width, $height) = getimagesize($file);
@@ -99,7 +106,7 @@ function create_thumb($file, $w, $h,  $thumb_dir, $crop=FALSE) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Control Panel</title>
+    <title>Pendants - Admin Panel</title>
     <!-- Bootstrap -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -126,18 +133,19 @@ function create_thumb($file, $w, $h,  $thumb_dir, $crop=FALSE) {
         <!-- page content -->
         <div class="right_col" role="main">
         <div>
-        <h3>Featured Deals </h3>
-        	<table class="table table-hover" style="table-layout:fixed">
+        <h3>Pendants <button class="btn btn-custom" data-toggle="modal" data-target="#myModal">Add</button></h3>
+        	<table class="table table-hover" >
             	<thead>
                 	<th>Name</th>
                 	<th>Value</th>
                 	<th>Discount (%)</th>
                 	<th>Images</th>
+                	<th style="text-align:center;">Action</th>
                 </thead>
                 <tbody>
                 	<?php
-					$query = $pdo->prepare("SELECT * FROM `items` WHERE `featured` = :featured");
-					$query->execute(array(":featured" => 1 ));
+					$query = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
+					$query->execute(array(":cat" => 2 ));
 					$result = $query->fetchAll();
 					
 					foreach ( $result as $entry ) {
@@ -159,6 +167,12 @@ function create_thumb($file, $w, $h,  $thumb_dir, $crop=FALSE) {
 							echo '<td>'. $price .'</td>';
 							echo '<td>'. $entry['discount'] .'</td>';
 							echo '<td>'. $listImage .'</td>';
+							if ( $entry['featured'] == 1 ) {
+								$featured = '<form method="post"><button class="glyphicon glyphicon-star glyphicon-custom" name="featuredRemove" value="'. $entry['id'] .'" data-toggle="tooltip" title="Remove from Featured"></button></form>';
+							} else {
+								$featured = '<form method="post"><button class="glyphicon glyphicon-star-empty glyphicon-custom" name="featuredAdd" value="'. $entry['id'] .'" data-toggle="tooltip" title="Add to Featured"></button></form>';
+							}
+							echo '<td style="text-align:center;">'. $featured .'</td>';
 						echo '</tr>';
 					}
 					?>
@@ -173,7 +187,7 @@ function create_thumb($file, $w, $h,  $thumb_dir, $crop=FALSE) {
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add New Item</h4>
+                <h4 class="modal-title">Add New Pendant</h4>
               </div>
               <form method="post" enctype="multipart/form-data">
               <div class="modal-body">
@@ -229,11 +243,9 @@ function create_thumb($file, $w, $h,  $thumb_dir, $crop=FALSE) {
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../admin-assets/custom.min.js"></script>
     <script>
-    	$("#itemValuePicker").WanSpinner(options = {
-		maxValue: 1000,
-		minValue: 1,
-		step: 1,
-		});
-    </script>
+	$(document).ready(function(){
+		$('[data-toggle="tooltip"]').tooltip(); 
+	});
+	</script>
   </body>
 </html>

@@ -67,7 +67,7 @@ nav {
 }
 .img-responsive {
     transition: 0.25s all;
-    opacity: 0.75;
+    /*opacity: 0.75;*/
     max-width: 100%;
     max-height: 100%;
 	display: block;
@@ -194,7 +194,7 @@ footer{
 }
 .nav-buttons:hover {
 	background: #911116;
-	color: white;
+	color: #ddd;
 	cursor: pointer;
 }
 
@@ -328,4 +328,54 @@ footer{
     font-size: 16px;
     font-variant: small-caps;
     font-weight: bold;	
+}
+.nav li.current-page {
+    background: rgba(125, 14, 19, 0.5);
+    border-right: solid #ccc;
+}
+.glyphicon-custom {
+	font-size: 18px;
+	background: none;
+	border: none;
+}
+.glyphicon-ok {
+	color: green;
+}
+.glyphicon-remove {
+	color: red;
+}
+.glyphicon-star {
+	color: Orange;
+}
+.glyphicon-star-empty{
+	color: grey;
+}
+
+.select-style {
+    border: 1px solid #ccc;
+    width: 150px;
+    overflow: hidden;
+    background-color:transparent;
+    padding: 5px 10px;
+	border-left: 0;
+	color:#111111;
+}
+
+.select-style select {
+    padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+}
+
+.select-style select:focus {
+    outline: none;
+}
+
+.input-group-addon:first-child {
+    border: solid thin #ccc;
+    border-radius: 0px;
 }

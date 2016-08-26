@@ -129,8 +129,11 @@ if ( session_status() == PHP_SESSION_NONE ) {
 
 <div id="homeContainer">
 <?php
-$fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :category");
-$fetchFeatured->execute(array(":category" => "Featured"));
+$fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `featured` = :feat");
+$fetchFeatured->execute(array(":feat" => 1));
+
+$fetchPendants = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
+$fetchPendants->execute(array(":cat" => 1));
 
 if ( $fetchFeatured->rowCount() > 0 ) {
 	createSlider($fetchFeatured->fetchAll(), "Featured Deals");
