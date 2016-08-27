@@ -108,24 +108,6 @@ if ( session_status() == PHP_SESSION_NONE ) {
     </div>
   </div>
 </nav>
-<!--
-<div class="container" id="homeContainer">
-<h3 style="padding-top:25px;">Featured Deals</h3>
-  <div class="row" style="background:#f2f2f2">
-    <div class="col-sm-3">
-      <div class="panel panel-display">
-        <div class="panel-heading">Jewel Title</div>
-        <div class="panel-body"><img src="http://placehold.it/150x150?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
-        <div class="panel-footer">
-        	<div class="sm-12" style="overflow:hidden;">
-                <span>$99.99</span>
-                <a class="btn btn-custom" style="float:right;">INFO</a>
-            </div>
-        </div>
-</div><br>      </div>
-    </div>
-
-</div><br><br> -->
 
 <div id="homeContainer">
 <?php
@@ -145,6 +127,12 @@ $fetchRings = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
 $fetchRings->execute(array(":cat" => 4));
 if ( $fetchRings->rowCount() > 0 ) {
 	createSlider($fetchRings->fetchAll(), "Rings");
+}
+
+$fetchBracelets = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
+$fetchBracelets->execute(array(":cat" => 3));
+if ( $fetchBracelets->rowCount() > 0 ) {
+	createSlider($fetchBracelets->fetchAll(), "Bracelets");
 }
 
 function createSlider($sliderItems, $heading) { ?>
@@ -179,7 +167,7 @@ function createSlider($sliderItems, $heading) { ?>
 				<div class="panel-footer">
 					<div class="sm-12" style="overflow:hidden;">
 						'. $price .'
-						<a class="btn btn-custom" style="float:right;">INFO</a>
+						<button class="btn btn-custom" style="float:right;" onClick="showItem(\''. $item['key'] .'\')">Info</button>
 					</div>
 				</div>
 			  </div>
@@ -190,6 +178,12 @@ function createSlider($sliderItems, $heading) { ?>
 }
 ?>
 <br>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+  </div>
 </div>
 
 <div class="container well">
@@ -236,9 +230,34 @@ $(document).ready(function() {
 
 $(".owl-carousel").owlCarousel()
 var owl = $(".owl-carousel").data('owlCarousel');
+
+function showItem(id) {
+    if (id == "") {
+        document.getElementById("myModal").innerHTML = "";
+        return;
+    } else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("myModal").innerHTML = xmlhttp.responseText;
+            }
+        };
+        xmlhttp.open("GET","url/fetch_item_info.php?id="+id,true);
+        xmlhttp.send();
+    }
 	
-function showRegForm() {
-	$("#registerModal").modal("toggle");
+	
+	$("#myModal").modal("toggle");
+}
+
+function setModalImage(img) {
+	document.getElementById("img").src = "images/" +img;
 }
 </script>
 

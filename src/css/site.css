@@ -64,6 +64,7 @@ nav {
 }
 .panel-body {
     height: 15vw;
+	min-height:200px;
 }
 .img-responsive {
     transition: 0.25s all;
@@ -244,6 +245,10 @@ footer{
 .modal-footer {
 	padding: 10px;
 	border-top: none;
+}
+.custom-modal{
+	width: 80%;
+	margin: 50px auto;
 }
 /* Modal Var End */
 

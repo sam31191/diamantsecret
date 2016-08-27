@@ -25,14 +25,21 @@ if ( isset($_POST['addItem']) ) {
 		$discount = 0;
 	}
 	
+	
+	$uniqueKey = generateUniqueKey();
+	
+	while ( checkKey($uniqueKey, $pdo) ) {
+		$uniqueKey = generateUniqueKey();
+	}
+	
 	$images = "";
 	
 	$numOfImages = sizeof($_FILES['itemImage']['name']);
 	for ( $count = 0; $count < $numOfImages; $count++ ) {
 		$image_dir = "../../images/";
 		$image_ext = pathinfo($image_dir . basename($_FILES['itemImage']['name'][$count]), PATHINFO_EXTENSION);
-		$image_file = $image_dir . str_replace(" ", "_", $_POST['itemName']);
-		$thumb_file = $image_dir . "thumbnails/" . str_replace(" ", "_", $_POST['itemName']);
+		$image_file = $image_dir . $uniqueKey;
+		$thumb_file = $image_dir . "thumbnails/" . $uniqueKey;
 		
 		$check = getimagesize($_FILES['itemImage']['tmp_name'][$count]);
 		if ( $check ) {
@@ -54,10 +61,10 @@ if ( isset($_POST['addItem']) ) {
 		$images .= basename($image_file) . "." . $image_ext . "|";
 	}
 	
-	
-	//echo var_dump($images);
-	$addItem = $pdo->prepare("INSERT INTO `items` (`item_name`, `item_value`, `discount`, `image`, `category`) VALUES (:name, :value, :discount, :image, :category)");
+	//echo var_dump($uniqueKey);
+	$addItem = $pdo->prepare("INSERT INTO `items` (`key`, `item_name`, `item_value`, `discount`, `image`, `category`) VALUES (:key, :name, :value, :discount, :image, :category)");
 	$addItem->execute(array(
+		":key" => $uniqueKey,
 		":name" => $_POST['itemName'],
 		":value" => $_POST['itemValue'],
 		":discount" => $discount,
@@ -74,31 +81,51 @@ if ( isset($_POST['addItem']) ) {
 }
 
 function create_thumb($file, $w, $h,  $thumb_dir, $crop=FALSE) {
-		list($width, $height) = getimagesize($file);
-		$r = $width / $height;
-		if ($crop) {
-			if ($width > $height) {
-				$width = ceil($width-($width*abs($r-$w/$h)));
-			} else {
-				$height = ceil($height-($height*abs($r-$w/$h)));
-			}
-			$newwidth = $w;
+	list($width, $height) = getimagesize($file);
+	$r = $width / $height;
+	if ($crop) {
+		if ($width > $height) {
+			$width = ceil($width-($width*abs($r-$w/$h)));
+		} else {
+			$height = ceil($height-($height*abs($r-$w/$h)));
+		}
+		$newwidth = $w;
+		$newheight = $h;
+	} else {
+		if ($w/$h > $r) {
+			$newwidth = $h*$r;
 			$newheight = $h;
 		} else {
-			if ($w/$h > $r) {
-				$newwidth = $h*$r;
-				$newheight = $h;
-			} else {
-				$newheight = $w/$r;
-				$newwidth = $w;
-			}
+			$newheight = $w/$r;
+			$newwidth = $w;
 		}
-		$src = imagecreatefromjpeg($file);
-		$dst = imagecreatetruecolor($newwidth, $newheight);
-		imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-		
-		return imagejpeg($dst, $thumb_dir);
 	}
+	$src = imagecreatefromjpeg($file);
+	$dst = imagecreatetruecolor($newwidth, $newheight);
+	imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+	
+	return imagejpeg($dst, $thumb_dir);
+}
+	
+function generateUniqueKey($length = 10) {
+	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	$charactersLength = strlen($characters);
+	$randomString = '';
+	for ($i = 0; $i < $length; $i++) {
+		$randomString .= $characters[rand(0, $charactersLength - 1)];
+	}
+	return $randomString;
+}
+
+function checkKey($key, $pdo) {
+	$checkKey = $pdo->prepare("SELECT * FROM `items` WHERE `key` = :key");
+	$checkKey->execute(array(":key" => $key));
+	if ( $checkKey->rowCount() > 0 ) {
+		return true; // Key exists
+	} else {
+		return false;
+	}
+}
 ?>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -179,53 +206,9 @@ function create_thumb($file, $w, $h,  $thumb_dir, $crop=FALSE) {
                 </tbody>
             </table>
         </div>
-        <!-- Modal -->
-        <div id="myModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
         
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add New Item</h4>
-              </div>
-              <form method="post" enctype="multipart/form-data">
-              <div class="modal-body">
-                <div class="container">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                          <div class="col-sm-12"><label for="usr">Item Name</label></div>
-                          <input type="text" class="form-control" id="usr" autofocus placeholder="Item Name" name="itemName" required>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                          <div class="col-sm-12"><label for="usr">Item Value</label></div>
-                          <div class="col-sm-12"><input class="form-control" id="usr" autofocus placeholder="Item Value" min="00" name="itemValue" required></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                          <div class="col-sm-12"><label for="usr">Discount</label></div>
-                          <div class="col-sm-12"><input type="number" class="form-control" id="usr" autofocus placeholder="0" min="00" max="99" name="discount"></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                          <div class="col-sm-12"><label for="usr">Item Image</label></div>
-                          <input type="file" class="form-control" id="usr" name="itemImage[]" multiple required>
-                        </div>
-                    </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-custom" name="addItem" >Submit</button>
-                <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
-              </div>
-              </form>
-            </div>
-          </div>
-        </div>
+        <?php include 'add_item_modal.php'; ?>
+        
         </div>
         <!-- /page content -->
 

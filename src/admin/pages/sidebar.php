@@ -25,7 +25,7 @@
           <ul class="nav child_menu">
             <li><a href="diamonds.php">Diamonds</a></li>
             <li><a href="pendants.php">Pendants</a></li>
-            <li><a href="bracelets.html">Bracelets</a></li>
+            <li><a href="bracelets.php">Bracelets</a></li>
             <li><a href="rings.php">Rings</a></li>
           </ul>
         </li>
