@@ -68,7 +68,7 @@ if ( isset($_POST['addItem']) ) {
 		":value" => $_POST['itemValue'],
 		":discount" => $discount,
 		":image" => $images,
-		":category" => 2
+		":category" => 3
 	));
 } else if ( isset($_POST['featuredAdd']) ) {
 	$addFeatured = $pdo->prepare("UPDATE `items` SET `featured` = 1 WHERE `id` = :id");
@@ -132,7 +132,7 @@ function checkKey($key, $pdo) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pendants - Admin Panel</title>
+    <title>Bracelets - Admin Panel</title>
     <!-- Bootstrap -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -159,7 +159,7 @@ function checkKey($key, $pdo) {
         <!-- page content -->
         <div class="right_col" role="main">
         <div>
-        <h3>Pendants <button class="btn btn-custom" data-toggle="modal" data-target="#myModal">Add</button></h3>
+        <h3>Bracelets <button class="btn btn-custom" data-toggle="modal" data-target="#myModal">Add</button></h3>
         	<table class="table table-hover" >
             	<thead>
                 	<th>Name</th>
@@ -171,7 +171,7 @@ function checkKey($key, $pdo) {
                 <tbody>
                 	<?php
 					$query = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
-					$query->execute(array(":cat" => 2 ));
+					$query->execute(array(":cat" => 3 ));
 					$result = $query->fetchAll();
 					
 					foreach ( $result as $entry ) {
@@ -205,9 +205,9 @@ function checkKey($key, $pdo) {
                 </tbody>
             </table>
         </div>
-        
+
         <?php include 'add_item_modal.php'; ?>
-        
+
         </div>
         <!-- /page content -->
 

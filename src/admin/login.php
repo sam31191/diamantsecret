@@ -43,7 +43,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 				$_SESSION['modSession'] = true;
 				$log = $pdo->prepare("INSERT INTO `moderator_login` (`username`, `last_login`, `login_ip`) VALUES (:username, NOW(), :ip)");
 				$log->execute(array(":username" => $_SESSION['Username'], ":ip" => get_client_ip())); 
-				header("Location: home.php");
+				header("Location: pages/pendants.php");
 			}
 			else {
 				notify ("Invalid Admin Rank");
