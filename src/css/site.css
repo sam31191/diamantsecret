@@ -384,3 +384,15 @@ footer{
     border: solid thin #ccc;
     border-radius: 0px;
 }
+input[type=file] {
+    display: block;
+    padding: 5px;
+    border-bottom: solid thin #DDD;
+    color: black;
+    width: 100%;
+}
+.item_info {
+    border-bottom: solid thin #ddd;
+    margin-bottom: 0px;
+    padding: 5px 10px;
+}

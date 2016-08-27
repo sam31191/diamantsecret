@@ -9,12 +9,38 @@
 
   include 'require.php';
 
-  $fetch = $pdo->prepare("SELECT * FROM `items` WHERE `key` = :key");
+  $fetch = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
   $fetch->execute(array(":key" => $_GET['id']));
 
   if ( $fetch->rowCount() > 0 ) {
     $item = $fetch->fetch(PDO::FETCH_ASSOC);
 	
+	switch($item['category']) {
+		case 2: {
+			$fetchInfo = $pdo->prepare("SELECT * FROM `pendants` WHERE `unique_key` = :key");
+			$fetchInfo->execute(array(
+				":key" => $item['unique_key']
+			));
+			break;
+		}
+		case 3: {
+			$fetchInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :key");
+			$fetchInfo->execute(array(
+				":key" => $item['unique_key']
+			));
+			break;
+		}
+		case 4: {
+			$fetchInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :key");
+			$fetchInfo->execute(array(
+				":key" => $item['unique_key']
+			));
+			break;
+		}
+	}
+
+	$itemInfo = $fetchInfo->fetch(PDO::FETCH_ASSOC);
+
 	$images = explode("|",$item['image']);
 	
 	$imageList = "";
@@ -78,6 +104,11 @@
 		  	<div class="col-sm-12">
 				'. $price .'<br>
 				<h4>'. $item['item_name'] .'</h4>
+				<h5 class="item_info"><strong>Stone:</strong> '. $itemInfo['stone'] .' <small>'. $itemInfo['stone_carat'] .'ct.</small></h5>
+				<h5 class="item_info"><strong>No. of Stones:</strong> '. $itemInfo['num_of_stones'] .'</h5>
+				<h5 class="item_info"><strong>Material:</strong> '. $itemInfo['material'] .' <small>'. $itemInfo['material_carat'] .'ct.</small></h5>
+				<h5 class="item_info"><strong>Product Height:</strong> '. $itemInfo['height'] .' <small>cm</small></h5>
+				<h5 class="item_info"><strong>Product Length:</strong> '. $itemInfo['length'] .' <small>cm</small></h5>
 			</div>
 		  </div>
         </div>

@@ -167,7 +167,7 @@ function createSlider($sliderItems, $heading) { ?>
 				<div class="panel-footer">
 					<div class="sm-12" style="overflow:hidden;">
 						'. $price .'
-						<button class="btn btn-custom" style="float:right;" onClick="showItem(\''. $item['key'] .'\')">Info</button>
+						<button class="btn btn-custom" style="float:right;" onClick="showItem(\''. $item['unique_key'] .'\')">Info</button>
 					</div>
 				</div>
 			  </div>
@@ -186,12 +186,12 @@ function createSlider($sliderItems, $heading) { ?>
   </div>
 </div>
 
-<div class="container well">
+<!-- <div class="container well">
 <h4>Debug</h4>
 	<?php echo var_dump($_SESSION);
 	 echo var_dump($_POST); 
 	 ?>
-</div>
+</div> -->
 
 <footer class="container-fluid text-center">
   <p>Online Store Copyright</p>

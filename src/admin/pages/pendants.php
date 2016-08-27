@@ -5,12 +5,12 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
 if ( !isset($_SESSION['modSession']) ) {
-	 header ('Location: ../index.php');
+	 header ('Location: ../../index.php');
 	 die();
 }
 if ( isset($_SESSION['modSession']) ) {
 	if ( !$_SESSION['modSession'] || $_SESSION['Admin'] <= 0 ) {
-		header ('Location: ../index.php');
+		header ('Location: ../../index.php');
 		die();
 	}
 }
@@ -61,15 +61,30 @@ if ( isset($_POST['addItem']) ) {
 	}
 	
 	//echo var_dump($uniqueKey);
-	$addItem = $pdo->prepare("INSERT INTO `items` (`key`, `item_name`, `item_value`, `discount`, `image`, `category`) VALUES (:key, :name, :value, :discount, :image, :category)");
+	$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `image`, `category`) VALUES (:key, :name, :value, :discount, :image, :category)");
 	$addItem->execute(array(
 		":key" => $uniqueKey,
-		":name" => $_POST['itemName'],
-		":value" => $_POST['itemValue'],
+		":name" => $_POST['name'],
+		":value" => $_POST['price'],
 		":discount" => $discount,
 		":image" => $images,
 		":category" => 2
 	));
+
+
+	$addInfo = $pdo->prepare("INSERT INTO `pendants` (`unique_key`, `stone`, `stone_carat`, `num_of_stones`, `material`, `material_carat`, `height`, `length`) VALUES 
+		(:key, :stone, :stoneWeight, :numStones, :material, :materialWeight, :height, :length)");
+	$addInfo->execute(array(
+		":key" => $uniqueKey,
+		":stone" => $_POST['stone'],
+		"stoneWeight" => $_POST['stone_weight'],
+		"numStones" => $_POST['num_of_stones'],
+		"material" => $_POST['material'],
+		"materialWeight" => $_POST['material_weight'],
+		"height" => $_POST['height'],
+		"length" => $_POST['length'],
+	));
+
 } else if ( isset($_POST['featuredAdd']) ) {
 	$addFeatured = $pdo->prepare("UPDATE `items` SET `featured` = 1 WHERE `id` = :id");
 	$addFeatured->execute(array(":id" => $_POST['featuredAdd']));
@@ -117,7 +132,7 @@ function generateUniqueKey($length = 10) {
 }
 
 function checkKey($key, $pdo) {
-	$checkKey = $pdo->prepare("SELECT * FROM `items` WHERE `key` = :key");
+	$checkKey = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
 	$checkKey->execute(array(":key" => $key));
 	if ( $checkKey->rowCount() > 0 ) {
 		return true; // Key exists
@@ -206,7 +221,7 @@ function checkKey($key, $pdo) {
             </table>
         </div>
         
-        <?php include 'add_item_modal.php'; ?>
+        <?php include 'add_item.php'; ?>
         
         </div>
         <!-- /page content -->
