@@ -88,6 +88,7 @@ footer{
 	border-color:#911116;
 	color:#911116;
 	transition: 0.25s;
+    font-variant: small-caps;
 }
 .btn-custom:hover {
 	border-radius:0;
@@ -115,6 +116,10 @@ footer{
 .btn-default:active {
 	background: red;
 	box-shadow: none;
+}
+.btn {
+    border-radius: 0px;
+    font-variant: small-caps;
 }
 .old-price {
 	text-decoration:line-through;
@@ -342,6 +347,8 @@ footer{
 	font-size: 18px;
 	background: none;
 	border: none;
+	margin: 0px 5px;
+	padding: 0px 2px;
 }
 .glyphicon-ok {
 	color: green;
@@ -354,6 +361,9 @@ footer{
 }
 .glyphicon-star-empty{
 	color: grey;
+}
+.glyphicon-pencil{
+	color: blue;
 }
 
 .select-style {
@@ -395,4 +405,36 @@ input[type=file] {
     border-bottom: solid thin #ddd;
     margin-bottom: 0px;
     padding: 5px 10px;
+}
+.fav {
+	transition:  0.3s all ease;
+    font-size: 18px;
+}
+.fav:hover {
+	color: #911116;
+}
+.fav-false {
+	color: #ccc;
+}
+.fav-true {
+	color: #E91E63;
+}
+.table-custom > thead > tr {
+    background-color: #911116;
+    color: #fff;
+}
+.table-custom > thead > tr > th {
+	border: none;
+	text-align: center;
+}
+.table-custom > tbody > tr > td > img {
+	width: 128px;
+    display: block;
+    margin: auto;
+}
+.select-checkbox {
+	border: solid thin;
+}
+.owl-carousel.start {
+	animation:ease-in 0.5s;
 }

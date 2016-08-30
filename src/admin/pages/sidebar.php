@@ -23,7 +23,7 @@
       <ul class="nav side-menu">
         <li><a><i class="fa fa-home"></i> Items <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
-            <li><a href="diamonds.php">Diamonds</a></li>
+            <li><a href="all_items.php">All</a></li>
             <li><a href="pendants.php">Pendants</a></li>
             <li><a href="bracelets.php">Bracelets</a></li>
             <li><a href="rings.php">Rings</a></li>

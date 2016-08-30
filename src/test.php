@@ -4,25 +4,28 @@
 <head>   
 </head>
 <body>
-<form action="admin/pages/upload.php" method="post" enctype="multipart/form-data">
-    Select image to upload:
-    <input type="file" name="fileToUpload" id="fileToUpload">
-    <br>
-    <input type="text" name="name" >
-    <input type="submit" value="Upload Image" name="submit">
-</form>
-
 <?php
 include 'url/require.php';
 
-$q = $pdo->prepare("SELECT * FROM `items` WHERE `item_name` = :id");
-$q->execute(array(":id" => "New Item"));
+$q = $pdo->prepare("SELECT * FROM `items`");
+$q->execute();
 
-$result = $q->fetch(PDO::FETCH_ASSOC);
+$result = $q->fetchAll();
 
-$images = $result['image'];
-$array = explode("|", $images);
-echo var_dump($array[0]);
+foreach ( $result as $item ) {
+	echo var_dump ($item['image']);
+
+	$update = $pdo->prepare("UPDATE `items` SET `image` = :newdelim WHERE `unique_key` = :key");
+	$update->execute(array(":newdelim" => str_replace("|", ",", $item['image']), ":key" => $item['unique_key']));
+}
+
+
+$q = $pdo->prepare("SELECT * FROM `items`");
+$q->execute();
+
+foreach ( $result as $item ) {
+	echo var_dump ($item['image']);
+}
 ?>
 </body>
 </html>

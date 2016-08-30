@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Home</title>
+  <title>Favorites</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/site.css">
-  <link rel="stylesheet" href="css/owl.carousel.css">
-  <link rel="stylesheet" href="css/owl.theme.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/site.css">
+  <link rel="stylesheet" href="../css/owl.carousel.css">
+  <link rel="stylesheet" href="../css/owl.theme.css">
   <style>
     /* Remove the navbar's default rounded borders and increase the bottom margin */
     .navbar {
@@ -45,15 +45,34 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	if ( isset($_POST['logout']) ) {
 		unset($_SESSION);
 		session_destroy();
-    header ("Location: index.php");
 	}
 }
+
+if ( !$_SESSION['loggedIn'] ) {
+	header("Location: ../index.php");
+}
+include 'require.php';
+if ( isset ($_POST['removeFromFavorites']) ) {
+	//echo var_dump($_POST);	
+	$getcurrentFavs = $pdo->prepare("SELECT `favorites` FROM `accounts` WHERE `username` = :username");
+	$getcurrentFavs->execute(array(":username" => $_SESSION['Username']));
+
+	$result = $getcurrentFavs->fetch(PDO::FETCH_ASSOC);
+	$currentFav = $result['favorites'];
+
+	$currentFav = str_replace(',' . $_POST['removeFromFavorites'], "", $currentFav);
+
+	//echo $currentFav;
+
+	$updateFav = $pdo->prepare("UPDATE `accounts` SET `favorites` = :favs WHERE `username` = :username");
+	$updateFav->execute ( array (":favs" => $currentFav, ":username" => $_SESSION['Username']) );
+} 
 ?>
 <body>
 
 <div class="jumbotron" style="background:none;">
   <div class="container text-center">
-    <img src="images/gfx/Arhaan_Small_logo.png">
+    <img src="../images/gfx/Arhaan_Small_logo.png">
   </div>
 </div>
 
@@ -69,7 +88,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <li><a href="../index.php">Home</a></li>
         <li><a href="#">Products</a></li>
         <li><a href="#">Deals</a></li>
         <li><a href="#">Stores</a></li>
@@ -77,8 +96,6 @@ if ( session_status() == PHP_SESSION_NONE ) {
       </ul>
       <ul class="nav navbar-nav navbar-right">
       	<?php 
-		include 'url/require.php';
-		
 			if ( isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] ) {
 				echo '
 				<li><a class="dropdown-hover" href="#">Hi, '. $_SESSION['Username'] .'</a>
@@ -90,18 +107,18 @@ if ( session_status() == PHP_SESSION_NONE ) {
 				</li>';
 			}
 			else {
-				echo '<li><a href="url/login.php">Login</a></li>';
+				echo '<li><a href="login.php">Login</a></li>';
 			}
 			if ( isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] ) {
-				echo '<li><a href="url/favorites.php">Favorites</a></li>';
+				echo '<li  class="active"><a href="#">Favorites</a></li>';
 			}
 			else {
-				echo '<li><a href="url/login.php#signup">Sign up</a></li>';
+				echo '<li><a href="login.php#signup">Sign up</a></li>';
 			}
 			
 			if ( isset($_SESSION['Admin']) ) {
 				if ( $_SESSION['Admin'] > 0 ) {
-					echo '<li><a href="admin/login.php">Admin</a></li>';
+					echo '<li><a href="../admin/login.php">Admin</a></li>';
 				}
 			}
 		?>
@@ -111,128 +128,46 @@ if ( session_status() == PHP_SESSION_NONE ) {
 </nav>
 
 <div id="homeContainer">
-<?php
+  <div class="container" style="margin:52px auto;">
+    <table class="table table-bordered table-custom">
+      <thead>
+        <th></th>
+        <th>Item</th>
+        <th>Price</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <?php
+          $fetchFavs = $pdo->prepare("SELECT `favorites` FROM `accounts` WHERE `username` = :user");
+          $fetchFavs->execute(array(":user" => $_SESSION['Username']));
 
-$favs = "";
-if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
-  $fetchFavorites = $pdo->prepare("SELECT `favorites` FROM `accounts` WHERE `username` = :username");
-  $fetchFavorites->execute(array(":username" => $_SESSION['Username']));
-  $favs = $fetchFavorites->fetch(PDO::FETCH_ASSOC);
-  $favs = $favs['favorites'];
-}
+          $favs = $fetchFavs->fetch(PDO::FETCH_ASSOC);
 
-//echo var_dump($favs);
-
-$fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `featured` = :feat");
-$fetchFeatured->execute(array(":feat" => 1));
-if ( $fetchFeatured->rowCount() > 0 ) {
-	createSlider($fetchFeatured->fetchAll(), "Featured Deals", $favs, true);
-}
-
-$fetchPendants = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
-$fetchPendants->execute(array(":cat" => 2));
-if ( $fetchPendants->rowCount() > 0 ) {
-	createSlider($fetchPendants->fetchAll(), "Pendants", $favs);
-}
-
-$fetchRings = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
-$fetchRings->execute(array(":cat" => 4));
-if ( $fetchRings->rowCount() > 0 ) {
-	createSlider($fetchRings->fetchAll(), "Rings", $favs);
-}
-
-$fetchBracelets = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
-$fetchBracelets->execute(array(":cat" => 3));
-if ( $fetchBracelets->rowCount() > 0 ) {
-	createSlider($fetchBracelets->fetchAll(), "Bracelets", $favs);
-}
-
-function createSlider($sliderItems, $heading, $favs, $featured = false) { ?>
-    <h3 style="padding-top:25px; padding-left:5vw;"><?php echo $heading; ?> 
-        <div style="float:right; margin-right:25px;">
-            <a class=" nav-buttons glyphicon glyphicon-arrow-left" aria-hidden="true" onClick="owl.prev()"></a>
-            <a class=" nav-buttons glyphicon glyphicon-arrow-right" aria-hidden="true" onClick="owl.next()"></a>
-        </div>
-    </h3>
-    <div id="owl-carousel" class="owl-carousel owl-theme" style="background:#e9e9e9; border-top: solid thin #ddd; border-bottom: solid thin #ddd;">
-    <?php
-	foreach ( $sliderItems as $item ) {
-		
-		$favKey = $item['unique_key'];
-		if ( $featured ) {
-			$favKey .= "_FEAT";
-		}
-		
-		//echo var_dump($favKey);
-		
-		if ( $item['discount'] > 0 ) {
-			$value = $item['item_value'] -  (($item['discount'] / 100 ) * $item['item_value']);
-			$price =  '<div style="float:left">
-					  <span class="old-price">€'. $item['item_value'] .'</span><br>
-					  <span class="discounted-price">€'. round($value, 2) .'</span>
-				  </div><br>';
-		} else {
-			$price = '<div style="float:left">
-					  <span class="discounted-price">€'. $item['item_value'] .'</span>
-				  </div><br>';
-		}
-		$itemImages = explode(",", $item['image']);
-		$thumb = $itemImages[0];
-
-    if ( $item['image'] == "" ) {
-      $thumb = "0.png";
-    }
-	
-	if ( !$_SESSION['loggedIn'] ) {
-    $itemFav = '
-      <a href="url/login.php"><span class="glyphicon glyphicon-heart fav fav-false" 
-        data-toggle="tooltip" 
-        title="Favorite it!" >
-      </span></a>
-    ';
-  } else if ( strstr($favs, $item['unique_key']) ) {
-		$itemFav = '
-			<span id="fav_'. $favKey .'" 
-				onClick="removeFromFav(\''. $item['unique_key'] .'\')" 
-				class="glyphicon glyphicon-heart fav fav-true" 
-				data-toggle="tooltip" 
-				title="Un-favorite it!" >
-			</span>
-		';
-	} else {
-		$itemFav = '
-			<span id="fav_'. $favKey .'" 
-				onClick="addtoFav(\''. $item['unique_key'] .'\')" 
-				class="glyphicon glyphicon-heart fav fav-false" 
-				data-toggle="tooltip" 
-				title="Favorite it!" >
-			</span>
-		';
-	}
-		echo '
-		  <div class="item">
-			<div class="">
-			  <div class="panel panel-display">
-				<div class="panel-heading">'. $item['item_name'] .'
-				  <div style="float:right">
-					<a href="javascript:void(0);">'. $itemFav .'</a>
-				  </div>
-				</div>
-				<div class="panel-body" style="position:relative;"><img src="images/thumbnails/'. $thumb .'" class="img-responsive" alt="Image"></div>
-				<div class="panel-footer">
-					<div class="sm-12" style="overflow:hidden;">
-						'. $price .'
-						<button class="btn btn-custom" style="float:right;" onClick="showItem(\''. $item['unique_key'] .'\')">Info</button>
-					</div>
-				</div>
-			  </div>
-			</div>
-		  </div>';
-	}
-?></div><?php 
-}
-?>
-<br>
+          $favs = explode(",", $favs['favorites']);
+		  
+		  //echo var_dump($favs);
+		  
+		  foreach ( $favs as $fav ) {
+		  	if ( $fav !== "" ) {
+				$fetchInfo = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
+				$fetchInfo->execute(array(":key" => $fav));
+				
+				$prodInfo = $fetchInfo->fetch(PDO::FETCH_ASSOC);
+				echo '
+				<tr>
+					<td style="width:150px"><img src="../images/thumbnails/'. $fav .'.jpg"></td>
+					<td>'. $prodInfo['item_name'] .'</td>
+					<td style="text-align: center;vertical-align: middle; font-size: 18px; width:200px">€'. $prodInfo['item_value'] .'</td>
+					<td  style="text-align: center;vertical-align: middle; font-size: 18px; width:50px"><form method="post">
+								<button class="glyphicon glyphicon-remove glyphicon-custom" name="removeFromFavorites" value="'. $prodInfo['unique_key'] .'" data-toggle="tooltip" title="Unfavorite it!"></button>
+								</form></td>
+				</tr>';
+			}
+		  }
+        ?>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <!-- Modal -->
@@ -249,7 +184,7 @@ function createSlider($sliderItems, $heading, $favs, $featured = false) { ?>
 </div>
 
 <footer class="container-fluid text-center">
-  <p>Diamond Website Copyright</p>
+  <p>Online Store Copyright</p>
   <form class="form-inline">Get deals:
     <input type="email" class="form-control" size="50" placeholder="Email Address">
     <button type="button" class="btn btn-danger">Sign Up</button>
@@ -258,9 +193,9 @@ function createSlider($sliderItems, $heading, $favs, $featured = false) { ?>
 
 </body>
 
-<script src="js/jquery-1.12.0.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
+<script src="../js/jquery-1.12.0.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/owl.carousel.min.js"></script>
 <script>
 $(document).ready(function() {
  

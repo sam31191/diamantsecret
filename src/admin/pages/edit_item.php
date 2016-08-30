@@ -1,11 +1,11 @@
-<div id="myModal" class="modal fade" role="dialog">
+<div id="promptEditModal" class="modal fade" role="dialog">
           <div class="modal-dialog modal-lg">
         
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add New</h4>
+                <h5 class="modal-title">Editing: <strong id="itemToEdit">This</strong></h5>
               </div>
               <form method="post" enctype="multipart/form-data">
               <div class="modal-body">

@@ -10,13 +10,12 @@
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
     <!-- Custom Theme Style -->
     <link href="../css/custom.min.css" rel="stylesheet">
     <link href="admin-assets/admin.css" rel="stylesheet">
     <link href="../css/site.css" rel="stylesheet">
     <!-- Animate.css -->
-    <link href="https://colorlib.com/polygon/gentelella/css/animate.min.css" rel="stylesheet">
+    <link href="../css/animate.min.css" rel="stylesheet">
 
   </head>
 <?php
@@ -60,6 +59,33 @@ if ( session_status() == PHP_SESSION_NONE ) {
 		  	notify (  "Invalid Username" );
 		  }
 		  
+	  } else if ( isset($_POST['register']) ) {
+	  	//echo var_dump($_POST);
+		
+		$checkMail = $pdo->prepare("SELECT `username` FROM `accounts` WHERE `email` = :username");
+		$checkMail->execute(array(":username" => $_POST['email']));
+		
+		$checkUser = $pdo->prepare("SELECT `username` FROM `accounts` WHERE `username` = :username");
+		$checkUser->execute(array(":username" => $_POST['username']));
+		
+		if ( !$checkUser->rowCount() > 0 && !$checkMail->rowCount() > 0 ) {
+			$register = $pdo->prepare("INSERT INTO `accounts` (`username`, `email`, `password`, `first_name`, `last_name`, `address`, `mobileno`)
+			VALUES (:user, :email, :pass, :firstname, :lastname, :address, :mobileno)");
+			$register->execute(array(
+				":user" => $_POST['username'],
+				":pass" => $_POST['password'],
+				":email" => $_POST['email'],
+				":firstname" => $_POST['firstName'],
+				":lastname" => $_POST['lastName'],
+				":address" => $_POST['address'],
+				":mobileno" => $_POST['phoneNumber']
+			));
+			notify("User created");
+		} else if ( $checkMail->rowCount() > 0 ) {
+			notify("Email already registered");
+		} else {
+			notify("User already exists");
+		}
 	  }
 	  
 	  function notify( $message ) {
@@ -76,7 +102,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
         <div class="animate form login_form">
           <section class="login_content">
             <form method="post">
-              <h1>Administrator Login</h1>
+              <h1>Login</h1>
               <div>
                 <input type="text" class="form-control" placeholder="Username" required="" name="Username" />
               </div>
@@ -98,7 +124,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
                 <br />
 
                 <div>
-                  <h1><a href="../index.php"><img src="http://www.arhaandiam.com/images/Arhaan_Small_logo.png"></a></h1>
+                  <h1><a href="../index.php"><img src="../images/gfx/Arhaan_Small_logo.png"></a></h1>
                   <p>©2016 All Rights Reserved. Privacy and Terms</p>
                 </div>
               </div>
@@ -109,19 +135,32 @@ if ( session_status() == PHP_SESSION_NONE ) {
         
         <div id="register" class="animate form registration_form">
           <section class="login_content">
-            <form>
+            <form method="post">
               <h1>Create Account</h1>
               <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
+                <input type="text" class="form-control" placeholder="Username" required="" name="username" />
               </div>
               <div>
-                <input type="email" class="form-control" placeholder="Email" required="" />
+                <input type="email" class="form-control" placeholder="Email" required="" name="email" />
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
+                <input type="password" class="form-control" placeholder="Password" required="" name="password"/>
+              </div>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="First Name" name="firstName"/>
+              </div>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="Last Name"  name="lastName"/>
               </div>
               <div>
-                <a class="btn btn-custom submit" href="index.html">Submit</a>
+                <input type="text" class="form-control" placeholder="Address"  name="address"/>
+              </div>
+              <div>
+                <input class="form-control" placeholder="Phone Number"  name="phoneNumber" pattern="[0-9]{10,}" />
+              </div>
+              
+              <div>
+                <button type="submit" class="btn btn-custom" name="register">Submit</button>
               </div>
 
               <div class="clearfix"></div>
@@ -135,7 +174,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
                 <br />
 
                 <div>
-                  <h1><a href="../index.php"><img src="http://www.arhaandiam.com/images/Arhaan_Small_logo.png"></a></h1>
+                  <h1><a href="../index.php"><img src="../images/gfx/Arhaan_Small_logo.png"></a></h1>
                   <p>©2016 All Rights Reserved. Privacy and Terms</p>
                 </div>
               </div>

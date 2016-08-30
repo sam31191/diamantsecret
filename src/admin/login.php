@@ -23,7 +23,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
 if ( isset($_SESSION['modSession']) && $_SESSION['modSession'] ) {
-  header("Location: pages/rings.php");
+  header("Location: pages/all_items.php");
 }
 ?>
   <body class="login">
@@ -42,15 +42,15 @@ if ( isset($_SESSION['modSession']) && $_SESSION['modSession'] ) {
 		  
 		  if ( $authenticate->rowCount() > 0 ) {
 		  	$result = $authenticate->fetch(PDO::FETCH_ASSOC);
-			if ( $result['type'] == 1 ) {
-				$_SESSION['modSession'] = true;
-				$log = $pdo->prepare("INSERT INTO `moderator_login` (`username`, `last_login`, `login_ip`) VALUES (:username, NOW(), :ip)");
-				$log->execute(array(":username" => $_SESSION['Username'], ":ip" => get_client_ip())); 
-				header("Location: pages/pendants.php");
-			}
-			else {
-				notify ("Invalid Admin Rank");
-			}
+  			if ( $result['type'] == 1 ) {
+  				$_SESSION['modSession'] = true;
+  				$log = $pdo->prepare("INSERT INTO `moderator_login` (`username`, `last_login`, `login_ip`) VALUES (:username, NOW(), :ip)");
+  				$log->execute(array(":username" => $_SESSION['Username'], ":ip" => get_client_ip())); 
+  				header("Location: pages/all_items.php");
+  			}
+  			else {
+  				notify ("Invalid Admin Rank");
+  			}
 		  }
 		  else {
 		  	notify ("Invalid Login");

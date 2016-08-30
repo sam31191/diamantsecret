@@ -41,7 +41,11 @@
 
 	$itemInfo = $fetchInfo->fetch(PDO::FETCH_ASSOC);
 
-	$images = explode("|",$item['image']);
+	$images = explode(",",$item['image']);
+
+	if ( $item['image'] == "" ) {
+		$images[0] = "0.png";
+	}
 	
 	$imageList = "";
 	foreach ( $images as $image ) {

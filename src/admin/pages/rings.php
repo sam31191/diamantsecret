@@ -37,29 +37,31 @@ if ( isset($_POST['addItem']) ) {
 	
 	$numOfImages = sizeof($_FILES['itemImage']['name']);
 	for ( $count = 0; $count < $numOfImages; $count++ ) {
-		$image_dir = "../../images/";
-		$image_ext = pathinfo($image_dir . basename($_FILES['itemImage']['name'][$count]), PATHINFO_EXTENSION);
-		$image_file = $image_dir . $uniqueKey;
-		$thumb_file = $image_dir . "thumbnails/" . $uniqueKey;
-		
-		$check = getimagesize($_FILES['itemImage']['tmp_name'][$count]);
-		if ( $check ) {
-			if ( file_exists($image_file . "." . $image_ext) ) {
-				$i = 1;
-				while ( file_exists($image_file . "_" . $i . "." . $image_ext) ) {
-					$i++;
+		if ( $_FILES['itemImage']['error'][$count] == 0 ) {
+				$image_dir = "../../images/";
+				$image_ext = pathinfo($image_dir . basename($_FILES['itemImage']['name'][$count]), PATHINFO_EXTENSION);
+				$image_file = $image_dir . $uniqueKey;
+				$thumb_file = $image_dir . "thumbnails/" . $uniqueKey;
+				
+				$check = getimagesize($_FILES['itemImage']['tmp_name'][$count]);
+				if ( $check ) {
+					if ( file_exists($image_file . "." . $image_ext) ) {
+						$i = 1;
+						while ( file_exists($image_file . "_" . $i . "." . $image_ext) ) {
+							$i++;
+						}
+						$image_file .= "_" . $i;
+						$thumb_file .= "_" . $i; 
+					}
+					if ( move_uploaded_file($_FILES['itemImage']['tmp_name'][$count], $image_file . "." . $image_ext) ) {
+						create_thumb($image_file . "." . $image_ext, 200, 200, $thumb_file . '.' . $image_ext);
+					}
+				} else {
+					echo var_dump("Not Image");
 				}
-				$image_file .= "_" . $i;
-				$thumb_file .= "_" . $i; 
+				
+				$images .= basename($image_file) . "." . $image_ext . "|";
 			}
-			if ( move_uploaded_file($_FILES['itemImage']['tmp_name'][$count], $image_file . "." . $image_ext) ) {
-				create_thumb($image_file . "." . $image_ext, 200, 200, $thumb_file . '.' . $image_ext);
-			}
-		} else {
-			echo var_dump("Not Image");
-		}
-		
-		$images .= basename($image_file) . "." . $image_ext . "|";
 	}
 	
 	//echo var_dump($uniqueKey);
@@ -237,7 +239,7 @@ function checkKey($key, $pdo) {
 
     <!-- jQuery -->
     
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="../../js/jquery-1.12.0.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../admin-assets/custom.min.js"></script>
     <script>
