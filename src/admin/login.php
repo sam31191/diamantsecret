@@ -12,8 +12,8 @@
     <!-- Font Awesome -->
     <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
     <!-- Custom Theme Style -->
-    <link href="admin-assets/custom.min.css" rel="stylesheet">
-    <link href="../css/site.css" rel="stylesheet">
+    <link href="./assets/custom.min.css" rel="stylesheet">
+    <link href="./assets/admin.css" rel="stylesheet">
     <!-- Animate.css -->
     <link href="https://colorlib.com/polygon/gentelella/css/animate.min.css" rel="stylesheet">
 
@@ -45,7 +45,7 @@ if ( isset($_SESSION['modSession']) && $_SESSION['modSession'] ) {
   			if ( $result['type'] == 1 ) {
   				$_SESSION['modSession'] = true;
   				$log = $pdo->prepare("INSERT INTO `moderator_login` (`username`, `last_login`, `login_ip`) VALUES (:username, NOW(), :ip)");
-  				$log->execute(array(":username" => $_SESSION['Username'], ":ip" => get_client_ip())); 
+  				$log->execute(array(":username" => $_SESSION['username'], ":ip" => get_client_ip())); 
   				header("Location: pages/all_items.php");
   			}
   			else {
@@ -89,7 +89,7 @@ if ( isset($_SESSION['modSession']) && $_SESSION['modSession'] ) {
                 <br />
 
                 <div>
-                  <h1><img src="http://www.arhaandiam.com/images/Arhaan_Small_logo.png"></h1>
+                  <h1><img src="../assets/images/logo.png"></h1>
                   <p>©2016 All Rights Reserved. Privacy and Terms</p>
                 </div>
               </div>

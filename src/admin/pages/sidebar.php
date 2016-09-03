@@ -1,6 +1,6 @@
 <div class="left_col scroll-view">
   <div class="navbar nav_title" style="border: 0;">
-    <a href="../../index.php" class="site_title"><i class="fa fa-home"></i> <span>Website Home</span></a>
+    <a href="../../index.php" class="site_title"><img src="../../assets/images/logo.png"></a>
   </div>
 
   <div class="clearfix"></div>
@@ -9,7 +9,7 @@
   <div class="profile">
     <div class="profile_info">
       <span>Welcome,</span>
-      <h2><?php echo $_SESSION['Username']; ?></h2>
+      <h2><?php echo $_SESSION['username']; ?></h2>
     </div>
   </div>
   <!-- /menu profile quick info -->
@@ -24,9 +24,11 @@
         <li><a><i class="fa fa-home"></i> Items <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
             <li><a href="all_items.php">All</a></li>
-            <li><a href="pendants.php">Pendants</a></li>
-            <li><a href="bracelets.php">Bracelets</a></li>
             <li><a href="rings.php">Rings</a></li>
+            <li><a href="earrings.php">Earrings</a></li>
+            <li><a href="pendants.php">Pendants</a></li>
+            <li><a href="necklaces.php">Necklaces</a></li>
+            <li><a href="bracelets.php">Bracelets</a></li>
           </ul>
         </li>
         <li><a><i class="fa fa-edit"></i> Sliders <span class="fa fa-chevron-down"></span></a>
@@ -123,16 +125,16 @@
   <!-- /menu footer buttons -->
   <div class="sidebar-footer hidden-small">
     <a data-toggle="tooltip" data-placement="top" title="Settings">
-      <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+      <span class="fa fa-cog" aria-hidden="true"></span>
     </a>
     <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-      <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+      <span class="fa fa-arrows-alt" aria-hidden="true"></span>
     </a>
     <a data-toggle="tooltip" data-placement="top" title="Lock">
-      <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+      <span class="fa fa-lock" aria-hidden="true"></span>
     </a>
     <a data-toggle="tooltip" data-placement="top" title="Logout">
-      <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+      <span class="fa fa-power-off" aria-hidden="true"></span>
     </a>
   </div>
   <!-- /menu footer buttons -->

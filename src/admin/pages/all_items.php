@@ -9,7 +9,7 @@ if ( !isset($_SESSION['modSession']) ) {
 	 die();
 }
 if ( isset($_SESSION['modSession']) ) {
-	if ( !$_SESSION['modSession'] || $_SESSION['Admin'] <= 0 ) {
+	if ( !$_SESSION['modSession'] || $_SESSION['admin'] <= 0 ) {
 		header ('Location: ../../index.php');
 		die();
 	}
@@ -17,11 +17,11 @@ if ( isset($_SESSION['modSession']) ) {
 include '../../url/require.php';
 
 if ( isset($_POST['featuredAdd']) ) {
-	$addFeatured = $pdo->prepare("UPDATE `items` SET `featured` = 1 WHERE `unique_key` = :id");
+	$addFeatured = $pdo->prepare("UPDATE `items` SET `featured` = 1 WHERE `id` = :id");
 	$addFeatured->execute(array(":id" => $_POST['featuredAdd']));
 	
 } else if ( isset ($_POST['featuredRemove']) ) {
-	$removeFeatured = $pdo->prepare("UPDATE `items` SET `featured` = 0 WHERE `unique_key` = :id");
+	$removeFeatured = $pdo->prepare("UPDATE `items` SET `featured` = 0 WHERE `id` = :id");
 	$removeFeatured->execute(array(":id" => $_POST['featuredRemove']));
 } else if ( isset($_POST['removeItem']) ) {
 	//echo var_dump($_POST);
@@ -49,16 +49,24 @@ if ( isset($_POST['featuredAdd']) ) {
 	$removeItem->execute(array(":id" => $_POST['removeItem']));
 
 	switch ($_POST['category']) {
-		case 2: {
+		case 1: {
+			$removeItem2 = $pdo->prepare("DELETE FROM `rings` WHERE `unique_key` = :id");
+			break;
+		}
+		case 2:	{
+			$removeItem2 = $pdo->prepare("DELETE FROM `earrings` WHERE `unique_key` = :id");
+			break;
+		}
+		case 3: {
 			$removeItem2 = $pdo->prepare("DELETE FROM `pendants` WHERE `unique_key` = :id");
 			break;
 		}
-		case 3:	{
-			$removeItem2 = $pdo->prepare("DELETE FROM `bracelets` WHERE `unique_key` = :id");
+		case 4: {
+			$removeItem2 = $pdo->prepare("DELETE FROM `necklaces` WHERE `unique_key` = :id");
 			break;
 		}
-		case 4: {
-			$removeItem2 = $pdo->prepare("DELETE FROM `rings` WHERE `unique_key` = :id");
+		case 5: {
+			$removeItem2 = $pdo->prepare("DELETE FROM `bracelets` WHERE `unique_key` = :id");
 			break;
 		}
 	}
@@ -83,32 +91,48 @@ if ( isset($_POST['featuredAdd']) ) {
 	));
 
 	switch ($_POST['category']) {
-		case 2: {
+		case 1: {
+			$checkInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :key");
+			break;
+		}
+		case 2:	{
+			$checkInfo = $pdo->prepare("SELECT * FROM `earrings` WHERE `unique_key` = :key");
+			break;
+		}
+		case 3: {
 			$checkInfo = $pdo->prepare("SELECT * FROM `pendants` WHERE `unique_key` = :key");
 			break;
 		}
-		case 3:	{
-			$checkInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :key");
+		case 4: {
+			$checkInfo = $pdo->prepare("SELECT * FROM `necklaces` WHERE `unique_key` = :key");
 			break;
 		}
-		case 4: {
-			$checkInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :key");
+		case 5: {
+			$checkInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :key");
 			break;
 		}
 	}
 	$checkInfo->execute(array(":key" => $_POST['unique_key']));
 	if ( $checkInfo->rowCount() > 0 ) {
 		switch ($_POST['category']) {
-			case 2: {
+			case 1: {
+				$updateInfo = $pdo->prepare("UPDATE `rings` SET `stone` = :stone, `stone_carat` = :stoneWeight, `num_of_stones` = :numStones, `material` = :material, `material_carat` = :materialWeight, `height` = :height, `length` = :length WHERE `unique_key` = :key");
+				break;
+			}
+			case 2:	{
+				$updateInfo = $pdo->prepare("UPDATE `earrings` SET `stone` = :stone, `stone_carat` = :stoneWeight, `num_of_stones` = :numStones, `material` = :material, `material_carat` = :materialWeight, `height` = :height, `length` = :length WHERE `unique_key` = :key");
+				break;
+			}
+			case 3: {
 				$updateInfo = $pdo->prepare("UPDATE `pendants` SET `stone` = :stone, `stone_carat` = :stoneWeight, `num_of_stones` = :numStones, `material` = :material, `material_carat` = :materialWeight, `height` = :height, `length` = :length WHERE `unique_key` = :key");
 				break;
 			}
-			case 3:	{
-				$updateInfo = $pdo->prepare("UPDATE `bracelets` SET `stone` = :stone, `stone_carat` = :stoneWeight, `num_of_stones` = :numStones, `material` = :material, `material_carat` = :materialWeight, `height` = :height, `length` = :length WHERE `unique_key` = :key");
+			case 4: {
+				$updateInfo = $pdo->prepare("UPDATE `necklaces` SET `stone` = :stone, `stone_carat` = :stoneWeight, `num_of_stones` = :numStones, `material` = :material, `material_carat` = :materialWeight, `height` = :height, `length` = :length WHERE `unique_key` = :key");
 				break;
 			}
-			case 4: {
-				$updateInfo = $pdo->prepare("UPDATE `rings` SET `stone` = :stone, `stone_carat` = :stoneWeight, `num_of_stones` = :numStones, `material` = :material, `material_carat` = :materialWeight, `height` = :height, `length` = :length WHERE `unique_key` = :key");
+			case 5: {
+				$updateInfo = $pdo->prepare("UPDATE `bracelets` SET `stone` = :stone, `stone_carat` = :stoneWeight, `num_of_stones` = :numStones, `material` = :material, `material_carat` = :materialWeight, `height` = :height, `length` = :length WHERE `unique_key` = :key");
 				break;
 			}
 		}
@@ -124,18 +148,28 @@ if ( isset($_POST['featuredAdd']) ) {
 		));
 	} else {
 		switch ($_POST['category']) {
+			case 1: {
+				$addInfo = $pdo->prepare("INSERT INTO `rings` (`unique_key`, `stone`, `stone_carat`, `num_of_stones`, `material`, `material_carat`, `height`, `length`) VALUES 
+				(:key, :stone, :stoneWeight, :numStones, :material, :materialWeight, :height, :length)");
+				break;
+			}
 			case 2: {
-				$addInfo = $pdo->prepare("INSERT INTO `pendants` (`unique_key`, `stone`, `stone_carat`, `num_of_stones`, `material`, `material_carat`, `height`, `length`) VALUES 
+				$addInfo = $pdo->prepare("INSERT INTO `earrings` (`unique_key`, `stone`, `stone_carat`, `num_of_stones`, `material`, `material_carat`, `height`, `length`) VALUES 
 				(:key, :stone, :stoneWeight, :numStones, :material, :materialWeight, :height, :length)");
 				break;
 			}
 			case 3:	{
-				$addInfo = $pdo->prepare("INSERT INTO `bracelets` (`unique_key`, `stone`, `stone_carat`, `num_of_stones`, `material`, `material_carat`, `height`, `length`) VALUES 
+				$addInfo = $pdo->prepare("INSERT INTO `pendants` (`unique_key`, `stone`, `stone_carat`, `num_of_stones`, `material`, `material_carat`, `height`, `length`) VALUES 
 				(:key, :stone, :stoneWeight, :numStones, :material, :materialWeight, :height, :length)");
 				break;
 			}
 			case 4: {
-				$addInfo = $pdo->prepare("INSERT INTO `rings` (`unique_key`, `stone`, `stone_carat`, `num_of_stones`, `material`, `material_carat`, `height`, `length`) VALUES 
+				$addInfo = $pdo->prepare("INSERT INTO `necklaces` (`unique_key`, `stone`, `stone_carat`, `num_of_stones`, `material`, `material_carat`, `height`, `length`) VALUES 
+				(:key, :stone, :stoneWeight, :numStones, :material, :materialWeight, :height, :length)");
+				break;
+			}
+			case 5: {
+				$addInfo = $pdo->prepare("INSERT INTO `bracelets` (`unique_key`, `stone`, `stone_carat`, `num_of_stones`, `material`, `material_carat`, `height`, `length`) VALUES 
 				(:key, :stone, :stoneWeight, :numStones, :material, :materialWeight, :height, :length)");
 				break;
 			}
@@ -195,16 +229,24 @@ if ( isset($_POST['featuredAdd']) ) {
 				}
 
 				switch ($result['category']) {
+					case 1: {
+						$deleteFromTable = $pdo->prepare("DELETE FROM `rings` WHERE `unique_key` = :key");
+						break;
+					}
 					case 2: {
-						$deleteFromTable = $pdo->prepare("DELETE FROM `pendants` WHERE `unique_key` = :key");
+						$deleteFromTable = $pdo->prepare("DELETE FROM `earrings` WHERE `unique_key` = :key");
 						break;
 					}
 					case 3: {
-						$deleteFromTable = $pdo->prepare("DELETE FROM `bracelets` WHERE `unique_key` = :key");
+						$deleteFromTable = $pdo->prepare("DELETE FROM `pendants` WHERE `unique_key` = :key");
 						break;
 					}
 					case 4: {
-						$deleteFromTable = $pdo->prepare("DELETE FROM `rings` WHERE `unique_key` = :key");
+						$deleteFromTable = $pdo->prepare("DELETE FROM `necklaces` WHERE `unique_key` = :key");
+						break;
+					}
+					case 5: {
+						$deleteFromTable = $pdo->prepare("DELETE FROM `bracelets` WHERE `unique_key` = :key");
 						break;
 					}
 				}
@@ -231,12 +273,13 @@ if ( isset($_POST['featuredAdd']) ) {
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <!-- Custom Theme Style -->
-    <link href="../admin-assets/custom.min.css" rel="stylesheet">
-    <link href="../../css/site.css" rel="stylesheet">
+    <link href="../assets/custom.min.css" rel="stylesheet">
+    <link href="../assets/font-awesome.min.css" rel="stylesheet">
+    <link href="../assets/admin.css" rel="stylesheet">
   </head>
 
   <body class="nav-md">
-    <div class="container body" style="background-color:#911116">
+    <div class="container body">
       <div class="main_container">
       	<!-- sidebar -->
         <div class="col-md-3 left_col">
@@ -256,92 +299,129 @@ if ( isset($_POST['featuredAdd']) ) {
         <h3>All <?php
         	$countAll = $pdo->prepare("SELECT `id` FROM `items`");
         	$countAll->execute();
-        		echo '<small>' . $countAll->rowCount() . ' Items Found</small>';
+        		echo '<h3><small>' . $countAll->rowCount() . ' Items Found</small>
+			        		<form method="post" id="bulkManage" style="float:right">
+			                <button class="btn btn-warning" name="bulkManage" value="feature">Add to Featured (<span class="selected-num">0</span>)</button>
+			                <button class="btn btn-default" name="bulkManage" value="unfeature">Remove from Featured (<span class="selected-num">0</span>)</button>
+			                <a class="btn btn-danger" onclick="bulkRemoveItems()">Delete Selected (<span class="selected-num">0</span>)</a>
+			                <button class="btn btn-success" name="bulkManage">Move Selected (<span class="selected-num">0</span>)</button>
+			                <button class="btn btn-info" name="bulkManage">Copy Selected (<span class="selected-num">0</span>)</button>
+			            </form>
+			        </h3>';
         	?></h3>
-        	<table class="table table-hover table-condensed" >
+        	<table class="table table-hover table-custom" style="display:block; overflow:auto; white-space:nowrap; min-height: 80vh;" >
             	<thead>
                 	<th><input id="masterCheckbox" type="checkbox" onClick="selectAll(this)"></th>
-                	<th>Name</th>
-                	<th>Value</th>
-                	<th>Discount (%)</th>
-                	<th>Images</th>
+                	<th>ID</th>
                 	<th>Featured</th>
                 	<th>Action</th>
+                	<th>Internal ID</th>
+                	<th>Company ID</th>
+                	<th>Name</th>
+                	<th>Price</th>
+                	<th>Discount</th>
+                	<th>Stock</th>
+                	<th>Shipment Days</th>
+                	<th>Carat Weigt</th>
+                	<th># of Stones</th>
+                	<th>Diamond Shape</th>
+                	<th>Clarity</th>
+                	<th>Color</th>
+                	<th>Material</th>
+                	<th>Height</th>
+                	<th>Weight</th>
+                	<th>Length</th>
+                	<th>Country</th>
+                	<th>Sub Category</th>
+                	<th>Size</th>
+                	<th>Images</th>
+                	<th>Description</th>
                 </thead>
                 <tbody>
                 	<?php
-					$query = $pdo->prepare("SELECT * FROM `items`");
-					$query->execute();
+					$query = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
+					$query->execute(array(":cat" => 1 ));
 					$result = $query->fetchAll();
+					
 					foreach ( $result as $entry ) {
-						$price = '€'.$entry['item_value'];
-						
+
+
 						switch ($entry['category']) {
-							case 2: {
-								$fetchInfo = $pdo->prepare("SELECT * FROM `pendants` WHERE `unique_key` = :key");
+							case 1: {
+								$getInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :key");
+								break;
+							}
+							case 2:	{
+								$getInfo = $pdo->prepare("SELECT * FROM `earrings` WHERE `unique_key` = :key");
 								break;
 							}
 							case 3: {
-								$fetchInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :key");
+								$getInfo = $pdo->prepare("SELECT * FROM `pendants` WHERE `unique_key` = :key");
 								break;
 							}
 							case 4: {
-								$fetchInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :key");
+								$getInfo = $pdo->prepare("SELECT * FROM `necklaces` WHERE `unique_key` = :key");
+								break;
+							}
+							case 5: {
+								$getInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :key");
 								break;
 							}
 						}
-						$fetchInfo->execute(array(":key" => $entry['unique_key']));
-						
-						$info = $fetchInfo->fetch(PDO::FETCH_ASSOC);
-						
-						$images = explode (",", $entry['image']);
-						$listImage = "";
-						foreach ( $images as $image ) {
-							if ( !is_null($image) ) {
-								$listImage .= $image . "   ";
-							}
-						}
+						$getInfo->execute(array(":key" => $entry['unique_key']));
+						$info = $getInfo->fetch(PDO::FETCH_ASSOC);
+
+						$price = '€'.$entry['item_value'];
+
 						if ( $entry['discount'] > 0 ) {
 							$discounted = $entry['item_value'] - (( $entry['discount'] / 100) * $entry['item_value']);
-							$price = '<small class="old-price">€' . $entry['item_value'] . '</small> <span class="glyphicon glyphicon-chevron-right"></span> €' . round($discounted, 2);
+							$price = '<div style="display:block" ><small class="old-price">€' . $entry['item_value'] . '</small> <span class="glyphicon glyphicon-chevron-right"></span> €' . round($discounted, 2) .'</div>';
 						}
 						echo '<tr>';
 							echo '<td><input class="select-checkbox" type="checkbox" form="bulkManage" name="'. $entry['unique_key'] .'" onclick="selectItem(this)"></td>';
-							echo '<td>'. $entry['item_name'] .'</td>';
-							echo '<td>'. $price .'</td>';
-							echo '<td>'. $entry['discount'] .'</td>';
-							echo '<td>'. $listImage .'</td>';
-
-							$editModal = '<button class="glyphicon glyphicon-pencil glyphicon-custom" title="Edit Item" data-toggle="tooltip" onclick="editItemModal(\''. $entry['unique_key'] .'\', \''. $entry['item_name'] .'\', \''. $entry['item_value'] .'\', \''. $entry['discount'] .'\', \''. $info['stone'] .'\', \''. $info['stone_carat'] .'\', \''. $info['num_of_stones'] .'\', \''. $info['material'] .'\', \''. $info['material_carat'] .'\', \''. $info['height'] .'\', \''. $info['length'] .'\', \''. $entry['category'] .'\')"></button>';
-
-							$removeModal = '<button class="glyphicon glyphicon-remove glyphicon-custom" title="Remove Item" data-toggle="tooltip" onclick="showItemRemoveModal(\''. $entry['unique_key'] .'\', \''. $entry['item_name'] .'\', \''. $entry['category'] .'\')"></button>';
 							
-							if ( $entry['featured'] == 1 ) {
-								$featured = '<form method="post">
-								<button class="glyphicon glyphicon-star glyphicon-custom" name="featuredRemove" value="'. $entry['unique_key'] .'" data-toggle="tooltip" title="Remove from Featured"></button>
-								</form>';
-							} else {
-								$featured = '<form method="post">
-								<button class="glyphicon glyphicon-star-empty glyphicon-custom" name="featuredAdd" value="'. $entry['unique_key'] .'" data-toggle="tooltip" title="Add to Featured"></button>
-								</form>';
-							}
+							echo '<td>'. $info['id'] .'</td>';
 
+							if ( $entry['featured'] == 1 ) {
+								$featured = '<form method="post"><button class="glyphicon glyphicon-star glyphicon-custom" name="featuredRemove" value="'. $entry['id'] .'" data-toggle="tooltip" title="Remove from Featured"></button></form>';
+							} else {
+								$featured = '<form method="post"><button class="glyphicon glyphicon-star-empty glyphicon-custom" name="featuredAdd" value="'. $entry['id'] .'" data-toggle="tooltip" title="Add to Featured"></button></form>';
+							}
 							echo '<td style="text-align:center;">'. $featured .'</td>';
-							echo '<td>'. $removeModal . $editModal .'</td>';
+
+							$editModal = '<button class="fa fa-pencil glyphicon-custom" style="color:#607d8b" title="Edit Item" data-toggle="tooltip"></button>';
+
+							$removeModal = '<button class="fa fa-trash glyphicon-custom" style="color:#607d8b" title="Remove Item" data-toggle="tooltip"></button>';
+							echo '<td>' . $editModal . $removeModal . '</td>';
+
+							echo '<td>'. $info['internal_id'] .'</td>';
+							echo '<td>'. $info['company_id'] .'</td>';
+							echo '<td>'. $info['product_name'] .'</td>';
+							echo '<td>'. $price .'</td>';
+							echo '<td>'. $entry['discount'] .'%</td>';
+							echo '<td>'. $info['pieces_in_stock'] .'</td>';
+							echo '<td>'. $info['days_for_shipment'] .'</td>';
+							echo '<td>'. $info['total_carat_weight'] .'</td>';
+							echo '<td>'. $info['no_of_stones'] .'</td>';
+							echo '<td>'. $info['diamond_shape'] .'</td>';
+							echo '<td>'. $info['clarity'] .'</td>';
+							echo '<td>'. $info['color'] .'</td>';
+							echo '<td>'. $info['material'] .'</td>';
+							echo '<td>'. $info['height'] .'</td>';
+							echo '<td>'. $info['width'] .'</td>';
+							echo '<td>'. $info['length'] .'</td>';
+							echo '<td>'. $info['country_id'] .'</td>';
+							echo '<td>'. $info['ring_subcategory'] .'</td>';
+							echo '<td>'. $info['ring_size'] .'</td>';
+							echo '<td>'. $info['images'] .'</td>';
+							echo '<td>'. $info['description'] .'</td>';
+
 						echo '</tr>';
 					}
-					
 					?>
                 </tbody>
             </table>
-            <form method="post" id="bulkManage" style="float:right">
-                <button class="btn btn-warning" name="bulkManage" value="feature">Add to Featured (<span class="selected-num">0</span>)</button>
-                <button class="btn btn-default" name="bulkManage" value="unfeature">Remove from Featured (<span class="selected-num">0</span>)</button>
-                <a class="btn btn-danger" onclick="bulkRemoveItems()">Delete Selected (<span class="selected-num">0</span>)</a>
-                <button class="btn btn-success" name="bulkManage">Move Selected (<span class="selected-num">0</span>)</button>
-                <button class="btn btn-info" name="bulkManage">Copy Selected (<span class="selected-num">0</span>)</button>
-            </form>
-        </div>
+            </div>
         
         <?php include 'add_item.php'; ?>
         
@@ -349,7 +429,7 @@ if ( isset($_POST['featuredAdd']) ) {
         <!-- /page content -->
 
         <!-- footer content -->
-        <footer style="margin-top:-10px;">
+        <footer style="margin-top:-20px;">
           <?php include 'footer.php'; ?>
         </footer>
         <!-- /footer content -->
@@ -518,7 +598,7 @@ if ( isset($_POST['featuredAdd']) ) {
     
 	<script src="../../js/jquery-1.12.0.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
-    <script src="../admin-assets/custom.min.js"></script>
+    <script src="../assets/custom.min.js"></script>
     <script>
 	$(document).ready(function(){
 		$('[data-toggle="tooltip"]').tooltip(); 

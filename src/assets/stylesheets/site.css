@@ -1,0 +1,99 @@
+
+.dropdown-item {
+    padding: 7px 25px;
+    display: block;
+}
+.dropdown-item:hover {
+	background-color: #eee;
+}
+.btn-logout {
+	border: none;
+	background: none;
+    font-style: normal;
+    color: #202020;
+    font-weight: 400;
+    font-size: 11px;
+    padding: 7px 25px;
+    text-transform: uppercase;
+    width: 100%;
+    text-align: right;
+    
+    -webkit-transition: all 0.4s ease-out;
+    -moz-transition: all 0.4s ease-out;
+    -o-transition: all 0.4s ease-out;
+    -ms-transition: all 0.4s ease-out;
+}
+.btn-logout:hover {
+	background-color: #eee;
+    color: #a07936;
+}
+.megamenu-container-1 .sub-mega-menu {
+    background: #ffffff url(../../images/menu_image_1.png) no-repeat center bottom;
+    min-height: 490px;
+}
+.home-banner-wrapper {
+    background: url(../../images/home_banner_image.jpg) no-repeat center;
+    width: 100%;
+    min-height: 500px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 80%;
+    background-size: 140%;
+}
+.select-style {
+    width: 280px;
+}
+.label-quick-shop {
+    font-weight: normal;
+    color: black;
+    margin: 10px 0px 3px;
+}
+.material-badge {
+    font-weight: normal;
+    text-transform: uppercase;
+    transition: 0.5s all ease;
+    background-color: #607D8B;
+    border: solid 1px #607D8B;
+    color: #fff;
+    border-radius: 0;
+    font-size: 11px;
+    margin: 2px;
+}
+.material-badge[disabled] {
+    border: solid 1px #ddd;
+    font-weight: normal;
+    text-transform: uppercase;
+    color: #ccc;
+    background-color: transparent;
+}
+.material-badge:hover {
+}
+
+.size-badge {
+    font-weight: normal;
+    text-transform: uppercase;
+    transition: 0.5s all ease;
+    color: #607D8B;
+    border: solid 1px #607D8B;
+    border-radius: 0;
+    font-size: 11px;
+    margin: 2px;
+}
+
+.size-badge-active {
+    font-weight: normal;
+    text-transform: uppercase;
+    transition: 0.5s all ease;
+    background-color: #607D8B;
+    border: solid 1px #607D8B;
+    color: #fff;
+    border-radius: 0;
+    font-size: 11px;
+    margin: 2px;
+}
+.owl-item {
+	transition: 0.8s ;
+}
+.fav-true {
+	color: #e91e63 !important;
+}
