@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2016 at 02:30 PM
+-- Generation Time: Sep 05, 2016 at 02:14 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
 
 INSERT INTO `accounts` (`id`, `email`, `username`, `password`, `first_name`, `last_name`, `mobileno`, `address`, `favorites`, `type`, `cart`) VALUES
 (1, 'test@test', 'Test', 'test', '', '', 0, '', '', 0, ''),
-(15, 'admin@admin', 'Admin', 'admin', '', '', 0, '', ',v0JWl654E4,rqNM1ENwTa,t9D08940x9', 1, 'rqNM1ENwTa|50|4,v0JWl654E4|56|12,ZKtu6G3VjN|0|2,'),
+(15, 'admin@admin', 'Admin', 'admin', '', '', 0, '', ',v0JWl654E4,t9D08940x9', 1, 'ZKtu6G3VjN|0|4,'),
 (19, 'user@user', 'User', 'user', 'John', 'Doe', 911, '404 Not Found', ',24TGoOjMXC,Vgg21LyVRF', 0, '');
 
 -- --------------------------------------------------------
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `bracelets` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'int 11',
   `unique_key` varchar(11) NOT NULL,
   `company_id` int(11) NOT NULL COMMENT 'int 11',
-  `internal_id` varchar(11) NOT NULL COMMENT 'varchar 11',
+  `internal_id` varchar(11) NOT NULL,
   `product_name` varchar(50) NOT NULL COMMENT 'varchat 50',
   `pieces_in_stock` int(11) NOT NULL COMMENT 'int 11',
   `days_for_shipment` int(11) NOT NULL COMMENT 'int 11',
@@ -76,18 +76,18 @@ CREATE TABLE IF NOT EXISTS `bracelets` (
   `length` varchar(11) NOT NULL COMMENT 'varchar 11',
   `country_id` int(11) NOT NULL COMMENT 'int 11',
   `images` varchar(1024) NOT NULL COMMENT 'varchar 1024',
-  `description` varchar(512) NOT NULL COMMENT 'varchar 512',
+  `description` varchar(300) NOT NULL COMMENT 'varchar 300',
+  `date_added` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_key` (`unique_key`),
-  UNIQUE KEY `internal_id` (`internal_id`)
+  UNIQUE KEY `unique_key` (`unique_key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `bracelets`
 --
 
-INSERT INTO `bracelets` (`id`, `unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`) VALUES
-(1, 't9D08940x9', 3, 'INT-ID-BGT', 'Gold Twist', 10, 10, '1', 0, 1, 'FL', 1, 1, '', '', '', 15, 'bracelet_1.jpg,bracelet_1_1.jpg,bracelet_1_2.jpg,bracelet_1_3.jpg,', '');
+INSERT INTO `bracelets` (`id`, `unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `date_added`) VALUES
+(1, 't9D08940x9', 3, '', 'Gold Twist', 10, 10, '1', 0, 1, 'FL', 1, 1, '', '', '', 15, 'bracelet_1.jpg,bracelet_1_1.jpg,bracelet_1_2.jpg,bracelet_1_3.jpg,', '', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -106,11 +106,11 @@ CREATE TABLE IF NOT EXISTS `categories` (
 --
 
 INSERT INTO `categories` (`id`, `category`) VALUES
-(1, 'Rings'),
-(2, 'Earrings'),
-(3, 'Pendants'),
-(4, 'Necklaces'),
-(5, 'Bracelets');
+(1, 'rings'),
+(2, 'earrings'),
+(3, 'pendants'),
+(4, 'necklaces'),
+(5, 'bracelets');
 
 -- --------------------------------------------------------
 
@@ -188,7 +188,8 @@ CREATE TABLE IF NOT EXISTS `earrings` (
   `length` varchar(11) NOT NULL COMMENT 'varchar 11',
   `country_id` int(11) NOT NULL COMMENT 'int 11',
   `images` varchar(1024) NOT NULL COMMENT 'varchar 1024',
-  `description` varchar(512) NOT NULL COMMENT 'varchar 512',
+  `description` varchar(300) NOT NULL COMMENT 'varchar 300',
+  `date_added` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_key` (`unique_key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -197,8 +198,8 @@ CREATE TABLE IF NOT EXISTS `earrings` (
 -- Dumping data for table `earrings`
 --
 
-INSERT INTO `earrings` (`id`, `unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`) VALUES
-(1, 'hWXjamrgNj', 3, 'INT-ID-RSE', 'Rose Earrings', 5, 10, '', 0, 1, 'FL', 1, 2, '', '', '', 12, 'earring_1.jpg,', 'Earrings Shaped like a flower to comment the beauty of the wearer in an elegant fashion.');
+INSERT INTO `earrings` (`id`, `unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `date_added`) VALUES
+(1, 'hWXjamrgNj', 3, 'INT-ID-RSE', 'Rose Earrings', 5, 10, '', 0, 1, 'FL', 1, 2, '', '', '', 12, 'earring_1.jpg,', 'Earrings Shaped like a flower to comment the beauty of the wearer in an elegant fashion.', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -252,7 +253,9 @@ CREATE TABLE IF NOT EXISTS `materials` (
 INSERT INTO `materials` (`id`, `category`) VALUES
 (1, 'Yellow Gold'),
 (2, 'White Gold'),
-(3, 'Pink Gold');
+(3, 'Pink Gold'),
+(4, 'Silver'),
+(5, 'Platinum');
 
 -- --------------------------------------------------------
 
@@ -303,7 +306,8 @@ CREATE TABLE IF NOT EXISTS `necklaces` (
   `length` varchar(11) NOT NULL COMMENT 'varchar 11',
   `country_id` int(11) NOT NULL COMMENT 'int 11',
   `images` varchar(1024) NOT NULL COMMENT 'varchar 1024',
-  `description` varchar(512) NOT NULL COMMENT 'varchar 512',
+  `description` varchar(300) NOT NULL COMMENT 'varchar 300',
+  `date_added` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_key` (`unique_key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -312,8 +316,8 @@ CREATE TABLE IF NOT EXISTS `necklaces` (
 -- Dumping data for table `necklaces`
 --
 
-INSERT INTO `necklaces` (`id`, `unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`) VALUES
-(1, 'xIzLLPRec1', 5, 'INT-ID-ERN', 'Elegant Round', 10, 10, '', 0, 1, 'FL', 1, 2, '', '', '', 7, 'necklace_1.jpg,', 'A round necklace to embrace yourself with the beauty of natural white gold.');
+INSERT INTO `necklaces` (`id`, `unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `date_added`) VALUES
+(1, 'xIzLLPRec1', 5, 'INT-ID-ERN', 'Elegant Round', 10, 10, '', 0, 1, 'FL', 1, 2, '', '', '', 7, 'necklace_1.jpg,', 'A round necklace to embrace yourself with the beauty of natural white gold.', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -340,7 +344,8 @@ CREATE TABLE IF NOT EXISTS `pendants` (
   `length` varchar(11) NOT NULL COMMENT 'varchar 11',
   `country_id` int(11) NOT NULL COMMENT 'int 11',
   `images` varchar(1024) NOT NULL COMMENT 'varchar 1024',
-  `description` varchar(512) NOT NULL COMMENT 'varchar 512',
+  `description` varchar(300) NOT NULL COMMENT 'varchar 300',
+  `date_added` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_key` (`unique_key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -349,8 +354,8 @@ CREATE TABLE IF NOT EXISTS `pendants` (
 -- Dumping data for table `pendants`
 --
 
-INSERT INTO `pendants` (`id`, `unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`) VALUES
-(1, 'ZKtu6G3VjN', 1, 'INT-ID-MXP', 'Mixed Duo', 10, 10, '', 0, 1, 'FL', 1, 2, '', '', '', 5, 'pendant_1.jpg,pendant_1_1.jpg,pendant_1_2.jpg,pendant_1_3.jpg,', 'A combination of two twin pendants, made from different materials contrasting each other in a perfect fashion.');
+INSERT INTO `pendants` (`id`, `unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `date_added`) VALUES
+(1, 'ZKtu6G3VjN', 1, 'INT-ID-MXP', 'Mixed Duo', 10, 10, '', 0, 1, 'FL', 1, 2, '', '', '', 5, 'pendant_1.jpg,pendant_1_1.jpg,pendant_1_2.jpg,pendant_1_3.jpg,', 'A combination of two twin pendants, made from different materials contrasting each other in a perfect fashion.', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -377,22 +382,22 @@ CREATE TABLE IF NOT EXISTS `rings` (
   `length` varchar(11) NOT NULL COMMENT 'varchar 11',
   `country_id` int(11) NOT NULL COMMENT 'int 11',
   `images` varchar(1024) NOT NULL COMMENT 'varchar 1024',
-  `description` varchar(512) NOT NULL COMMENT 'varchar 512',
+  `description` varchar(250) NOT NULL COMMENT 'varchar 250',
   `ring_subcategory` int(11) NOT NULL COMMENT 'int 11',
   `ring_size` varchar(128) NOT NULL COMMENT 'varchar 128',
+  `date_added` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_key` (`unique_key`),
-  UNIQUE KEY `internal_id` (`internal_id`)
+  UNIQUE KEY `unique_key` (`unique_key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `rings`
 --
 
-INSERT INTO `rings` (`id`, `unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `ring_subcategory`, `ring_size`) VALUES
-(4, 'v0JWl654E4', 2, 'INT-ID-ABC', 'Yellow Gold Band', 7, 12, '', 0, 1, 'VVS1', 1, 1, '', '', '', 4, 'ring_4.jpg,ring_4_1.jpg,ring_4_2.jpg,', '', 1, '56,57,58,59,60'),
-(6, 'rqNM1ENwTa', 3, 'INT-ID-TRI', 'Trinity Ring', 3, 10, '', 0, 1, 'FL', 1, 3, '', '', '', 10, 'ring_6.jpg,', '', 1, '50,59,60'),
-(7, '5TnQfIatip', 1, 'INT-ID-WGB', 'White Gold Band', 10, 10, '', 0, 1, 'IF', 1, 2, '', '', '', 4, 'ring_7.jpg,ring_7_1.jpg,ring_7_2.jpg,ring_7_3.jpg,', '', 1, '50,60,62');
+INSERT INTO `rings` (`id`, `unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `ring_subcategory`, `ring_size`, `date_added`) VALUES
+(4, 'v0JWl654E4', 2, '', 'Yellow Gold Band', 10, 12, '', 0, 1, 'VVS1', 1, 1, '', '', '', 4, 'ring_4.jpg,ring_4_1.jpg,ring_4_2.jpg,', 'Test test test test test test test test test etst est est est est e Test test test test test test test test test etst est est est est eTest test test test test test test test test etst est est est est e Test test test test test test test test test te', 1, '56,57,58,59,60', '0000-00-00 00:00:00'),
+(6, 'rqNM1ENwTa', 3, '', 'Trinity Ring', 3, 10, '', 0, 1, 'FL', 1, 3, '', '', '', 10, 'ring_6.jpg,', '', 4, '50,59,60', '0000-00-00 00:00:00'),
+(7, '5TnQfIatip', 1, '', 'White Gold Band', 10, 10, '', 0, 1, 'IF', 1, 5, '', '', '', 4, 'ring_7.jpg,ring_7_1.jpg,ring_7_2.jpg,ring_7_3.jpg,', '', 3, '50,60,62', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 

@@ -97,3 +97,84 @@
 .fav-true {
 	color: #e91e63 !important;
 }
+.material-tag {
+    font-weight: normal;
+    text-transform: uppercase !important;
+    transition: 0.5s all ease;
+    color: #607D8B;
+    border: solid 1px #607D8B;
+    border-radius: 0;
+    font-size: 11px;
+    padding: 4px 8px !important;
+    background: transparent;
+}
+.material-tag-active {
+    background-color: #607D8B;
+    border: solid 1px #607D8B;
+    color: #fff;
+    border-radius: 0;
+    font-size: 11px;
+}
+
+.material-tag:hover {
+    background-color: #607D8B;
+    border: solid 1px #607D8B;
+    color: #fff;
+    border-radius: 0;
+    font-size: 11px;
+}
+
+.stone-tag {
+    font-weight: normal;
+    text-transform: uppercase !important;
+    transition: 0.5s all ease;
+    color: #607D8B;
+    border: solid 1px #607D8B;
+    border-radius: 0;
+    font-size: 11px;
+    padding: 4px 8px !important;
+    background: transparent;
+}
+.stone-tag-active {
+    background-color: #607D8B;
+    border: solid 1px #607D8B;
+    color: #fff;
+    border-radius: 0;
+    font-size: 11px;
+}
+
+.stone-tag:hover {
+    background-color: #607D8B;
+    border: solid 1px #607D8B;
+    color: #fff;
+    border-radius: 0;
+    font-size: 11px;
+}
+.modal-content {
+	height: 600px;
+}
+#quick-shop-description {
+	font-size: 14px;
+	word-wrap: break-word;
+}
+.label-info {
+    margin: 5px;
+}
+.group_input, .form-control {
+    max-width: 80vw;
+}
+.collection-link-list {
+    width: 20%;
+}
+.collection-link-title {
+    padding: 5px 8px !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
+}
+.collection-link {
+    padding: 0px !important;
+    font-size: 11px !important;
+}
+.collection-link-list > ul > li {
+    padding: 4px 0px !important;
+}

@@ -332,15 +332,13 @@ if ( isset($_POST['featuredAdd']) ) {
                 	<th>Weight</th>
                 	<th>Length</th>
                 	<th>Country</th>
-                	<th>Sub Category</th>
-                	<th>Size</th>
                 	<th>Images</th>
                 	<th>Description</th>
                 </thead>
                 <tbody>
                 	<?php
-					$query = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
-					$query->execute(array(":cat" => 1 ));
+					$query = $pdo->prepare("SELECT * FROM `items`");
+					$query->execute();
 					$result = $query->fetchAll();
 					
 					foreach ( $result as $entry ) {
@@ -411,8 +409,6 @@ if ( isset($_POST['featuredAdd']) ) {
 							echo '<td>'. $info['width'] .'</td>';
 							echo '<td>'. $info['length'] .'</td>';
 							echo '<td>'. $info['country_id'] .'</td>';
-							echo '<td>'. $info['ring_subcategory'] .'</td>';
-							echo '<td>'. $info['ring_size'] .'</td>';
 							echo '<td>'. $info['images'] .'</td>';
 							echo '<td>'. $info['description'] .'</td>';
 

@@ -33,10 +33,10 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
       </div>
       <div class="col-md-18">
         <ul class="text-right">
-        <li class="customer-links hidden-xs">
+        <li class="customer-links hidden-xs" style="width:100%;">
           <ul id="accounts" class="list-inline">
             <li class="my-account">
-              <a href="./account.html">My Account</a>
+              <a href="./account.php">My Account</a>
             </li> 
 
             <?php
@@ -67,7 +67,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
               echo'
               <li class="login">    
                 <span id="loginButton" class="dropdown-toggle" data-toggle="dropdown">
-                  <a href="./login.html">Login</a>
+                  <a href="./login.php">Login</a>
                   <i class="sub-dropdown1"></i>
                   <i class="sub-dropdown"></i>
                 </span>
@@ -88,7 +88,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                         <button class="action btn btn-1" type="submit">Login</button>
                       </li>
                       <!-- <li class="clearfix">
-                        <a class="action btn btn-1" href="./register.html">Create an account</a>
+                        <a class="action btn btn-1" href="./register.php">Create an account</a>
                       </li> -->
                     </ul>
                   </div>
@@ -97,17 +97,10 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
               </li>
               <li>/</li>   
               <li class="register">
-                <a href="./register.html" id="customer_register_link">Create an account</a>
+                <a href="./register.php" id="customer_register_link">Create an account</a>
               </li> ';
             }
             ?>
-          </ul>
-        </li>      
-        <li id="widget-social">
-          <ul class="list-inline">            
-          <li><a target="_blank" href="#" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
-          <li><a target="_blank" href="#" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>                        
-          <li><a target="_blank" href="#" class="btooltip swing" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Pinterest"><i class="fa fa-pinterest"></i></a></li>           
           </ul>
         </li>        
         </ul>
@@ -153,12 +146,27 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                         <i class="fa fa-user"></i>
                       </div>
                       <ul class="customer dropdown-menu">
-                        <li class="logout">
-                        <a href="#">Login</a>
-                        </li>
-                        <li class="account last">
-                        <a href="register.html">Register</a>
-                        </li>
+                      <?php 
+                      if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
+                        echo '
+                          <li>
+                          <a href="#">Account</a> 
+                          </li>
+                          <li class="account last">
+                          <form method="post">
+                          <button href="#" class="btn-logout" name="action[logout]" value="true" style="padding: 0px; text-align: left;">Logout</button>
+                          </form>
+                          </li>';
+                      } else {
+                        echo '
+                          <li class="logout">
+                          <a href="login.php">Login</a>
+                          </li>
+                          <li class="account last">
+                          <a href="register.php">Register</a>
+                          </li>';
+                      }
+                      ?>
                       </ul>
                     </div>
                     </li>
@@ -173,12 +181,12 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                 <div class="collapse navbar-collapse">
                   <ul class="nav navbar-nav hoverMenuWrapper">
                     <li class="nav-item active">
-                    <a href="#">
+                    <a href="./index.php">
                     <span>Home</span>
                     </a>
                     </li>
                     <li class="dropdown mega-menu">
-                    <a href="./collection.html" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
+                    <a href="./collection.php" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
                     <span>Collections</span>
                     <i class="fa fa-caret-down"></i>
                     <i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
@@ -186,85 +194,62 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                     </a>
                     <div class="megamenu-container megamenu-container-1 dropdown-menu banner-bottom mega-col-4" style="">
                       <ul class="sub-mega-menu">
-                        <li>
-                        <ul>
-                          <li class="list-title">Collection Links</li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Dolorem Sed </a>
-                          </li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Proident Nulla </a>
-                          </li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Phasellus Leo <span class="megamenu-label hot-label">Hot</span>
-                          </a>
-                          </li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Tristique Amet <span class="megamenu-label feature-label">Featured</span>
-                          </a>
-                          </li>
-                        </ul>
-                        </li>
-                        <li>
-                        <ul>
-                          <li class="list-title">Collection Links</li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Dolorem Sed </a>
-                          </li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Proident Nulla <span class="megamenu-label new-label">New</span>
-                          </a>
-                          </li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Phasellus Leo </a>
-                          </li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Tristique Amet </a>
-                          </li>
-                        </ul>
-                        </li>
-                        <li>
-                        <ul>
-                          <li class="list-title">Collection Links</li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Dolorem Sed </a>
-                          </li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Proident Nulla </a>
-                          </li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Phasellus Leo <span class="megamenu-label sale-label">Sale</span>
-                          </a>
-                          </li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Tristique Amet </a>
-                          </li>
-                        </ul>
-                        </li>
-                        <li>
-                        <ul>
-                          <li class="list-title">Collection Links</li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Dolorem Sed <span class="megamenu-label new-label">New</span>
-                          </a>
-                          </li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="#">Proident Nulla </a>
-                          </li>
-                          <li class="list-unstyled li-sub-mega">
-                          <a href="./product.html">Phasellus Leo </a>
-                          </li>
-                          <li class="list-unstyled li-sub-mega last">
-                          <a href="./product.html">Tristique Amet <span class="megamenu-label hot-label">Hot</span>
-                          </a>
-                          </li>
-                        </ul>
-                        </li>
+                        <div class="collection-link-list">
+                          <ul>
+                            <li><a class="collection-link-title" href="./collection_rings.php">Rings</a></li>
+                            <li><a class="collection-link" href="./collection_rings.php?ring_category=1">Diamond</a></li>
+                            <li><a class="collection-link" href="./collection_rings.php?ring_category=2">Half Eternity Diamond</a></li>
+                            <li><a class="collection-link" href="./collection_rings.php?ring_category=3">Full Eternity Diamond</a></li>
+                            <li><a class="collection-link" href="./collection_rings.php?ring_category=4">Solitaire Diamond</a></li>
+                            <li><a class="collection-link" href="./collection_rings.php?ring_category=5">Gems</a></li>
+                            <li><a class="collection-link" href="./collection_rings.php?ring_category=6">Pearls</a></li>
+                          </ul>
+                        </div>
+                        <div class="collection-link-list">
+                          <ul>
+                            <li><a class="collection-link-title" href="./collection_earrings.php">Earrings</a></li>
+                            <li><a class="collection-link" href="./collection_earrings.php?material=1">Yellow Gold</a></li>
+                            <li><a class="collection-link" href="./collection_earrings.php?material=2">White Gold</a></li>
+                            <li><a class="collection-link" href="./collection_earrings.php?material=3">Pink Gold</a></li>
+                            <li><a class="collection-link" href="./collection_earrings.php?material=4">Silver</a></li>
+                            <li><a class="collection-link" href="./collection_earrings.php?material=5">Platinum</a></li>
+                          </ul>
+                        </div>
+                        <div class="collection-link-list">
+                          <ul>
+                            <li><a class="collection-link-title" href="./collection_pendants.php">Pendants</a></li>
+                            <li><a class="collection-link" href="./collection_pendants.php?material=1">Yellow Gold</a></li>
+                            <li><a class="collection-link" href="./collection_pendants.php?material=2">White Gold</a></li>
+                            <li><a class="collection-link" href="./collection_pendants.php?material=3">Pink Gold</a></li>
+                            <li><a class="collection-link" href="./collection_pendants.php?material=4">Silver</a></li>
+                            <li><a class="collection-link" href="./collection_pendants.php?material=5">Platinum</a></li>
+                          </ul>
+                        </div>
+                        <div class="collection-link-list">
+                          <ul>
+                            <li><a class="collection-link-title" href="./collection_necklaces.php">Necklaces</a></li>
+                            <li><a class="collection-link" href="./collection_necklaces.php?material=1">Yellow Gold</a></li>
+                            <li><a class="collection-link" href="./collection_necklaces.php?material=2">White Gold</a></li>
+                            <li><a class="collection-link" href="./collection_necklaces.php?material=3">Pink Gold</a></li>
+                            <li><a class="collection-link" href="./collection_necklaces.php?material=4">Silver</a></li>
+                            <li><a class="collection-link" href="./collection_necklaces.php?material=5">Platinum</a></li>
+                          </ul>
+                        </div>
+                        <div class="collection-link-list">
+                          <ul>
+                            <li><a class="collection-link-title" href="./collection_bracelets.php">Bracelets</a></li>
+                            <li><a class="collection-link" href="./collection_bracelets.php?material=1">Yellow Gold</a></li>
+                            <li><a class="collection-link" href="./collection_bracelets.php?material=2">White Gold</a></li>
+                            <li><a class="collection-link" href="./collection_bracelets.php?material=3">Pink Gold</a></li>
+                            <li><a class="collection-link" href="./collection_bracelets.php?material=4">Silver</a></li>
+                            <li><a class="collection-link" href="./collection_bracelets.php?material=5">Platinum</a></li>
+                          </ul>
+                        </div>
                       </ul>
                     </div>
                     </li>
                     <li class="nav-item">
-                    <a href="./contact.html">
+                    <a href="./contact.php">
                     <span>Contact</span>
                     </a>
                     </li>
@@ -303,7 +288,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                     </span>
                   </div>
                 </a>
-                <div id="cart-info" class="dropdown-menu" style="display: none;">
+                <div id="cart-info" class="dropdown-menu" style="display: none; overflow: auto; max-height: 80vh;">
                   <div id="cart-content">
                     <?php
                       $subtotal = 0.0;
@@ -356,11 +341,11 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                                     </form>
                                     <button class="cart-close" title="Remove" href="javascript:void(0);" style="background:transparent;" form="removeFromCart_'. $i .'" type="submit" name="removeFromCart"><i class="fa fa-times"></i></button>
                                     <div class="col-md-8 cart-left">
-                                      <a class="cart-image" href="./product.html"><img src="./images/thumbnails/'. $images[0] .'" alt="" title=""></a>
+                                      <a class="cart-image" href="./product.php?view='. $cartItemInfo['unique_key'] .'"><img src="./images/thumbnails/'. $images[0] .'" alt="" title=""></a>
                                     </div>
                                     <div class="col-md-16 cart-right">
                                       <div class="cart-title">
-                                        <a href="./product.html">'. $cartItemCategory['item_name'] .'<br><small>Size: '. $cartItem[1] .'</small></a>
+                                        <a href="./product.php?view='. $cartItemInfo['unique_key'] .'">'. $cartItemCategory['item_name'] .'<br><small>Size: '. $cartItem[1] .'</small></a>
                                       </div>
                                       <div class="cart-price">
                                         € '. $cartItemCategory['item_value'] .'<span class="x"> x </span>'. $cartItem[2] .'
@@ -380,11 +365,11 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                                       </form>
                                       <button class="cart-close" title="Remove" href="javascript:void(0);" style="background:transparent;" form="removeFromCart_'. $i .'" type="submit" name="removeFromCart"><i class="fa fa-times"></i></button>
                                       <div class="col-md-8 cart-left">
-                                        <a class="cart-image" href="./product.html"><img src="./images/thumbnails/0.png" alt="" title=""></a>
+                                        <a class="cart-image" href="./product.php?view='. $cartItemInfo['unique_key'] .'"><img src="./images/thumbnails/0.png" alt="" title=""></a>
                                       </div>
                                       <div class="col-md-16 cart-right">
                                         <div class="cart-title">
-                                          <a href="./product.html">Item Unavailable</small></a>
+                                          <a href="./product.php?view='. $cartItemInfo['unique_key'] .'">Item Unavailable</small></a>
                                         </div>
                                         <div class="cart-price">
                                           € 0.0 <span class="x"> x </span>0

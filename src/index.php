@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>Jewelry HTML Template</title>
+  <title>Home</title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
@@ -49,55 +49,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
 include 'url/require.php';
-if ( isset($_POST['addToCart']) ) {/*
-	$getCart = $pdo->prepare("SELECT `cart`, `cart_quantity`, `cart_size` FROM `accounts` WHERE `username` = :user");
-	$getCart->execute(array(
-		":user" => $_SESSION['username']
-	));
-	$inputCart = $getCart->fetch(PDO::FETCH_ASSOC);
-	$cart = $inputCart['cart'];
-	$quantity = $inputCart['cart_quantity'];
-	$size = $inputCart['cart_size'];
-
-	if ( strstr($cart, $_POST['unique_key']) ) {
-		//echo var_dump("Shit has already been carted dude");
-		$cartItems = explode(",", $cart);
-		$cartItemsQ = explode(",", $quantity);
-		$cartItemsS = explode(",", $size);
-
-		for ( $i = 0; $i < sizeof($cartItems); $i++ ) {
-			if ( $cartItems[$i] == $_POST['unique_key'] && $cartItemsS[$i] == $_POST['size'] ) {
-				$cartItemsQ[$i] += $_POST['quantity'];
-
-				$cart = "";
-				$quantity = "";
-				$size = "";
-				for ( $i = 0; $i < sizeof($cartItems) - 1; $i++ ) {
-					$cart .= $cartItems[$i] . ",";
-					$quantity .= $cartItemsQ[$i] . ",";
-					$size .= $cartItemsS[$i] . ",";
-				}
-			} else if ( $cartItems[$i] == $_POST['unique_key'] && $cartItemsS[$i] !== $_POST['size'] ) {
-				$cart .= $_POST['unique_key'] . ",";
-				$quantity .= $_POST['quantity'] . ",";
-				$size .= $_POST['size'] . ",";
-			}
-		}
-
-	} else {
-		$cart .= $_POST['unique_key'] . ",";
-		$quantity .= $_POST['quantity'] . ",";
-		$size .= $_POST['size'] . ",";
-	}
-
-	$addToCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart, `cart_quantity` = :quantity, `cart_size` = :size WHERE `username` = :user");
-	$addToCart->execute(array(
-		":cart" => $cart,
-		":quantity" => $quantity,
-		":size" => $size,
-		":user" => $_SESSION['username']
-	));*/
-
+if ( isset($_POST['addToCart']) ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
 	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
 	$fetchCurrentCart->execute(array(":user" => $_SESSION['username']));
@@ -162,7 +114,7 @@ if ( isset($_POST['addToCart']) ) {/*
 				<div class="camera_wrap" id="home-slider">
 					<div data-src="./images/slide-image-1.jpg">
 						<div class="camera_caption camera_title_1 fadeIn">
-						  <a href="./collection.html" style="color:#010101;">Live the moment</a>
+						  <a href="./collection.php" style="color:#010101;">Live the moment</a>
 						</div>
 						<div class="camera_caption camera_caption_1 fadeIn" style="color: rgb(1, 1, 1);">
 							people of class deserve the classiest of Jewels
@@ -171,18 +123,18 @@ if ( isset($_POST['addToCart']) ) {/*
 							<img src="./images/slide-image-caption-1.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
-							<a href="./collection.html" class="btn">See Collection</a>
+							<a href="./collection.php" class="btn">See Collection</a>
 						</div>
 					</div>
 					<div data-src="./images/slide-image-2.jpg">
 						<div class="camera_caption camera_title_2 moveFromLeft">
-						  <a href="./collection.html" style="color:#666666;">Love’s embrace</a>
+						  <a href="./collection.php" style="color:#666666;">Love’s embrace</a>
 						</div>
 						<div class="camera_caption camera_image-caption_2 moveFromLeft" style="visibility: hidden;">
 							<img src="./images/slide-image-caption-2.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
-							<a href="./collection.html" class="btn">See Collection</a>
+							<a href="./collection.php" class="btn">See Collection</a>
 						</div>
 					</div>
 					<div data-src="./images/slide-image-3.jpg">
@@ -190,7 +142,7 @@ if ( isset($_POST['addToCart']) ) {/*
 							<img src="./images/slide-image-caption-3.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
-							<a href="./collection.html" class="btn">See Collection</a>
+							<a href="./collection.php" class="btn">See Collection</a>
 						</div>
 					</div>
 				</div>
@@ -210,14 +162,14 @@ if ( isset($_POST['addToCart']) ) {/*
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection.html" title="Browse our Rings">
+																			<a href="./collection.php" title="Browse our Rings">
 																				<img src="./images/ring_270x270.png" alt="Rings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection.html">Rings</a></span>
+																			<span class="col-name"><a href="./collection.php">Rings</a></span>
 																			<div class="collection-action">
-																				<a href="./collection.html">See the Collection</a>
+																				<a href="./collection.php">See the Collection</a>
 																			</div>
 																		</div>
 																	</div>
@@ -225,14 +177,14 @@ if ( isset($_POST['addToCart']) ) {/*
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection.html" title="Browse our Earrings">
+																			<a href="./collection.php" title="Browse our Earrings">
 																			<img src="./images/earring_270x270.png" alt="Earrings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection.html">Earrings</a></span>
+																			<span class="col-name"><a href="./collection.php">Earrings</a></span>
 																			<div class="collection-action">
-																				<a href="./collection.html">See the Collection</a>
+																				<a href="./collection.php">See the Collection</a>
 																			</div>
 																		</div>
 																	</div>
@@ -240,14 +192,14 @@ if ( isset($_POST['addToCart']) ) {/*
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection.html" title="Browse our Pendants">
+																			<a href="./collection.php" title="Browse our Pendants">
 																			<img src="./images/pendant_270x270.png" alt="Pendants">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection.html">Pendants</a></span>
+																			<span class="col-name"><a href="./collection.php">Pendants</a></span>
 																			<div class="collection-action">
-																				<a href="./collection.html">See the Collection</a>
+																				<a href="./collection.php">See the Collection</a>
 																			</div>
 																		</div>
 																	</div>
@@ -255,14 +207,14 @@ if ( isset($_POST['addToCart']) ) {/*
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection.html" title="Browse our Necklaces">
+																			<a href="./collection.php" title="Browse our Necklaces">
 																			<img src="./images/necklace_270x270.png" alt="Necklaces">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection.html">Necklaces</a></span>
+																			<span class="col-name"><a href="./collection.php">Necklaces</a></span>
 																			<div class="collection-action">
-																				<a href="./collection.html">See the Collection</a>
+																				<a href="./collection.php">See the Collection</a>
 																			</div>
 																		</div>
 																	</div>
@@ -270,14 +222,14 @@ if ( isset($_POST['addToCart']) ) {/*
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection.html" title="Browse our Bracelets">
+																			<a href="./collection.php" title="Browse our Bracelets">
 																				<img src="./images/bracelet_270x270.png" alt="Bracelets">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection.html">Bracelets</a></span>
+																			<span class="col-name"><a href="./collection.php">Bracelets</a></span>
 																			<div class="collection-action">
-																				<a href="./collection.html">See the Collection</a>
+																				<a href="./collection.php">See the Collection</a>
 																			</div>
 																		</div>
 																	</div>
@@ -313,7 +265,7 @@ if ( isset($_POST['addToCart']) ) {/*
 												$fetchNew->execute();
 												
 												$newProducts = $fetchNew->fetchAll();
-												
+												$delay = 0;
 												foreach ( $newProducts as $product ) {
 													switch ($product['category']) {
 														case 1: {
@@ -361,12 +313,12 @@ if ( isset($_POST['addToCart']) ) {/*
 													} else {
 														$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'" onClick="addToWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>';
 													}
-													
+
 													echo '
-												<div class="element no_full_width col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="0">
+												<div class="element no_full_width bounceIn col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
-															<a href="./product.html?show='. $product['unique_key'] .'" class="container_item"  style="height:375px;">
+															<a href="./product.php?view='. $product['unique_key'] .'" class="container_item"  style="height:375px;">
 															<img src="./images/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
 															'. $sale .'
 															</a>
@@ -376,7 +328,7 @@ if ( isset($_POST['addToCart']) ) {/*
 															</li>
 															<li class="row-right parent-fly animMix">
 															<div class="product-content-left">
-																<a class="title-5" href="./product.html?show='. $product['unique_key'] .'">'. $product['item_name'] .'</a>
+																<a class="title-5" href="./product.php?view='. $product['unique_key'] .'">'. $product['item_name'] .'</a>
 																<span class="spr-badge" id="spr_badge_12932382113" data-rating="0.0">
 																<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 																<span class="spr-badge-caption">
@@ -392,10 +344,10 @@ if ( isset($_POST['addToCart']) ) {/*
 																 Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
 															</div>
 															<div class="hover-appear">
-																<form action="./product.html" method="post">
+																<form action="./product.php?view='. $product['unique_key'] .'" method="post">
 																	<div class="effect-ajax-cart">
 																		<input type="hidden" name="quantity" value="1">
-																		<button class="select-option" type="button" onclick="window.location.href=\'product.html\'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
+																		<button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $product['unique_key'] .'\'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
 																	</div>
 																</form>
 																<div class="product-ajax-qs hidden-xs hidden-sm">
@@ -409,6 +361,8 @@ if ( isset($_POST['addToCart']) ) {/*
 														</ul>
 													</div> 
 													';
+
+													$delay += 100;
 												}
 												?>
 													               
@@ -430,7 +384,7 @@ if ( isset($_POST['addToCart']) ) {/*
 										</p>
 									</div>
 									<div class="home-banner-action">
-										<a href="./collection.html">Shop Now</a>
+										<a href="./collection.php">Shop Now</a>
 									</div>
 								</div>
 							</div>
@@ -506,10 +460,10 @@ if ( isset($_POST['addToCart']) ) {/*
 														
 
 														echo '   																						
-													<div class="element no_full_width not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
+													<div class="element no_full_width bounceIn not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
-															<a href="./product.html" class="container_item" style="height:277px;">
+															<a href="./product.php?view='. $product['unique_key'] .'" class="container_item" style="height:277px;">
 															<img src="./images/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
 															'. $sale .'
 															</a>
@@ -519,7 +473,7 @@ if ( isset($_POST['addToCart']) ) {/*
 															</li>
 															<li class="row-right parent-fly animMix">
 															<div class="product-content-left">
-																<a class="title-5" href="./product.html">'. $product['item_name'] .'</a>
+																<a class="title-5" href="./product.php?view='. $product['unique_key'] .'">'. $product['item_name'] .'</a>
 																<span class="spr-badge" id="spr_badge_1293238211" data-rating="0.0">
 																<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 																<span class="spr-badge-caption">
@@ -536,7 +490,7 @@ if ( isset($_POST['addToCart']) ) {/*
 																<form action="./product.html" method="post">
 																	<div class="effect-ajax-cart">
 																		<input type="hidden" name="quantity" value="1">
-																		<button class="select-option" type="button" onclick="window.location.href=\'product.html\'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
+																		<button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $product['unique_key'] .'\'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
 																	</div>
 																</form>
 																<div class="product-ajax-qs hidden-xs hidden-sm">
@@ -585,6 +539,7 @@ if ( isset($_POST['addToCart']) ) {/*
 	</div>
 	
 	<script src="assets/javascripts/cs.global.js" type="text/javascript"></script>
+	
  	<div id="quick-shop-modal" class="modal in" role="dialog" aria-hidden="false" tabindex="-1" data-width="800">
 		<div class="modal-backdrop in" style="height: 742px;">
 		</div>
@@ -654,6 +609,8 @@ if ( isset($_POST['addToCart']) ) {/*
                                     	<a class="btn material-badge" name="1">Yellow Gold</a>
                                     	<a class="btn material-badge" name="2">White Gold</a>
                                     	<a class="btn material-badge" name="3">Pink Gold</a>
+                                    	<a class="btn material-badge" name="4">Silver</a>
+                                    	<a class="btn material-badge" name="5">Platinum</a>
                                     </div>
                                     <div id="quick-shop-size">
 	                                    <label class="label-quick-shop">Size <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label> 
@@ -823,8 +780,6 @@ function addToWishlist(key) {
 	xmlhttp.open("GET","url/ajax.php?addtoFav="+key,true);
 	xmlhttp.send();
 }
-
-
 function removeFromWishlist(key) {
   if (window.XMLHttpRequest) {
       // code for IE7+, Firefox, Chrome, Opera, Safari
@@ -853,6 +808,7 @@ function removeFromWishlist(key) {
   xmlhttp.open("GET","url/ajax.php?removeFromFav="+key,true);
   xmlhttp.send();
 }
+
 </script>
 <?php
 pconsole($_SESSION);
