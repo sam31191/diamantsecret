@@ -444,3 +444,7 @@ input[type=file] {
 .fa {
 	color: #ddd;
 }
+.alert {
+	font-variant: small-caps;
+	border-radius: 0;
+}

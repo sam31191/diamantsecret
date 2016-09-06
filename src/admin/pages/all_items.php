@@ -210,8 +210,31 @@ if ( isset($_POST['featuredAdd']) ) {
 				$getItem->execute(array(":key" => key($_POST)));
 
 				$result = $getItem->fetch(PDO::FETCH_ASSOC);
-				
-				$images = $result['image'];
+
+				switch ($result['category']) {
+					 case 1:{
+						$getImageVar = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :key");
+						break;
+					} case 2:{
+						$getImageVar = $pdo->prepare("SELECT * FROM `earrings` WHERE `unique_key` = :key");
+						break;
+					} case 3:{
+						$getImageVar = $pdo->prepare("SELECT * FROM `pendants` WHERE `unique_key` = :key");
+						break;
+					} case 4:{
+						$getImageVar = $pdo->prepare("SELECT * FROM `necklaces` WHERE `unique_key` = :key");
+						break;
+					} case 5:{
+						$getImageVar = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :key");
+						break;
+					}
+				}
+
+				$getImageVar->execute(array(":key" => key($_POST)));
+
+				$imageVar = $getImageVar->fetch(PDO::FETCH_ASSOC);
+
+				$images = $imageVar['images'];
 				$images = explode(",", $images);
 
 				foreach ( $images as $image ) {
@@ -227,7 +250,6 @@ if ( isset($_POST['featuredAdd']) ) {
 						}
 					}
 				}
-
 				switch ($result['category']) {
 					case 1: {
 						$deleteFromTable = $pdo->prepare("DELETE FROM `rings` WHERE `unique_key` = :key");
@@ -312,6 +334,7 @@ if ( isset($_POST['featuredAdd']) ) {
         	<table class="table table-hover table-custom" style="display:block; overflow:auto; white-space:nowrap; min-height: 80vh;" >
             	<thead>
                 	<th><input id="masterCheckbox" type="checkbox" onClick="selectAll(this)"></th>
+                	<th>Type</th>
                 	<th>ID</th>
                 	<th>Featured</th>
                 	<th>Action</th>
@@ -378,6 +401,7 @@ if ( isset($_POST['featuredAdd']) ) {
 						echo '<tr>';
 							echo '<td><input class="select-checkbox" type="checkbox" form="bulkManage" name="'. $entry['unique_key'] .'" onclick="selectItem(this)"></td>';
 							
+							echo '<td>'. $entry['category'] .'</td>';
 							echo '<td>'. $info['id'] .'</td>';
 
 							if ( $entry['featured'] == 1 ) {

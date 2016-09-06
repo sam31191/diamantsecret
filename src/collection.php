@@ -299,18 +299,18 @@ pconsole($_POST);
 																		<form action="#" method="post">
 																			<ul class="row-container list-unstyled clearfix">
 																				<li class="row-left">
-																				<a href="./product.html" class="container_item">
+																				<a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
 																				<img src="./images/thumbnails/'. $images[0] .'" class="img-responsive" alt="'. $itemInfo['product_name'] .'">
 																				</a>
 																				</li>
 																				<li class="row-right parent-fly animMix">
-																				<a class="title-5" href="./product.html">'. $itemInfo['product_name'] .'</a>
+																				<a class="title-5" href="./product.php?view='. $item['unique_key'] .'">'. $itemInfo['product_name'] .'</a>
 																				<div class="product-price">
 																					'. $price .'
 																				</div>
 																				<div class="effect-ajax-cart">
 																					<input name="quantity" value="1" type="hidden">
-																					<button class="select-option" type="button" onclick="window.location.href=\'product.html\'">View</button>
+																					<button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $item['unique_key'] .'\'">View</button>
 																				</div>
 																				</li>
 																			</ul>
@@ -405,7 +405,7 @@ pconsole($_POST);
 												<!-- <li class="element first no_full_width" data-alpha="Curabitur cursus dignis" data-price="25900">
 													<ul class="row-container list-unstyled clearfix">
 														<li class="row-left">
-														<a href="./product.html" class="container_item">
+														<a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
 														<img src="./assets/images/demo_270x270.png" class="img-responsive" alt="Curabitur cursus dignis">
 														<span class="sale_banner">
 														<span class="sale_text">Sale</span>
@@ -417,7 +417,7 @@ pconsole($_POST);
 														</li>
 														<li class="row-right parent-fly animMix">
 														<div class="product-content-left">
-															<a class="title-5" href="./product.html">Curabitur cursus dignis</a>
+															<a class="title-5" href="./product.php?view='. $item['unique_key'] .'">Curabitur cursus dignis</a>
 															<span class="spr-badge" id="spr_badge_129323821155" data-rating="0.0">
 															<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 															<span class="spr-badge-caption">
@@ -437,7 +437,7 @@ pconsole($_POST);
 															<form action="#" method="post">
 																<div class="effect-ajax-cart">
 																	<input name="quantity" value="1" type="hidden">
-																	<button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
+																	<button class="select-option" type="button" onclick="window.location.href='product.php?view='. $item['unique_key'] .''"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
 																</div>
 															</form>
 															<div class="product-ajax-qs hidden-xs hidden-sm">
@@ -483,7 +483,7 @@ pconsole($_POST);
 														$itemInfo = $getItemInfo->fetch(PDO::FETCH_ASSOC);
 
 														$images = explode(",", $itemInfo['images']);
-														if ( $images == "" ) {
+														if ( $images == "" || $itemInfo['images'] == "" ) {
 															$images[0] = "0.png";
 														}
 
@@ -505,7 +505,7 @@ pconsole($_POST);
 														$element = '<li class="element no_full_width" data-alpha="Curabitur cursus dignis" data-price="20000">
 																<ul class="row-container list-unstyled clearfix">
 																	<li class="row-left">
-																	<a href="./product.html" class="container_item">
+																	<a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
 																	<img src="./images/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
 																	'. $sale .'
 																	</a>
@@ -515,7 +515,7 @@ pconsole($_POST);
 																	</li>
 																	<li class="row-right parent-fly animMix">
 																	<div class="product-content-left">
-																		<a class="title-5" href="./product.html">'. $itemInfo['product_name'] .'</a>
+																		<a class="title-5" href="./product.php?view='. $item['unique_key'] .'">'. $itemInfo['product_name'] .'</a>
 																		<span class="spr-badge" id="spr_badge_129323961956" data-rating="0.0">
 																		<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 																		<span class="spr-badge-caption">

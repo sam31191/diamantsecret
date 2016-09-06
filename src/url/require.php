@@ -3,6 +3,11 @@
 	$dbname = "website";
 	$user = "root";
 	$pass = "";
+	$testSite = true;
+
+	if ( session_status() == PHP_SESSION_NONE ) {
+		session_start();
+	}
 
 	try{
 		$pdo = new PDO("mysql:host=$host; dbname=$dbname", $user, $pass);
@@ -33,11 +38,13 @@
 	}
 
 	function pconsole($data) {
-    if(is_array($data) || is_object($data))
-	{
-		echo("<script>console.log('PHP: ".json_encode($data)."');</script>");
-	} else {
-		echo("<script>console.log('PHP: ".$data."');</script>");
+	    if(is_array($data) || is_object($data))
+		{
+			echo("<script>console.log('PHP: ".json_encode($data)."');</script>");
+		} else {
+			echo("<script>console.log('PHP: ".$data."');</script>");
+		}
 	}
-}
+
+
 ?>

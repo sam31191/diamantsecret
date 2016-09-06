@@ -18,6 +18,7 @@
 	<link href="./assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
 	<link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
 	<link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
+	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
 	
 	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
 	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
@@ -173,77 +174,82 @@ if ( isset($_POST['removeItem']) ) {
 												if ( $item !== "" ) {
 													$itemCategory = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
 													$itemCategory->execute(array(":key" => $itemVal[0]));
-													$result = $itemCategory->fetch(PDO::FETCH_ASSOC);
 
-													pconsole($result['category']);
-													switch ($result['category']) {
-														case 1: {
-															$getItemInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :key");
-															break;
-														} case 2: {
-															$getItemInfo = $pdo->prepare("SELECT * FROM `earrings` WHERE `unique_key` = :key");
-															break;
-														} case 3: {
-															$getItemInfo = $pdo->prepare("SELECT * FROM `pendants` WHERE `unique_key` = :key");
-															break;
-														} case 4: {
-															$getItemInfo = $pdo->prepare("SELECT * FROM `necklaces` WHERE `unique_key` = :key");
-															break;
-														} case 5: {
-															$getItemInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :key");
-															break;
-														} default: {
-															break;
+													if ( $itemCategory->rowCount() > 0 ) {
+														$result = $itemCategory->fetch(PDO::FETCH_ASSOC);
+
+														pconsole($result['category']);
+														switch ($result['category']) {
+															case 1: {
+																$getItemInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :key");
+																break;
+															} case 2: {
+																$getItemInfo = $pdo->prepare("SELECT * FROM `earrings` WHERE `unique_key` = :key");
+																break;
+															} case 3: {
+																$getItemInfo = $pdo->prepare("SELECT * FROM `pendants` WHERE `unique_key` = :key");
+																break;
+															} case 4: {
+																$getItemInfo = $pdo->prepare("SELECT * FROM `necklaces` WHERE `unique_key` = :key");
+																break;
+															} case 5: {
+																$getItemInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :key");
+																break;
+															} default: {
+																break;
+															}
 														}
+														$getItemInfo->execute(array(":key" => $itemVal[0]));
+
+														$itemInfo = $getItemInfo->fetch(PDO::FETCH_ASSOC);
+
+														$images = explode(",", $itemInfo['images']);
+
+														$sale = "";
+														$price = '<span class="">€'. $result['item_value'] .'</span>';
+														$value = $result['item_value'];
+														if ( $result['discount'] > 0 ) {
+															
+															$value = $result['item_value'] -  (($result['discount'] / 100 ) * $result['item_value']);
+															$sale = '<span class="label label-success">'. $result['discount'] .'% OFF</span>';
+															$price = '<span>€'. number_format($value, 2, ".", "") .'</span> <del style="font-size:14px;">€'. $result['item_value'] .'</del>';
+														}
+
+														$subtotal += $value * $itemVal[2];
+														echo '
+															<tr class="item donec-condime-fermentum">
+																<td class="title text-left">
+																	<ul class="list-inline">
+																		<li class="image">
+																		<a href="./product.html">
+																		<img src="./images/thumbnails/'. $images[0] .'" alt="'. $itemInfo['product_name'] .'">
+																		</a>
+																		</li>
+																		<li class="link">
+																		<a href="./product.html">
+																		<span class="title-5">'. $itemInfo['product_name'] .'</span>
+																		</a>
+																		<br>
+																		<span class="variant_title">Material: '. $itemInfo['material'] .'</span>
+																		<br>
+																		</li>
+																	</ul>
+																</td>
+																<td class="title-1">
+																	'. $price . '<br>' . $sale .'
+																</td>
+																<td>
+																	<input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="'. $itemVal[2] .'">
+																</td>
+																<td class="total title-1">
+																	€'. number_format($value * $itemVal[2], 2, ".", "") .'
+																</td>
+																<td class="action"><button type="submit" form="removeItemForm" name="removeItem" value="'. $item .'"><i class="fa fa-times"></i>Remove</button>
+																</td>
+															</tr>';
 													}
-													$getItemInfo->execute(array(":key" => $itemVal[0]));
 
-													$itemInfo = $getItemInfo->fetch(PDO::FETCH_ASSOC);
-
-													$images = explode(",", $itemInfo['images']);
-
-													$sale = "";
-													$price = '<span class="">€'. $result['item_value'] .'</span>';
-													$value = $result['item_value'];
-													if ( $result['discount'] > 0 ) {
-														
-														$value = $result['item_value'] -  (($result['discount'] / 100 ) * $result['item_value']);
-														$sale = '<span class="label label-success">'. $result['discount'] .'% OFF</span>';
-														$price = '<span>€'. number_format($value, 2, ".", "") .'</span> <del style="font-size:14px;">€'. $result['item_value'] .'</del>';
-													}
-
-													$subtotal += $value * $itemVal[2];
-													echo '
-														<tr class="item donec-condime-fermentum">
-															<td class="title text-left">
-																<ul class="list-inline">
-																	<li class="image">
-																	<a href="./product.html">
-																	<img src="./images/thumbnails/'. $images[0] .'" alt="'. $itemInfo['product_name'] .'">
-																	</a>
-																	</li>
-																	<li class="link">
-																	<a href="./product.html">
-																	<span class="title-5">'. $itemInfo['product_name'] .'</span>
-																	</a>
-																	<br>
-																	<span class="variant_title">Material: '. $itemInfo['material'] .'</span>
-																	<br>
-																	</li>
-																</ul>
-															</td>
-															<td class="title-1">
-																'. $price . '<br>' . $sale .'
-															</td>
-															<td>
-																<input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="'. $itemVal[2] .'">
-															</td>
-															<td class="total title-1">
-																€'. number_format($value * $itemVal[2], 2, ".", "") .'
-															</td>
-															<td class="action"><button type="submit" form="removeItemForm" name="removeItem" value="'. $item .'"><i class="fa fa-times"></i>Remove</button>
-															</td>
-														</tr>';
+													
 												}
 											}
 											?>

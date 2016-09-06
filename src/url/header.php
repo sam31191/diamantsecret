@@ -3,6 +3,10 @@ if ( session_status() == PHP_SESSION_NONE ) {
   session_start();
 }
 
+if ( $testSite && !isset($_SESSION['admin']) ) {
+   header("Location: ./under_construction/index.php");
+}
+
 if ( !isset($_SESSION['loggedIn']) ) {
   $_SESSION['loggedIn'] = false;
 }
@@ -29,7 +33,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
     <div class="container">
       <div class="top row">
       <div class="col-md-6 phone-shopping">
-        <span>PHONE SHOPING (01) 123 456 UJ</span>
+        <span>Phone: +32 3 298 58 66</span>
       </div>
       <div class="col-md-18">
         <ul class="text-right">
@@ -362,14 +366,15 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                                       <input name="unique_key" value="'. $cartItem[0] .'" hidden />
                                       <input name="quantity" value="'. $cartItem[2] .'" hidden />
                                       <input name="offset" value="'. $i .'" hidden />
+                                      <input name="size" value="'. $cartItem[1] .'" hidden />
                                       </form>
                                       <button class="cart-close" title="Remove" href="javascript:void(0);" style="background:transparent;" form="removeFromCart_'. $i .'" type="submit" name="removeFromCart"><i class="fa fa-times"></i></button>
                                       <div class="col-md-8 cart-left">
-                                        <a class="cart-image" href="./product.php?view='. $cartItemInfo['unique_key'] .'"><img src="./images/thumbnails/0.png" alt="" title=""></a>
+                                        <a class="cart-image"><img src="./images/thumbnails/0.png" alt="" title=""></a>
                                       </div>
                                       <div class="col-md-16 cart-right">
                                         <div class="cart-title">
-                                          <a href="./product.php?view='. $cartItemInfo['unique_key'] .'">Item Unavailable</small></a>
+                                          <a>Item Unavailable</small></a>
                                         </div>
                                         <div class="cart-price">
                                           € 0.0 <span class="x"> x </span>0

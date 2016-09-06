@@ -124,3 +124,34 @@ button.full-screen:hover {opacity: 1;}
 #arrow_left {
 	right:95px;
 }
+.input {
+    border: solid thin rgba(0, 0, 0, 0.5);
+    border-radius: 0px;
+    padding: 10px;
+    font-size: 13px;
+    display: block;
+    margin: 10px 5px;
+    width: 250px;
+    font-variant: small-caps;
+    background: rgba(0, 0, 0, 0.1);
+    transition: 0.5s all ease;
+    color: #EEEEEE;
+}
+.input:focus {
+    box-shadow: 0px 0px 40px -5px #FF9800;
+    outline: none;
+}
+.btn {
+    background-color: rgba(0,0,0,0.15);
+    margin: 10px;
+    padding: 8px 10px;
+    border: solid thin rgba(0, 0, 0, 0.52);
+    color: #EEEEEE;
+    font-variant: small-caps;
+    font-size: 12px;
+    transition: 0.5s all ease;
+}
+.btn:hover {
+	background-color: #FF9800;
+}
+
