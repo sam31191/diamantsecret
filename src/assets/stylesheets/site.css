@@ -28,11 +28,11 @@
     color: #a07936;
 }
 .megamenu-container-1 .sub-mega-menu {
-    background: #ffffff url(../../images/menu_image_1.png) no-repeat center bottom;
+    background: #ffffff url(../../images/gfx/menu_image_1.png) no-repeat center bottom;
     min-height: 490px;
 }
 .home-banner-wrapper {
-    background: url(../../images/home_banner_image.jpg) no-repeat center;
+    background: url(../../images/gfx/home_banner_image.jpg) no-repeat center;
     width: 100%;
     min-height: 500px;
     background-repeat: no-repeat;
@@ -177,4 +177,25 @@
 }
 .collection-link-list > ul > li {
     padding: 4px 0px !important;
+}
+.sale_banner {
+    z-index: 998;
+}
+.pagination > li > a, .pagination > li > span {
+    padding: 6px 12px;
+    line-height: 1.42857143;
+    text-decoration: none;
+    color: #a07936 !important;
+    background-color: #ffffff;
+    margin-left: -1px;
+    font-variant: small-caps;
+    font-weight: normal;
+    border-radius: 0 !important;
+}
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    z-index: 2;
+    color: #ffffff !important;
+    background-color: #a07936;
+    border-color: #a07936;
+    cursor: default;
 }

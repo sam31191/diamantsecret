@@ -29,31 +29,14 @@ set_include_path(get_include_path() . PATH_SEPARATOR . './PHPExcel/');
 include 'PHPExcel/IOFactory.php';
 
 $url='https://images.baunat.com/en/82414_CL-GW-R3-0030S_1_722x722/0-30-carat-solitaire-diamond-engagement-ring-in-white-gold';
-$ch=curl_init();
-$timeout=5;
 
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-$result=curl_exec($ch);
-$curlError = curl_error($ch);
-$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-curl_close($ch);
-
-if ( empty($curlError) ) {
-	if ( strpos($contentType, "image/") === false ) {
-		echo 'Invalid Image';
-	} else {
-		$ext = explode("/", $contentType);
-		file_put_contents("../images/test_" . "." . $ext[sizeof($ext) - 1], $result);
+$scr = scandir('../images/');
+foreach ( $scr as $file ) {
+	if ( strstr($file, "earring_") ) {
+		echo var_dump($file);
 	}
-} else {
-	echo $curlError;
 }
-
-
 
 /*
 if ( isset($_FILES['excel_sheet']) ) {

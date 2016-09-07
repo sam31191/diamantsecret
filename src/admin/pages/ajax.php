@@ -15,8 +15,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . '../PHPExcel/PHPExcel/');
 
 /** PHPExcel_IOFactory */
 include '../PHPExcel/PHPExcel/IOFactory.php';
-
-if ( isset($_GET['addSelected']) ) {
+if ( isset($_GET['importThis']) ) {
 	if ( file_exists($_SESSION['tmp_file']) ) {
 		$xlFile = $_SESSION['tmp_file'];
 		$PHPExcel = PHPExcel_IOFactory::load($xlFile);
@@ -28,107 +27,86 @@ if ( isset($_GET['addSelected']) ) {
 			echo "Sheet not found";
 		} else {
 			$products = $productSheet->toArray(null, true, true, true);
-			$toAdd = explode("_", $_GET['addSelected']);
-
-			$array = [];
-
-			array_push($array, $products[1]);
-
-			for ( $i = 1; $i <= sizeof($products); $i++ ) {
-				if ( in_array($i, $toAdd) ) {
-					array_push($array, $products[$i]);
-
-					/*foreach ($worksheet->getRowIterator() as $row) {
-				        $cellIterator = $row->getCellIterator();
-				        $cellIterator->setIterateOnlyExistingCells(true);
-				        foreach ($cellIterator as $cell) {
-				            if ($cell->getValue() == $searchValue) {
-				                $foundInCells[] = $ws . '!' . $cell->getCoordinate();
-				            }
-				        }
-				    }*/
-
-				}
-			}
+			//$toAdd = explode("_", $_GET['importThis']);
 
 			$error = "";
 
-			if ( sizeof($array[0]) !== 22 ) {
+			if ( sizeof($products[1]) !== 22 ) {
 				echo '<h4><div class="alert alert-error">Invalid Excel Format</div></h4><p>Please download the defined Excel Format and use that to input entries.</p><br><br><br><br>
 				<a class="btn btn-custom" href="../excel_files/format.xlsx">Download Format</a>';
 				return;
 			}
 
-			if ( !isset($array[0]['A']) || $array[0]['A'] !== "Company Id" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['A'] . "</strong><br>";
+			if ( !isset($products[1]['A']) || $products[1]['A'] !== "Company Id" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['A'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['B']) || $array[0]['B'] !== "Category Id" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['B'] . "</strong><br>";
+			if ( !isset($products[1]['B']) || $products[1]['B'] !== "Category Id" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['B'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['C']) || $array[0]['C'] !== "Internal Id" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['C'] . "</strong><br>";
+			if ( !isset($products[1]['C']) || $products[1]['C'] !== "Internal Id" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['C'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['D']) || $array[0]['D'] !== "Product Name"){
-				$error .= "Invalid Column: <strong>" . $array[0]['D'] . "</strong><br>";
+			if ( !isset($products[1]['D']) || $products[1]['D'] !== "Product Name"){
+				$error .= "Invalid Column: <strong>" . $products[1]['D'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['E']) || $array[0]['E'] !== "Amount" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['E'] . "</strong><br>";
+			if ( !isset($products[1]['E']) || $products[1]['E'] !== "Amount" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['E'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['F']) || $array[0]['F'] !== "Discount Percent" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['F'] . "</strong><br>";
+			if ( !isset($products[1]['F']) || $products[1]['F'] !== "Discount Percent" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['F'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['G']) || $array[0]['G'] !== "Pieces in stock" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['G'] . "</strong><br>";
+			if ( !isset($products[1]['G']) || $products[1]['G'] !== "Pieces in stock" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['G'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['H']) || $array[0]['H'] !== "Days for shipment" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['H'] . "</strong><br>";
+			if ( !isset($products[1]['H']) || $products[1]['H'] !== "Days for shipment" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['H'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['I']) || $array[0]['I'] !== "Total carat weight" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['I'] . "</strong><br>";
+			if ( !isset($products[1]['I']) || $products[1]['I'] !== "Total carat weight" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['I'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['J']) || $array[0]['J'] !== "No. of stones" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['J'] . "</strong><br>";
+			if ( !isset($products[1]['J']) || $products[1]['J'] !== "No. of stones" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['J'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['K']) || $array[0]['K'] !== "Diamond Shape" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['K'] . "</strong><br>";
+			if ( !isset($products[1]['K']) || $products[1]['K'] !== "Diamond Shape" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['K'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['L']) || $array[0]['L'] !== "Clarity" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['L'] . "</strong><br>";
+			if ( !isset($products[1]['L']) || $products[1]['L'] !== "Clarity" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['L'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['M']) || $array[0]['M'] !== "Color" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['M'] . "</strong><br>";
+			if ( !isset($products[1]['M']) || $products[1]['M'] !== "Color" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['M'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['N']) || $array[0]['N'] !== "Material" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['N'] . "</strong><br>";
+			if ( !isset($products[1]['N']) || $products[1]['N'] !== "Material" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['N'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['O']) || $array[0]['O'] !== "Height" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['O'] . "</strong><br>";
+			if ( !isset($products[1]['O']) || $products[1]['O'] !== "Height" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['O'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['P']) || $array[0]['P'] !== "Width" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['P'] . "</strong><br>";
+			if ( !isset($products[1]['P']) || $products[1]['P'] !== "Width" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['P'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['Q']) || $array[0]['Q'] !== "Length" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['Q'] . "</strong><br>";
+			if ( !isset($products[1]['Q']) || $products[1]['Q'] !== "Length" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['Q'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['R']) || $array[0]['R'] !== "Country Id" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['R'] . "</strong><br>";
+			if ( !isset($products[1]['R']) || $products[1]['R'] !== "Country Id" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['R'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['S']) || $array[0]['S'] !== "Ring subcategory" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['S'] . "</strong><br>";
+			if ( !isset($products[1]['S']) || $products[1]['S'] !== "Ring subcategory" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['S'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['T']) || $array[0]['T'] !== "Ring size" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['T'] . "</strong><br>";
+			if ( !isset($products[1]['T']) || $products[1]['T'] !== "Ring size" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['T'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['U']) || $array[0]['U'] !== "Images (comma \",\" separated)" ){
-				$error .= "Invalid Column: <strong>" . $array[0]['U'] . "</strong><br>";
+			if ( !isset($products[1]['U']) || $products[1]['U'] !== "Images (comma \",\" separated)" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['U'] . "</strong><br>";
 			}
-			if ( !isset($array[0]['V']) || $array[0]['V'] !== "Description" ) {
-				$error .= "Invalid Column: <strong>" . $array[0]['V'] . "</strong><br>";
+			if ( !isset($products[1]['V']) || $products[1]['V'] !== "Description" ) {
+				$error .= "Invalid Column: <strong>" . $products[1]['V'] . "</strong><br>";
 			}
 
 			if ( empty($error) ) {
 				$result = "";
-				for ( $i = 1; $i < sizeof($array); $i++ ) {
+				$i = $_GET['importThis'];
 					$uniqueKey = generateUniqueKey();
 					
 					while ( checkKey($uniqueKey, $pdo) ) {
@@ -138,13 +116,13 @@ if ( isset($_GET['addSelected']) ) {
 					$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, NOW())");
 						$addItem->execute(array(
 							":unique_key" => $uniqueKey,
-							":product_name" => $array[$i]['D'],
-							":product_price" => $array[$i]['E'],
-							":discount" => $array[$i]['F'],
-							":category" => $array[$i]['B']
+							":product_name" => $products[$i]['D'],
+							":product_price" => $products[$i]['E'],
+							":discount" => $products[$i]['F'],
+							":category" => $products[$i]['B']
 						));
 
-					switch ($array[$i]['B']) {
+					switch ($products[$i]['B']) {
 						case 1: {
 							$addInfo = $pdo->prepare("INSERT INTO `rings` 
 								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `ring_subcategory`, `ring_size`) 
@@ -152,25 +130,25 @@ if ( isset($_GET['addSelected']) ) {
 								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :ring_subcategory, :ring_size)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
-								":company_id" => $array[$i]['A'],
-								":internal_id" => $array[$i]['C'],
-								":product_name" => $array[$i]['D'],
-								":pieces_in_stock" => $array[$i]['G'],
-								":days_for_shipment" => $array[$i]['H'],
-								":total_carat_weight" => $array[$i]['I'],
-								":no_of_stones" => $array[$i]['J'],
-								":diamond_shape" => $array[$i]['K'],
-								":clarity" => $array[$i]['L'],
-								":color" => $array[$i]['M'],
-								":material" => $array[$i]['N'],
-								":height" => $array[$i]['O'],
-								":width" => $array[$i]['P'],
-								":length" => $array[$i]['Q'],
-								":country_id" => $array[$i]['R'],
+								":company_id" => $products[$i]['A'],
+								":internal_id" => $products[$i]['C'],
+								":product_name" => $products[$i]['D'],
+								":pieces_in_stock" => $products[$i]['G'],
+								":days_for_shipment" => $products[$i]['H'],
+								":total_carat_weight" => $products[$i]['I'],
+								":no_of_stones" => $products[$i]['J'],
+								":diamond_shape" => $products[$i]['K'],
+								":clarity" => $products[$i]['L'],
+								":color" => $products[$i]['M'],
+								":material" => $products[$i]['N'],
+								":height" => $products[$i]['O'],
+								":width" => $products[$i]['P'],
+								":length" => $products[$i]['Q'],
+								":country_id" => $products[$i]['R'],
 								":images" => "",
-								":description" => $array[$i]['V'],
-								":ring_subcategory" => $array[$i]['S'],
-								":ring_size" => $array[$i]['T']
+								":description" => $products[$i]['V'],
+								":ring_subcategory" => $products[$i]['S'],
+								":ring_size" => $products[$i]['T']
 							));
 
 
@@ -187,23 +165,23 @@ if ( isset($_GET['addSelected']) ) {
 								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
-								":company_id" => $array[$i]['A'],
-								":internal_id" => $array[$i]['C'],
-								":product_name" => $array[$i]['D'],
-								":pieces_in_stock" => $array[$i]['G'],
-								":days_for_shipment" => $array[$i]['H'],
-								":total_carat_weight" => $array[$i]['I'],
-								":no_of_stones" => $array[$i]['J'],
-								":diamond_shape" => $array[$i]['K'],
-								":clarity" => $array[$i]['L'],
-								":color" => $array[$i]['M'],
-								":material" => $array[$i]['N'],
-								":height" => $array[$i]['O'],
-								":width" => $array[$i]['P'],
-								":length" => $array[$i]['Q'],
-								":country_id" => $array[$i]['R'],
+								":company_id" => $products[$i]['A'],
+								":internal_id" => $products[$i]['C'],
+								":product_name" => $products[$i]['D'],
+								":pieces_in_stock" => $products[$i]['G'],
+								":days_for_shipment" => $products[$i]['H'],
+								":total_carat_weight" => $products[$i]['I'],
+								":no_of_stones" => $products[$i]['J'],
+								":diamond_shape" => $products[$i]['K'],
+								":clarity" => $products[$i]['L'],
+								":color" => $products[$i]['M'],
+								":material" => $products[$i]['N'],
+								":height" => $products[$i]['O'],
+								":width" => $products[$i]['P'],
+								":length" => $products[$i]['Q'],
+								":country_id" => $products[$i]['R'],
 								":images" => "",
-								":description" => $array[$i]['V']
+								":description" => $products[$i]['V']
 							));
 
 							
@@ -220,23 +198,23 @@ if ( isset($_GET['addSelected']) ) {
 								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
-								":company_id" => $array[$i]['A'],
-								":internal_id" => $array[$i]['C'],
-								":product_name" => $array[$i]['D'],
-								":pieces_in_stock" => $array[$i]['G'],
-								":days_for_shipment" => $array[$i]['H'],
-								":total_carat_weight" => $array[$i]['I'],
-								":no_of_stones" => $array[$i]['J'],
-								":diamond_shape" => $array[$i]['K'],
-								":clarity" => $array[$i]['L'],
-								":color" => $array[$i]['M'],
-								":material" => $array[$i]['N'],
-								":height" => $array[$i]['O'],
-								":width" => $array[$i]['P'],
-								":length" => $array[$i]['Q'],
-								":country_id" => $array[$i]['R'],
+								":company_id" => $products[$i]['A'],
+								":internal_id" => $products[$i]['C'],
+								":product_name" => $products[$i]['D'],
+								":pieces_in_stock" => $products[$i]['G'],
+								":days_for_shipment" => $products[$i]['H'],
+								":total_carat_weight" => $products[$i]['I'],
+								":no_of_stones" => $products[$i]['J'],
+								":diamond_shape" => $products[$i]['K'],
+								":clarity" => $products[$i]['L'],
+								":color" => $products[$i]['M'],
+								":material" => $products[$i]['N'],
+								":height" => $products[$i]['O'],
+								":width" => $products[$i]['P'],
+								":length" => $products[$i]['Q'],
+								":country_id" => $products[$i]['R'],
 								":images" => "",
-								":description" => $array[$i]['V']
+								":description" => $products[$i]['V']
 							));
 
 							
@@ -253,23 +231,23 @@ if ( isset($_GET['addSelected']) ) {
 								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
-								":company_id" => $array[$i]['A'],
-								":internal_id" => $array[$i]['C'],
-								":product_name" => $array[$i]['D'],
-								":pieces_in_stock" => $array[$i]['G'],
-								":days_for_shipment" => $array[$i]['H'],
-								":total_carat_weight" => $array[$i]['I'],
-								":no_of_stones" => $array[$i]['J'],
-								":diamond_shape" => $array[$i]['K'],
-								":clarity" => $array[$i]['L'],
-								":color" => $array[$i]['M'],
-								":material" => $array[$i]['N'],
-								":height" => $array[$i]['O'],
-								":width" => $array[$i]['P'],
-								":length" => $array[$i]['Q'],
-								":country_id" => $array[$i]['R'],
+								":company_id" => $products[$i]['A'],
+								":internal_id" => $products[$i]['C'],
+								":product_name" => $products[$i]['D'],
+								":pieces_in_stock" => $products[$i]['G'],
+								":days_for_shipment" => $products[$i]['H'],
+								":total_carat_weight" => $products[$i]['I'],
+								":no_of_stones" => $products[$i]['J'],
+								":diamond_shape" => $products[$i]['K'],
+								":clarity" => $products[$i]['L'],
+								":color" => $products[$i]['M'],
+								":material" => $products[$i]['N'],
+								":height" => $products[$i]['O'],
+								":width" => $products[$i]['P'],
+								":length" => $products[$i]['Q'],
+								":country_id" => $products[$i]['R'],
 								":images" => "",
-								":description" => $array[$i]['V']
+								":description" => $products[$i]['V']
 							));
 
 							
@@ -286,23 +264,23 @@ if ( isset($_GET['addSelected']) ) {
 								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
-								":company_id" => $array[$i]['A'],
-								":internal_id" => $array[$i]['C'],
-								":product_name" => $array[$i]['D'],
-								":pieces_in_stock" => $array[$i]['G'],
-								":days_for_shipment" => $array[$i]['H'],
-								":total_carat_weight" => $array[$i]['I'],
-								":no_of_stones" => $array[$i]['J'],
-								":diamond_shape" => $array[$i]['K'],
-								":clarity" => $array[$i]['L'],
-								":color" => $array[$i]['M'],
-								":material" => $array[$i]['N'],
-								":height" => $array[$i]['O'],
-								":width" => $array[$i]['P'],
-								":length" => $array[$i]['Q'],
-								":country_id" => $array[$i]['R'],
+								":company_id" => $products[$i]['A'],
+								":internal_id" => $products[$i]['C'],
+								":product_name" => $products[$i]['D'],
+								":pieces_in_stock" => $products[$i]['G'],
+								":days_for_shipment" => $products[$i]['H'],
+								":total_carat_weight" => $products[$i]['I'],
+								":no_of_stones" => $products[$i]['J'],
+								":diamond_shape" => $products[$i]['K'],
+								":clarity" => $products[$i]['L'],
+								":color" => $products[$i]['M'],
+								":material" => $products[$i]['N'],
+								":height" => $products[$i]['O'],
+								":width" => $products[$i]['P'],
+								":length" => $products[$i]['Q'],
+								":country_id" => $products[$i]['R'],
 								":images" => "",
-								":description" => $array[$i]['V']
+								":description" => $products[$i]['V']
 							));
 
 							
@@ -315,7 +293,7 @@ if ( isset($_GET['addSelected']) ) {
 						} 
 					}
 
-					switch ($array[$i]['B']) {
+					switch ($products[$i]['B']) {
 						case 1: {
 							$imgName = "ring";
 							break;
@@ -336,7 +314,7 @@ if ( isset($_GET['addSelected']) ) {
 
 					$intError = "";
 					$images = "";
-					$imageArray = explode(",", 	$array[$i]['U']);
+					$imageArray = explode(",", 	$products[$i]['U']);
 
 					for ( $j = 0; $j < sizeof($imageArray); $j++ ) {
 						$url = trim($imageArray[$j]);
@@ -354,7 +332,7 @@ if ( isset($_GET['addSelected']) ) {
 
 
 						$ch=curl_init();
-						$timeout=5;
+						$timeout=30;
 
 						curl_setopt($ch, CURLOPT_URL, $url);
 						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -375,48 +353,54 @@ if ( isset($_GET['addSelected']) ) {
 								$images .= basename($img) . ",";
 							}
 						} else {
-							if ( strrpos($curlError, "Connection timed out") === false ) {
-								$intError .= $curlError . '<br>' ;
-							} else {
+							if ( strstr($curlError, "Connection timed out") ) {
 								$intError .= 'Image took too long to download: ' . $url . '<br>' ;
+							} else if ( strstr($curlError, "malformed" ) ) {
+								$intError .= "Invalid Image URL";
+							} else {
+								$intError .= $curlError . '<br>' ;
 							}
 						}
 
 
 					}
 
-					switch ($array[$i]['B']) {
-					case 1: {
-						$updateImages = $pdo->prepare("UPDATE `rings` SET `images` = :images WHERE `unique_key` = :key");
-						break;
+					switch ($products[$i]['B']) {
+						case 1: {
+							$updateImages = $pdo->prepare("UPDATE `rings` SET `images` = :images WHERE `unique_key` = :key");
+							break;
+						}
+						case 2:	{
+							$updateImages = $pdo->prepare("UPDATE `earrings` SET `images` = :images WHERE `unique_key` = :key");
+							break;
+						}
+						case 3: {
+							$updateImages = $pdo->prepare("UPDATE `pendants` SET `images` = :images WHERE `unique_key` = :key");
+							break;
+						}
+						case 4: {
+							$updateImages = $pdo->prepare("UPDATE `necklaces` SET `images` = :images WHERE `unique_key` = :key");
+							break;
+						}
+						case 5: {
+							$updateImages = $pdo->prepare("UPDATE `bracelets` SET `images` = :images WHERE `unique_key` = :key");
+							break;
+						}
 					}
-					case 2:	{
-						$updateImages = $pdo->prepare("UPDATE `earrings` SET `images` = :images WHERE `unique_key` = :key");
-						break;
-					}
-					case 3: {
-						$updateImages = $pdo->prepare("UPDATE `pendants` SET `images` = :images WHERE `unique_key` = :key");
-						break;
-					}
-					case 4: {
-						$updateImages = $pdo->prepare("UPDATE `necklaces` SET `images` = :images WHERE `unique_key` = :key");
-						break;
-					}
-					case 5: {
-						$updateImages = $pdo->prepare("UPDATE `bracelets` SET `images` = :images WHERE `unique_key` = :key");
-						break;
-					}
-				}
-				$updateImages->execute(array(":images" => $images, ":key" => $uniqueKey));
+					$updateImages->execute(array(":images" => $images, ":key" => $uniqueKey));
 
 
 					if ( empty($intError) ) {
 						$intError = "None";
 					}
-					$result .= "<tr><td>Added New Entry: " . $array[$i]['D'] . "</td><td>" . $intError .  "</td></tr>";
-				}
+					//$result .= "<tr><td>Added New Entry: " . $products[$i]['D'] . "</td><td>" . $intError .  "</td></tr>";
 
-				echo "<h4><div class='alert alert-success'>Success</div></h4><table class='table table-condensed table-custom'><thead><th>Entry</th><th>Errors</th></thead><tbody>" . $result . "</tbody></table>" . (sizeof($array) - 1) . " New Entries";
+					$result = [];
+
+					array_push($result, $products[$i]['D']);
+					array_push($result, $intError);
+					array_push($result, $i);
+					echo json_encode($result);
 
 			} else {
 				echo '<h4>Import Failed</h4><br>'. $error . "<br>Please Fix The Errors and Try to Import Again";
@@ -427,6 +411,7 @@ if ( isset($_GET['addSelected']) ) {
 	} else {
 		echo "Error: File Invalid";
 	}
+
 } else if ( isset($_GET['exportSelected']) ) {
 	echo $_GET['exportSelected'];
 
@@ -565,7 +550,46 @@ if ( isset($_GET['addSelected']) ) {
 
 	echo '<h4><div class="alert alert-success">Export Successful</div></h4><br><br><p>Backup Created: ' . basename($file . $ext) . '<br><br><a class="btn btn-custom" href="../excel_files/'. $file . $ext .'">Download</a>';
 
-} else {
+} else if ( isset($_GET['getInfo']) ) {
+	$fetchItem = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
+	$fetchItem->execute(array(":key" => $_GET['getInfo']));
+	if ( $fetchItem->rowCount() > 0 ) {
+		$item = $fetchItem->fetch(PDO::FETCH_ASSOC);
+		switch ($item['category']) {
+			case 1: {
+				$fetchInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :key");
+				$fetchInfo->execute(array(":key" => $_GET['getInfo']));
+				$info = $fetchInfo->fetch(PDO::FETCH_ASSOC);
+				break;
+			} case 2: {
+				$fetchInfo = $pdo->prepare("SELECT * FROM `earrings` WHERE `unique_key` = :key");
+				$fetchInfo->execute(array(":key" => $_GET['getInfo']));
+				$info = $fetchInfo->fetch(PDO::FETCH_ASSOC);
+				break;
+			} case 3: {
+				$fetchInfo = $pdo->prepare("SELECT * FROM `pendants` WHERE `unique_key` = :key");
+				$fetchInfo->execute(array(":key" => $_GET['getInfo']));
+				$info = $fetchInfo->fetch(PDO::FETCH_ASSOC);
+				break;
+			} case 4: {
+				$fetchInfo = $pdo->prepare("SELECT * FROM `necklaces` WHERE `unique_key` = :key");
+				$fetchInfo->execute(array(":key" => $_GET['getInfo']));
+				$info = $fetchInfo->fetch(PDO::FETCH_ASSOC);
+				break;
+			} case 5: {
+				$fetchInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :key");
+				$fetchInfo->execute(array(":key" => $_GET['getInfo']));
+				$info = $fetchInfo->fetch(PDO::FETCH_ASSOC);
+				break;
+			}
+		}
+
+		echo json_encode(array_merge($info, $item));
+	} else {
+		echo 'Item Not Found';
+	}
+
+}else {
 	echo "GET not SET";
 }
 

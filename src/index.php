@@ -112,7 +112,7 @@ if ( isset($_POST['addToCart']) ) {
 			<!-- Main Slideshow -->
 			<div class="home-slider-wrapper clearfix">
 				<div class="camera_wrap" id="home-slider">
-					<div data-src="./images/slide-image-1.jpg">
+					<div data-src="./images/gfx/slide-image-1.jpg">
 						<div class="camera_caption camera_title_1 fadeIn">
 						  <a href="./collection.php" style="color:#010101;">Live the moment</a>
 						</div>
@@ -120,26 +120,26 @@ if ( isset($_POST['addToCart']) ) {
 							people of class deserve the classiest of Jewels
 						</div>
 						<div class="camera_caption camera_image-caption_1 moveFromLeft">
-							<img src="./images/slide-image-caption-1.png" alt="image_caption">
+							<img src="./images/gfx/slide-image-caption-1.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
 							<a href="./collection.php" class="btn">See Collection</a>
 						</div>
 					</div>
-					<div data-src="./images/slide-image-2.jpg">
+					<div data-src="./images/gfx/slide-image-2.jpg">
 						<div class="camera_caption camera_title_2 moveFromLeft">
 						  <a href="./collection.php" style="color:#666666;">Love’s embrace</a>
 						</div>
 						<div class="camera_caption camera_image-caption_2 moveFromLeft" style="visibility: hidden;">
-							<img src="./images/slide-image-caption-2.png" alt="image_caption">
+							<img src="./images/gfx/slide-image-caption-2.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
 							<a href="./collection.php" class="btn">See Collection</a>
 						</div>
 					</div>
-					<div data-src="./images/slide-image-3.jpg">
+					<div data-src="./images/gfx/slide-image-3.jpg">
 						<div class="camera_caption camera_image-caption_3 moveFromLeft">
-							<img src="./images/slide-image-caption-3.png" alt="image_caption">
+							<img src="./images/gfx/slide-image-caption-3.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
 							<a href="./collection.php" class="btn">See Collection</a>
@@ -163,7 +163,7 @@ if ( isset($_POST['addToCart']) ) {
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
 																			<a href="./collection.php" title="Browse our Rings">
-																				<img src="./images/ring_270x270.png" alt="Rings">
+																				<img src="./images/gfx/ring_270x270.png" alt="Rings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
@@ -178,7 +178,7 @@ if ( isset($_POST['addToCart']) ) {
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
 																			<a href="./collection.php" title="Browse our Earrings">
-																			<img src="./images/earring_270x270.png" alt="Earrings">
+																			<img src="./images/gfx/earring_270x270.png" alt="Earrings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
@@ -193,7 +193,7 @@ if ( isset($_POST['addToCart']) ) {
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
 																			<a href="./collection.php" title="Browse our Pendants">
-																			<img src="./images/pendant_270x270.png" alt="Pendants">
+																			<img src="./images/gfx/pendant_270x270.png" alt="Pendants">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
@@ -208,7 +208,7 @@ if ( isset($_POST['addToCart']) ) {
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
 																			<a href="./collection.php" title="Browse our Necklaces">
-																			<img src="./images/necklace_270x270.png" alt="Necklaces">
+																			<img src="./images/gfx/necklace_270x270.png" alt="Necklaces">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
@@ -223,7 +223,7 @@ if ( isset($_POST['addToCart']) ) {
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
 																			<a href="./collection.php" title="Browse our Bracelets">
-																				<img src="./images/bracelet_270x270.png" alt="Bracelets">
+																				<img src="./images/gfx/bracelet_270x270.png" alt="Bracelets">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
@@ -376,7 +376,7 @@ if ( isset($_POST['addToCart']) ) {
 						<div class="home-banner-wrapper">
 							<div class="container">
 								<div id="home-banner" class="text-center clearfix">
-									<img class="pulse img-banner-caption" src="./images/home_banner_image_text.png" alt="">
+									<img class="pulse img-banner-caption" src="./images/gfx/home_banner_image_text.png" alt="">
 									<div class="home-banner-caption">
 										<p>
 											Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br>

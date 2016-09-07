@@ -44,9 +44,8 @@
         	<a href="javascript:void(0);"><span id="uploadDivCloseIcon" class="fa fa-close" style="font-size: 20px; margin: 20px; right: 0px; position: absolute; color: #F44336;" onclick="$('#uploadDiv').toggle();" data-toggle="tooltip" data-placement="bottom" title="Close"></span></a>
 
         		
-        	<div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 300px; margin-left: -400px; margin-top: -150px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
-	        	<img src="../../images/cube.gif">
-	        	<h5 style="    position: absolute; top: 0; font-style: italic;">Importing ...</h5>
+        	<div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 400px; margin-left: -400px; margin-top: -200px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
+	        	<h4><div class='alert alert-info' style="position: fixed;">Importing <span id="importedItems">0</span>/<span id="totalItems">0</span></div></h4><table class='table table-condensed table-custom' style="table-layout: fixed; word-wrap: break-word;"><thead><th style="width: 30px;">#</th><th style="width: 60%;">Entry</th><th>Errors</th></thead><tbody id="resultTable"></tbody></table>
         	</div>
         </div>
 
@@ -73,13 +72,12 @@
 	        	<div  style="border:solid thin #ccc; padding:5px; margin:5px;">
 	        		<h4></h4>
 	        		<?php
-	        			unset($_SESSION['tmp_file']);
 	        			//echo var_dump($_FILES);
 	        			if ( isset($_FILES['excel']) ) {
 		        			if ( $_FILES['excel']['error'] == 0 && $_FILES['excel']['type'] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ) {
 		        				echo '
 						        	<div style="float:right;">
-						        		<button class="btn btn-info" onclick="importSelected()">Import Selected (<span class="selected-num">0</span>)</button>
+						        		<button class="btn btn-info" onclick="importThis()">Import Selected (<span class="selected-num">0</span>)</button>
 						        	</div>';
 						        	#<button class="btn btn-info" onclick="importAll()">Import All</button> 
 
@@ -116,6 +114,7 @@
 									}
 									echo '</tbody>';
 									echo '</table>';
+									$_SESSION['tmp_file'] = "../excel_files/tmp_db" . "." . pathinfo($_FILES['excel']['name'], PATHINFO_EXTENSION);
 								}
 		        			} else {
 		        				echo '<div class="alert alert-error" style="font-variant:small-caps;">Error: File not valid</div>';
@@ -200,53 +199,65 @@ function bulkRemoveItems() {
 	$("#promptBulkRemoveModal").modal("toggle");
 }
 
-function importSelected() {
-	alert("Importing Selected");
-
-	var selected = "";
-	$(".select-checkbox").each(function (index, element) {
-		if ( $(element).is(":checked") ) {
-			//console.log($(element).attr("id"));
-			selected += $(element).val() + "_";
+function importThis(){
+	
+	count = 0;
+	$('#resultTable').html("");
+	$('#importedItems').text(0);
+	$(".select-checkbox").each(function (index, elemCount) {
+		if ( $(elemCount).is(":checked") ) {
+			count++;
 		}
 	});
+	$(".select-checkbox").each(function (index, elem) {
+		$('#totalItems').html(count);
+		if ( $(elem).is(":checked") ) {
+			//console.log($(element).attr("id"));
+			id = $(elem).val();
+			$.ajax({
+				url: './ajax.php?importThis=' + $(elem).val(),
+				type: 'GET',
+			    beforeSend: function() {
+			    	$('#uploadDiv').show();
+			    	$('#uploadDivCloseIcon').hide();
+					console.log(id);
+			    	$('#resultTable').append('<tr><td>'+ index +'</td><td id="row_'+ id +'_result">Loading</td><td id="row_'+ id +'_error"><img style="width:24px" src="../../images/gfx/cube.gif"></td></tr>');
+	        	
+			    },
+			    complete: function(result) {
+					$('#importedItems').text(parseInt($('#importedItems').text()) + 1);
+			    	if ( $('#totalItems').text() == $('#importedItems').text() ) {
+				    	$('#uploadDivCloseIcon').show();
+				    }
+					console.log("JSON Complete");
+					console.log(result);
 
-	console.log(selected);
+			    },
+				success: function(result) {
+					console.log("JSON Success");
 
-	$.ajax({
-		url: './ajax.php?addSelected=' + selected,
-		type: 'GET',
-		xhr: function() {
-	        var xhr = new window.XMLHttpRequest();
-	        xhr.upload.addEventListener("progress", function(evt) {
-	            if (evt.lengthComputable) {
-	                var percentComplete = evt.loaded / evt.total;
-	                //console.log(percentComplete);
-	            }
-	       }, false);
-
-	       xhr.addEventListener("progress", function(evt) {
-	           if (evt.lengthComputable) {
-	               var percentComplete = evt.loaded / evt.total;
-	               //console.log(percentComplete);
-	           }
-	       }, false);
-
-	       return xhr;
-	    },
-	    beforeSend: function() {
-	    	$('#uploadDiv').show();
-	    	$('#resultDiv').html('<img src="../../images/cube.gif"><h5 style="position: absolute; top: 0; font-style: italic;">Importing ...</h5>');
-	    	$('#uploadDivCloseIcon').hide();
-	    },
-	    complete: function() {
-	    	$('#uploadDivCloseIcon').show();
-	    },
-		success: function(result) {
-			console.log("JSON RESULT");
-			console.log(result);
-			$("#uploadDiv").show();
-			$("#resultDiv").html(result);
+					console.log(result);
+					/*if ( result === String ) {
+						
+					} else {
+						
+					}*/
+					try {
+						JSON.parse(result);
+						result = JSON.parse(result);
+						console.log(result);
+						$("#uploadDiv").show();
+						$("#row_"+ result[2] +"_result").html(result[0]);
+						$("#row_"+ result[2] +"_error").html(result[1]);
+					} catch (e) {
+						$('#resultDiv').html(result);
+					}
+				},
+				failure: function (error) {
+					console.log("JSON Error");
+					console.log(error);
+				},
+			});
 		}
 	});
 }

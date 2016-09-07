@@ -91,7 +91,7 @@
 		                	<th>Discount</th>
 		                	<th>Stock</th>
 		                	<th>Shipment Days</th>
-		                	<th>Carat Weigt</th>
+		                	<th>Carat Weight</th>
 		                	<th># of Stones</th>
 		                	<th>Diamond Shape</th>
 		                	<th>Clarity</th>

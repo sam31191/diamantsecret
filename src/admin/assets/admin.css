@@ -448,3 +448,34 @@ input[type=file] {
 	font-variant: small-caps;
 	border-radius: 0;
 }
+.pagination>li>a, .pagination>li>span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0px !important;
+    background: transparent;
+    font-variant: small-caps;
+    transition: 0.3s all ease;
+}
+.pagination>li>a:hover, .pagination>li>span:hover {
+	background:#607d8b;
+	border-color:#607d8b;
+	color:white;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #607d8b;
+    border-color: #607d8b;
+}
+.dropdown-menu>li>a {
+    color: #5A738E;
+    padding: 6px 15px;
+}

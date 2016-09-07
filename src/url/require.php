@@ -3,7 +3,8 @@
 	$dbname = "website";
 	$user = "root";
 	$pass = "";
-	$testSite = true;
+	$testSite = false;
+	$HASH = "diamantSECRET123";
 
 	if ( session_status() == PHP_SESSION_NONE ) {
 		session_start();

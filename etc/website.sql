@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2016 at 07:54 PM
+-- Generation Time: Sep 07, 2016 at 09:58 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -38,18 +38,21 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `favorites` varchar(128) NOT NULL,
   `type` int(11) NOT NULL DEFAULT '0' COMMENT '0:Standard User, 1:Admin',
   `cart` varchar(128) NOT NULL,
+  `activated` int(11) NOT NULL,
+  `verification_hash` varchar(128) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Email` (`email`,`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`id`, `email`, `username`, `password`, `first_name`, `last_name`, `mobileno`, `address`, `favorites`, `type`, `cart`) VALUES
-(1, 'test@test', 'Test', 'test', '', '', 0, '', '', 0, ''),
-(15, 'admin@admin', 'Admin', 'admin', '', '', 0, '', ',v0JWl654E4,t9D08940x9', 1, ''),
-(19, 'user@user', 'User', 'user', 'John', 'Doe', 911, '404 Not Found', ',24TGoOjMXC,Vgg21LyVRF', 0, '');
+INSERT INTO `accounts` (`id`, `email`, `username`, `password`, `first_name`, `last_name`, `mobileno`, `address`, `favorites`, `type`, `cart`, `activated`, `verification_hash`) VALUES
+(1, 'test@test', 'Test', 'test', '', '', 0, '', '', 0, '', 0, ''),
+(15, 'admin@admin', 'Admin', 'admin', 'John', 'Doe', 1234567890, 'Flat No, Street, Town, State, 100001', ',XexhyabRGD,HswwSXW5mj', 1, 'HswwSXW5mj|50|4,', 1, ''),
+(19, 'user@user', 'User', 'user', 'John', 'Doe', 911, '404 Not Found', ',24TGoOjMXC,Vgg21LyVRF', 0, '', 0, ''),
+(27, 'ryan.bhanwra@yahoo.com', 'Ryan', 'testtest', 'John', 'Doe', 123456789, '', '', 0, '', 0, '51c6c8906e93ec9280633e4e96e9977b');
 
 -- --------------------------------------------------------
 
@@ -80,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `bracelets` (
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_key` (`unique_key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -185,14 +188,7 @@ CREATE TABLE IF NOT EXISTS `earrings` (
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_key` (`unique_key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
-
---
--- Dumping data for table `earrings`
---
-
-INSERT INTO `earrings` (`id`, `unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `date_added`) VALUES
-(14, 'NCWpJmycHi', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'earring_14_0.jpg,earring_14_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', '0000-00-00 00:00:00');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -211,46 +207,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`unique_key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=385 ;
-
---
--- Dumping data for table `items`
---
-
-INSERT INTO `items` (`id`, `unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, `date_added`) VALUES
-(352, 'SVDRzRqZb5', 'White Gold Ring', '100.00', '0', 1, 1, '2016-09-06 20:16:04'),
-(353, 'NCWpJmycHi', 'White Gold Ring', '100.00', '0', 2, 1, '2016-09-06 20:16:21'),
-(354, 'eiF0I26Bdg', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 21:30:55'),
-(355, 'zrpZTl8IQ0', 'White Gold Ring', '100', '20', 1, 1, '2016-09-06 22:13:04'),
-(356, '6C1aEcx1Co', 'White Gold Ring', '100', '20', 1, 1, '2016-09-06 22:13:51'),
-(357, 'WhmFmcJ0nt', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:14:33'),
-(358, '3S5jbf5srA', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:15:37'),
-(359, 't6IRPZixfk', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:16:04'),
-(360, '4BkPnuaJ2b', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:16:22'),
-(361, 'mJoaZ3jpFr', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:17:37'),
-(362, '8ls4HZZGlL', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:17:54'),
-(363, 'kvUG5fKbl8', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:37:23'),
-(364, 'HfIS7kgGQq', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:39:48'),
-(365, 'BicZPU3Yxg', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:39:59'),
-(366, 'KSNz7DeyvK', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:40:09'),
-(367, 'UpKarTdnVb', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:40:20'),
-(368, 'JkW1EuzDNQ', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:40:31'),
-(369, 'rIxQDvHtJI', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:40:41'),
-(370, 'DcQzbYyMGh', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:40:52'),
-(371, 'Wy06DDsSHe', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:41:02'),
-(372, 'UAK3GHQkEb', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:41:12'),
-(373, 'CL8w9BYE1x', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:41:22'),
-(374, 'x4lOEKH7E8', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:41:32'),
-(375, 'cHocpfeqr0', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:41:42'),
-(376, 'YGrkJjD4n7', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:53:04'),
-(377, 'tQmbdtF5zi', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:53:06'),
-(378, 'KWJczkstBl', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:53:08'),
-(379, 'W0PBT7IazE', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:53:09'),
-(380, 'dDEYO7nTtc', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:53:11'),
-(381, 'sMEY7sl24i', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:53:12'),
-(382, 'Ztw7zTehzn', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:53:14'),
-(383, 'nCVwHt8qpG', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:53:15'),
-(384, '9FdCrnm6Z6', 'White Gold Ring', '100', '20', 1, 0, '2016-09-06 22:53:17');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -287,6 +244,17 @@ CREATE TABLE IF NOT EXISTS `moderator_login` (
   `login_ip` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `moderator_login`
+--
+
+INSERT INTO `moderator_login` (`username`, `last_login`, `login_ip`) VALUES
+('Admin', '2016-09-07 13:50:36', '::1'),
+('Admin', '2016-09-07 13:55:54', '::1'),
+('Admin', '2016-09-07 23:33:06', '::1'),
+('Admin', '2016-09-08 00:17:36', '::1'),
+('Admin', '2016-09-08 00:40:40', '::1');
+
 -- --------------------------------------------------------
 
 --
@@ -316,7 +284,7 @@ CREATE TABLE IF NOT EXISTS `necklaces` (
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_key` (`unique_key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -347,7 +315,7 @@ CREATE TABLE IF NOT EXISTS `pendants` (
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_key` (`unique_key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -380,45 +348,7 @@ CREATE TABLE IF NOT EXISTS `rings` (
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_key` (`unique_key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=339 ;
-
---
--- Dumping data for table `rings`
---
-
-INSERT INTO `rings` (`id`, `unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `ring_subcategory`, `ring_size`, `date_added`) VALUES
-(307, 'SVDRzRqZb5', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_307_0.jpg,ring_307_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(308, 'eiF0I26Bdg', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_308_0.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(309, 'zrpZTl8IQ0', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_309_0.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(310, '6C1aEcx1Co', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_310_0.jpg,ring_310_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(311, 'WhmFmcJ0nt', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_311_0.jpg,ring_311_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(312, '3S5jbf5srA', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_312_0.jpg,ring_312_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(313, 't6IRPZixfk', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_313_0.jpg,ring_313_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(314, '4BkPnuaJ2b', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_314_0.jpg,ring_314_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(315, 'mJoaZ3jpFr', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_315_0.jpg,ring_315_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(316, '8ls4HZZGlL', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_316_0.jpg,ring_316_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(317, 'kvUG5fKbl8', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_317_0.jpg,ring_317_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(318, 'HfIS7kgGQq', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_318_0.jpg,ring_318_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(319, 'BicZPU3Yxg', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_319_0.jpg,ring_319_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(320, 'KSNz7DeyvK', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_320_0.jpg,ring_320_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(321, 'UpKarTdnVb', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_321_0.jpg,ring_321_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(322, 'JkW1EuzDNQ', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_322_0.jpg,ring_322_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(323, 'rIxQDvHtJI', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_323_0.jpg,ring_323_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(324, 'DcQzbYyMGh', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_324_0.jpg,ring_324_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(325, 'Wy06DDsSHe', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_325_0.jpg,ring_325_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(326, 'UAK3GHQkEb', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_326_0.jpg,ring_326_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(327, 'CL8w9BYE1x', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_327_0.jpg,ring_327_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(328, 'x4lOEKH7E8', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_328_0.jpg,ring_328_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(329, 'cHocpfeqr0', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, '', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(330, 'YGrkJjD4n7', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_330_0.jpg,ring_330_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(331, 'tQmbdtF5zi', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_331_0.jpg,ring_331_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(332, 'KWJczkstBl', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_332_0.jpg,ring_332_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(333, 'W0PBT7IazE', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_333_0.jpg,ring_333_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(334, 'dDEYO7nTtc', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_334_0.jpg,ring_334_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(335, 'sMEY7sl24i', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_335_0.jpg,ring_335_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(336, 'Ztw7zTehzn', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_336_0.jpg,ring_336_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(337, 'nCVwHt8qpG', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_337_0.jpg,ring_337_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00'),
-(338, '9FdCrnm6Z6', 1, 'RFE-XX1E', 'White Gold Ring', 10, 15, '1.2', 5, 1, 'VVS1', 1, 1, '10', '20', '10', 4, 'ring_338_0.jpg,ring_338_1.jpg,', 'Precious white gold ring for with 1 main stone + 4 side stones. Suitable for anniversary, birthday or any other occasion.', 4, '50', '0000-00-00 00:00:00');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

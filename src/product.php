@@ -407,7 +407,7 @@ pconsole($_POST);
 										<div class="prod-related clearfix">
 										
 													<?php
-													$fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat");
+													$fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat LIMIT 10");
 													$fetchFeatured->execute(array(":cat" => $item['category']));
 
 													$featuredItems = $fetchFeatured->fetchAll();
@@ -525,6 +525,99 @@ pconsole($_POST);
 
 	<?php include './url/footer.php'; ?>
 </body>
+
+<div id="quick-shop-modal" class="modal in" role="dialog" aria-hidden="false" tabindex="-1" data-width="800">
+		<div class="modal-backdrop in" style="height: 742px;">
+		</div>
+		<div class="modal-dialog rotateInDownLeft animated">
+			<div class="modal-content" style="min-height: 0px;">
+				<div class="modal-header">
+					<i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="modal" aria-hidden="true" data-original-title="Close"></i>
+				</div>
+				<div class="modal-body">
+					<div class="quick-shop-modal-bg" style="display: none;">
+					</div>
+					<div class="row">
+						<div class="col-md-12 product-image">
+							<div id="quick-shop-image" class="product-image-wrapper">
+								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="./assets/images/demo_354x354.png" data-zoom-image="./assets/images/demo_354x354.png" alt=""/></a>
+								<div id="gallery_main_qs" class="product-image-thumb">
+								</div>	
+							</div>
+						</div>
+						<div class="col-md-12 product-information">
+							<h1 id="quick-shop-title"><span> <a href="/products/curabitur-cursus-dignis">Curabitur cursus dignis</a></span></h1>
+							<div id="quick-shop-infomation" class="description">
+								<div id="quick-shop-description" class="text-left">
+									<p>
+										Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum.
+									</p>
+									<p>
+										Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor s...
+									</p>
+								</div>
+							</div>
+							<div id="quick-shop-container">
+								<div id="quick-shop-relative" class="relative text-left">
+									<ul class="list-unstyled">
+										<li class="control-group vendor">
+										<span class="control-label">Vendor :</span><a href="/collections/vendors?q=Vendor+1"> Vendor 1</a>
+										</li>
+										<li class="control-group type">
+										<span class="control-label">Type :</span><a href="/collections/types?q=Sweaters+Wear"> Sweaters Wear</a>
+										</li>
+									</ul>
+								</div>
+								<form method="post" enctype="multipart/form-data">
+									<div id="quick-shop-price-container" class="detail-price">
+										
+									</div>
+									<div class="quantity-wrapper clearfix">
+										<label class="wrapper-title">Quantity</label>
+										<div class="wrapper">
+											<input type="text" id="qs-quantity" size="5" class="item-quantity" name="quantity" value="1">
+											<span class="qty-group">
+											<span class="qty-wrapper">
+											<span class="qty-up" title="Increase" data-src="#qs-quantity">
+											<i class="fa fa-plus"></i>
+											</span>
+											<span class="qty-down" title="Decrease" data-src="#qs-quantity">
+											<i class="fa fa-minus"></i>
+											</span>
+											</span>
+											</span>
+										</div>
+									</div>
+                
+                                    <label class="label-quick-shop">Material <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label>
+                                    <input id="quick-shop-material-value" name="material" hidden />
+                                    <div class="input-group" id="quick-shop-material">
+                                    	<a class="btn material-badge" name="1">Yellow Gold</a>
+                                    	<a class="btn material-badge" name="2">White Gold</a>
+                                    	<a class="btn material-badge" name="3">Pink Gold</a>
+                                    	<a class="btn material-badge" name="4">Silver</a>
+                                    	<a class="btn material-badge" name="5">Platinum</a>
+                                    </div>
+                                    <div id="quick-shop-size">
+	                                    <label class="label-quick-shop">Size <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label> 
+	                                    <input id="quick-shop-size-value" name="size" value="0" hidden />
+	                                    <div class="input-group" id="quick-shop-size-container">
+	                                    	<!-- Sizes go here -->
+	                                    </div>
+	                                </div>
+                                    
+                                    <input id="quick-shop-unique-key" name="unique_key" hidden />
+                                    <button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;">Add to Cart</button>
+                                    
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 <script>
 
 function addToWishlist(key) {
@@ -557,6 +650,101 @@ function addToWishlist(key) {
 	  	}
 	xmlhttp.open("GET","url/ajax.php?addtoFav="+key,true);
 	xmlhttp.send();
+}
+function quickShop(id) {
+	if (id == "") {
+		document.getElementById("quick-shop-modal").innerHTML = "";
+		return;
+	} else { 
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = JSON.parse(xmlhttp.responseText);
+				console.log(result);
+				images = result['images'].split(",");
+				//$("#quick-shop-modal").html(xmlhttp.responseText);
+				//console.log(xmlhttp.responseText);
+				//Item Image
+				if ( result['images'] == "" ) {
+					images[0] = "0.png";
+				}	
+				$("#quick-shop-image .main-image img").attr("src", "./images/" + images[0]);
+				
+				//Remove old Thumbs if any
+				var currentThumbs = $(".image-thumb").length;
+				for (var i = 0; i < currentThumbs; i++ ) {
+					//console.log("1 Item Removed");
+					$('#gallery_main_qs').owlCarousel().data('owlCarousel').removeItem();
+				}
+				//Item Thumbnals
+				for ( var i = 0; i < images.length-1; i++ ) {
+					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/'+ images[i] +'" ><img src="./images/thumbnails/'+ images[i] +'" alt=""/></a>';
+					//console.log("1 Item Added");
+					$('#gallery_main_qs').owlCarousel().data('owlCarousel').addItem(content);
+					$('.owl-item').toggleClass('show-item');
+				}
+				//Item Name
+				$("#quick-shop-title a").text(result['item_name']);
+				
+				//Desc
+				$("#quick-shop-description").html(result['description']);
+				
+				//Price
+				if ( result['discount'] > 0 ) {
+					discount = result['item_value'] - ( (result['discount'] / 100 ) * result['item_value']);
+					price = '<span class="price_sale">€'+ discount.toFixed(2) +'</span><span class="dash">/</span><del class="price_compare">€'+ result['item_value'] +'</del>';
+				} else {
+					price = '<span class="price">€'+ result['item_value'] +'</span><span class="dash">';
+				}
+				$("#quick-shop-price-container").html(price);
+
+				//Quantity 
+				$("#qs-quantity").attr("max", result['pieces_in_stock']);
+				
+				//Material
+				$("#material-carat").text(result['total_carat_weight'] + " ct.");
+				$("#quick-shop-material a").each(function(index, element) {
+					//alert ($(element).attr("name"));
+					if ( $(element).attr("name") !== result['material'] ) {
+						$(element).attr("disabled", true);
+					} else {
+						$(element).attr("disabled", false);
+					}
+                });
+				
+				//Size
+				if ( result['category'] == 1 ) {
+					sizehtml = "";
+					sizes = result['ring_size'].split(",");
+					//console.log(sizes);
+					for ( var i = 0; i < sizes.length; i++ ) {
+						if ( i == 0 ) {
+							sizehtml += '<a class="btn size-badge size-badge-active" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
+							$("#quick-shop-size-value").val(sizes[i]);
+						} else {
+							sizehtml += '<a class="btn size-badge" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
+						}
+					}
+					//console.log(sizehtml);
+					$("#quick-shop-size-container").html(sizehtml);
+					$("#quick-shop-size").show();
+				} else {
+					$("#quick-shop-size").hide();
+				}
+
+				$("#quick-shop-unique-key").val(result['unique_key']);
+				$("#quick-shop-modal").modal("toggle");
+			}
+		};
+		xmlhttp.open("GET","./url/fetch_item_info.php?id="+id, true);
+		xmlhttp.send();
+	}
 }
 function removeFromWishlist(key) {
   if (window.XMLHttpRequest) {

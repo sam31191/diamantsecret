@@ -45,31 +45,31 @@ if ( isset($_GET['sortBy']) ) {
 
 	switch ($_GET['sortBy']) {
 		case 'price-ascending':{
-			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `item_value` ASC");
+			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `item_value` ASC LIMIT 15");
 			break;
 		}
 		case 'price-descending':{
-			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `item_value` DESC");
+			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `item_value` DESC LIMIT 15");
 			break;
 		}
 		case 'title-ascending':{
-			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `item_name` ASC");
+			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `item_name` ASC LIMIT 15");
 			break;
 		}
 		case 'title-descending':{
-			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `item_name` DESC");
+			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `item_name` DESC LIMIT 15");
 			break;
 		}
 		case 'created-ascending':{
-			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `date_added` ASC");
+			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `date_added` ASC LIMIT 15");
 			break;
 		}
 		case 'created-descending':{
-			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `date_added` DESC");
+			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `date_added` DESC LIMIT 15");
 			break;
 		}
 		default : {
-			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `featured` DESC");
+			$sort = $pdo->prepare("SELECT * FROM `items` ORDER BY `featured` DESC LIMIT 15");
 			break;
 		}
 	}
@@ -254,31 +254,31 @@ if ( isset($_GET['sortCategoryBy']) ) {
 	
 	switch ($_GET['sortCategoryBy']) {
 		case 'price-ascending':{
-			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `item_value` ASC");
+			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `item_value` ASC LIMIT 15");
 			break;
 		}
 		case 'price-descending':{
-			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `item_value` DESC");
+			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `item_value` DESC LIMIT 15");
 			break;
 		}
 		case 'title-ascending':{
-			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `item_name` ASC");
+			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `item_name` ASC LIMIT 15");
 			break;
 		}
 		case 'title-descending':{
-			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `item_name` DESC");
+			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `item_name` DESC LIMIT 15");
 			break;
 		}
 		case 'created-ascending':{
-			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `date_added` ASC");
+			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `date_added` ASC LIMIT 15");
 			break;
 		}
 		case 'created-descending':{
-			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `date_added` DESC");
+			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `date_added` DESC LIMIT 15");
 			break;
 		}
 		default : {
-			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `featured` DESC");
+			$sort = $pdo->prepare("SELECT * FROM `items`". $category ." ORDER BY `featured` DESC LIMIT 15");
 			break;
 		}
 	}
