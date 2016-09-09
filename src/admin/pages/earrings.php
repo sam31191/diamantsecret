@@ -575,15 +575,39 @@ function create_thumb($file, $w, $h,  $thumb_dir, $crop=FALSE) {
 			$newwidth = $w;
 		}
 	}
-	#$src = imagecreatefromjpeg($file);
-	$src = @imagecreatefromstring(file_get_contents($file));    
-    if ($src === false) {
-        throw new Exception ('Image is corrupted');
-    }
+	$src = imagecreatefromfile($file);
 	$dst = imagecreatetruecolor($newwidth, $newheight);
 	imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
 	
 	return imagejpeg($dst, $thumb_dir);
+}
+
+function imagecreatefromfile( $filename ) {
+    if (!file_exists($filename)) {
+        throw new InvalidArgumentException('File "'.$filename.'" not found.');
+    }
+    switch ( strtolower( pathinfo( $filename, PATHINFO_EXTENSION ))) {
+        case 'jpeg':
+        case 'jpg':
+            return imagecreatefromjpeg($filename);
+        break;
+
+        case 'png':
+            return imagecreatefrompng($filename); 
+            $background = imagecolorallocate($filename, 255, 255, 255);
+	        imagecolortransparent($filename, $background);
+	        imagealphablending($filename, false);
+	        imagesavealpha($filename, true);
+        break;
+
+        case 'gif':
+            return imagecreatefromgif($filename);
+        break;
+
+        default:
+            throw new InvalidArgumentException('File "'.$filename.'" is not valid jpg, png or gif image.');
+        break;
+    }
 }
 	
 function generateUniqueKey($length = 10) {
@@ -683,6 +707,20 @@ function checkKey($key, $pdo) {
 
 			pconsole($offset);
 
+			$allowedFeatured = 20;
+
+
+			$countFeatured = $pdo->prepare("SELECT COUNT(`featured`) AS featuredItems FROM `items` WHERE `featured` = 1");
+			$countFeatured->execute();
+
+			if ( $countFeatured->rowCount() > 0 ){
+				$countFeatured = $countFeatured->fetch(PDO::FETCH_ASSOC);
+				if ( $countFeatured['featuredItems'] > $allowedFeatured ) {
+        			echo '<div class="alert alert-error" style="font-size: 15px; color: white; text-align: center;">Note: Only the Latest '. $allowedFeatured .' Items are displayed in the Featured Panel, Sorted by Date.<br><br> You have '. $countFeatured['featuredItems'] .' Items Selected as Featured</div>';
+				}
+			}
+
+
     		echo '<h3><small>' . $totalRows . ' Items Found</small>
 		        		<form method="post" id="bulkManage" style="float:right">
 		                <button class="btn btn-warning" name="bulkManage" value="feature">Add to Featured (<span class="selected-num">0</span>)</button>
@@ -707,7 +745,7 @@ function checkKey($key, $pdo) {
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=discount&order='. $order .'">Discount</a>'; ?></th>
                 	<th>Stock</th>
                 	<th>Shipment Days</th>
-                	<th>Carat Weigt</th>
+                	<th>Carat Weight</th>
                 	<th># of Stones</th>
                 	<th>Diamond Shape</th>
                 	<th>Clarity</th>
@@ -805,7 +843,7 @@ function checkKey($key, $pdo) {
 							echo '</tr>';
 						}
 					} else {
-						//echo 'No entries found';
+						echo 'No entries found';
 					}
 					?>
                 </tbody>
@@ -1195,6 +1233,33 @@ function checkKey($key, $pdo) {
 								</td>
 							</tr>
 							<tr>
+								<td> <span class="table-item-label">Ring Size</span></td>
+								<td>
+									<div class="table-item">
+										<input id="edit_ring_size" name="ring_size" type="text" class="form-control" placeholder="Ring Size (Number)" hidden>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td> <span class="table-item-label">Ring Subcategory</span> </td>
+								<td>
+									<div class="table-item">
+										
+										<select id="edit_ring_subcategory" name="ring_subcategory" class="select-style" hidden>
+				                            <option value="">Ring Subcategory</option>
+											<option value="1">Diamond Ring</option>
+											<option value="2">Gems Ring</option>
+											<option value="3">Beads Ring</option>
+											<option value="4">White Gold Ring</option>
+											<option value="5">Yellow Gold Ring</option>
+											<option value="6">Pink Gold Ring</option>
+											<option value="7">Platinum</option>
+											<option value="8">Silver Ring</option>
+				                        </select>
+									</div>
+								</td>
+							</tr>
+							<tr>
 								<td>
 									<span class="table-item-label">Description</span>
 								</td>
@@ -1441,6 +1506,33 @@ function checkKey($key, $pdo) {
 								</td>
 							</tr>
 							<tr>
+								<td> <span class="table-item-label">Ring Size</span></td>
+								<td>
+									<div class="table-item">
+										<input name="ring_size" type="text" class="form-control" placeholder="Ring Size (Number)" hidden>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td> <span class="table-item-label">Ring Subcategory</span> </td>
+								<td>
+									<div class="table-item">
+										
+										<select name="ring_subcategory" class="select-style" hidden>
+				                            <option value="">Ring Subcategory</option>
+											<option value="1">Diamond Ring</option>
+											<option value="2">Gems Ring</option>
+											<option value="3">Beads Ring</option>
+											<option value="4">White Gold Ring</option>
+											<option value="5">Yellow Gold Ring</option>
+											<option value="6">Pink Gold Ring</option>
+											<option value="7">Platinum</option>
+											<option value="8">Silver Ring</option>
+				                        </select>
+									</div>
+								</td>
+							</tr>
+							<tr>
 								<td><span class="table-item-label">Images</span></td>
 								<td>
 									<div class="table-item">
@@ -1517,12 +1609,14 @@ function checkKey($key, $pdo) {
 					$("#edit_days_for_shipment").val(result['days_for_shipment']);
 					$("#edit_width").val(result['width']);
 					$("#edit_internal_id").val(result['internal_id']);
+					$("#edit_ring_size").val(result['ring_size']);
 					$("#edit_description").val(result['description']);
 
 
 					$("#edit_material option[value='"+ result['material'] +"'").attr("selected", true);
 					$("#edit_category option[value='"+ result['category'] +"'").attr("selected", true);
 					$("#edit_clarity option[value='"+ result['clarity'] +"'").attr("selected", true);
+					$("#edit_ring_subcategory option[value='"+ result['ring_subcategory'] +"'").attr("selected", true);
 					$("#edit_country_id option[value='"+ result['country_id'] +"'").attr("selected", true);
 					$("#edit_company_id option[value='"+ result['company_id'] +"'").attr("selected", true);
 					$("#edit_diamond_shape option[value='"+ result['diamond_shape'] +"'").attr("selected", true);

@@ -49,6 +49,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
 include 'url/require.php';
+
 if ( isset($_POST['addToCart']) ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
 	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
@@ -162,14 +163,14 @@ if ( isset($_POST['addToCart']) ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection.php" title="Browse our Rings">
+																			<a href="./collection_rings.php" title="Browse our Rings">
 																				<img src="./images/gfx/ring_270x270.png" alt="Rings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection.php">Rings</a></span>
+																			<span class="col-name"><a href="./collection_rings.php">Rings</a></span>
 																			<div class="collection-action">
-																				<a href="./collection.php">See the Collection</a>
+																				<a href="./collection_rings.php">See the Collection</a>
 																			</div>
 																		</div>
 																	</div>
@@ -177,14 +178,14 @@ if ( isset($_POST['addToCart']) ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection.php" title="Browse our Earrings">
+																			<a href="./collection.php_earrings" title="Browse our Earrings">
 																			<img src="./images/gfx/earring_270x270.png" alt="Earrings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection.php">Earrings</a></span>
+																			<span class="col-name"><a href="./collection_earrings.php">Earrings</a></span>
 																			<div class="collection-action">
-																				<a href="./collection.php">See the Collection</a>
+																				<a href="./collection.php_earrings">See the Collection</a>
 																			</div>
 																		</div>
 																	</div>
@@ -192,14 +193,14 @@ if ( isset($_POST['addToCart']) ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection.php" title="Browse our Pendants">
+																			<a href="./collection_pendants.php" title="Browse our Pendants">
 																			<img src="./images/gfx/pendant_270x270.png" alt="Pendants">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection.php">Pendants</a></span>
+																			<span class="col-name"><a href="./collection_pendants.php">Pendants</a></span>
 																			<div class="collection-action">
-																				<a href="./collection.php">See the Collection</a>
+																				<a href="./collection_pendants.php">See the Collection</a>
 																			</div>
 																		</div>
 																	</div>
@@ -207,14 +208,14 @@ if ( isset($_POST['addToCart']) ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection.php" title="Browse our Necklaces">
+																			<a href="./collection_necklaces.php" title="Browse our Necklaces">
 																			<img src="./images/gfx/necklace_270x270.png" alt="Necklaces">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection.php">Necklaces</a></span>
+																			<span class="col-name"><a href="./collection_necklaces.php">Necklaces</a></span>
 																			<div class="collection-action">
-																				<a href="./collection.php">See the Collection</a>
+																				<a href="./collection_necklaces.php">See the Collection</a>
 																			</div>
 																		</div>
 																	</div>
@@ -222,14 +223,14 @@ if ( isset($_POST['addToCart']) ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection.php" title="Browse our Bracelets">
+																			<a href="./collection_bracelets.php" title="Browse our Bracelets">
 																				<img src="./images/gfx/bracelet_270x270.png" alt="Bracelets">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection.php">Bracelets</a></span>
+																			<span class="col-name"><a href="./collection_bracelets.php">Bracelets</a></span>
 																			<div class="collection-action">
-																				<a href="./collection.php">See the Collection</a>
+																				<a href="./collection_bracelets.php">See the Collection</a>
 																			</div>
 																		</div>
 																	</div>
@@ -378,10 +379,17 @@ if ( isset($_POST['addToCart']) ) {
 								<div id="home-banner" class="text-center clearfix">
 									<img class="pulse img-banner-caption" src="./images/gfx/home_banner_image_text.png" alt="">
 									<div class="home-banner-caption">
-										<p>
-											Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br>
-											 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-										</p>
+									<?php
+									$quotes = array(
+										"“I'd rather wear jewels in my hair than anywhere else. The face should have the advantage of this brilliance.” ― Hedy Lamarr",
+										"“Jewelry has the power to be this one little thing that can make you feel unique.”",
+										"“For me, Jewelry is a way to keep the memories alive.”",
+										"“I favor Pearls on screen and in my private life.” ― Grace Kelly",
+										"“Diamonds are a girl's best friend.” ― Marilyn Monroe",
+									);
+									$quote = $quotes[rand(0, sizeof($quotes)-1)];
+									echo '<p>'. $quote .'</p>';
+									?>
 									</div>
 									<div class="home-banner-action">
 										<a href="./collection.php">Shop Now</a>
@@ -402,7 +410,7 @@ if ( isset($_POST['addToCart']) ) {
 											<div class="home_fp_wrapper">
 												<div id="home_fp">
 													<?php
-													$fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `featured` = 1");
+													$fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `featured` = 1 LIMIT 20");
 													$fetchFeatured->execute();
 
 													$featuredItems = $fetchFeatured->fetchAll();
@@ -504,7 +512,7 @@ if ( isset($_POST['addToCart']) ) {
 														</ul>
 													</div>';
 
-													$delay += 200;
+													$delay += 0;
 													}
 													?> 			                          
 												</div>
@@ -523,21 +531,21 @@ if ( isset($_POST['addToCart']) ) {
 	<?php include 'url/footer.php'; ?>
 	
 	<div class="newsletter-popup" style="display: none;">
-		<form action="http://codespot.us5.list-manage.com/subscribe/post?u=ed73bc2d2f8ae97778246702e&amp;id=c63b4d644d" method="post" name="mc-embedded-subscribe-form" target="_blank">
-			<h4>-50% Deal</h4>
-			<p class="tagline">
-				subscribe for newsletter and get the item for 50% off
+		<form method="post" name="mc-embedded-subscribe-form" target="_blank">
+			<h4>Special Offers</h4>
+			<p class="tagline" style="">
+				Subscribe to our Newsletter and get notified with exclusive offers
 			</p>
 			<div class="group_input">
-				<input class="form-control" type="email" name="EMAIL" placeholder="YOUR EMAIL">
-				<button class="btn" type="submit"><i class="fa fa-paper-plane"></i></button>
+				<input class="form-control" type="email" name="email" placeholder="YOUR EMAIL">
+				<button class="btn" type="submit" name="subscribe"><i class="fa fa-paper-plane"></i></button>
 			</div>
 		</form>
 		<div id="popup-hide">
 			<input type="checkbox" id="mc-popup-hide" value="1" checked="checked"><label for="mc-popup-hide">Never show this message again</label>
 		</div>
 	</div>
-	
+
 	<script src="assets/javascripts/cs.global.js" type="text/javascript"></script>
 	
  	<div id="quick-shop-modal" class="modal in" role="dialog" aria-hidden="false" tabindex="-1" data-width="800">

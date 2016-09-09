@@ -166,6 +166,16 @@ pconsole($_POST);
 									} else {
 										$ringTag = "";
 									}
+									if ( isset($_GET['filter']) ) {
+										$filterTag = $_GET['filter'];
+									} else {
+										$filterTag = "featured";
+									} 
+									if ( isset($_GET['order']) ) {
+										$orderTag = $_GET['order'];
+									} else {
+										$orderTag = "DESC";
+									}
 									#echo '
 									#	<div class="container col-sm-24" style="padding:20px; text-align:center">
 									#		<label style="font-size:12px;">Filters </label> '. $materialTag . $stoneTag . $clarityTag . $ringTag .'
@@ -413,14 +423,31 @@ pconsole($_POST);
 															
 														</form>
 														<strong class="title-6">View as</strong>
-														<select form="sortForm" class="list-unstyled option-set text-left list-styled" data-option-key="sortBy" onchange="orderView(this)" name="orderBy">
-															<option class="sort" value="featured">Featured</option>
-															<option class="sort" value="price-ascending" data-order="asc">Price: Low to High</option>
-															<option class="sort" value="price-descending" data-order="desc">Price: High to Low</option>
-															<option class="sort" value="title-ascending" data-order="asc">A-Z</option>
-															<option class="sort" value="title-descending" data-order="desc">Z-A</option>
-															<option class="sort" value="created-ascending" data-order="asc">Oldest to Newest</option>
-															<option class="sort" value="created-descending" data-order="desc">Newest to Oldest</option>
+														<select form="sortForm" class="list-unstyled option-set text-left list-styled" data-option-key="sortBy"  name="orderBy" onchange="if (this.value) window.location.href=this.value">
+															<?php
+																switch ($filterTag . $orderTag) {
+																	case 'item_valueDESC': {
+																		$select2 = "selected";
+																		break;
+																	} case 'item_valueASC': {
+																		$select3 = "selected";
+																		break;
+																	} case 'item_nameDESC': {
+																		$select5 = "selected";
+																		break;
+																	} case 'item_nameASC': {
+																		$select4 = "selected";
+																		break;
+																	} default : {
+																		$select1 = "selected";
+																	}
+																}
+																echo '<option value="?filter=featured&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&ring_category='. $ringTag .'" '. $select1 .'>Featured</option>';
+																echo '<option value="?filter=item_value&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&ring_category='. $ringTag .'" '. $select2 .'>Price: High to Low</option>';
+																echo '<option value="?filter=item_value&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&ring_category='. $ringTag .'" '. $select3 .'>Price: Low to High</option>';
+																echo '<option value="?filter=item_name&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&ring_category='. $ringTag .'" '. $select4 .'>A - Z</option>';
+																echo '<option value="?filter=item_name&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&ring_category='. $ringTag .'" '. $select5 .'>Z - A</option>';
+															?>
 														</select>
 													</div>
 													</li>
@@ -497,7 +524,7 @@ pconsole($_POST);
 														$offset = 0;
 													}
 
-													$filter = "ORDER BY `featured` DESC, `date_added` DESC LIMIT ". $offset . ", " . $perPage;
+													$filter = "ORDER BY ". $filterTag ." ". $orderTag .", `date_added` DESC LIMIT ". $offset . ", " . $perPage;
 													$getAll = $pdo->prepare("SELECT * FROM `items` WHERE `category` = 1 " . $filter);
 													$getAll->execute();
 													$allItems = $getAll->fetchAll();
@@ -508,7 +535,7 @@ pconsole($_POST);
 														$itemInfo = $getItemInfo->fetch(PDO::FETCH_ASSOC);
 
 														$images = explode(",", $itemInfo['images']);
-														if ( $images == "" ) {
+														if ( $images == "" || $itemInfo['images'] == "" ) {
 															$images[0] = "0.png";
 														}
 
@@ -648,7 +675,7 @@ pconsole($_POST);
 											  <?php 
 											  	for ( $i = 0; $i < $pages; $i++ ) {
 											  		if ( $i == 0 ) {
-											  			echo '<li><a href="?page='. $i .'&material='. $materialTag .'&stone=&clarity='. $clarityTag .'&ring_category='. $ringTag .'">first</a></li>';
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&ring_category='. $ringTag .'">first</a></li>';
 											  		}
 
 											  		if ( $i > $currentPage - 3 && $i < $currentPage + 3 ) {
@@ -656,13 +683,13 @@ pconsole($_POST);
 											  			if ( $i == $currentPage ) {
 											  				$class = "active";
 											  			}
-											  			echo '<li class="'. $class .'"><a href="?page='. $i .'&material='. $materialTag .'&stone=&clarity='. $clarityTag .'&ring_category='. $ringTag .'">'. intval($i+1) .'</a></li>';
+											  			echo '<li class="'. $class .'"><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&ring_category='. $ringTag .'">'. intval($i+1) .'</a></li>';
 											  		}else if ( $i > $currentPage - 4 && $i < $currentPage + 4 ) {
 											  			echo '<li><a href="#">.</a></li>';
 											  		}
 
 											  		if ( $i == intval($pages) ){
-											  			echo '<li><a href="?page='. $i .'&material='. $materialTag .'&stone=&clarity='. $clarityTag .'&ring_category='. $ringTag .'">last</a></li>';
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&ring_category='. $ringTag .'">last</a></li>';
 											  		}
 											  	}
 											  ?>

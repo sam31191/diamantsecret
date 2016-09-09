@@ -7,84 +7,13 @@
     <ul class="nav navbar-nav navbar-right">
       <li class="">
         <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-          <img src="../images/img.jpg" alt=""><?php echo $_SESSION['username']; ?>
+          <span class="fa fa-user" style="color: #607d8b; font-size: 20px; padding: 4px 10px;"></span><?php echo $_SESSION['username']; ?>
           <span class=" fa fa-angle-down" style="color:#607d8b;"></span>
         </a>
         <ul class="dropdown-menu dropdown-usermenu pull-right">
-          <li><a href="javascript:;"> Profile</a></li>
-          <li>
-            <a href="javascript:;">
-              <span class="badge bg-red pull-right" style="background-color:#607d8b !important; border:#607d8b !important;">50%</span>
-              <span>Settings</span>
-            </a>
-          </li>
-          <li><a href="javascript:;">Help</a></li>
-          <li><a href="../login.html"><i class="fa fa-sign-out pull-right" style="color:#607d8b;"></i> Log Out</a></li>
-        </ul>
-      </li>
-
-      <li role="presentation" class="dropdown">
-        <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-          <i class="fa fa-envelope-o" style="color:#607d8b;"></i>
-          <span class="badge bg-green">6</span>
-        </a>
-        <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-          <li>
-            <a>
-              <span class="image"><img src="" alt="Profile Image" /></span>
-              <span>
-                <span>John Smith</span>
-                <span class="time">3 mins ago</span>
-              </span>
-              <span class="message">
-                Film festivals used to be do-or-die moments for movie makers. They were where...
-              </span>
-            </a>
-          </li>
-          <li>
-            <a>
-              <span class="image"><img src="../images/img.jpg" alt="Profile Image" /></span>
-              <span>
-                <span>John Smith</span>
-                <span class="time">3 mins ago</span>
-              </span>
-              <span class="message">
-                Film festivals used to be do-or-die moments for movie makers. They were where...
-              </span>
-            </a>
-          </li>
-          <li>
-            <a>
-              <span class="image"><img src="../images/img.jpg" alt="Profile Image" /></span>
-              <span>
-                <span>John Smith</span>
-                <span class="time">3 mins ago</span>
-              </span>
-              <span class="message">
-                Film festivals used to be do-or-die moments for movie makers. They were where...
-              </span>
-            </a>
-          </li>
-          <li>
-            <a>
-              <span class="image"><img src="../images/img.jpg" alt="Profile Image" /></span>
-              <span>
-                <span>John Smith</span>
-                <span class="time">3 mins ago</span>
-              </span>
-              <span class="message">
-                Film festivals used to be do-or-die moments for movie makers. They were where...
-              </span>
-            </a>
-          </li>
-          <li>
-            <div class="text-center">
-              <a>
-                <strong>See All Alerts</strong>
-                <i class="fa fa-angle-right"></i>
-              </a>
-            </div>
-          </li>
+          <li><a href="../../index.php"> Home</a></li>
+          <li><a href="../../account.php"> Account</a></li>
+          <li><form method="post" action="../../index.php" id="logoutForm"><input name="action[logout]" hidden/></form><a onclick="document.getElementById('logoutForm').submit();"><i class="fa fa-sign-out pull-right" style="color:#607d8b;"></i> Log Out</a></li>
         </ul>
       </li>
     </ul>

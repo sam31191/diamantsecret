@@ -681,6 +681,20 @@ function checkKey($key, $pdo) {
 
 			pconsole($offset);
 
+			$allowedFeatured = 20;
+
+
+			$countFeatured = $pdo->prepare("SELECT COUNT(`featured`) AS featuredItems FROM `items` WHERE `featured` = 1");
+			$countFeatured->execute();
+
+			if ( $countFeatured->rowCount() > 0 ){
+				$countFeatured = $countFeatured->fetch(PDO::FETCH_ASSOC);
+				if ( $countFeatured['featuredItems'] > $allowedFeatured ) {
+        			echo '<div class="alert alert-error" style="font-size: 15px; color: white; text-align: center;">Note: Only the Latest '. $allowedFeatured .' Items are displayed in the Featured Panel, Sorted by Date.<br><br> You have '. $countFeatured['featuredItems'] .' Items Selected as Featured</div>';
+				}
+			}
+
+
     		echo '<h3><small>' . $totalRows . ' Items Found</small>
 		        		<form method="post" id="bulkManage" style="float:right">
 		                <button class="btn btn-warning" name="bulkManage" value="feature">Add to Featured (<span class="selected-num">0</span>)</button>

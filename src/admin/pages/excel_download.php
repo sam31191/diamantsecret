@@ -65,7 +65,7 @@ include '../../url/require.php';
                 	foreach ( $files as $file ) {
                 		if ( strpos($file, '.xlsx') && $file !== 'tmp_db.xlsx' && $file !== 'format.xlsx' ) {
                 			echo '<tr><td style="width:20px;">'. $int .'</td><td>'. $file .'</td>
-                			<td style="text-align:center;"><a class="fa fa-cloud-download" href="'. $dir . $file .'"></a></td>
+                			<td style="text-align:center;"><a class="fa fa-cloud-download" style="color:green;" href="'. $dir . $file .'"></a></td>
                 			</tr>';
                 			$int++;
                 		}
@@ -118,8 +118,5 @@ include '../../url/require.php';
 }
 .form-control:valid {
 	background-color: #DCEDC8;
-} 
-.fa {
-	color: #607d8b;
 }
 </style>

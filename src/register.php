@@ -43,9 +43,22 @@ if ( isset($_POST['register']) ) {
 
 
 	if ( $checkUsername->rowCount() > 0 ) {
-		$alert = '<div class="alert alert-warning"> Username Already Exists </div>';
+		$checkUsername = $checkUsername->fetch(PDO::FETCH_ASSOC);
+
+		if ( $checkUsername['activated'] == 0 ) {
+			$alert = ' Email with the activation link has already been sent to your Inbox: '. $checkUsername['email'] .' ';
+		} else {
+			$alert = ' Username Already Exists ';
+		}
 	} else if ( $checkEmail->rowCount() > 0 ) {
-		$alert = '<div class="alert alert-warning"> Email Already Registered. Please <a href="./login.php">Login</a> Instead </div>';
+		$checkEmail = $checkEmail->fetch(PDO::FETCH_ASSOC);
+
+		if ( $checkEmail['activated'] == 0 ) {
+			$alert = ' Email with the activation link has already been sent to your Inbox: '. $checkEmail['email'] .' ';
+		} else {
+			$alert = ' Email Already Registered. Please <a href="./login.php"  style="color: #607D8B;">Login</a> Instead ';
+		}
+		
 	} else {
 		require './url/PHPMailerAutoload.php';
 
@@ -59,20 +72,21 @@ if ( isset($_POST['register']) ) {
 		$mail->isSMTP();
 		#$mail->SMTPDebug = 2;
 		#$mail->Debugoutput = 'html';
-		$mail->Host = "mail.diamantsecret.com";
-		$mail->Port = 26;
-		$mail->SMTPAuth = true;
-		$mail->Username = "contact@diamantsecret.com";
-		$mail->Password = "contact@123";
-		$mail->setFrom('contact@diamantsecret.com');
+		$mail->Host = $mailHost;
+		$mail->Port = $mailPort;
+		$mail->SMTPAuth = $mailSMTPAuth;
+		$mail->Username = $mailUsername;
+		$mail->Password = $mailPassword;
+		$mail->setFrom('contact@diamantsecret.com', 'Diamant Secret');
 		$mail->addAddress($email);
-		$mail->Subject = 'Diamant Secret - Activation';
+		$mail->isHTML(true);
+		$mail->Subject = 'Activation Account';
 		$mail->Body = "Greetings, " . $_POST['customer']['username'] . "
 		To activate your account, please click on the following link and follow the instructions: http://www.diamantsecret.com/register.php?verify=" . $verifyHash;
 		if ( !$mail->send() ) {
 
 		} else {
-			$alert = '<div class="alert alert-info">Registration Successful. Please follow the instructions in your Email to continue</div>';
+			$alert = 'Registration Successful. Please follow the instructions in your Email to continue';
 			$createUser = $pdo->prepare("INSERT INTO `accounts` (`username`, `email`, `password`, `first_name`, `last_name`, `mobileno`, `address`, `type`, `activated`, `verification_hash`) VALUES (:user, :email, :password, :first_name, :last_name, :phone_number, :address, 0, 0, :hash)");
 
 			$createUser->execute(array(
@@ -86,6 +100,24 @@ if ( isset($_POST['register']) ) {
 				":hash" => $verifyHash,
 			));
 		}
+	}
+}
+
+if ( isset($_GET['verify']) ) {
+	$verify = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :verify");
+	$verify->execute(array(":verify" => $_GET['verify']));
+
+	if ( $verify->rowCount() > 0 ) {
+		$accountToActivate = $verify->fetch(PDO::FETCH_ASSOC);
+
+		$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email");
+		$activate->execute(array(":emptyHash" => "", ":email" => $accountToActivate['email']));
+
+		//echo var_dump($activate);
+
+		$alert = 'Account Verified. Please <a href="./login.php" style="color: #607D8B;">Login</a>';
+	} else {
+		$alert = 'Verification link isn\'t valid anymore';
 	}
 }
 ?>
@@ -119,7 +151,17 @@ if ( isset($_POST['register']) ) {
 							<div class="col-md-24" style="padding-right: 52%;">
 							<?php
 							if ( !empty($alert) ) {
-								echo $alert;
+								echo '
+									<div class="col-md-21 login-alert">
+										<div class="alert alert-danger">
+											<button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="Close">×</button>
+											<div class="errors">
+												<ul>
+													<li>'. $alert .'</li>
+												</ul>
+											</div>
+										</div>
+									</div>';
 							}
 							?>
 							</div>

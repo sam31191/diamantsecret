@@ -4,7 +4,13 @@
 	$user = "root";
 	$pass = "";
 	$testSite = false;
-	$HASH = "diamantSECRET123";
+
+	$mailHost = 'mail.diamantsecret.com';
+	$mailPort = 26;
+	$mailSMTPAuth = true;
+	$mailUsername = "contact@diamantsecret.com";
+	$mailPassword = "contact@123";
+	$adminEmail = "ryan.bhanwra@gmail.com";
 
 	if ( session_status() == PHP_SESSION_NONE ) {
 		session_start();
@@ -44,6 +50,19 @@
 			echo("<script>console.log('PHP: ".json_encode($data)."');</script>");
 		} else {
 			echo("<script>console.log('PHP: ".$data."');</script>");
+		}
+	}
+
+	function getMaterial($mID) {
+		$getMaterial = $pdo->prepare("SELECT * FROM `materials` WHERE `id` = :id");
+		$getMaterial->execute(array(":id" => $mID));
+
+		if ( $getMaterial->rowCount() > 0 ) {
+			$material = $getMaterial->fetch(PDO::FETCH_ASSOC);
+			return $material['category'];
+			echo $material['category'];
+		} else {
+			return "N/A";
 		}
 	}
 

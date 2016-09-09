@@ -38,7 +38,7 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: 50% 80%;
-    background-size: 140%;
+    background-size: 100%;
 }
 .select-style {
     width: 280px;
@@ -164,7 +164,7 @@
     max-width: 80vw;
 }
 .collection-link-list {
-    width: 20%;
+    width: 25%;
 }
 .collection-link-title {
     padding: 5px 8px !important;
@@ -173,7 +173,7 @@
 }
 .collection-link {
     padding: 0px !important;
-    font-size: 11px !important;
+    font-size: 12px !important;
 }
 .collection-link-list > ul > li {
     padding: 4px 0px !important;
@@ -198,4 +198,17 @@
     background-color: #a07936;
     border-color: #a07936;
     cursor: default;
+}
+.fancybox-skin {
+    background: url('../../images/gfx/bg_newsletter.jpg');
+    border-radius: 0;
+}
+.newsletter-popup .group_input input.form-control::-moz-placeholder {
+    color: grey !important;
+}
+.newsletter-popup .group_input input.form-control::-webkit-input-placeholder {
+    color:grey !important;
+}
+.newsletter-popup .group_input input.form-control:-ms-input-placeholder {
+    color: grey !important;
 }

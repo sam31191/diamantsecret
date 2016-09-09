@@ -41,11 +41,10 @@
 
 	  
         <div id="uploadDiv" style="background:rgba(0,0,0,0.75); height:100%; width:100%; position:fixed; z-index:100" hidden>
-        	<a href="javascript:void(0);"><span id="uploadDivCloseIcon" class="fa fa-close" style="font-size: 20px; margin: 20px; right: 0px; position: absolute; color: #F44336;" onclick="$('#uploadDiv').toggle();" data-toggle="tooltip" data-placement="bottom" title="Close"></span></a>
-
-        		
-        	<div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 400px; margin-left: -400px; margin-top: -200px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
-	        	<h4><div class='alert alert-info' style="position: fixed;">Importing <span id="importedItems">0</span>/<span id="totalItems">0</span></div></h4><table class='table table-condensed table-custom' style="table-layout: fixed; word-wrap: break-word;"><thead><th style="width: 30px;">#</th><th style="width: 60%;">Entry</th><th>Errors</th></thead><tbody id="resultTable"></tbody></table>
+        <div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 400px; margin-left: -400px; margin-top: -200px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
+	        	<h4><div class='alert alert-info' style="position: fixed;" id="alertDiv">Importing <span id="importedItems">0</span>/<span id="totalItems">0</span></div>
+	        	<a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 0px 16px; /* right: 0px; */ position: fixed; display: block; /* float: right; */ margin-left: 700px;" onclick="location.reload();" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
+	        	</h4><table class='table table-condensed table-custom' style="table-layout: fixed; word-wrap: break-word;"><thead><th style="width: 30px;">#</th><th style="width: 60%;">Entry</th><th>Errors</th></thead><tbody id="resultTable"></tbody></table>
         	</div>
         </div>
 
@@ -81,11 +80,28 @@
 						        	</div>';
 						        	#<button class="btn btn-info" onclick="importAll()">Import All</button> 
 
-		        				copy($_FILES['excel']['tmp_name'], "../excel_files/tmp_db" . "." . pathinfo($_FILES['excel']['name'], PATHINFO_EXTENSION));
+
+
+		        				if ( file_exists($_SESSION['tmp_file']) ) {
+		        					unlink($_SESSION['tmp_file']);
+		        				}
+
+						        $_SESSION['tmp_file'] = $tmpFile = "./../excel_files/" . strtolower($_SESSION['username']) . "_" . time() . "." . pathinfo($_FILES['excel']['name'], PATHINFO_EXTENSION);
+
+		        				pconsole("SESSION:" . $_SESSION['tmp_file']);
+		        				pconsole("TEMP:" . $tmpFile);
+
+
+			        			$xlFile = $_FILES['excel']['tmp_name'];
+
+		        				if ( copy($xlFile, $tmpFile) ) {
+		        					pconsole("FILE CREATED: " . $xlFile);
+		        				} else {
+		        					pconsole("Couldn\'t Create File");
+		        				}
 		        				//echo var_dump($_FILES['excel']['type']);
 
-		        				$_SESSION['tmp_file'] = $ext = "../excel_files/tmp_db" . "." . pathinfo($_FILES['excel']['name'], PATHINFO_EXTENSION);
-			        			$xlFile = $_FILES['excel']['tmp_name'];
+
 								$PHPExcel = PHPExcel_IOFactory::load($xlFile);
 
 								//$xl = $PHPExcel->getActiveSheet()->toArray(null, true, true, true);
@@ -114,7 +130,6 @@
 									}
 									echo '</tbody>';
 									echo '</table>';
-									$_SESSION['tmp_file'] = "../excel_files/tmp_db" . "." . pathinfo($_FILES['excel']['name'], PATHINFO_EXTENSION);
 								}
 		        			} else {
 		        				echo '<div class="alert alert-error" style="font-variant:small-caps;">Error: File not valid</div>';
@@ -199,6 +214,9 @@ function bulkRemoveItems() {
 	$("#promptBulkRemoveModal").modal("toggle");
 }
 
+var currentAjax = 0;
+var ajaxQ = [];
+
 function importThis(){
 	
 	count = 0;
@@ -214,51 +232,71 @@ function importThis(){
 		if ( $(elem).is(":checked") ) {
 			//console.log($(element).attr("id"));
 			id = $(elem).val();
-			$.ajax({
-				url: './ajax.php?importThis=' + $(elem).val(),
-				type: 'GET',
-			    beforeSend: function() {
-			    	$('#uploadDiv').show();
-			    	$('#uploadDivCloseIcon').hide();
-					console.log(id);
-			    	$('#resultTable').append('<tr><td>'+ index +'</td><td id="row_'+ id +'_result">Loading</td><td id="row_'+ id +'_error"><img style="width:24px" src="../../images/gfx/cube.gif"></td></tr>');
-	        	
-			    },
-			    complete: function(result) {
-					$('#importedItems').text(parseInt($('#importedItems').text()) + 1);
-			    	if ( $('#totalItems').text() == $('#importedItems').text() ) {
-				    	$('#uploadDivCloseIcon').show();
-				    }
-					console.log("JSON Complete");
-					console.log(result);
-
-			    },
-				success: function(result) {
-					console.log("JSON Success");
-
-					console.log(result);
-					/*if ( result === String ) {
-						
-					} else {
-						
-					}*/
-					try {
-						JSON.parse(result);
-						result = JSON.parse(result);
-						console.log(result);
-						$("#uploadDiv").show();
-						$("#row_"+ result[2] +"_result").html(result[0]);
-						$("#row_"+ result[2] +"_error").html(result[1]);
-					} catch (e) {
-						$('#resultDiv').html(result);
-					}
-				},
-				failure: function (error) {
-					console.log("JSON Error");
-					console.log(error);
-				},
-			});
+			ajaxQ.push(id);
 		}
+	});
+
+	checkQ(currentAjax);
+}
+
+function checkQ() {
+	console.log("Total: " + ajaxQ.length);
+	console.log("Current: " + currentAjax);
+	if ( currentAjax < ajaxQ.length ) {
+		console.log("Running Query: " + currentAjax);
+		importAjax(ajaxQ[currentAjax], currentAjax);
+	} else {
+		console.log("Ending at: " + currentAjax);
+	}
+}
+
+function importAjax (id, index) {
+	$.ajax({
+		url: './ajax.php?importThis=' + id,
+		type: 'GET',
+	    beforeSend: function() {
+	    	$('#uploadDiv').show();
+	    	$('#uploadDivCloseIcon').hide();
+	    	$('#resultTable').append('<tr><td>'+ index +'</td><td id="row_'+ id +'_result">Loading</td><td id="row_'+ id +'_error"><img style="width:24px" src="../../images/gfx/cube.gif"></td></tr>');
+    	
+	    },
+	    complete: function(result) {
+			$('#importedItems').text(parseInt($('#importedItems').text()) + 1);
+	    	if ( $('#totalItems').text() == $('#importedItems').text() ) {
+		    	$('#uploadDivCloseIcon').show();
+		    	$('#alertDiv').removeClass("alert-info");
+		    	$('#alertDiv').addClass("alert-success");
+		    	$('#alertDiv').html("Import Complete!");
+		    }
+			console.log("Finished Query: " + index);
+
+			currentAjax++;
+			checkQ();
+
+	    },
+		success: function(result) {
+
+			console.log(result);
+			/*if ( result === String ) {
+				
+			} else {
+				
+			}*/
+			try {
+				JSON.parse(result);
+				result = JSON.parse(result);
+				console.log(result);
+				$("#uploadDiv").show();
+				$("#row_"+ result[2] +"_result").html(result[0]);
+				$("#row_"+ result[2] +"_error").html(result[1]);
+			} catch (e) {
+				$('#resultDiv').html(result);
+			}
+		},
+		failure: function (error) {
+			console.log("JSON Error");
+			console.log(error);
+		},
 	});
 }
 </script>
@@ -315,4 +353,4 @@ function importThis(){
 	  </div>
 	</div>
 
-	<?php pconsole($_SESSION); ?>
+	<?php pconsole($_FILES); ?>

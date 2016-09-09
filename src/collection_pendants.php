@@ -136,32 +136,44 @@ pconsole($_POST);
 								</div>
 								<div class="collection-warper col-sm-24 clearfix"> 
 									<div class="collection-panner">
-										<img src="./images/collection_banner.jpg" class="img-responsive" alt="">
+										<img src="./images/gfx/collection_banner.jpg" class="img-responsive" alt="">
 									</div>
 								</div>
 								<?php
 
-								if ( isset($_GET['material']) ) {
-									if ( !empty($_GET['material']) ) {
-										$materialTag = '<label class="label label-info">'. $_GET['material'] .'</label>';
+								
+									if ( isset($_GET['material']) ) {
+										$materialTag = $_GET['material'];
+										#echo '<label class="label label-info">'. $_GET['material'] .'</label>';
 									} else {
 										$materialTag = "";
 									}
-									if ( !empty($_GET['stone']) ) {
-										$stoneTag = '<label class="label label-info">'. $_GET['stone'] .'</label>';
+									if ( isset($_GET['stone']) ) {
+										$stoneTag = $_GET['stone'];
+										#echo '<label class="label label-info">'. $_GET['stone'] .'</label>';
 									} else {
 										$stoneTag = "";
 									}
-									if ( !empty($_GET['clarity']) ) {
-										$clarityTag = '<label class="label label-info">'. $_GET['clarity'] .'</label>';
+									if ( isset($_GET['clarity']) ) {
+										$clarityTag = $_GET['clarity'];
+										#echo '<label class="label label-info">'. $_GET['clarity'] .'</label>';
 									} else {
 										$clarityTag = "";
 									}
-									echo '
-										<div class="container col-sm-24" style="padding:20px; text-align:center">
-											<label style="font-size:12px;">Filters </label> '. $materialTag . $stoneTag . $clarityTag .'
-										</div>';
-								}
+									if ( isset($_GET['filter']) ) {
+										$filterTag = $_GET['filter'];
+									} else {
+										$filterTag = "featured";
+									} 
+									if ( isset($_GET['order']) ) {
+										$orderTag = $_GET['order'];
+									} else {
+										$orderTag = "DESC";
+									}
+									#echo '
+									#	<div class="container col-sm-24" style="padding:20px; text-align:center">
+									#		<label style="font-size:12px;">Filters </label> '. $materialTag . $stoneTag . $clarityTag . $ringTag .'
+									#	</div>';
 								?>
 								<div class="collection-main-content">
 									<div id="prodcoll" class="col-sm-6 col-md-6 sidebar hidden-xs">
@@ -216,7 +228,9 @@ pconsole($_POST);
 															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Colored Stone" value="2" onclick="filterStone(this.value)">Colored</button></li>
 														</ul>
 													</div>
-													<!-- tags groupd 3 -->
+													<!-- tags groupd 4 -->
+													
+													<!-- tags groupd 4 -->
 												</div>
 											</div>  
 											<div class="home-collection-wrapper sb-wrapper clearfix">
@@ -301,18 +315,18 @@ pconsole($_POST);
 																		<form action="#" method="post">
 																			<ul class="row-container list-unstyled clearfix">
 																				<li class="row-left">
-																				<a href="./product.html" class="container_item">
+																				<a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
 																				<img src="./images/thumbnails/'. $images[0] .'" class="img-responsive" alt="'. $itemInfo['product_name'] .'">
 																				</a>
 																				</li>
 																				<li class="row-right parent-fly animMix">
-																				<a class="title-5" href="./product.html">'. $itemInfo['product_name'] .'</a>
+																				<a class="title-5" href="./product.php?view='. $item['unique_key'] .'">'. $itemInfo['product_name'] .'</a>
 																				<div class="product-price">
 																					'. $price .'
 																				</div>
 																				<div class="effect-ajax-cart">
 																					<input name="quantity" value="1" type="hidden">
-																					<button class="select-option" type="button" onclick="window.location.href=\'product.html\'">View</button>
+																					<button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $item['unique_key'] .'\'">View</button>
 																				</div>
 																				</li>
 																			</ul>
@@ -388,14 +402,31 @@ pconsole($_POST);
 															
 														</form>
 														<strong class="title-6">View as</strong>
-														<select form="sortForm" class="list-unstyled option-set text-left list-styled" data-option-key="sortBy" onchange="orderView(this)" name="orderBy">
-															<option class="sort" value="featured">Featured</option>
-															<option class="sort" value="price-ascending" data-order="asc">Price: Low to High</option>
-															<option class="sort" value="price-descending" data-order="desc">Price: High to Low</option>
-															<option class="sort" value="title-ascending" data-order="asc">A-Z</option>
-															<option class="sort" value="title-descending" data-order="desc">Z-A</option>
-															<option class="sort" value="created-ascending" data-order="asc">Oldest to Newest</option>
-															<option class="sort" value="created-descending" data-order="desc">Newest to Oldest</option>
+														<select form="sortForm" class="list-unstyled option-set text-left list-styled" data-option-key="sortBy"  name="orderBy" onchange="if (this.value) window.location.href=this.value">
+															<?php
+																switch ($filterTag . $orderTag) {
+																	case 'item_valueDESC': {
+																		$select2 = "selected";
+																		break;
+																	} case 'item_valueASC': {
+																		$select3 = "selected";
+																		break;
+																	} case 'item_nameDESC': {
+																		$select5 = "selected";
+																		break;
+																	} case 'item_nameASC': {
+																		$select4 = "selected";
+																		break;
+																	} default : {
+																		$select1 = "selected";
+																	}
+																}
+																echo '<option value="?filter=featured&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select1 .'>Featured</option>';
+																echo '<option value="?filter=item_value&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select2 .'>Price: High to Low</option>';
+																echo '<option value="?filter=item_value&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select3 .'>Price: Low to High</option>';
+																echo '<option value="?filter=item_name&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select4 .'>A - Z</option>';
+																echo '<option value="?filter=item_name&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select5 .'>Z - A</option>';
+															?>
 														</select>
 													</div>
 													</li>
@@ -407,7 +438,7 @@ pconsole($_POST);
 												<!-- <li class="element first no_full_width" data-alpha="Curabitur cursus dignis" data-price="25900">
 													<ul class="row-container list-unstyled clearfix">
 														<li class="row-left">
-														<a href="./product.html" class="container_item">
+														<a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
 														<img src="./assets/images/demo_270x270.png" class="img-responsive" alt="Curabitur cursus dignis">
 														<span class="sale_banner">
 														<span class="sale_text">Sale</span>
@@ -419,7 +450,7 @@ pconsole($_POST);
 														</li>
 														<li class="row-right parent-fly animMix">
 														<div class="product-content-left">
-															<a class="title-5" href="./product.html">Curabitur cursus dignis</a>
+															<a class="title-5" href="./product.php?view='. $item['unique_key'] .'">Curabitur cursus dignis</a>
 															<span class="spr-badge" id="spr_badge_129323821155" data-rating="0.0">
 															<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 															<span class="spr-badge-caption">
@@ -439,7 +470,7 @@ pconsole($_POST);
 															<form action="#" method="post">
 																<div class="effect-ajax-cart">
 																	<input name="quantity" value="1" type="hidden">
-																	<button class="select-option" type="button" onclick="window.location.href='product.html'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
+																	<button class="select-option" type="button" onclick="window.location.href='product.php?view='. $item['unique_key'] .''"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
 																</div>
 															</form>
 															<div class="product-ajax-qs hidden-xs hidden-sm">
@@ -454,7 +485,25 @@ pconsole($_POST);
 													</ul>
 												</li> -->
 												<?php
-													$filter = "ORDER BY `featured` DESC, `date_added` DESC";
+													$count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items`");
+													$count->execute();
+													$totalRows = $count->fetch(PDO::FETCH_ASSOC);
+													$totalRows = $totalRows['totalRows'];
+													pconsole($totalRows);
+													$perPage = 15;
+													$pages = $totalRows/$perPage;
+													if ( isset($_GET['page']) ) {
+														$currentPage = $_GET['page'];
+													} else {
+														$currentPage = 0;
+													}
+													if ( isset($_GET['page']) ) {
+														$offset = $_GET['page'] * $perPage;
+													} else {
+														$offset = 0;
+													}
+
+													$filter = "ORDER BY ". $filterTag ." ". $orderTag .", `date_added` DESC LIMIT ". $offset . ", " . $perPage;
 													$getAll = $pdo->prepare("SELECT * FROM `items` WHERE `category` = 3 " . $filter);
 													$getAll->execute();
 													$allItems = $getAll->fetchAll();
@@ -465,7 +514,7 @@ pconsole($_POST);
 														$itemInfo = $getItemInfo->fetch(PDO::FETCH_ASSOC);
 
 														$images = explode(",", $itemInfo['images']);
-														if ( $images == "" ) {
+														if ( $images == "" || $itemInfo['images'] == "" ) {
 															$images[0] = "0.png";
 														}
 
@@ -487,7 +536,7 @@ pconsole($_POST);
 														$element = '<li class="element no_full_width" data-alpha="Curabitur cursus dignis" data-price="20000">
 																<ul class="row-container list-unstyled clearfix">
 																	<li class="row-left">
-																	<a href="./product.html" class="container_item">
+																	<a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
 																	<img src="./images/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
 																	'. $sale .'
 																	</a>
@@ -497,7 +546,7 @@ pconsole($_POST);
 																	</li>
 																	<li class="row-right parent-fly animMix">
 																	<div class="product-content-left">
-																		<a class="title-5" href="./product.html">'. $itemInfo['product_name'] .'</a>
+																		<a class="title-5" href="./product.php?view='. $item['unique_key'] .'">'. $itemInfo['product_name'] .'</a>
 																		<span class="spr-badge" id="spr_badge_129323961956" data-rating="0.0">
 																		<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 																		<span class="spr-badge-caption">
@@ -525,7 +574,7 @@ pconsole($_POST);
 																</ul>
 															</li>';
 
-														if ( isset($_GET['material'])) {
+														if ( isset($_GET['material']) || isset($_GET['ring_category'])) {
 															if ( empty($_GET['material'])) {
 																$materialFilter = false;
 															} else {
@@ -541,45 +590,47 @@ pconsole($_POST);
 															} else {
 																$clarityFilter = true;
 															}
-
-															if ( $materialFilter && $stoneFilter  && $clarityFilter ) {
-																if ( $itemInfo['material'] == $_GET['material'] && $itemInfo['color'] == $_GET['stone'] && $itemInfo['clarity'] == $_GET['clarity'] ) {
-																	echo $element;
-																}
-																#All Filters Set
-															} else if ( $materialFilter && $stoneFilter  && !$clarityFilter ) {
-																if ( $itemInfo['material'] == $_GET['material'] && $itemInfo['color'] == $_GET['stone'] ) {
-																	echo $element;
-																}
-																#Material and Stone Set
-															} else if ( $materialFilter && !$stoneFilter  && !$clarityFilter ) {
-																if ( $itemInfo['material'] == $_GET['material'] ) {
-																	echo $element;
-																}
-																#Material Set
-															} else if ( !$materialFilter && $stoneFilter  && $clarityFilter ) {
-																if ( $itemInfo['color'] == $_GET['stone'] && $itemInfo['clarity'] == $_GET['clarity'] ) {
-																	echo $element;
-																}
-																#Stone and Clarity Set
-															} else if ( !$materialFilter && $stoneFilter  && !$clarityFilter ) {
-																if ( $itemInfo['color'] == $_GET['stone'] ) {
-																	echo $element;
-																}
-																#Stone Set
-															} else if ( $materialFilter && !$stoneFilter  && $clarityFilter ) {
-																if ( $itemInfo['material'] == $_GET['material'] && $itemInfo['clarity'] == $_GET['clarity'] ) {
-																	echo $element;
-																}
-																#Material and Clarity Set
-															} else if ( !$materialFilter && !$stoneFilter  && $clarityFilter ) {
-																if ( $itemInfo['clarity'] == $_GET['clarity'] ) {
-																	echo $element;
-																}
-																#Clarity Set
+															if ( empty($_GET['ring_category']) ) {
+																$ringFilter = false;
 															} else {
+																$ringFilter = true;
+															}
+
+															$filterCheck = 0;
+															if ( $materialFilter ) {
+																if ( $_GET['material'] == $itemInfo['material'] ) {
+																	$filterCheck++;
+																} else {
+
+																}
+															} else {
+																$filterCheck++;
+															}
+
+															if ( $stoneFilter ) {
+																if ( $_GET['stone'] == $itemInfo['color'] ) {
+																	$filterCheck++;
+																} else {
+
+																}
+															} else {
+																$filterCheck++;
+															}
+
+															if ( $clarityFilter ) {
+																if ( $_GET['clarity'] == $itemInfo['clarity'] ) {
+																	$filterCheck++;
+																} else {
+
+																}
+															} else {
+																$filterCheck++;
+															}
+															
+															pconsole($filterCheck);
+
+															if ( $filterCheck == 3 ) {
 																echo $element;
-																#None Set
 															}
 														} else {
 															echo $element;
@@ -588,6 +639,31 @@ pconsole($_POST);
 
 												?>
 											</ul>
+											<nav aria-label="Page navigation" style="display: block; text-align: center; float: right;">
+											  <ul class="pagination" style="margin-top:0px;">
+											  <?php 
+											  	for ( $i = 0; $i < $pages; $i++ ) {
+											  		if ( $i == 0 ) {
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">first</a></li>';
+											  		}
+
+											  		if ( $i > $currentPage - 3 && $i < $currentPage + 3 ) {
+											  			$class = "";
+											  			if ( $i == $currentPage ) {
+											  				$class = "active";
+											  			}
+											  			echo '<li class="'. $class .'"><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">'. intval($i+1) .'</a></li>';
+											  		}else if ( $i > $currentPage - 4 && $i < $currentPage + 4 ) {
+											  			echo '<li><a href="#">.</a></li>';
+											  		}
+
+											  		if ( $i == intval($pages) ){
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">last</a></li>';
+											  		}
+											  	}
+											  ?>
+											  </ul>
+											</nav>
 										</div>
 									</div>  
 								</div>
@@ -621,25 +697,20 @@ pconsole($_POST);
 							</div>
 						</div>
 						<div class="col-md-12 product-information">
-							<h1 id="quick-shop-title"><span> <a href="/products/curabitur-cursus-dignis">Curabitur cursus dignis</a></span></h1>
+							<h1 id="quick-shop-title"><span> <a href="/products/curabitur-cursus-dignis"></a></span></h1>
 							<div id="quick-shop-infomation" class="description">
 								<div id="quick-shop-description" class="text-left">
-									<p>
-										Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum.
-									</p>
-									<p>
-										Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor s...
-									</p>
+									
 								</div>
 							</div>
 							<div id="quick-shop-container">
 								<div id="quick-shop-relative" class="relative text-left">
 									<ul class="list-unstyled">
 										<li class="control-group vendor">
-										<span class="control-label">Vendor :</span><a href="/collections/vendors?q=Vendor+1"> Vendor 1</a>
+										<span class="control-label"></a>
 										</li>
 										<li class="control-group type">
-										<span class="control-label">Type :</span><a href="/collections/types?q=Sweaters+Wear"> Sweaters Wear</a>
+										<span class="control-label"></a>
 										</li>
 									</ul>
 								</div>
@@ -912,7 +983,7 @@ function orderView(e) {
 	$("#sandBox").html("");
 	$.ajax({
 		type: 'GET',
-		url: './url/ajax.php?sortCategoryBy=' + $(e).val() + '&category=3',
+		url: './url/ajax.php?sortCategoryBy=' + $(e).val() + '&category=1',
 		success: function (response) {
 			console.log(response);
 			$("#sandBox").html(response);

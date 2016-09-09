@@ -19,6 +19,7 @@
 	<link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
 	<link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
   	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+  	<link rel="icon" href="./images/gfx/favicon.png" type="image/png" sizes="16x16">
 	
 	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
 	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
@@ -35,13 +36,25 @@ include 'url/require.php';
 
 pconsole($_POST);
 
+if ( isset($_GET['unsub']) ) {
+	//echo var_dump($_GET);
+
+	$checkSub = $pdo->prepare("SELECT * FROM `subscribers` WHERE `hash` = :hash");
+	$checkSub->execute(array(":hash" => $_GET['unsub']));
+	if ( $checkSub->rowCount() > 0 ) {
+		$unsub = $pdo->prepare("DELETE FROM `subscribers` WHERE `hash` = :hash");
+		$unsub->execute(array(":hash" => $_GET['unsub']));
+
+		$error = "You have unsubscribed from our newsletter";
+	}
+}
+
 if ( isset($_POST['login']['username']) ) {
 	$checkUser = $pdo->prepare("SELECT `username` FROM `accounts` WHERE `username` = :user");
 	$checkUser->execute(array(":user" => $_POST['login']['username']));
 
 	if ( $checkUser->rowCount() > 0 ) {
-		echo var_dump("User Exist");
-		$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `password` = :pass");
+		$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND BINARY `password` = :pass");
 		$authenticate->execute (
 			array(
 				":user" => $_POST['login']['username'],
@@ -60,6 +73,8 @@ if ( isset($_POST['login']['username']) ) {
 			}
 
 			header("Location: index.php");
+		} else {
+			$error = "Authentication Failed / Check your credentials";
 		}
 	} else {
 		$error = "No User Found";
@@ -69,8 +84,8 @@ if ( isset($_POST['login']['username']) ) {
 	$checkUser->execute(array(":user" => $_POST['customer']['username']));
 
 	if ( $checkUser->rowCount() > 0 ) {
-		echo var_dump("User Exist");
-		$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `password` = :pass");
+		//echo var_dump("User Exist");
+		$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND BINARY `password` = :pass");
 		$authenticate->execute (
 			array(
 				":user" => $_POST['customer']['username'],
@@ -89,10 +104,61 @@ if ( isset($_POST['login']['username']) ) {
 			}
 
 			header("Location: index.php");
+		} else {
+			$error = "Authentication Failed / Check your credentials";
 		}
 	} else {
 		$error = "No User Found";
 	}
+} else if ( isset($_POST['recover']) ) {
+	$checkUser = $pdo->prepare("SELECT * FROM `accounts` WHERE `email` = :email");
+	$checkUser->execute(array(":email" => trim($_POST['recover']['email'])));
+
+	if ( $checkUser->rowCount() > 0 ) {
+		$userInfo = $checkUser->fetch(PDO::FETCH_ASSOC);
+		require './url/PHPMailerAutoload.php';
+
+		$newPass = generatePass(6);
+
+		$mail = new PHPMailer;
+		$mail->isSMTP();
+		#$mail->SMTPDebug = 2;
+		#$mail->Debugoutput = 'html';
+		$mail->Host = $mailHost;
+		$mail->Port = $mailPort;
+		$mail->SMTPAuth = $mailSMTPAuth;
+		$mail->Username = $mailUsername;
+		$mail->Password = $mailPassword;
+		$mail->setFrom('contact@diamantsecret.com', 'Diamant Secret');
+		$mail->addAddress($userInfo['email']);
+		$mail->isHTML(true);
+		$mail->Subject = 'Password Reset';
+		$mail->Body = "Greetings, " . $userInfo['username'] . "<br><br>
+		A password reset request was made for your account.<br>Your New Password: " . $newPass . "<br><br>Please change it to your desired one from your User Panel";
+		if ( !$mail->send() ) {
+			$error = 'Invalid Email Address';
+
+		} else {
+			$error = 'Your password has been reset and sent to your Email: ' . $userInfo['email'];
+			$resetPassword = $pdo->prepare("UPDATE `accounts` SET `password` = :pass WHERE `email` = :email");
+
+			$resetPassword->execute(array(
+				":pass" => $newPass,
+				":email" => $userInfo['email']
+			));
+		}
+	}
+}
+
+
+function generatePass($length = 10) {
+	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	$charactersLength = strlen($characters);
+	$randomString = '';
+	for ($i = 0; $i < $length; $i++) {
+		$randomString .= $characters[rand(0, $charactersLength - 1)];
+	}
+	return $randomString;
 }
 ?>
 	<!-- Header -->
@@ -160,41 +226,10 @@ if ( isset($_POST['login']['username']) ) {
 														<button class="btn" type="submit">Login</button>
 														</li>
 														<li>
-														<a class="action" href="javascript:;" onclick="showRecoverPasswordForm()">Forgot your password?</a>
+														<a class="action" href="javascript:;" onclick="$('#recoverMail').modal('toggle');">Forgot your password?</a>
 														</li>
 														<li>
 														or <a class="return" href="./index.php">Return to store</a>
-														</li>
-													</ul>
-													</li>
-												</ul>
-											</form>
-										</div>
-										<!-- Password Recovery -->
-										<div id="recover-password" style="display: none;">
-											<div class="checkout-title">
-												<span class="general-title">Reset Password</span>
-												<span class="line"></span>
-											</div>
-											<p class="note">
-												We will send you an email to reset your password.
-											</p>
-											<form method="post" action="/account/recover" accept-charset="UTF-8">
-												<input type="hidden" value="recover_customer_password" name="form_type"><input type="hidden" name="utf8" value="✓">
-												<ul id="recover-form" class="list-unstyled clearfix">
-													<li class="clearfix"></li>
-													<li id="recover_email" class="col-md-21">
-													<label class="control-label">Email Address <span class="req">*</span></label>
-													<input type="email" value="" name="email" id="recover-email" class="form-control">
-													</li>
-													<li class="col-md-21 unpadding-top">
-													<ul class="login-wrapper list-unstyled">
-														<li>
-														<a class="action" href="javascript:;" onclick="hideRecoverPasswordForm()">Return to login?</a>
-														or <a class="return" href="./index.html">Return to store</a>
-														</li>
-														<li>
-														<button class="btn btn-1" type="submit">Submit</button>
 														</li>
 													</ul>
 													</li>
@@ -211,119 +246,39 @@ if ( isset($_POST['login']['username']) ) {
 		</div>
 	</div>
 
-	<footer id="footer">      
-		<div id="footer-content">
-			<h6 class="general-title contact-footer-title">Newsletter</h6>  
-			<div id="widget-newsletter">
-				<div class="container">            
-				  <div class="newsletter col-md-24">
-					<form action="http://codespot.us5.list-manage.com/subscribe/post?u=ed73bc2d2f8ae97778246702e&id=c63b4d644d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
-					  <span class="news-desc">We promise only send the good things</span>
-					  <div class="group_input">
-						<input class="form-control" type="email" placeholder="Your Email Address" name="Email" id="email-input">
-						<div class="unpadding-top"><button class="btn btn-1" type="submit"><i class="fa fa-paper-plane"></i></button></div>
-					  </div>              
-					</form>
-				  </div>						
-				</div>
-			</div>
-			
-			<div class="footer-content footer-content-top clearfix">
-				<div class="container">
-					<div class="footer-link-list col-md-6">
-					  <div class="group">
-						<h5 class="general-title">About Us</h5>						
-						<ul class="list-unstyled list-styled">						  
-						  <li class="list-unstyled">
-							<a href="./account.html">Store Locations</a>
-						  </li>						  
-						  <li class="list-unstyled">
-							<a href="./account.html">Whosesalers</a>
-						  </li>						  
-						  <li class="list-unstyled">
-							<a href="./account.html">Map Site</a>
-						  </li>						  
-						  <li class="list-unstyled">
-							<a href="./account.html">Contact Us</a>
-						  </li>						  
-						</ul>
-					  </div>
-					</div>   
-					<div class="footer-link-list col-md-6">
-					  <div class="group">
-						<h5 class="general-title">Information</h5>						
-						<ul class="list-unstyled list-styled">						  
-						  <li class="list-unstyled">
-							<a href="./account.html">Help &amp; FAQs</a>
-						  </li>						  
-						  <li class="list-unstyled">
-							<a href="./account.html">Advance Search</a>
-						  </li>						  
-						  <li class="list-unstyled">
-							<a href="./account.html">Gift Cards</a>
-						  </li>						  
-						  <li class="list-unstyled">
-							<a href="./account.html">Shop By Brands</a>
-						  </li>						  
-						</ul>
-					  </div>
-					</div>
-					<div class="footer-link-list col-md-6">
-					  <div class="group">
-						<h5 class="general-title">Account</h5>						
-						<ul class="list-unstyled list-styled">						  
-						  <li class="list-unstyled">
-							<a href="./account.html">Preferences</a>
-						  </li>						  
-						  <li class="list-unstyled">
-							<a href="./account.html">Order History</a>
-						  </li>						  
-						  <li class="list-unstyled">
-							<a href="./account.html">Cart Page</a>
-						  </li>						  
-						  <li class="list-unstyled">
-							<a href="./account.html">Sign In</a>
-						  </li>						  
-						</ul>
-					  </div>
-					</div>
-					<div class="footer-link-list col-md-6">
-					  <div class="group">
-						<h5 class="general-title">Customer</h5>						
-						<ul class="list-unstyled list-styled">						  
-							<li class="list-unstyled">
-								<a href="./search.html">Search Advanced</a>
-							</li>						  
-							<li class="list-unstyled">
-								<a href="#">Return Policy</a>
-							</li>						  
-							<li class="list-unstyled">
-								<a href="#">Privacy Policy</a>
-							</li>						  
-							<li class="list-unstyled">
-								<a href="#">Help &amp; Contact</a>
-							</li>						  
-						</ul>
-					  </div>
-					</div>   
-				</div>
-			</div>
-			<div class="footer-content footer-content-bottom clearfix">
-				<div class="container">
-					<div class="copyright col-md-12">
-						© 2015 <a href="./about-us.html">Jewelry - HTML template</a>. All Rights Reserved.
-					</div>
-					<div id="widget-payment" class="col-md-12">
-						<ul id="payments" class="list-inline animated">
-							<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="Visa"><a href="#" class="icons visa"></a></li>
-							<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mastercard"><a href="#" class="icons mastercard"></a></li>
-							<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="American Express"><a href="#" class="icons amex"></a></li>
-							<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="Paypal"><a href="#" class="icons paypal"></a></li>
-							<li class="btooltip tada" data-toggle="tooltip" data-placement="top" title="" data-original-title="Moneybookers"><a href="#;" class="icons moneybookers"></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>   
-	</footer>
+	<?php include './url/footer.php'; ?>
 </body>
+
+
+<div id="recoverMail" class="modal fade" role="dialog" >
+  <div class="modal-dialog" >
+
+    <!-- Modal content-->
+    <div class="modal-content" style="height: auto;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Recover Account</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+        <form method="post">
+            <ul id="login-form">
+				<li class="clearfix"></li>
+				<li id="login_email" class="col-md-24">
+				<label class="control-label" for="customer_email">Email <span class="req">*</span></label>
+				<input type="email" value="" name="recover[email]" id="customer_email" class="form-control">
+				</li>
+				<li class="clearfix"></li>
+				<li style="margin-left: 580px;">
+				<button class="btn" type="submit">Recover</button>
+				</li>
+			</ul>
+		</form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

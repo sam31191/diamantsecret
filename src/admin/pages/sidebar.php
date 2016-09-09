@@ -31,11 +31,18 @@
             <li><a href="bracelets.php">Bracelets</a></li>
           </ul>
         </li>
-        <li><a><i class="fa fa-edit"></i> Operations <span class="fa fa-chevron-down"></span></a>
+        <li><a><i class="fa fa-cogs"></i> Management <span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu">
+            <li><a href="all_users.php">Users</a></li>
+            <li><a href="newsletter.php">Newsletter</a></li>
+          </ul>
+        </li>
+        <li><a><i class="fa fa-table"></i> Excel <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
             <li><a href="import_excel.php">Import via Excel</a></li>
             <li><a href="export_excel.php">Export to Excel</a></li>
             <li><a href="excel_download.php">Excel Sheets</a></li>
+            <li><a href="../excel_files/format.xlsx"><i class="fa fa-download"></i>Download Format</a></li>
           </ul>
         </li>
       </ul>

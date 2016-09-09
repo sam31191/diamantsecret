@@ -1,3 +1,21 @@
+<div class="alert" style="
+    position: fixed;
+    top: 0px;
+    background: rgba(0, 165, 255, 0.5) none repeat scroll 0% 0%;
+    margin: 25px;
+    width: 250px;
+    min-height: 50px;
+    text-align: center;
+    display: none;
+    /* width: 60%; */
+    /* margin: 5% 20%; */
+    right: 0;
+    z-index: 1000;
+    color: white;
+    border: thin solid rgba(191, 191, 191, 0.48);
+    font-size: 18px;
+    font-variant: small-caps;
+    font-weight: bold;" id="notificationBox"> Notification </div>
 <?php
 if ( session_status() == PHP_SESSION_NONE ) {
   session_start();
@@ -7,14 +25,14 @@ if ( $testSite && !isset($_SESSION['admin']) ) {
    header("Location: ./under_construction/index.php");
 }
 
-if ( !isset($_SESSION['loggedIn']) ) {
-  $_SESSION['loggedIn'] = false;
-}
 if ( isset($_POST['action']['logout']) ) {
   session_unset();
   session_destroy();
 
-  header("Location: index.php");
+  header("location: ./index.php");
+}
+if ( !isset($_SESSION['loggedIn']) ) {
+  $_SESSION['loggedIn'] = false;
 }
 
 $favorites = "";
@@ -26,9 +44,23 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 
   $favorites = $info['favorites'];
 }
-?>
+if ( isset($_POST['subscribe']) ) {
+  $checkSubscriber = $pdo->prepare("SELECT * FROM `subscribers` WHERE `email` = :mail");
+  $checkSubscriber->execute(array(":mail" => $_POST['email']));
 
-  <header id="top" class="clearfix">
+  if ( $checkSubscriber->rowCount() == 0 ) {
+    $hash = strtoupper((hash("MD5", $_POST['email'] . "RAND123HASH")));
+    $subscribe = $pdo->prepare("INSERT INTO `subscribers` (`email`, `hash`) VALUES (:mail, :hash)");
+    $subscribe->execute(array(":mail" => $_POST['email'], ":hash" => $hash));
+    $notify = 'Subscribed Successfully';
+  } else {
+    $notify = 'Already subscribed';
+  }
+
+  echo '<script>$("#notificationBox").toggle(500).delay(2000).toggle(500);  $("#notificationBox").html("<span>'. $notify .'</span>");  </script>';
+}
+?>
+  <header id="top" class="clearfix" style="    background: rgba(255,255,255,0.6);">
     <!--top-->
     <div class="container">
       <div class="top row">
@@ -55,10 +87,9 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                 <!-- Customer Account Login -->
                 <div id="loginBox" class="dropdown-menu text-left" style="padding:0;">
                   <div id="bodyBox" style="text-align:right">
-                    <ul class="control-container customer-accounts list-unstyled" style="padding:0;">
-                      <a href="#" class="dropdown-item">Account</a>            
-                      <a href="#" class="dropdown-item">Favorites<span id="favorite_num_badge" style="padding: 2px 6px; background: #F9A825; border-radius: 100px; margin: 0px 0px 0px 5px; font-size: 12px; color: white; font-weight: bold;">'. intval(count(explode(",", $favorites)) - 1) .'</span></a>
-                      <a href="#" class="dropdown-item">Settings</a>              
+                    <ul class="control-container customer-accounts list-unstyled" style="padding:0;">           
+                      <a href="./account.php" class="dropdown-item">Favorites<span id="favorite_num_badge" style="padding: 2px 6px; background: #F9A825; border-radius: 100px; margin: 0px 0px 0px 5px; font-size: 12px; color: white; font-weight: bold;">'. intval(count(explode(",", $favorites)) - 1) .'</span></a>
+                      <a href="./account.php" class="dropdown-item">Settings</a>              
                       <form method="post">
                       <button href="#" class="btn-logout" name="action[logout]" value="true">Logout</button>
                       </form>
@@ -374,7 +405,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                                       </div>
                                       <div class="col-md-16 cart-right">
                                         <div class="cart-title">
-                                          <a>Item Unavailable</small></a>
+                                          <a>Item Unavailable <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Item Deleted or Invalid"></i></small></a>
                                         </div>
                                         <div class="cart-price">
                                           € 0.0 <span class="x"> x </span>0
@@ -410,7 +441,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                   <i class="sub-dropdown1"></i>
                   <i class="sub-dropdown"></i>
                   <div class="num-items-in-cart">
-                    <span class="icon">
+                    <span class="icon" style="padding-right: 40px;">
                       Cart
                     </span>
                   </div>

@@ -107,6 +107,16 @@ if ( isset($_GET['importThis']) ) {
 			if ( empty($error) ) {
 				$result = "";
 				$i = $_GET['importThis'];
+
+				if ( empty($products[$i]['D']) ) {
+					$result = [];
+					array_push($result, "N/A");
+					array_push($result, "Empty Data");
+					array_push($result, $i);
+					echo json_encode($result);
+					return;
+				}
+
 					$uniqueKey = generateUniqueKey();
 					
 					while ( checkKey($uniqueKey, $pdo) ) {
@@ -409,7 +419,7 @@ if ( isset($_GET['importThis']) ) {
 		}
 
 	} else {
-		echo "Error: File Invalid";
+		echo "Error: File ". $_SESSION['tmp_file'] ." Invalid";
 	}
 
 } else if ( isset($_GET['exportSelected']) ) {
@@ -589,7 +599,48 @@ if ( isset($_GET['importThis']) ) {
 		echo 'Item Not Found';
 	}
 
-}else {
+} else if ( isset($_GET['getSubs']) ) {
+	$getSubs = $pdo->prepare("SELECT * FROM `subscribers`");
+	$getSubs->execute();
+
+	$subs = [];
+
+	foreach ( $getSubs->fetchAll() as $subscriber ) {
+		array_push($subs, $subscriber['email']);
+	}
+
+	echo json_encode($subs);
+} else if ( isset($_GET['sendNewsletter']) ) {
+	require '../../url/PHPMailerAutoload.php';
+
+	$getHash = $pdo->prepare("SELECT * FROM `subscribers` WHERE `email` = :email");
+	$getHash->execute(array(":email" => $_POST['email']));
+
+	if ( $getHash->rowCount() > 0 ) {
+		$getMail = $getHash->fetch(PDO::FETCH_ASSOC);
+		$email = filter_var(trim($getMail['email']), FILTER_SANITIZE_EMAIL);
+		$mail = new PHPMailer;
+		$mail->isSMTP();
+		//$mail->SMTPDebug = 2;
+		//$mail->Debugoutput = 'html';
+		$mail->Host = $mailHost;
+		$mail->Port = $mailPort;
+		$mail->SMTPAuth = $mailSMTPAuth;
+		$mail->Username = $mailUsername;
+		$mail->Password = $mailPassword;
+		$mail->setFrom('contact@diamantsecret.com', 'Diamant Secret');
+		$mail->addAddress($email);
+		$mail->isHTML(true);
+		$mail->Subject = 'Newsletter';
+		$mail->Body = "Greetings, " . urldecode($_POST['content'] . "<hr /><div style='text-align:center;'>If you wish to unsubscribe to our Newsletter, please <a rel='noindex, nofollow' target='_blank' href='http://diamantsecret.com/login.php?unsub=".$getMail['hash']."'>click here</a></div>");
+		if ( !$mail->send() ) {
+			echo 'Failed';
+		} else {
+			echo 'Sent';
+		}
+	}
+
+}  else {
 	echo "GET not SET";
 }
 

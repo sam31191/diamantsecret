@@ -82,8 +82,6 @@
 		                	<th><input id="masterCheckbox" type="checkbox" onClick="selectAll(this)"></th>
 		                	<th>Type</th>
 		                	<th>ID</th>
-		                	<th>Featured</th>
-		                	<th>Action</th>
 		                	<th>Internal ID</th>
 		                	<th>Company ID</th>
 		                	<th>Name</th>
@@ -102,7 +100,7 @@
 		                	<th>Length</th>
 		                	<th>Country</th>
 		                	<th>Images</th>
-		                	<th>Description</th>
+		                	<th style="max-width:150px;">Description</th>
 		                </thead>
 		                <tbody>
 		                	<?php
@@ -149,19 +147,6 @@
 									
 									echo '<td>'. $entry['category'] .'</td>';
 									echo '<td>'. $info['id'] .'</td>';
-
-									if ( $entry['featured'] == 1 ) {
-										$featured = '<form method="post"><button class="glyphicon glyphicon-star glyphicon-custom" name="featuredRemove" value="'. $entry['id'] .'" data-toggle="tooltip" title="Remove from Featured"></button></form>';
-									} else {
-										$featured = '<form method="post"><button class="glyphicon glyphicon-star-empty glyphicon-custom" name="featuredAdd" value="'. $entry['id'] .'" data-toggle="tooltip" title="Add to Featured"></button></form>';
-									}
-									echo '<td style="text-align:center;">'. $featured .'</td>';
-
-									$editModal = '<button class="fa fa-pencil glyphicon-custom" style="color:#607d8b" title="Edit Item" data-toggle="tooltip"></button>';
-
-									$removeModal = '<button class="fa fa-trash glyphicon-custom" style="color:#607d8b" title="Remove Item" data-toggle="tooltip"></button>';
-									echo '<td>' . $editModal . $removeModal . '</td>';
-
 									echo '<td>'. $info['internal_id'] .'</td>';
 									echo '<td>'. $info['company_id'] .'</td>';
 									echo '<td>'. $info['product_name'] .'</td>';
@@ -179,8 +164,9 @@
 									echo '<td>'. $info['width'] .'</td>';
 									echo '<td>'. $info['length'] .'</td>';
 									echo '<td>'. $info['country_id'] .'</td>';
-									echo '<td>'. $info['images'] .'</td>';
-									echo '<td>'. $info['description'] .'</td>';
+									echo '<td>'. intval(sizeof(explode(",", $info['images'])) - 1) .' image(s)</td>';
+									$desc = $info['description'];
+									echo '<td>'. $desc .'</td>';
 
 								echo '</tr>';
 							}

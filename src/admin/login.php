@@ -36,13 +36,13 @@ if ( isset($_SESSION['modSession']) && $_SESSION['modSession'] ) {
 
       <?php 
 	  include '../url/require.php';
-	  if ( isset($_POST['Username']) && isset($_POST['Password']) ) {
+	  if ( isset($_POST['Password']) ) {
 		  $authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :username AND `password` = :pass");
-		  $authenticate->execute(array(":username" => $_POST['Username'], ":pass" => $_POST['Password']));
+		  $authenticate->execute(array(":username" => $_SESSION['username'], ":pass" => $_POST['Password']));
 		  
 		  if ( $authenticate->rowCount() > 0 ) {
 		  	$result = $authenticate->fetch(PDO::FETCH_ASSOC);
-  			if ( $result['type'] == 1 ) {
+  			if ( $result['type'] >= 1 ) {
   				$_SESSION['modSession'] = true;
   				$log = $pdo->prepare("INSERT INTO `moderator_login` (`username`, `last_login`, `login_ip`) VALUES (:username, NOW(), :ip)");
   				$log->execute(array(":username" => $_SESSION['username'], ":ip" => get_client_ip())); 
@@ -73,7 +73,6 @@ if ( isset($_SESSION['modSession']) && $_SESSION['modSession'] ) {
             <form method="post">
               <h1>Administrator Login</h1>
               <div>
-                <input type="text" class="form-control" placeholder="Username" required="" name="Username" />
               </div>
               <div>
                 <input type="password" class="form-control" placeholder="Password" required="" name="Password" />

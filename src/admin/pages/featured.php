@@ -9,7 +9,7 @@ if ( !isset($_SESSION['modSession']) ) {
 	 die();
 }
 if ( isset($_SESSION['modSession']) ) {
-	if ( !$_SESSION['modSession'] || $_SESSION['Admin'] <= 0 ) {
+	if ( !$_SESSION['modSession'] || $_SESSION['admin'] <= 0 ) {
 		header ('Location: ../../index.php');
 		die();
 	}

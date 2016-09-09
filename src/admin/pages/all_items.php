@@ -512,7 +512,8 @@ if ( isset($_POST['featuredAdd']) ) {
         <div class="right_col" role="main">
         <div>
         
-        <h3>All <?php
+        <h3>All 
+        <?php
 
         	if ( isset($_GET['order']) && isset($_GET['filter']) ) {
         		echo '<small>Sorted: <span style="text-transform: capitalize;">'. str_replace("_", " ", $_GET['filter']) .' - '; 
@@ -554,6 +555,20 @@ if ( isset($_POST['featuredAdd']) ) {
 			}
 
 			pconsole($offset);
+
+			$allowedFeatured = 20;
+
+
+			$countFeatured = $pdo->prepare("SELECT COUNT(`featured`) AS featuredItems FROM `items` WHERE `featured` = 1");
+			$countFeatured->execute();
+
+			if ( $countFeatured->rowCount() > 0 ){
+				$countFeatured = $countFeatured->fetch(PDO::FETCH_ASSOC);
+				if ( $countFeatured['featuredItems'] > $allowedFeatured ) {
+        			echo '<div class="alert alert-error" style="font-size: 15px; color: white; text-align: center;">Note: Only the Latest '. $allowedFeatured .' Items are displayed in the Featured Panel, Sorted by Date.<br><br> You have '. $countFeatured['featuredItems'] .' Items Selected as Featured</div>';
+				}
+			}
+
 
     		echo '<h3><small>' . $totalRows . ' Items Found</small>
 		        		<form method="post" id="bulkManage" style="float:right">
@@ -686,6 +701,7 @@ if ( isset($_POST['featuredAdd']) ) {
 								echo '<td>'. $info['images'] .'</td>';
 								echo '<td>'. $info['description'] .'</td>';
 								echo '<td>'. $entry['date_added'] .'</td>';
+
 
 							echo '</tr>';
 						}
@@ -857,7 +873,6 @@ if ( isset($_POST['featuredAdd']) ) {
 	        <div class="container">
 	            <div class="col-sm-12">
 					<tbody>
-
 						<tr>
 							<td><span class="table-item-label" style="display:none;">Category</span></td>
 							<td>
@@ -1085,7 +1100,7 @@ if ( isset($_POST['featuredAdd']) ) {
 							<td> <span class="table-item-label">Ring Size</span></td>
 							<td>
 								<div class="table-item">
-									<input id="edit_ring_size" name="ring_size" type="text" class="form-control" placeholder="Ring Size (Number)" required>
+									<input id="edit_ring_size" name="ring_size" type="text" class="form-control" placeholder="Ring Size (Number)">
 								</div>
 							</td>
 						</tr>
@@ -1094,7 +1109,7 @@ if ( isset($_POST['featuredAdd']) ) {
 							<td>
 								<div class="table-item">
 									
-									<select id="edit_ring_subcategory" name="ring_subcategory" class="select-style" required>
+									<select id="edit_ring_subcategory" name="ring_subcategory" class="select-style">
 			                            <option value="">Ring Subcategory</option>
 										<option value="1">Diamond Ring</option>
 										<option value="2">Gems Ring</option>

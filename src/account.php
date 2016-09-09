@@ -30,6 +30,13 @@ if ( session_status() == PHP_SESSION_NONE ) {
 }
 include './url/require.php';
 
+if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
+	header("location: ./login.php");
+}
+
+#pre
+$alert = "";
+
 if ( isset($_POST['removeFromFav'])) {
 	pconsole($_POST['removeFromFav']);
 	$getcurrentFavs = $pdo->prepare("SELECT `favorites` FROM `accounts` WHERE `username` = :username");
@@ -57,6 +64,35 @@ if ( isset($_POST['removeFromFav'])) {
 		":cart" => $cart,
 		":user" => $_SESSION['username']
 	));
+} else if ( isset($_POST['saveInfo']) ) {
+	pconsole($_POST);
+
+	if ( $_POST['new_pass'] !== $_POST['confirm_new_pass'] ) {
+		$alert = "New and Confirm Password Mismatch";
+	} else {
+		$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND BINARY `password` = :pass");
+		$authenticate->execute(array(":user" => $_SESSION['username'], ":pass" => $_POST['current_pass']));
+		if ( $authenticate->rowCount() > 0 ) {
+			$updateInfo = $pdo->prepare("UPDATE `accounts` SET `first_name` = :first_name, `last_name` = :last_name, `mobileno` = :mobileno, `address` = :address WHERE `username` = :username");
+			$updateInfo->execute(array(
+				":first_name" => $_POST['first_name'],
+				":last_name" => $_POST['last_name'],
+				":mobileno" => $_POST['mobileno'],
+				":address" => $_POST['address'],
+				":username" => $_SESSION['username']
+			));
+
+			if ( !empty($_POST['new_pass']) && !empty($_POST['confirm_new_pass']) ) {
+				$updatePass = $pdo->prepare("UPDATE `accounts` SET `password` = :pass WHERE `username` = :user");
+				$updatePass->execute(array(":pass" => $_POST['new_pass'], ":user" => $_SESSION['username']));
+				$alert = "Information / Password Updated";
+			} else {
+				$alert = "Information Updated";
+			}
+		} else {
+			$alert = "Authentication Failure / Please check your credentials";
+		}
+	}
 }
 
 ?>
@@ -86,6 +122,22 @@ if ( isset($_POST['removeFromFav'])) {
 							<div id="page-header" class="col-md-24">
 								<h1 id="page-title">My Account</h1> 
 							</div>
+							<?php
+								if ( !empty($alert) ) {
+									echo '
+										<div class="col-md-21 login-alert">
+											<div class="alert alert-danger">
+												<button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="Close">×</button>
+												<div class="errors">
+													<ul>
+														<li>'. $alert .'</li>
+													</ul>
+												</div>
+											</div>
+										</div>';
+								}
+							?>
+							
 							<div class="col-sm-6 col-md-6 sidebar">
 								<div class="group_sidebar">
 									<div class="row sb-wrapper unpadding-top">
@@ -116,7 +168,7 @@ if ( isset($_POST['removeFromFav'])) {
 												</address>
 												</li>
 												<li>
-												<button class="btn btn-1" id="view_address" onclick="window.location=\'address.html\'">Settings</button>
+												<button class="btn btn-1" id="view_address" onclick="$(\'#settingsModal\').modal(\'toggle\');">Settings</button>
 												</li>
 											</ul>
 											';
@@ -225,92 +277,75 @@ if ( isset($_POST['removeFromFav'])) {
 	</div>
 
 	<?php include './url/footer.php'; ?>
+</body>
 
 
-	<div id="quick-shop-modal" class="modal in" role="dialog" aria-hidden="false" tabindex="-1" data-width="800">
-		<div class="modal-backdrop in" style="height: 742px;">
-		</div>
-		<div class="modal-dialog rotateInDownLeft animated">
-			<div class="modal-content" style="min-height: 0px;">
-				<div class="modal-header">
-					<i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="modal" aria-hidden="true" data-original-title="Close"></i>
+<div id="settingsModal" class="modal in" role="dialog" aria-hidden="false" tabindex="-1" data-width="800">
+	<div class="modal-backdrop in" style="height: 742px;">
+	</div>
+	<div class="modal-dialog rotateInDownLeft animated">
+		<div class="modal-content" style="min-height: 0px;  overflow:auto; height: 490px;">
+			<div class="modal-header">
+				<i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="bottom" title="" data-dismiss="modal" aria-hidden="true" data-original-title="Close"></i>
+			</div>
+			<div class="modal-body">
+				<div class="quick-shop-modal-bg" style="display: none;">
 				</div>
-				<div class="modal-body">
-					<div class="quick-shop-modal-bg" style="display: none;">
+				<div class="row">
+				<form method="post">
+				<?php
+				$fetchInfo = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user");
+				$fetchInfo->execute(array(":user" => $_SESSION['username']));
+
+				if ( $fetchInfo->rowCount() > 0 ) {
+					$info = $fetchInfo->fetch(PDO::FETCH_ASSOC);
+					echo '
+					<div class="col-md-12">
+						<label>Username</label>
+						<input type="text" name="username" class="form-control" value="'. $info['username'] .'" disabled>
 					</div>
-					<div class="row">
-						<div class="col-md-12 product-image">
-							<div id="quick-shop-image" class="product-image-wrapper">
-								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="./assets/images/demo_354x354.png" data-zoom-image="./assets/images/demo_354x354.png" alt=""/></a>
-								<div id="gallery_main_qs" class="product-image-thumb">
-								</div>	
-							</div>
-						</div>
-						<div class="col-md-12 product-information">
-							<h1 id="quick-shop-title"><span> <a href="/products/curabitur-cursus-dignis"></a></span></h1>
-							<div id="quick-shop-infomation" class="description">
-								<div id="quick-shop-description" class="text-left">
-									
-								</div>
-							</div>
-							<div id="quick-shop-container">
-								<div id="quick-shop-relative" class="relative text-left">
-									<ul class="list-unstyled">
-										<li class="control-group vendor">
-										<span class="control-label"></a>
-										</li>
-										<li class="control-group type">
-										<span class="control-label"></a>
-										</li>
-									</ul>
-								</div>
-								<form method="post" enctype="multipart/form-data">
-									<div id="quick-shop-price-container" class="detail-price">
-										
-									</div>
-									<div class="quantity-wrapper clearfix">
-										<label class="wrapper-title">Quantity</label>
-										<div class="wrapper">
-											<input type="text" id="qs-quantity" size="5" class="item-quantity" name="quantity" value="1">
-											<span class="qty-group">
-											<span class="qty-wrapper">
-											<span class="qty-up" title="Increase" data-src="#qs-quantity">
-											<i class="fa fa-plus"></i>
-											</span>
-											<span class="qty-down" title="Decrease" data-src="#qs-quantity">
-											<i class="fa fa-minus"></i>
-											</span>
-											</span>
-											</span>
-										</div>
-									</div>
-                
-                                    <label class="label-quick-shop">Material <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label>
-                                    <input id="quick-shop-material-value" name="material" hidden />
-                                    <div class="input-group" id="quick-shop-material">
-                                    	<a class="btn material-badge" name="1">Yellow Gold</a>
-                                    	<a class="btn material-badge" name="2">White Gold</a>
-                                    	<a class="btn material-badge" name="3">Pink Gold</a>
-                                    	<a class="btn material-badge" name="4">Silver</a>
-                                    	<a class="btn material-badge" name="5">Platinum</a>
-                                    </div>
-                                    <div id="quick-shop-size">
-	                                    <label class="label-quick-shop">Size <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label> 
-	                                    <input id="quick-shop-size-value" name="size" value="0" hidden />
-	                                    <div class="input-group" id="quick-shop-size-container">
-	                                    	<!-- Sizes go here -->
-	                                    </div>
-	                                </div>
-                                    
-                                    <input id="quick-shop-unique-key" name="unique_key" hidden />
-                                    <button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;">Add to Cart</button>
-                                    
-								</form>
-							</div>
-						</div>
+					<div class="col-md-12">
+						<label>Email</label>
+						<input type="email" name="email" class="form-control" value="'. $info['email'] .'" disabled>
 					</div>
+					<div class="col-md-12">
+						<label>First Name</label>
+						<input type="text" name="first_name" value="'. $info['first_name'] .'" class="form-control">
+					</div>
+					<div class="col-md-12">
+						<label>Last Name</label>
+						<input type="text" name="last_name" value="'. $info['last_name'] .'" class="form-control">
+					</div>
+					<div class="col-md-12">
+						<label>Phone Number</label>
+						<input type="text" name="mobileno" value="'. $info['mobileno'] .'" pattern="[0-9]{4,}" class="form-control">
+					</div>
+					<div class="col-md-12">
+						<label>Address</label>
+						<textarea type="text" name="address" class="form-control">'. $info['address'] .'</textarea>
+					</div>
+					<div class="col-md-12">
+						<label>New Password</label>
+						<input type="password" name="new_pass" class="form-control">
+					</div>
+					<div class="col-md-12">
+						<label>Confirm New Password</label>
+						<input type="password" name="confirm_new_pass" class="form-control">
+					</div>
+					<div class="col-md-24">
+						<label>Current Password <span class="req">*</span></label>
+						<input type="password" name="current_pass" class="form-control" required>
+					</div>
+
+					<div class="col-md-24" style="text-align:right;">
+						<button type="submit" name="saveInfo" class="btn btn-custom" style="margin: 15px 20px; width: 100px;">Save</button>
+					</div>
+					';
+				}
+				?>
+				</form>
 				</div>
 			</div>
 		</div>
 	</div>
-</body>
+</div>

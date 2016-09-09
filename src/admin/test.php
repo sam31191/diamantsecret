@@ -31,11 +31,43 @@ include 'PHPExcel/IOFactory.php';
 $url='https://images.baunat.com/en/82414_CL-GW-R3-0030S_1_722x722/0-30-carat-solitaire-diamond-engagement-ring-in-white-gold';
 
 
-$scr = scandir('../images/');
-foreach ( $scr as $file ) {
-	if ( strstr($file, "earring_") ) {
-		echo var_dump($file);
-	}
+include '../url/require.php';
+$array = [
+[ 1,  'Austria', 		20],
+[ 2,  'Belgium', 		21],
+[ 3,  'Bulgaria', 		20],
+[ 4,  'Croatia', 		25],
+[ 5,  'Cyprus', 		19],
+[ 6,  'Czech Republic', 21], 
+[ 7,  'Denmark', 		25],
+[ 8,  'Estonia', 		20],
+[ 9,  'Finland', 		24],
+[ 10,  'France', 		20],
+[ 11,  'Germany', 		19],
+[ 12,  'Greece', 		23],
+[ 13,  'Hungary', 		27],
+[ 14,  'Ireland', 		23],
+[ 15,  'Italy', 		22],
+[ 16,  'Latvia', 		21],
+[ 17,  'Lithuania', 	21],
+[ 18,  'Luxembourg', 	17],
+[ 19,  'Malta', 		18],
+[ 20,  'Netherlands', 	21],
+[ 21,  'Poland', 		23],
+[ 22,  'Portugal', 		23],
+[ 23,  'Romania', 		20],
+[ 24,  'Slovakia', 		20],
+[ 25,  'Slovenia', 		22],
+[ 26,  'Spain', 		21],
+[ 27,  'Sweden', 		25],
+[ 28,  'UK', 			20],
+];
+
+//echo var_dump($array);
+
+foreach ( $array as $entry ) {
+	$enterVat = $pdo->prepare("INSERT INTO `country_vat` (`id`, `country_name`, `vat`) VALUES (:1, :2, :3)");
+	$enterVat->execute(array(":1" => $entry[0], ":2" => $entry[1], ":3" => $entry[2]));
 }
 
 /*
@@ -49,9 +81,9 @@ if ( isset($_FILES['excel_sheet']) ) {
 	$productSheet = $PHPExcel->getSheetByName('products');
 	if ( is_null($productSheet) ) {
 		echo "Sheet not found";
-	} else {
+	] else {
 		echo var_dump($productSheet->toArray(null, true, true, true));
-	}
+	]
 
 
 	//$sheets = $xl->getSheetCount();
@@ -65,7 +97,7 @@ if ( isset($_FILES['excel_sheet']) ) {
 	$columns = $sheet[1];
 	foreach ( $columns as $column ) {
 		echo '<th>'. $column .'</th>';
-	}
+	]
 	echo '</thead>';
 	echo '<tbody>';
 	for ( $i = 2; $i <= sizeof($sheet); $i++ ) {
@@ -73,12 +105,12 @@ if ( isset($_FILES['excel_sheet']) ) {
 		echo '<tr>';
 		foreach ( $vals as $val ) {
 			echo '<td>'. $val .'</td>';
-		}
+		]
 		echo '</tr>';
-	}
+	]
 	echo '</tbody>';
 	echo '</table>';
-}
+]
 /*
 $inputFileName = './test.xlsx';
 echo 'Loading file ',pathinfo($inputFileName,PATHINFO_BASENAME),' using IOFactory to identify the format<br />';
@@ -97,3 +129,24 @@ $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 </form>
 </body>
 </html>
+
+
+
+<script src="../js/jquery-1.12.0.js"></script>
+<script>
+
+$(document).ready(
+	function() {
+		for ( i = 0; i < 10; i++) {
+			setTimeout(function(){
+				console.log(i);
+			], 1000);
+		]
+	]
+);
+
+function doShit(i){
+	console.log(i);
+]
+
+</script>
