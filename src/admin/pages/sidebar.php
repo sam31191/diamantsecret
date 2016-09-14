@@ -1,6 +1,6 @@
 <div class="left_col scroll-view">
   <div class="navbar nav_title" style="border: 0;">
-    <a href="../../index.php" class="site_title"><img src="../../assets/images/logo.png"></a>
+    <a href="../../index.php" class="site_title"><img src="../../images/gfx/logo.png" style="width: 100%; padding: 5px;"></a>
   </div>
 
   <div class="clearfix"></div>
@@ -35,6 +35,7 @@
           <ul class="nav child_menu">
             <li><a href="all_users.php">Users</a></li>
             <li><a href="newsletter.php">Newsletter</a></li>
+            <li><a href="company_management.php">Company Management</a></li>
           </ul>
         </li>
         <li><a><i class="fa fa-table"></i> Excel <span class="fa fa-chevron-down"></span></a>
@@ -42,7 +43,6 @@
             <li><a href="import_excel.php">Import via Excel</a></li>
             <li><a href="export_excel.php">Export to Excel</a></li>
             <li><a href="excel_download.php">Excel Sheets</a></li>
-            <li><a href="../excel_files/format.xlsx"><i class="fa fa-download"></i>Download Format</a></li>
           </ul>
         </li>
       </ul>

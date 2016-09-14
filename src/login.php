@@ -19,7 +19,7 @@
 	<link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
 	<link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
   	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
-  	<link rel="icon" href="./images/gfx/favicon.png" type="image/png" sizes="16x16">
+  	<link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
 	
 	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
 	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
@@ -33,6 +33,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
 include 'url/require.php';
+include './assets/mail_format/admin_mail.php';
 
 pconsole($_POST);
 
@@ -120,6 +121,10 @@ if ( isset($_POST['login']['username']) ) {
 
 		$newPass = generatePass(6);
 
+		$recoveryMail = file_get_contents('./conf/mail_formats/password_recovery.html');
+		$recoveryMail = str_replace("__CLIENT__", $userInfo['username'], $recoveryMail);
+		$recoveryMail = str_replace("__NEWPASS__", $newPass, $recoveryMail);
+
 		$mail = new PHPMailer;
 		$mail->isSMTP();
 		#$mail->SMTPDebug = 2;
@@ -133,8 +138,7 @@ if ( isset($_POST['login']['username']) ) {
 		$mail->addAddress($userInfo['email']);
 		$mail->isHTML(true);
 		$mail->Subject = 'Password Reset';
-		$mail->Body = "Greetings, " . $userInfo['username'] . "<br><br>
-		A password reset request was made for your account.<br>Your New Password: " . $newPass . "<br><br>Please change it to your desired one from your User Panel";
+		$mail->Body = $recoveryMail;
 		if ( !$mail->send() ) {
 			$error = 'Invalid Email Address';
 

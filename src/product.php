@@ -27,6 +27,7 @@
 	<link href="./assets/stylesheets/spr.css" rel="stylesheet" type="text/css" media="all">
 	<link href="./assets/stylesheets/addthis.css" rel="stylesheet" type="text/css" media="all">
   	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+  	<link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
 	
 	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
 	<script src="./assets/javascripts/jquery.imagesloaded.min.js" type="text/javascript"></script>
@@ -43,6 +44,7 @@
 	<script src="./assets/javascripts/jquery.fancybox-buttons.js" type="text/javascript"></script>
 	<script src="./assets/javascripts/jquery.zoom.js" type="text/javascript"></script>	
 	<script src="./assets/javascripts/cs.script.js" type="text/javascript"></script>
+	<script src="./js/jquery.elevateZoom-3.0.8.min.js" type="text/javascript"></script>
 </head>
 
 <?php
@@ -189,15 +191,17 @@ pconsole($_POST);
 												<div id="gallery_main" class="product-image-thumb thumbs full_width ">
 													<ul class="slide-product-image">
 														<?php
+														$imageIndex = 0;
 														foreach ( $images as $image ) {
 															if ( !empty($image) ) {
 																echo '													
 																<li class="image">
-																	<a href="./images/'. $image .'" class="cloud-zoom-gallery active">
-																		<img src="./images/thumbnails/'. $image .'" alt="Donec condime fermentum">
+																	<a href="./images/images_md/'. $image .'" class="cloud-zoom-gallery active">
+																		<img src="./images/images_sm/'. $image .'" onClick="selectImage(\'./images/images/'. $image .'\')" alt="Donec condime fermentum">
 																	</a>
 																</li>	
 																';
+																$imageIndex++;
 															}
 														}
 														?>
@@ -205,7 +209,7 @@ pconsole($_POST);
 												</div>
 											</div>      
 											<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp"> 
-												<?php echo '<img src="./images/'. $images[0] .'" alt="'. $itemInfo['product_name'] .'">' ?>
+												<?php echo '<img src="./images/images_md/'. $images[0] .'" alt="'. $itemInfo['product_name'] .'" data-zoom-image="./images/images/'. $images[0] .'"  data-imageIndex="0" id="mainImage">' ?>
 											</div>
 											<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
 												<ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
@@ -214,8 +218,8 @@ pconsole($_POST);
 															if ( !empty($image) ) {
 																echo '													
 																<li class="image">
-																	<a href="./images/'. $image .'" class="cloud-zoom-gallery">
-																		<img src="./images/thumbnails/'. $image .'" alt="Donec condime fermentum">
+																	<a href="./images/images_md/'. $image .'" class="cloud-zoom-gallery">
+																		<img src="./images/images_sm/'. $image .'" alt="Donec condime fermentum">
 																	</a>
 																</li>	
 																';
@@ -329,6 +333,46 @@ pconsole($_POST);
 																</div>';
 																}
 																?>
+																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="header">
+																		Measurement
+																	</div>
+																	<?php
+																	echo '<div class="header"><small>'. $itemInfo['length'] .'x'. $itemInfo['width'] .'x'. $itemInfo['height'] .'mm</small></div>';
+																	?>																	
+																</div>
+																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="header">
+																		Material
+																	</div>
+																	<?php
+																	echo '<div class="header"><small>'. getMaterial($itemInfo['material'], $pdo) .'</small></div>';
+																	?>																	
+																</div>
+																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="header">
+																		Stones
+																	</div>
+																	<?php
+																	echo '<div class="header"><small>'. $itemInfo['no_of_stones'] .' - '. $itemInfo['total_carat_weight'] .'ct.</small></div>';
+																	?>																	
+																</div>
+																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="header">
+																		Clarity
+																	</div>
+																	<?php
+																	echo '<div class="header"><small>'. $itemInfo['clarity'] .'</small></div>';
+																	?>																	
+																</div>
+																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="header">
+																		Diamond
+																	</div>
+																	<?php
+																	echo '<div class="header"><small>'. getDiamondShape($itemInfo['diamond_shape'], $pdo) .'</small></div>';
+																	?>																	
+																</div>
 																<div class="quantity-wrapper clearfix">
 																	<label class="wrapper-title">Quantity</label>
 																	<div class="wrapper">
@@ -366,35 +410,7 @@ pconsole($_POST);
 														<div class="wls">
 															<?php echo $wishlist; ?>
 														</div>                                          
-													</div>                        
-													<ul id="tabs_detail" class="tabs-panel-detail hidden-xs hidden-sm">
-														<li class="first">
-															<h5><a href="#pop-one" class="fancybox">Measurements &amp; Specs</a></h5>
-														</li>
-														<li>
-															<h5><a href="#pop-two" class="fancybox">Shipping &amp; Returns</a></h5>
-														</li>
-														<li>
-															<h5><a href="#pop-three" class="fancybox">Size Charts</a></h5>
-														</li>
-													</ul>             
-													<div id="pop-one" style="display: none;">
-														<img src="./assets/images/demo_870x580.png" alt="">
-													</div>
-													<div id="pop-two" style="display: none;">
-														<h5>Returns Policy</h5>
-														<p>
-															You may return most new, unopened items within 30 days of delivery for a full refund. We'll also pay the return shipping costs if the return is a result of our error (you received an incorrect or defective item, etc.).You should expect to receive your refund within four weeks of giving your package to the return shipper, however, in many cases you will receive a refund more quickly. This time period includes the transit time for us to receive your return from the shipper (5 to 10 business days), the time it takes us to process your return once we receive it (3 to 5 business days), and the time it takes your bank to process our refund request (5 to 10 business days).If you need to return an item, simply login to your account, view the order using the 'Complete Orders' link under the My Account menu and click the Return Item(s) button. We'll notify you via e-mail of your refund once we've received and processed the returned item.
-														</p>
-														<br>
-														<h5>Shipping</h5>
-														<p>
-															We can ship to virtually any address in the world. Note that there are restrictions on some products, and some products cannot be shipped to international destinations.When you place an order, we will estimate shipping and delivery dates for you based on the availability of your items and the shipping options you choose. Depending on the shipping provider you choose, shipping date estimates may appear on the shipping quotes page.Please also note that the shipping rates for many items we sell are weight-based. The weight of any such item can be found on its detail page. To reflect the policies of the shipping companies we use, all weights will be rounded up to the next full pound.
-														</p>
-													</div>
-													<div id="pop-three" style="display: none;">
-														<img src="./assets/images/demo_870x580.png" alt="">
-													</div>                
+													</div>              
 												</div>
 											</div>
 										</div>				
@@ -469,7 +485,7 @@ pconsole($_POST);
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
 															<a href="./product.php?view='. $product['unique_key'] .'" class="container_item" style="height:277px;">
-															<img src="./images/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
+															<img src="./images/images_md/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
 															'. $sale .'
 															</a>
 															<div class="hbw">
@@ -526,6 +542,7 @@ pconsole($_POST);
 	<?php include './url/footer.php'; ?>
 </body>
 
+
 <div id="quick-shop-modal" class="modal in" role="dialog" aria-hidden="false" tabindex="-1" data-width="800">
 		<div class="modal-backdrop in" style="height: 742px;">
 		</div>
@@ -546,14 +563,12 @@ pconsole($_POST);
 							</div>
 						</div>
 						<div class="col-md-12 product-information">
-							<h1 id="quick-shop-title"><span> <a href="/products/curabitur-cursus-dignis">Curabitur cursus dignis</a></span></h1>
+							<h1 id="quick-shop-title"><span> <a href="/products/curabitur-cursus-dignis"></a></span></h1>
 							<div id="quick-shop-infomation" class="description">
 								<div id="quick-shop-description" class="text-left">
 									<p>
-										Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum.
 									</p>
 									<p>
-										Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor s...
 									</p>
 								</div>
 							</div>
@@ -620,6 +635,15 @@ pconsole($_POST);
 
 <script>
 
+$("#mainImage").elevateZoom({
+	   responsive: true,
+	   zoomType: "window", 
+	   containLensZoom: true,
+	   zoomWindowWidth: 350,
+	   tint: true,
+	   tintColour: "#607d8b"
+	});  
+
 function addToWishlist(key) {
 	//alert(key);
 	  	if (window.XMLHttpRequest) {
@@ -674,7 +698,7 @@ function quickShop(id) {
 				if ( result['images'] == "" ) {
 					images[0] = "0.png";
 				}	
-				$("#quick-shop-image .main-image img").attr("src", "./images/" + images[0]);
+				$("#quick-shop-image .main-image img").attr("src", "./images/images_md/" + images[0]);
 				
 				//Remove old Thumbs if any
 				var currentThumbs = $(".image-thumb").length;
@@ -684,7 +708,7 @@ function quickShop(id) {
 				}
 				//Item Thumbnals
 				for ( var i = 0; i < images.length-1; i++ ) {
-					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/'+ images[i] +'" ><img src="./images/thumbnails/'+ images[i] +'" alt=""/></a>';
+					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/images_md/'+ images[i] +'" ><img src="./images/images_sm/'+ images[i] +'" alt=""/></a>';
 					//console.log("1 Item Added");
 					$('#gallery_main_qs').owlCarousel().data('owlCarousel').addItem(content);
 					$('.owl-item').toggleClass('show-item');
@@ -786,5 +810,16 @@ function selectSize (e) {
 			$(element).removeClass('size-badge-active');
 		}
 	});
+}
+
+function selectImage(image) {
+	$('#mainImage').data("zoom-image", image).elevateZoom({
+	   responsive: true,
+	   zoomType: "window", 
+	   containLensZoom: true,
+	   zoomWindowWidth: 350,
+	   tint: true,
+	   tintColour: "#607d8b"
+	}); 
 }
 </script>

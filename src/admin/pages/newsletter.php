@@ -31,6 +31,7 @@ include '../../url/require.php';
     <link href="../assets/custom.min.css" rel="stylesheet">
     <link href="../assets/font-awesome.min.css" rel="stylesheet">
     <link href="../assets/admin.css" rel="stylesheet">
+    <link rel="icon" href="../../images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
 
     <script src="../assets/ckeditor/ckeditor.js"></script>
     <script src="../assets/ckeditor/config.js"></script>

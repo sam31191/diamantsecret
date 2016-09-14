@@ -25,6 +25,7 @@
 	<link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
 	<link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
   	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+  	<link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
 	
 	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
 	<script src="./assets/javascripts/jquery.imagesloaded.min.js" type="text/javascript"></script>
@@ -53,7 +54,7 @@ include 'url/require.php';
 if ( isset($_POST['addToCart']) ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
 	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
-	$fetchCurrentCart->execute(array(":user" => $_SESSION['username']));
+	$fetchCurrentCart->execute(array(":user" => $_USERNAME));
 
 	$currentCart = $fetchCurrentCart->fetch(PDO::FETCH_ASSOC);
 	$currentCart = $currentCart['cart'];
@@ -86,11 +87,11 @@ if ( isset($_POST['addToCart']) ) {
 	}
 
 	$updateCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user");
-	$updateCart->execute(array(":cart" => $currentCart, ":user" => $_SESSION['username']));
+	$updateCart->execute(array(":cart" => $currentCart, ":user" => $_USERNAME));
 } else if ( isset($_POST['removeFromCart']) ) {
 	$getCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
 	$getCart->execute(array(
-		":user" => $_SESSION['username']
+		":user" => $_USERNAME
 	));
 	$inputCart = $getCart->fetch(PDO::FETCH_ASSOC);
 	$cart = $inputCart['cart'];
@@ -100,7 +101,7 @@ if ( isset($_POST['addToCart']) ) {
 	$addToCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user");
 	$addToCart->execute(array(
 		":cart" => $cart,
-		":user" => $_SESSION['username']
+		":user" => $_USERNAME
 	));
 }
 ?>
@@ -178,14 +179,14 @@ if ( isset($_POST['addToCart']) ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection.php_earrings" title="Browse our Earrings">
+																			<a href="./collection_earrings.php" title="Browse our Earrings">
 																			<img src="./images/gfx/earring_270x270.png" alt="Earrings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
 																			<span class="col-name"><a href="./collection_earrings.php">Earrings</a></span>
 																			<div class="collection-action">
-																				<a href="./collection.php_earrings">See the Collection</a>
+																				<a href="./collection_earrings.php">See the Collection</a>
 																			</div>
 																		</div>
 																	</div>
@@ -320,7 +321,7 @@ if ( isset($_POST['addToCart']) ) {
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
 															<a href="./product.php?view='. $product['unique_key'] .'" class="container_item"  style="height:375px;">
-															<img src="./images/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
+															<img src="./images/images_md/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
 															'. $sale .'
 															</a>
 															<div class="hbw">
@@ -472,7 +473,7 @@ if ( isset($_POST['addToCart']) ) {
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
 															<a href="./product.php?view='. $product['unique_key'] .'" class="container_item" style="height:277px;">
-															<img src="./images/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
+															<img src="./images/images_md/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
 															'. $sale .'
 															</a>
 															<div class="hbw">
@@ -671,7 +672,7 @@ function quickShop(id) {
 				if ( result['images'] == "" ) {
 					images[0] = "0.png";
 				}	
-				$("#quick-shop-image .main-image img").attr("src", "./images/" + images[0]);
+				$("#quick-shop-image .main-image img").attr("src", "./images/images/" + images[0]);
 				
 				//Remove old Thumbs if any
 				var currentThumbs = $(".image-thumb").length;
@@ -681,7 +682,7 @@ function quickShop(id) {
 				}
 				//Item Thumbnals
 				for ( var i = 0; i < images.length-1; i++ ) {
-					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/'+ images[i] +'" ><img src="./images/thumbnails/'+ images[i] +'" alt=""/></a>';
+					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/images/'+ images[i] +'" ><img src="./images/images_sm/'+ images[i] +'" alt=""/></a>';
 					//console.log("1 Item Added");
 					$('#gallery_main_qs').owlCarousel().data('owlCarousel').addItem(content);
 					$('.owl-item').toggleClass('show-item');
@@ -733,6 +734,12 @@ function quickShop(id) {
 					$("#quick-shop-size").show();
 				} else {
 					$("#quick-shop-size").hide();
+				}
+
+				if ( result['pieces_in_stock'] <= 0 ) {
+					$("#buttonDiv").html('<button class="btn" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" disabled>Out of Stock</button>');
+				} else {
+					$("#buttonDiv").html('<button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;">Add to Cart</button>');
 				}
 
 				$("#quick-shop-unique-key").val(result['unique_key']);

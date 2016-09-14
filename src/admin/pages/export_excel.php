@@ -36,16 +36,21 @@
 	    <link href="../assets/custom.min.css" rel="stylesheet">
 	    <link href="../assets/font-awesome.min.css" rel="stylesheet">
 	    <link href="../assets/admin.css" rel="stylesheet">
+  	<link rel="icon" href="../../images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
 	  </head>
 	  <body class="nav-md">
 
 	  
         <div id="uploadDiv" style="background:rgba(0,0,0,0.75); height:100%; width:100%; position:fixed; z-index:100" hidden>
-        	<a href="javascript:void(0);"><span id="uploadDivCloseIcon" class="fa fa-close" style="font-size: 20px; margin: 20px; right: 0px; position: absolute; color: #F44336;" onclick="$('#uploadDiv').toggle();" data-toggle="tooltip" data-placement="bottom" title="Close"></span></a>
+        	
 
         		
+        	<div style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 300px; margin-left: -400px; margin-top: -150px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
+        		<a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 19px; position: absolute; display: block; z-index: 1; right: 0;" onclick="window.location = './export_excel.php';" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
+        	</div>
+        	
         	<div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 300px; margin-left: -400px; margin-top: -150px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
-	        	<img src="../../images/cube.gif">
+	        	<img src="../../images/gfx/cube_lg.gif">
 	        	<h5 style="    position: absolute; top: 0; font-style: italic;">Importing ...</h5>
         	</div>
         </div>
@@ -67,26 +72,294 @@
 	        <div class="right_col" role="main">
 	        <div>
         
-		        <h3>Export to Excel <?php
-		        	$countAll = $pdo->prepare("SELECT `id` FROM `items`");
+		        <h3>Export to Excel 
+		        	<div class="btn-group">
+		            <?php 
+		                if ( isset($_GET['show']) ){
+		                    switch($_GET['show']) {
+		                        case 1: {
+		                            $showTag = 'Rings';
+		                            break;
+		                        } case 2: {
+		                            $showTag = 'Earrings';
+		                            break;
+		                        } case 3: {
+		                            $showTag = 'Pendants';
+		                            break;
+		                        } case 4: {
+		                            $showTag = 'Necklaces';
+		                            break;
+		                        } case 5: {
+		                            $showTag = 'Bracelets';
+		                            break;
+		                        } default: {
+		                            $showTag = "All";
+			    					$currentShowing = "";
+			    					$show = "";
+		                            break;
+		                        }
+		                    }
+		                } else {
+		                    $showTag = 'All'; 
+		                }
+		        		echo '<button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		        			'. $showTag .' <span class="fa fa-caret-down"></span>
+		        		</button>';
+			    		$filter = "id";
+			    		$currentOrder = "ASC";
+			    		if ( isset($_GET['filter']) && isset($_GET['order']) ) {
+			    			$filter = $_GET['filter'];
+			    			$currentOrder = $_GET['order'];
+			    		}
+			    		if ( $currentOrder == "ASC" ) {
+			    			$nextOrder = "DESC";
+			    		} else {
+			    			$nextOrder = "ASC";
+			    		}
+			    		if ( isset($_GET['show']) && !empty($_GET['show']) ) {
+			    			$show = " WHERE `category` = " . $_GET['show'];
+			    			$currentShowing = $_GET['show'];
+			    		} else {
+			    			$show = "";
+			    			$currentShowing = "";
+			    		}
+		        		echo'
+						  <ul class="dropdown-menu">
+						    <li><a href="?filter='. $filter .'&order='. $currentOrder .'">All</a></li>
+						    <li><a href="?filter='. $filter .'&order='. $currentOrder .'&show=1">Rings</a></li>
+						    <li><a href="?filter='. $filter .'&order='. $currentOrder .'&show=2">Earrings</a></li>
+						    <li><a href="?filter='. $filter .'&order='. $currentOrder .'&show=3">Pendants</a></li>
+						    <li><a href="?filter='. $filter .'&order='. $currentOrder .'&show=4">Necklaces</a></li>
+						    <li><a href="?filter='. $filter .'&order='. $currentOrder .'&show=5">Bracelets</a></li>
+						  </ul>
+						  ';
+					?>
+					</div>
+		        <?php
+
+					$count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items`". $show. "");
+					$count->execute();
+					$totalRows = $count->fetch(PDO::FETCH_ASSOC);
+					$totalRows = $totalRows['totalRows'];
+					pconsole($totalRows);
+					$perPage = 25;
+					$pages = $totalRows/$perPage;
+					if ( isset($_GET['page']) ) {
+						$currentPage = $_GET['page'];
+					} else {
+						$currentPage = 0;
+					}
+
+		        	if ( isset($_GET['filter']) && isset($_GET['order']) ) {
+		        		$filter = $_GET['filter'];
+		        		$currentOrder = $_GET['order'];
+						if ( $_GET['order'] == "DESC" ) {
+							$order = "ASC";
+						} else {
+							$order = "DESC";
+						}
+
+		        	} else {
+		        		$filter = "date_added";
+		        		$order = "ASC";
+		        		$currentOrder = "DESC";
+		        	}
+					if ( isset($_GET['page']) ) {
+						$offset = $_GET['page'] * $perPage;
+					} else {
+						$offset = 0;
+					}
+
+		        	$countAll = $pdo->prepare("SELECT `id` FROM `items`". $show);
 		        	$countAll->execute();
 		        		echo '<h3><small>' . $countAll->rowCount() . ' Items Found</small>
 					        		<div id="bulkManage" style="float:right">
-					                <button class="btn btn-success" name="bulkManage" onClick="exportAll()">Export All</button>
+					                <button class="btn btn-success" name="bulkManage" onClick="exportAll('. $currentShowing .')">Export '. $showTag .'</button>
 					                <button class="btn btn-info" name="bulkManage" onClick="exportSelected()">Export Selected (<span class="selected-num">0</span>)</button>
 					            </form>
 					        </h3>';
 		        	?></h3>
-		        	<table class="table table-hover table-custom" style="display:block; overflow:auto; white-space:nowrap; min-height: 80vh;" >
+		        	<table class="table table-hover table-custom table-custom-items" >
 		            	<thead>
+		            		<?php
+		            		$typeCaret = "";
+		            		$idCaret = "";
+		            		$featuredCaret = "";
+		            		$internalIDCaret = "";
+		            		$companyCaret = "";
+		            		$nameCaret = "";
+		            		$priceCaret = "";
+		            		$discountCaret = "";
+		            		$stockCaret = "";
+		            		$shipmentCaret = "";
+		            		$caratWeightCaret = "";
+		            		$numOfStonesCaret = "";
+		            		$diamondShapeCaret = "";
+		            		$clarityCaret = "";
+		            		$colorCaret = "";
+		            		$materialCaret = "";
+		            		$heightCaret = "";
+		            		$widthCaret = "";
+		            		$lengthCaret = "";
+		            		$countryCaret = "";
+		            		$ringSizeCaret = "";
+		            		$ringCategoryCaret = "";
+		            		$dateAddedCaret = "";
+
+		            		switch ($filter . " " . $currentOrder) {
+		            			case 'category DESC': {
+		            				$typeCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'category ASC': {
+		            				$typeCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'id ASC': {
+		            				$idCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'id DESC': {
+		            				$idCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'featured ASC': {
+		            				$featuredCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'featured DESC': {
+		            				$featuredCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'internal_id ASC': {
+		            				$internalIDCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'internal_id DESC': {
+		            				$internalIDCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'company_id ASC': {
+		            				$companyCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'company_id DESC': {
+		            				$companyCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'item_name ASC': {
+		            				$nameCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'item_name DESC': {
+		            				$nameCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'item_value ASC': {
+		            				$priceCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'item_value DESC': {
+		            				$priceCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'discount ASC': {
+		            				$discountCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'discount DESC': {
+		            				$discountCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'pieces_in_stock ASC': {
+		            				$stockCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'pieces_in_stock DESC': {
+		            				$stockCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'days_for_shipment ASC': {
+		            				$shipmentCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'days_for_shipment DESC': {
+		            				$shipmentCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'total_carat_weight ASC': {
+		            				$caratWeightCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'total_carat_weight DESC': {
+		            				$caratWeightCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'no_of_stones ASC': {
+		            				$numOfStonesCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'no_of_stones DESC': {
+		            				$numOfStonesCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'diamond_shape ASC': {
+		            				$diamondShapeCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'diamond_shape DESC': {
+		            				$diamondShapeCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'clarity ASC': {
+		            				$clarityCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'clarity DESC': {
+		            				$clarityCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'color ASC': {
+		            				$colorCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'color DESC': {
+		            				$colorCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'material ASC': {
+		            				$materialCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'material DESC': {
+		            				$materialCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'height ASC': {
+		            				$heightCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'height DESC': {
+		            				$heightCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'width ASC': {
+		            				$widthCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'width DESC': {
+		            				$widthCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'length ASC': {
+		            				$lengthCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'length DESC': {
+		            				$lengthCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'country_id ASC': {
+		            				$countryCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'country_id DESC': {
+		            				$countryCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'ring_size ASC': {
+		            				$ringSizeCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'ring_size DESC': {
+		            				$ringSizeCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'ring_subcategory ASC': {
+		            				$ringCategoryCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'ring_subcategory DESC': {
+		            				$ringCategoryCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} case 'date_added ASC': {
+		            				$dateAddedCaret = '<i class="fa fa-caret-down"></i>';
+		            				break;
+		            			} case 'date_added DESC': {
+		            				$dateAddedCaret = '<i class="fa fa-caret-up"></i>';
+		            				break;
+		            			} default: {
+
+		            				break;
+		            			}
+		            		}
+
+		            		?>
 		                	<th><input id="masterCheckbox" type="checkbox" onClick="selectAll(this)"></th>
-		                	<th>Type</th>
-		                	<th>ID</th>
+		                	<th><?php echo '<a href="?page='. $currentPage .'&filter=category&order='. $order .'&show='. $currentShowing .'">Type '. $typeCaret .'</a>'; ?></th>
+		                	<th><?php echo '<a href="?page='. $currentPage .'&filter=id&order='. $order .'&show='. $currentShowing .'">ID '. $idCaret .'</a>'; ?></th>
 		                	<th>Internal ID</th>
-		                	<th>Company ID</th>
-		                	<th>Name</th>
-		                	<th>Price</th>
-		                	<th>Discount</th>
+		                	<th>Company</th>
+		                	<th><?php echo '<a href="?page='. $currentPage .'&filter=item_name&order='. $order .'&show='. $currentShowing .'">Name '. $nameCaret .'</a>'; ?></th>
+		                	<th><?php echo '<a href="?page='. $currentPage .'&filter=item_value&order='. $order .'&show='. $currentShowing .'">Price '. $priceCaret .'</a>'; ?></th>
+		                	<th><?php echo '<a href="?page='. $currentPage .'&filter=discount&order='. $order .'&show='. $currentShowing .'">Discount '. $discountCaret .'</a>'; ?></th>
 		                	<th>Stock</th>
 		                	<th>Shipment Days</th>
 		                	<th>Carat Weight</th>
@@ -104,8 +377,9 @@
 		                </thead>
 		                <tbody>
 		                	<?php
-							$query = $pdo->prepare("SELECT * FROM `items`");
+							$query = $pdo->prepare("SELECT * FROM `items`". $show ." ORDER BY ". $filter . " " . $currentOrder . " LIMIT ". $offset .", ". $perPage ." ");
 							$query->execute();
+							pconsole($query);
 							$result = $query->fetchAll();
 							
 							for ( $i = 0; $i < sizeof($result); $i++ ) {
@@ -131,6 +405,8 @@
 									case 5: {
 										$getInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :key");
 										break;
+									} default: {
+										return;
 									}
 								}
 								$getInfo->execute(array(":key" => $entry['unique_key']));
@@ -173,6 +449,32 @@
 							?>
 		                </tbody>
 		            </table>
+		            <nav aria-label="Page navigation" style="display: block; text-align: center;">
+					  <ul class="pagination" style="margin-top:0px;">
+					  <?php 
+
+					  	for ( $i = 0; $i < $pages; $i++ ) {
+					  		if ( $i == 0 ) {
+					  			echo '<li><a href="?page='. $i .'&filter='. $filter .'&order='. $currentOrder .'&show='. $currentShowing .'">first</a></li>';
+					  		}
+
+					  		if ( $i > $currentPage - 3 && $i < $currentPage + 3 ) {
+					  			$class = "";
+					  			if ( $i == $currentPage ) {
+					  				$class = "active";
+					  			}
+					  			echo '<li class="'. $class .'"><a href="?page='. $i .'&filter='. $filter .'&order='. $currentOrder .'&show='. $currentShowing .'">'. intval($i+1) .'</a></li>';
+					  		}else if ( $i > $currentPage - 4 && $i < $currentPage + 4 ) {
+					  			echo '<li><a href="#">.</a></li>';
+					  		}
+
+					  		if ( $i == intval($pages) ){
+					  			echo '<li><a href="?page='. $i .'&filter='. $filter .'&order='. $currentOrder .'&show='. $currentShowing .'">last</a></li>';
+					  		}
+					  	}
+					  ?>
+					  </ul>
+					</nav>
 		        </div>
 	        </div>
 	        <!-- /page content -->
@@ -249,7 +551,7 @@ function bulkRemoveItems() {
 }
 
 function exportSelected() {
-	alert("Exporting Selected");
+	//alert("Exporting Selected");
 
 	var selected = "";
 	$(".select-checkbox").each(function (index, element) {
@@ -284,7 +586,7 @@ function exportSelected() {
 	    },
 	    beforeSend: function() {
 	    	$('#uploadDiv').show();
-	    	$('#resultDiv').html('<img src="../../images/cube.gif"><h5 style="position: absolute; top: 0; font-style: italic;">Exporting ...</h5>');
+	    	$('#resultDiv').html('<img src="../../images/gfx/cube_lg.gif"><h5 style="position: absolute; top: 0; font-style: italic;">Exporting ...</h5>');
 	    	$('#uploadDivCloseIcon').hide();
 	    },
 	    complete: function() {
@@ -299,10 +601,10 @@ function exportSelected() {
 	});
 }
 
-function exportAll() {
-	alert("Exporting All");
+function exportAll(category = 0) {
+	//alert("Exporting All");
 	$.ajax({
-		url: './ajax.php?exportSelected=',
+		url: './ajax.php?exportAll=' + category,
 		type: 'GET',
 		xhr: function() {
 	        var xhr = new window.XMLHttpRequest();
@@ -324,7 +626,7 @@ function exportAll() {
 	    },
 	    beforeSend: function() {
 	    	$('#uploadDiv').show();
-	    	$('#resultDiv').html('<img src="../../images/cube.gif"><h5 style="position: absolute; top: 0; font-style: italic;">Exporting ...</h5>');
+	    	$('#resultDiv').html('<img src="../../images/gfx/cube_lg.gif"><h5 style="position: absolute; top: 0; font-style: italic;">Exporting ...</h5>');
 	    	$('#uploadDivCloseIcon').hide();
 	    },
 	    complete: function() {

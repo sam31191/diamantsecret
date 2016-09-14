@@ -19,6 +19,7 @@
 	<link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
 	<link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
 	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+  	<link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
 	
 	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
 	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>

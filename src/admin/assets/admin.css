@@ -20,6 +20,10 @@ a:hover {
 nav {
 	border-radius:0 !important;
 }
+
+.fa-cog {
+	color: #ddd;
+}
 .navbar {
 	margin-bottom:0px !important;
 }
@@ -420,6 +424,13 @@ input[type=file] {
 .fav-true {
 	color: #E91E63;
 }
+.table-custom-items {
+    display: block;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    white-space: nowrap;
+    height: 65vh;
+}
 .table-custom > thead > tr > th {
 	border: none;
 	text-align: center;
@@ -440,9 +451,6 @@ input[type=file] {
 }
 .owl-carousel.start {
 	animation:ease-in 0.5s;
-}
-.fa {
-	color: #ddd;
 }
 .alert {
 	font-variant: small-caps;
@@ -478,4 +486,17 @@ input[type=file] {
 .dropdown-menu>li>a {
     color: #5A738E;
     padding: 6px 15px;
+}
+.label-custom {
+    font-size: 12px;
+    margin: 5px;
+}
+.pagination {
+    margin: 0;
+    position: fixed; 
+    bottom: 10px;
+    left: 25vw;
+}
+.right_col {
+    height: 94vh;
 }

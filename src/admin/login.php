@@ -14,6 +14,7 @@
     <!-- Custom Theme Style -->
     <link href="./assets/custom.min.css" rel="stylesheet">
     <link href="./assets/admin.css" rel="stylesheet">
+    <link rel="icon" href="../../images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
     <!-- Animate.css -->
     <link href="https://colorlib.com/polygon/gentelella/css/animate.min.css" rel="stylesheet">
 
@@ -88,7 +89,7 @@ if ( isset($_SESSION['modSession']) && $_SESSION['modSession'] ) {
                 <br />
 
                 <div>
-                  <h1><img src="../assets/images/logo.png"></h1>
+                  <h1><img src="../images/gfx/logo.png" style="width: 100%;"></h1>
                   <p>©2016 All Rights Reserved. Privacy and Terms</p>
                 </div>
               </div>

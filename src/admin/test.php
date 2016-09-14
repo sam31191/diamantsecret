@@ -25,7 +25,7 @@ var_dump($_FILES);
 /** Include path **/
 set_include_path(get_include_path() . PATH_SEPARATOR . './PHPExcel/');
 
-/** PHPExcel_IOFactory */
+/** PHPExcel_IOFactory 
 include 'PHPExcel/IOFactory.php';
 
 $url='https://images.baunat.com/en/82414_CL-GW-R3-0030S_1_722x722/0-30-carat-solitaire-diamond-engagement-ring-in-white-gold';
@@ -70,7 +70,6 @@ foreach ( $array as $entry ) {
 	$enterVat->execute(array(":1" => $entry[0], ":2" => $entry[1], ":3" => $entry[2]));
 }
 
-/*
 if ( isset($_FILES['excel_sheet']) ) {
 	$xlFile = $_FILES['excel_sheet']['tmp_name'];
 	echo 'Loading file ',pathinfo($xlFile,PATHINFO_BASENAME),' using IOFactory to identify the format<br />';
@@ -122,6 +121,15 @@ echo '<hr />';
 $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 //var_dump($sheetData);
 */
+include '../url/require.php';
+
+$q = $pdo->prepare("SELECT items.* FROM items JOIN pendants ON items.unique_key = pendants.unique_key JOIN earrings ON items.unique_key = earrings.unique_key");
+
+$q->execute();
+
+
+echo var_dump($q->fetchAll());
+
 ?>
 <form method="post" enctype="multipart/form-data">
 <input type="file" title="Select Excel File" name="excel_sheet" />

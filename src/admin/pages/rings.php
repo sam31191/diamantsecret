@@ -83,13 +83,17 @@ if ( isset($_POST['featuredAdd']) ) {
 	foreach ( $images as $image ) {
 		if ( $image !== "") {
 			//echo var_dump($image);
-			$imageFile = "../../images/" . $image;
-			$thumb = "../../images/thumbnails/" . $image;
+			$imageFile = "../../images/images/" . $image;
+			$imageMDFile = "../../images/images_md/" . $image;
+			$imageSMFile = "../../images/images_sm/" . $image;
 			if ( file_exists($imageFile) ) {
 				unlink($imageFile);
 			}
-			if ( file_exists($thumb) ) {
-				unlink($thumb);
+			if ( file_exists($imageMDFile) ) {
+				unlink($imageMDFile);
+			}
+			if ( file_exists($imageSMFile) ) {
+				unlink($imageSMFile);
 			}
 		}
 	} 
@@ -312,13 +316,17 @@ if ( isset($_POST['featuredAdd']) ) {
 				foreach ( $images as $image ) {
 					if ( $image !== "") {
 						//echo var_dump($image);
-						$imageFile = "../../images/" . $image;
-						$thumb = "../../images/thumbnails/" . $image;
+						$imageFile = "../../images/images/" . $image;
+						$imageMDFile = "../../images/images_md/" . $image;
+						$imageSMFile = "../../images/images_sm/" . $image;
 						if ( file_exists($imageFile) ) {
 							unlink($imageFile);
 						}
-						if ( file_exists($thumb) ) {
-							unlink($thumb);
+						if ( file_exists($imageMDFile) ) {
+							unlink($imageMDFile);
+						}
+						if ( file_exists($imageSMFile) ) {
+							unlink($imageSMFile);
 						}
 					}
 				}
@@ -358,16 +366,43 @@ if ( isset($_POST['featuredAdd']) ) {
 	pconsole($_POST['removeAll']);
 
 
-	$imagePath = '../../images/';
-	$thumbPath = '../../images/thumbnails/';
+	$imagePath = '../../images/images/';
+	$imageMDPath = '../../images/images_md/';
+	$imageSMPath = '../../images/images_sm/';
 
-	$scr = scandir('../../images/');
-	$scrThumb = scandir('../../images/thumbnails/');
+	$scr = scandir($imagePath);
+	$scrMD = scandir($imageMDPath);
+	$scrSM = scandir($imageSMPath);
 
 	switch ($_POST['removeAll']) {
 		case 'all':{
-			$truncateTable = $pdo->prepare("TRUNCATE TABLE `items`, `rings,` `earrings`, `pendants`, `necklaces`, `bracelets`");
+			$truncateTable = $pdo->prepare("TRUNCATE TABLE `items`");
+			$truncateTable1 = $pdo->prepare("TRUNCATE TABLE `rings`");
+			$truncateTable2 = $pdo->prepare("TRUNCATE TABLE `earrings`");
+			$truncateTable3 = $pdo->prepare("TRUNCATE TABLE `pendants`");
+			$truncateTable4 = $pdo->prepare("TRUNCATE TABLE `necklaces`");
+			$truncateTable5 = $pdo->prepare("TRUNCATE TABLE `bracelets`");
 			$truncateTable->execute();
+			$truncateTable1->execute();
+			$truncateTable2->execute();
+			$truncateTable3->execute();
+			$truncateTable4->execute();
+			$truncateTable5->execute();
+			foreach ( $scr as $file ) {
+				if ( strstr($file, "ring_") || strstr($file, "earring_") || strstr($file, "pendant_") || strstr($file, "necklace_") || strstr($file, "bracelet_")  ) {
+					unlink($imagePath . $file);
+				}
+			}
+			foreach ( $scrMD as $file ) {
+				if ( strstr($file, "ring_") || strstr($file, "earring_") || strstr($file, "pendant_") || strstr($file, "necklace_") || strstr($file, "bracelet_")  ) {
+					unlink($imageMDPath . $file);
+				}
+			}
+			foreach ( $scrSM as $file ) {
+				if ( strstr($file, "ring_") || strstr($file, "earring_") || strstr($file, "pendant_") || strstr($file, "necklace_") || strstr($file, "bracelet_")  ) {
+					unlink($imageSMPath . $file);
+				}
+			}
 			break;
 		} case 'rings':{
 			$truncateTable = $pdo->prepare("TRUNCATE TABLE `rings`");
@@ -380,9 +415,14 @@ if ( isset($_POST['featuredAdd']) ) {
 					unlink($imagePath . $file);
 				}
 			}
-			foreach ( $scrThumb as $file ) {
+			foreach ( $scrMD as $file ) {
 				if ( strstr($file, "ring_") && !strstr($file, "earring_") ) {
-					unlink($thumbPath . $file);
+					unlink($imageMDPath . $file);
+				}
+			}
+			foreach ( $scrSM as $file ) {
+				if ( strstr($file, "ring_") && !strstr($file, "earring_") ) {
+					unlink($imageSMPath . $file);
 				}
 			}
 
@@ -397,12 +437,17 @@ if ( isset($_POST['featuredAdd']) ) {
 					unlink($imagePath . $file);
 				}
 			}
-			foreach ( $scrThumb as $file ) {
+			foreach ( $scrMD as $file ) {
 				if ( strstr($file, "earring_") ) {
-					unlink($thumbPath . $file);
+					unlink($imageMDPath . $file);
 				}
 			}
-			
+			foreach ( $scrSM as $file ) {
+				if ( strstr($file, "earring_") ) {
+					unlink($imageSMPath . $file);
+				}
+			}
+
 			break;
 		} case 'pendants':{
 			$truncateTable = $pdo->prepare("TRUNCATE TABLE `pendants`");
@@ -414,12 +459,17 @@ if ( isset($_POST['featuredAdd']) ) {
 					unlink($imagePath . $file);
 				}
 			}
-			foreach ( $scrThumb as $file ) {
+			foreach ( $scrMD as $file ) {
 				if ( strstr($file, "pendant_") ) {
-					unlink($thumbPath . $file);
+					unlink($imageMDPath . $file);
 				}
 			}
-			
+			foreach ( $scrSM as $file ) {
+				if ( strstr($file, "pendant_") ) {
+					unlink($imageSMPath . $file);
+				}
+			}
+
 			break;
 		} case 'necklaces':{
 			$truncateTable = $pdo->prepare("TRUNCATE TABLE `necklaces`");
@@ -431,28 +481,39 @@ if ( isset($_POST['featuredAdd']) ) {
 					unlink($imagePath . $file);
 				}
 			}
-			foreach ( $scrThumb as $file ) {
+			foreach ( $scrMD as $file ) {
 				if ( strstr($file, "necklace_") ) {
-					unlink($thumbPath . $file);
+					unlink($imageMDPath . $file);
 				}
 			}
-			
+			foreach ( $scrSM as $file ) {
+				if ( strstr($file, "necklace_") ) {
+					unlink($imageSMPath . $file);
+				}
+			}
+
 			break;
 		} case 'bracelets':{
 			$truncateTable = $pdo->prepare("TRUNCATE TABLE `bracelets`");
 			$removeAll = $pdo->prepare("DELETE FROM `items` WHERE `category` = 5");
 			$removeAll->execute();
+
 			foreach ( $scr as $file ) {
 				if ( strstr($file, "bracelet_") ) {
 					unlink($imagePath . $file);
 				}
 			}
-			foreach ( $scrThumb as $file ) {
+			foreach ( $scrMD as $file ) {
 				if ( strstr($file, "bracelet_") ) {
-					unlink($thumbPath . $file);
+					unlink($imageMDPath . $file);
 				}
 			}
-			
+			foreach ( $scrSM as $file ) {
+				if ( strstr($file, "bracelet_") ) {
+					unlink($imageSMPath . $file);
+				}
+			}
+
 			break;
 		} 
 	}
@@ -517,8 +578,19 @@ if ( isset($_POST['featuredAdd']) ) {
 		if ( $_FILES['itemImage']['error'][$count] == 0 ) {
 				$image_dir = "../../images/";
 				$image_ext = pathinfo($image_dir . basename($_FILES['itemImage']['name'][$count]), PATHINFO_EXTENSION);
-				$image_file = $image_dir . 'ring_' . $itemID;
-				$thumb_file = $image_dir . "thumbnails/ring_" . $itemID;
+				$image_file = $image_dir . 'images/ring_' . $itemID;
+				$image_md_file = $image_dir . "images_md/ring_" . $itemID;
+				$image_sm_file = $image_dir . "images_sm/ring_" . $itemID;
+
+				if ( !is_dir($image_dir . 'images/') ) {
+					mkdir($image_dir . 'images/');
+				}
+				if ( !is_dir($image_dir . 'images_md/') ) {
+					mkdir($image_dir . 'images_md/');
+				}
+				if ( !is_dir($image_dir . 'images_sm/') ) {
+					mkdir($image_dir . 'images_sm/');
+				}
 				
 				$check = getimagesize($_FILES['itemImage']['tmp_name'][$count]);
 				if ( $check ) {
@@ -528,10 +600,12 @@ if ( isset($_POST['featuredAdd']) ) {
 							$i++;
 						}
 						$image_file .= "_" . $i;
-						$thumb_file .= "_" . $i; 
+						$image_md_file .= "_" . $i; 
+						$image_sm_file .= "_" . $i; 
 					}
 					if ( move_uploaded_file($_FILES['itemImage']['tmp_name'][$count], $image_file . "." . $image_ext) ) {
-						create_thumb($image_file . "." . $image_ext, 200, 200, $thumb_file . '.' . $image_ext);
+						create_thumb($image_file . "." . $image_ext, 600, 600, $image_md_file . '.' . $image_ext);
+						create_thumb($image_file . "." . $image_ext, 200, 200, $image_sm_file . '.' . $image_ext);
 					}
 				} else {
 					echo var_dump("Not Image");
@@ -618,6 +692,7 @@ function checkKey($key, $pdo) {
     <link href="../assets/custom.min.css" rel="stylesheet">
     <link href="../assets/font-awesome.min.css" rel="stylesheet">
     <link href="../assets/admin.css" rel="stylesheet">
+  	<link rel="icon" href="../../images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
   </head>
 
   <body class="nav-md">
@@ -638,13 +713,28 @@ function checkKey($key, $pdo) {
         <div class="right_col" role="main">
         <div>
         
-        <h3>Rings <button class="btn btn-custom" data-toggle="modal" data-target="#promptAddItem">Add</button><?php
+        <h3><?php
 
-        	if ( isset($_GET['order']) && isset($_GET['filter']) ) {
+        	echo '<div class="btn-group">
+				  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    Rings <span class="caret"></span>
+				  </button><button class="btn btn-custom" data-toggle="modal" data-target="#promptAddItem">Add</button>
+				  <ul class="dropdown-menu">
+				    <li><a href="./all_items.php">All</a></li>
+				    <li role="separator" class="divider"></li>
+				    <li><a href="./rings.php">Rings</a></li>
+				    <li><a href="./earrings.php">Earrings</a></li>
+				    <li><a href="./pendants.php">Pendants</a></li>
+				    <li><a href="./necklaces.php">Necklaces</a></li>
+				    <li><a href="./bracelets.php">Braclets</a></li>
+				  </ul>
+				</div>';
+
+        	/*if ( isset($_GET['order']) && isset($_GET['filter']) ) {
         		echo '<small>Sorted: <span style="text-transform: capitalize;">'. str_replace("_", " ", $_GET['filter']) .' - '; 
         		echo ($_GET['order'] == "ASC") ? "Ascending" : "Descending";
         		echo '</span></small>';
-        	}
+        	}*/
 
 			$count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items` WHERE `category` = 1");
 			$count->execute();
@@ -669,7 +759,7 @@ function checkKey($key, $pdo) {
 				}
 
         	} else {
-        		$filter = "date_added";
+        		$filter = "items.id";
         		$order = "ASC";
         		$currentOrder = "DESC";
         	}
@@ -705,45 +795,216 @@ function checkKey($key, $pdo) {
 		        </h3>';
         	?></h3>
 
-        	<table class="table table-hover table-custom" style="display:block; overflow-y: hidden; overflow-x: scroll; white-space:nowrap; min-height: 80vh;" >
+        	<table class="table table-hover table-custom table-custom-items" >
             	<thead>
+            		<?php
+            		$typeCaret = "";
+            		$idCaret = "";
+            		$featuredCaret = "";
+            		$internalIDCaret = "";
+            		$companyCaret = "";
+            		$nameCaret = "";
+            		$priceCaret = "";
+            		$discountCaret = "";
+            		$stockCaret = "";
+            		$shipmentCaret = "";
+            		$caratWeightCaret = "";
+            		$numOfStonesCaret = "";
+            		$diamondShapeCaret = "";
+            		$clarityCaret = "";
+            		$colorCaret = "";
+            		$materialCaret = "";
+            		$heightCaret = "";
+            		$widthCaret = "";
+            		$lengthCaret = "";
+            		$countryCaret = "";
+            		$ringSizeCaret = "";
+            		$ringCategoryCaret = "";
+            		$dateAddedCaret = "";
+
+            		switch ($filter . " " . $currentOrder) {
+            			case 'category DESC': {
+            				$typeCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'category ASC': {
+            				$typeCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'items.id ASC': {
+            				$idCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'items.id DESC': {
+            				$idCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'featured ASC': {
+            				$featuredCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'featured DESC': {
+            				$featuredCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'internal_id ASC': {
+            				$internalIDCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'internal_id DESC': {
+            				$internalIDCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'company_id ASC': {
+            				$companyCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'company_id DESC': {
+            				$companyCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'item_name ASC': {
+            				$nameCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'item_name DESC': {
+            				$nameCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'item_value ASC': {
+            				$priceCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'item_value DESC': {
+            				$priceCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'discount ASC': {
+            				$discountCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'discount DESC': {
+            				$discountCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'pieces_in_stock ASC': {
+            				$stockCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'pieces_in_stock DESC': {
+            				$stockCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'days_for_shipment ASC': {
+            				$shipmentCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'days_for_shipment DESC': {
+            				$shipmentCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'total_carat_weight ASC': {
+            				$caratWeightCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'total_carat_weight DESC': {
+            				$caratWeightCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'no_of_stones ASC': {
+            				$numOfStonesCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'no_of_stones DESC': {
+            				$numOfStonesCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'diamond_shape ASC': {
+            				$diamondShapeCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'diamond_shape DESC': {
+            				$diamondShapeCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'clarity ASC': {
+            				$clarityCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'clarity DESC': {
+            				$clarityCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'color ASC': {
+            				$colorCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'color DESC': {
+            				$colorCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'material ASC': {
+            				$materialCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'material DESC': {
+            				$materialCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'height ASC': {
+            				$heightCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'height DESC': {
+            				$heightCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'width ASC': {
+            				$widthCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'width DESC': {
+            				$widthCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'length ASC': {
+            				$lengthCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'length DESC': {
+            				$lengthCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'country_id ASC': {
+            				$countryCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'country_id DESC': {
+            				$countryCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'ring_size ASC': {
+            				$ringSizeCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'ring_size DESC': {
+            				$ringSizeCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'ring_subcategory ASC': {
+            				$ringCategoryCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'ring_subcategory DESC': {
+            				$ringCategoryCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} case 'date_added ASC': {
+            				$dateAddedCaret = '<i class="fa fa-caret-down"></i>';
+            				break;
+            			} case 'date_added DESC': {
+            				$dateAddedCaret = '<i class="fa fa-caret-up"></i>';
+            				break;
+            			} default: {
+
+            				break;
+            			}
+            		}
+
+            		?>
                 	<th><input id="masterCheckbox" type="checkbox" onClick="selectAll(this)"></th>
-                	<th><?php echo '<a href="?page='. $currentPage .'&filter=category&order='. $order .'">Type</a>'; ?></th>
-                	<th><?php echo '<a href="?page='. $currentPage .'&filter=id&order='. $order .'">ID</a>'; ?></th>
-                	<th><?php echo '<a href="?page='. $currentPage .'&filter=featured&order='. $order .'">Featured</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=category&order='. $order .'">Type '. $typeCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=items.id&order='. $order .'">ID '. $idCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=featured&order='. $order .'">Featured '. $featuredCaret .'</a>'; ?></th>
                 	<th>Action</th>
-                	<th>Internal ID</th>
-                	<th>Company ID</th>
-                	<th><?php echo '<a href="?page='. $currentPage .'&filter=item_name&order='. $order .'">Name</a>'; ?></th>
-                	<th><?php echo '<a href="?page='. $currentPage .'&filter=item_value&order='. $order .'">Price</a>'; ?></th>
-                	<th><?php echo '<a href="?page='. $currentPage .'&filter=discount&order='. $order .'">Discount</a>'; ?></th>
-                	<th>Stock</th>
-                	<th>Shipment Days</th>
-                	<th>Carat Weight</th>
-                	<th># of Stones</th>
-                	<th>Diamond Shape</th>
-                	<th>Clarity</th>
-                	<th>Color</th>
-                	<th>Material</th>
-                	<th>Height</th>
-                	<th>Weight</th>
-                	<th>Length</th>
-                	<th>Country</th>
-                	<th>Ring Size</th>
-                	<th>Ring Category</th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=internal_id&order='. $order .'">Internal ID '. $internalIDCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=company_id&order='. $order .'">Company '. $companyCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=item_name&order='. $order .'">Name '. $nameCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=item_value&order='. $order .'">Price '. $priceCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=discount&order='. $order .'">Discount'. $discountCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=pieces_in_stock&order='. $order .'">Stock'. $stockCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=days_for_shipment&order='. $order .'">Shipment Days'. $shipmentCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=total_carat_weight&order='. $order .'">Carat Weight'. $caratWeightCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=no_of_stones&order='. $order .'"># of Stones'. $numOfStonesCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=diamond_shape&order='. $order .'">Diamond Shape'. $diamondShapeCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=clarity&order='. $order .'">Clarity'. $clarityCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=color&order='. $order .'">Color '. $colorCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=material&order='. $order .'">Material '. $materialCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=height&order='. $order .'">Height '. $heightCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=width&order='. $order .'">Width '. $widthCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=length&order='. $order .'">Length '. $lengthCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=country_id&order='. $order .'">Country '. $countryCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=ring_size&order='. $order .'">Ring Size '. $ringSizeCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=ring_subcategory&order='. $order .'">Ring Category '. $ringCategoryCaret .'</a>'; ?></th>
                 	<th>Images</th>
                 	<th>Description</th>
-                	<th><?php echo '<a href="?page='. $currentPage .'&filter=date_added&order='. $order .'">Added On</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=date_added&order='. $order .'">Added On '. $dateAddedCaret .'</a>'; ?></th>
                 </thead>
                 <tbody>
                 	<?php
-		        	$query = $pdo->prepare("SELECT * FROM `items` WHERE `category` = 1 ORDER BY ". $filter . " " . $currentOrder . " LIMIT ". $offset .", ". $perPage ." ");
+		        	$query = $pdo->prepare("SELECT * FROM `items` INNER JOIN `rings` ON items.unique_key = rings.unique_key WHERE `category` = 1 ORDER BY ". $filter . " " . $currentOrder . " LIMIT ". $offset .", ". $perPage ." ");
 					$query->execute(array(":first" => 10));
 					if ( $query->rowCount() > 0 ) {
 						
 						$result = $query->fetchAll();
 						foreach ( $result as $entry ) {
-
+							pconsole($entry);
 
 							switch ($entry['category']) {
 								case 1: {
@@ -776,10 +1037,12 @@ function checkKey($key, $pdo) {
 								$discounted = $entry['item_value'] - (( $entry['discount'] / 100) * $entry['item_value']);
 								$price = '<div style="display:block" ><small class="old-price">€' . $entry['item_value'] . '</small> <span class="glyphicon glyphicon-chevron-right"></span> €' . round($discounted, 2) .'</div>';
 							}
+							
+							$color = ($info['color'] == 1 ) ? "White Stone" : "Colored Stone";
 							echo '<tr>';
 								echo '<td><input class="select-checkbox" type="checkbox" form="bulkManage" name="'. $entry['unique_key'] .'" onclick="selectItem(this)"></td>';
 								
-								echo '<td>'. $entry['category'] .'</td>';
+								echo '<td style="text-transform:capitalize">'. trim(getCategory($entry['category'], $pdo), "s") .'</td>';
 								echo '<td>'. $entry['id'] .'</td>';
 
 								if ( $entry['featured'] == 1 ) {
@@ -796,7 +1059,7 @@ function checkKey($key, $pdo) {
 								echo '<td>' . $editModal . $removeModal . '</td>';
 
 								echo '<td>'. $info['internal_id'] .'</td>';
-								echo '<td>'. $info['company_id'] .'</td>';
+								echo '<td>'. getCompany($info['company_id'], $pdo) .'</td>';
 								echo '<td>'. $info['product_name'] .'</td>';
 								echo '<td>'. $price .'</td>';
 								echo '<td>'. $entry['discount'] .'%</td>';
@@ -804,19 +1067,20 @@ function checkKey($key, $pdo) {
 								echo '<td>'. $info['days_for_shipment'] .'</td>';
 								echo '<td>'. $info['total_carat_weight'] .'</td>';
 								echo '<td>'. $info['no_of_stones'] .'</td>';
-								echo '<td>'. $info['diamond_shape'] .'</td>';
+								echo '<td>'. getDiamondShape($info['diamond_shape'], $pdo) .'</td>';
 								echo '<td>'. $info['clarity'] .'</td>';
-								echo '<td>'. $info['color'] .'</td>';
-								echo '<td>'. $info['material'] .'</td>';
+								echo '<td>'. $color .'</td>';
+								echo '<td>'. getMaterial($info['material'], $pdo) .'</td>';
 								echo '<td>'. $info['height'] .'</td>';
 								echo '<td>'. $info['width'] .'</td>';
 								echo '<td>'. $info['length'] .'</td>';
-								echo '<td>'. $info['country_id'] .'</td>';
+								echo '<td>'. getCountry($info['country_id'], $pdo) .'</td>';
 								echo '<td>'. $info['ring_size'] .'</td>';
 								echo '<td>'. $info['ring_subcategory'] .'</td>';
-								echo '<td>'. $info['images'] .'</td>';
+								echo '<td>'. intval(sizeof(explode(",", $info['images'])) - 1) .' image(s)</td>';
 								echo '<td>'. $info['description'] .'</td>';
 								echo '<td>'. $entry['date_added'] .'</td>';
+
 
 							echo '</tr>';
 						}
@@ -1006,7 +1270,7 @@ function checkKey($key, $pdo) {
 								<td class="table-item-label"><span class="table-item-label">Name</span></td>
 								<td>
 									<div class="table-item">
-										<input id="edit_product_name" name="product_name" type="text" class="form-control" placeholder="Product Name (50 Characters)" required maxlength="50" pattern="{0,50}" title="N">
+										<input id="edit_product_name" name="product_name" type="text" class="form-control" placeholder="Product Name (50 Characters)" required maxlength="50" pattern=".{0,50}" >
 									</div>
 								</td>
 							</tr>
@@ -1150,11 +1414,11 @@ function checkKey($key, $pdo) {
 								</td>
 							</tr>
 							<tr>
-								<td> <span class="table-item-label">Country ID</span></td>
+								<td> <span class="table-item-label">Country</span></td>
 								<td>
 									<div class="table-item">
 										<select id="edit_country_id" name="country_id" class="select-style" required>
-				                            <option value="">Country ID</option>
+				                            <option value="">Select Country</option>
 											<option value="1">Austria</option>
 											<option value="2">Belgium</option>
 											<option value="3">Bulgaria</option>
@@ -1188,16 +1452,23 @@ function checkKey($key, $pdo) {
 								</td>
 							</tr>
 							<tr>
-								<td> <span class="table-item-label">Company ID</span></td>
+								Company
 								<td>
 									<div class="table-item">
 										<select id="edit_company_id" name="company_id" class="select-style" required>
-				                            <option value="">Company ID</option>
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-											<option value="4">4</option>
-											<option value="5">5</option>
+				                            <option value="">Select Company</option>
+											<?php 
+				                            $getCompanies = $pdo->prepare("SELECT * FROM `company_id`");
+				                            $getCompanies->execute();
+
+				                            if ( $getCompanies->rowCount() > 0 ) {
+				                            	foreach ( $getCompanies as $company ) {
+				                            		echo '<option value="'. $company['id'] .'" >'. $company['company_name'] .'</option>';
+				                            	}
+				                            } else {
+				                            	echo '<option value="0">N/A</option>';
+				                            }
+				                            ?>
 				                        </select>
 									</div>
 								</td>
@@ -1279,7 +1550,7 @@ function checkKey($key, $pdo) {
 								<td class="table-item-label"><span class="table-item-label">Name</span></td>
 								<td>
 									<div class="table-item">
-										<input name="product_name" type="text" class="form-control" placeholder="Product Name (50 Characters)" required maxlength="50" pattern="{0,50}" title="N">
+										<input name="product_name" type="text" class="form-control" placeholder="Product Name (50 Characters)" required maxlength="50" pattern=".{0,50}" >
 									</div>
 								</td>
 							</tr>
@@ -1423,11 +1694,11 @@ function checkKey($key, $pdo) {
 								</td>
 							</tr>
 							<tr>
-								<td> <span class="table-item-label">Country ID</span></td>
+								<td> <span class="table-item-label">Country</span></td>
 								<td>
 									<div class="table-item">
 										<select name="country_id" class="select-style" required>
-				                            <option value="">Country ID</option>
+				                            <option value="">Select Country</option>
 											<option value="1">Austria</option>
 											<option value="2">Belgium</option>
 											<option value="3">Bulgaria</option>
@@ -1461,16 +1732,23 @@ function checkKey($key, $pdo) {
 								</td>
 							</tr>
 							<tr>
-								<td> <span class="table-item-label">Company ID</span></td>
+								Company
 								<td>
 									<div class="table-item">
 										<select name="company_id" class="select-style" required>
-				                            <option value="">Company ID</option>
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-											<option value="4">4</option>
-											<option value="5">5</option>
+				                            <option value="">Select Company</option>
+											<?php 
+				                            $getCompanies = $pdo->prepare("SELECT * FROM `company_id`");
+				                            $getCompanies->execute();
+
+				                            if ( $getCompanies->rowCount() > 0 ) {
+				                            	foreach ( $getCompanies as $company ) {
+				                            		echo '<option value="'. $company['id'] .'" >'. $company['company_name'] .'</option>';
+				                            	}
+				                            } else {
+				                            	echo '<option value="0">N/A</option>';
+				                            }
+				                            ?>
 				                        </select>
 									</div>
 								</td>
@@ -1576,7 +1854,7 @@ function checkKey($key, $pdo) {
 					$("#item_to_edit").html(result['product_name']);
 					$("#unique_key").val(result['unique_key']);
 					$("#edit_product_name").val(result['product_name']);
-					$("#edit_product_price").val(result['item_value']);
+					$("#edit_product_price").val(parseFloat(result['item_value']).toFixed(2));
 					$("#edit_discount").val(result['discount']);
 					$("#edit_color").val(result['color']);
 					$("#edit_total_carat_weight").val(result['total_carat_weight']);
@@ -1601,7 +1879,7 @@ function checkKey($key, $pdo) {
 					
 					$("#promptEditItem").modal("toggle");
 				} catch ( e ) {
-					console.log(result);
+					console.log(e);
 				}
 			},
 			failure: function(error) {

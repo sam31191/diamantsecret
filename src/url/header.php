@@ -38,7 +38,7 @@ if ( !isset($_SESSION['loggedIn']) ) {
 $favorites = "";
 if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
   $getUserInfo = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user");
-  $getUserInfo->execute(array(":user" => $_SESSION['username']));
+  $getUserInfo->execute(array(":user" => $_USERNAME));
 
   $info = $getUserInfo->fetch(PDO::FETCH_ASSOC);
 
@@ -58,6 +58,7 @@ if ( isset($_POST['subscribe']) ) {
   }
 
   echo '<script>$("#notificationBox").toggle(500).delay(2000).toggle(500);  $("#notificationBox").html("<span>'. $notify .'</span>");  </script>';
+
 }
 ?>
   <header id="top" class="clearfix" style="    background: rgba(255,255,255,0.6);">
@@ -77,10 +78,15 @@ if ( isset($_POST['subscribe']) ) {
 
             <?php
             if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
+              if ( isset($_SESSION['loginAs']) ) {
+                $ast = '<span class="req">*</span>';
+              } else {
+                $ast = "";
+              }
               echo'
               <li class="login">    
                 <span id="loginButton" class="dropdown-toggle" data-toggle="dropdown">
-                  <a href="javascript:void(0);">Hi, '. $_SESSION['username'] .'</a>
+                  <a href="javascript:void(0);">Hi, '. $_USERNAME . $ast . '</a>
                   <i class="sub-dropdown1"></i>
                   <i class="sub-dropdown"></i>
                 </span>
@@ -149,8 +155,8 @@ if ( isset($_POST['subscribe']) ) {
       <div class="top-navigation">
         <ul class="list-inline">
           <li class="top-logo">
-            <a id="site-title" href="./index.php" title="Jewelry - HTML Template theme">          
-            <img class="img-responsive" src="assets/images/logo.png" alt="Jewelry - HTML Template theme">          
+            <a id="site-title" href="./index.php" title="Diamant Secret">          
+            <img class="img-responsive" src="./images/gfx/logo.png" alt="Diamant Secret">          
             </a>
           </li>
           <li class="navigation">     
@@ -185,7 +191,7 @@ if ( isset($_POST['subscribe']) ) {
                       if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                         echo '
                           <li>
-                          <a href="#">Account</a> 
+                          <a href="./account.php">Account</a> 
                           </li>
                           <li class="account last">
                           <form method="post">
@@ -206,10 +212,10 @@ if ( isset($_POST['subscribe']) ) {
                     </div>
                     </li>
                     <li class="is-mobile-wl">
-                    <a href="#"><i class="fa fa-heart"></i></a>
+                    <a href="./account.php"><i class="fa fa-heart"></i></a>
                     </li>
                     <li class="is-mobile-cart">
-                    <a href="#"><i class="fa fa-shopping-cart"></i></a>
+                    <a href="./cart.php"><i class="fa fa-shopping-cart"></i></a>
                     </li>
                   </ul>
                 </div>
@@ -376,7 +382,7 @@ if ( isset($_POST['subscribe']) ) {
                                     </form>
                                     <button class="cart-close" title="Remove" href="javascript:void(0);" style="background:transparent;" form="removeFromCart_'. $i .'" type="submit" name="removeFromCart"><i class="fa fa-times"></i></button>
                                     <div class="col-md-8 cart-left">
-                                      <a class="cart-image" href="./product.php?view='. $cartItemInfo['unique_key'] .'"><img src="./images/thumbnails/'. $images[0] .'" alt="" title=""></a>
+                                      <a class="cart-image" href="./product.php?view='. $cartItemInfo['unique_key'] .'"><img src="./images/images_sm/'. $images[0] .'" alt="" title=""></a>
                                     </div>
                                     <div class="col-md-16 cart-right">
                                       <div class="cart-title">
@@ -401,7 +407,7 @@ if ( isset($_POST['subscribe']) ) {
                                       </form>
                                       <button class="cart-close" title="Remove" href="javascript:void(0);" style="background:transparent;" form="removeFromCart_'. $i .'" type="submit" name="removeFromCart"><i class="fa fa-times"></i></button>
                                       <div class="col-md-8 cart-left">
-                                        <a class="cart-image"><img src="./images/thumbnails/0.png" alt="" title=""></a>
+                                        <a class="cart-image"><img src="./images/images_sm/0.png" alt="" title=""></a>
                                       </div>
                                       <div class="col-md-16 cart-right">
                                         <div class="cart-title">

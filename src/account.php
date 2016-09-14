@@ -2,6 +2,7 @@
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <head>
+
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
@@ -19,6 +20,7 @@
 	<link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
 	<link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
 	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+	<link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
 	
 	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
 	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
@@ -40,7 +42,7 @@ $alert = "";
 if ( isset($_POST['removeFromFav'])) {
 	pconsole($_POST['removeFromFav']);
 	$getcurrentFavs = $pdo->prepare("SELECT `favorites` FROM `accounts` WHERE `username` = :username");
-	$getcurrentFavs->execute(array(":username" => $_SESSION['username']));
+	$getcurrentFavs->execute(array(":username" => $_USERNAME));
 
 	$result = $getcurrentFavs->fetch(PDO::FETCH_ASSOC);
 	$currentFav = $result['favorites'];
@@ -48,11 +50,11 @@ if ( isset($_POST['removeFromFav'])) {
 	$currentFav = str_replace(',' . $_POST['removeFromFav'], "", $currentFav);
 
 	$updateFav = $pdo->prepare("UPDATE `accounts` SET `favorites` = :favs WHERE `username` = :username");
-	$updateFav->execute ( array (":favs" => $currentFav, ":username" => $_SESSION['username']) );
+	$updateFav->execute ( array (":favs" => $currentFav, ":username" => $_USERNAME) );
 } else if ( isset($_POST['removeFromCart']) ) {
 	$getCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
 	$getCart->execute(array(
-		":user" => $_SESSION['username']
+		":user" => $_USERNAME
 	));
 	$inputCart = $getCart->fetch(PDO::FETCH_ASSOC);
 	$cart = $inputCart['cart'];
@@ -62,7 +64,7 @@ if ( isset($_POST['removeFromFav'])) {
 	$addToCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user");
 	$addToCart->execute(array(
 		":cart" => $cart,
-		":user" => $_SESSION['username']
+		":user" => $_USERNAME
 	));
 } else if ( isset($_POST['saveInfo']) ) {
 	pconsole($_POST);
@@ -71,7 +73,7 @@ if ( isset($_POST['removeFromFav'])) {
 		$alert = "New and Confirm Password Mismatch";
 	} else {
 		$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND BINARY `password` = :pass");
-		$authenticate->execute(array(":user" => $_SESSION['username'], ":pass" => $_POST['current_pass']));
+		$authenticate->execute(array(":user" => $_USERNAME, ":pass" => $_POST['current_pass']));
 		if ( $authenticate->rowCount() > 0 ) {
 			$updateInfo = $pdo->prepare("UPDATE `accounts` SET `first_name` = :first_name, `last_name` = :last_name, `mobileno` = :mobileno, `address` = :address WHERE `username` = :username");
 			$updateInfo->execute(array(
@@ -79,12 +81,12 @@ if ( isset($_POST['removeFromFav'])) {
 				":last_name" => $_POST['last_name'],
 				":mobileno" => $_POST['mobileno'],
 				":address" => $_POST['address'],
-				":username" => $_SESSION['username']
+				":username" => $_USERNAME
 			));
 
 			if ( !empty($_POST['new_pass']) && !empty($_POST['confirm_new_pass']) ) {
 				$updatePass = $pdo->prepare("UPDATE `accounts` SET `password` = :pass WHERE `username` = :user");
-				$updatePass->execute(array(":pass" => $_POST['new_pass'], ":user" => $_SESSION['username']));
+				$updatePass->execute(array(":pass" => $_POST['new_pass'], ":user" => $_USERNAME));
 				$alert = "Information / Password Updated";
 			} else {
 				$alert = "Information Updated";
@@ -109,14 +111,14 @@ if ( isset($_POST['removeFromFav'])) {
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.html" class="homepage-link" title="Back to the frontpage">Home</a>
+								<a href="./index.php" class="homepage-link" title="Back to the frontpage">Home</a>
 								<span>/</span>
 								<span class="page-title">My Account</span>
 							</div>
 						</div>
 					</div>
 				</div>              
-				<section class="content">
+			<section class="content">
 					<div class="container">
 						<div class="row">
 							<div id="page-header" class="col-md-24">
@@ -145,7 +147,7 @@ if ( isset($_POST['removeFromFav'])) {
 										<span class="mini-line"></span>
 										<?php
 										$getUser = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user");
-										$getUser->execute(array(":user" => $_SESSION['username']));
+										$getUser->execute(array(":user" => $_USERNAME));
 
 										if ( $getUser->rowCount() > 0 ) {
 											$user = $getUser->fetch(PDO::FETCH_ASSOC);
@@ -204,7 +206,7 @@ if ( isset($_POST['removeFromFav'])) {
 										<tbody>
 										<?php
 										$getFavs = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user");
-										$getFavs->execute(array(":user" => $_SESSION['username']));
+										$getFavs->execute(array(":user" => $_USERNAME));
 
 										if ( $getFavs->rowCount() > 0 ) {
 											$user = $getFavs->fetch(PDO::FETCH_ASSOC);
@@ -284,7 +286,7 @@ if ( isset($_POST['removeFromFav'])) {
 	<div class="modal-backdrop in" style="height: 742px;">
 	</div>
 	<div class="modal-dialog rotateInDownLeft animated">
-		<div class="modal-content" style="min-height: 0px;  overflow:auto; height: 490px;">
+		<div class="modal-content" style="min-height: 0px;  overflow:auto; height: 490px; max-width: 95vw;">
 			<div class="modal-header">
 				<i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="bottom" title="" data-dismiss="modal" aria-hidden="true" data-original-title="Close"></i>
 			</div>
@@ -295,7 +297,7 @@ if ( isset($_POST['removeFromFav'])) {
 				<form method="post">
 				<?php
 				$fetchInfo = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user");
-				$fetchInfo->execute(array(":user" => $_SESSION['username']));
+				$fetchInfo->execute(array(":user" => $_USERNAME));
 
 				if ( $fetchInfo->rowCount() > 0 ) {
 					$info = $fetchInfo->fetch(PDO::FETCH_ASSOC);

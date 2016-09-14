@@ -19,6 +19,7 @@
 	<link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
 	<link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
 	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+  	<link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
 	
 	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
 	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
@@ -27,8 +28,16 @@
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
-include './url/require.php';
 
+if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
+	session_destroy();
+	$_SESSION['loggedIn'] = false;
+}
+
+include './url/require.php';
+  include './assets/mail_format/admin_mail.php';
+
+pconsole($_SESSION);
 #pre
 $alert = "";
 
@@ -68,6 +77,11 @@ if ( isset($_POST['register']) ) {
 		$hashPass = $_POST['customer']['password'];
 		$verifyHash = hash("md5", $email . "VERIFICATIONH1337ASH");
 
+		$mailBody = file_get_contents("./conf/mail_formats/registration_verification.html");
+		$mailBody = str_replace("__CLIENT__", $_POST['customer']['username'], $mailBody);
+		$mailBody = str_replace("__VERIFICATIONHASH__", $verifyHash, $mailBody);
+
+
 		$mail = new PHPMailer;
 		$mail->isSMTP();
 		#$mail->SMTPDebug = 2;
@@ -81,8 +95,8 @@ if ( isset($_POST['register']) ) {
 		$mail->addAddress($email);
 		$mail->isHTML(true);
 		$mail->Subject = 'Activation Account';
-		$mail->Body = "Greetings, " . $_POST['customer']['username'] . "
-		To activate your account, please click on the following link and follow the instructions: http://www.diamantsecret.com/register.php?verify=" . $verifyHash;
+		#$mailBody = mailVerify($_POST['customer']['username'], "http://www.diamantsecret.com/register.php?verify=".$verifyHash);
+		$mail->Body = $mailBody;
 		if ( !$mail->send() ) {
 
 		} else {
@@ -117,7 +131,40 @@ if ( isset($_GET['verify']) ) {
 
 		$alert = 'Account Verified. Please <a href="./login.php" style="color: #607D8B;">Login</a>';
 	} else {
-		$alert = 'Verification link isn\'t valid anymore';
+		$alert = 'Verification link has expired';
+	}
+}
+
+if ( isset($_GET['verifyLogin']) ) {
+
+	$incomingPassword = $_POST['customer']['password'];
+	$hash = $_GET['verifyLogin'];
+
+	$checkHash = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :hash");
+	$checkHash->execute(array(":hash" => $hash));
+
+	if ( $checkHash->rowCount() > 0 ) {
+		$accountToActivate = $checkHash->fetch(PDO::FETCH_ASSOC);
+		$checkPass = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :hash AND `password` = :pass");
+		$checkPass->execute(array(":hash" => $hash, ":pass" => $incomingPassword));
+
+		if ( $checkPass->rowCount() > 0 ) {
+			$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email");
+			$activate->execute(array(":emptyHash" => "", ":email" => $accountToActivate['email']));
+
+			$_SESSION['username'] = $accountToActivate['username'];
+			$_SESSION['email'] = $accountToActivate['email'];
+			$_SESSION['loggedIn'] = true;
+
+			header("Location: ./index.php");
+		} else {
+			$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email");
+			$activate->execute(array(":emptyHash" => "", ":email" => $accountToActivate['email']));
+			$alert = "Invalid Login Credentials / Account has been verified however, feel free to <a href='./login.php'  style='color: #607D8B;'>Login</a>";
+		}
+
+	} else {
+		$alert = "Verification Link has expired";
 	}
 }
 ?>

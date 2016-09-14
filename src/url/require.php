@@ -10,7 +10,9 @@
 	$mailSMTPAuth = true;
 	$mailUsername = "contact@diamantsecret.com";
 	$mailPassword = "contact@123";
-	$adminEmail = "ryan.bhanwra@gmail.com";
+	$__ADMINMAIL__ = "ryan.bhanwra@gmail.com";
+	$__ADMIN__ = "Ryan";
+
 
 	if ( session_status() == PHP_SESSION_NONE ) {
 		session_start();
@@ -23,6 +25,14 @@
 	catch (PDOException $e){
 		echo '<strong>MySQL Error:</strong> ' . $e->getMessage();
 		die();
+	}
+
+	#Public Panel Vars Only. Use $_SESSION in Admin
+	if ( isset($_SESSION['username']) ) {
+		$_USERNAME = $_SESSION['username'];
+	}
+	if ( isset($_SESSION['loginAs']) ) {
+		$_USERNAME = $_SESSION['loginAs'];
 	}
 	
 	function get_client_ip() {
@@ -53,18 +63,68 @@
 		}
 	}
 
-	function getMaterial($mID) {
+	function getMaterial($mID, $pdo) {
 		$getMaterial = $pdo->prepare("SELECT * FROM `materials` WHERE `id` = :id");
 		$getMaterial->execute(array(":id" => $mID));
 
 		if ( $getMaterial->rowCount() > 0 ) {
 			$material = $getMaterial->fetch(PDO::FETCH_ASSOC);
 			return $material['category'];
-			echo $material['category'];
+			//echo $material['category'];
+		} else {
+			return "N/A";
+		}
+	}
+	function getDiamondShape($dsID, $pdo) {
+		$getMaterial = $pdo->prepare("SELECT * FROM `diamond_shape` WHERE `id` = :id");
+		$getMaterial->execute(array(":id" => $dsID));
+
+		if ( $getMaterial->rowCount() > 0 ) {
+			$material = $getMaterial->fetch(PDO::FETCH_ASSOC);
+			return $material['category'];
+			//echo $material['category'];
 		} else {
 			return "N/A";
 		}
 	}
 
+	function getCountry($dsID, $pdo) {
+		$getMaterial = $pdo->prepare("SELECT * FROM `country_vat` WHERE `id` = :id");
+		$getMaterial->execute(array(":id" => $dsID));
+
+		if ( $getMaterial->rowCount() > 0 ) {
+			$material = $getMaterial->fetch(PDO::FETCH_ASSOC);
+			return $material['country_name'];
+			//echo $material['category'];
+		} else {
+			return "N/A";
+		}
+	}
+
+	function getCompany($dsID, $pdo) {
+		$getMaterial = $pdo->prepare("SELECT * FROM `company_id` WHERE `id` = :id");
+		$getMaterial->execute(array(":id" => $dsID));
+
+		if ( $getMaterial->rowCount() > 0 ) {
+			$material = $getMaterial->fetch(PDO::FETCH_ASSOC);
+			return $material['company_name'];
+			//echo $material['category'];
+		} else {
+			return "N/A";
+		}
+	}
+
+	function getCategory($dsID, $pdo) {
+		$getMaterial = $pdo->prepare("SELECT * FROM `categories` WHERE `id` = :id");
+		$getMaterial->execute(array(":id" => $dsID));
+
+		if ( $getMaterial->rowCount() > 0 ) {
+			$material = $getMaterial->fetch(PDO::FETCH_ASSOC);
+			return $material['category'];
+			//echo $material['category'];
+		} else {
+			return "N/A";
+		}
+	}
 
 ?>

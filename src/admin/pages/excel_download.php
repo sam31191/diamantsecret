@@ -14,7 +14,16 @@ if ( isset($_SESSION['modSession']) ) {
 		die();
 	}
 }
+
 include '../../url/require.php';
+
+
+    pconsole($_POST);
+if ( isset($_POST['file']['delete']) ) {
+    if ( file_exists($_POST['file']['delete']) ) {
+        unlink($_POST['file']['delete']);
+    }
+}
 ?>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -30,6 +39,7 @@ include '../../url/require.php';
     <link href="../assets/custom.min.css" rel="stylesheet">
     <link href="../assets/font-awesome.min.css" rel="stylesheet">
     <link href="../assets/admin.css" rel="stylesheet">
+    <link rel="icon" href="../../images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
   </head>
   <body class="nav-md">
     <div class="container body" style="background-color:#911116">
@@ -49,7 +59,9 @@ include '../../url/require.php';
         <div class="right_col" role="main">
         <div>
         <h3>Sheets</h3>
-        	<table class="table table-hover table-custom" style=" overflow:auto; white-space:nowrap; min-height: 80vh;" >
+            <form id="deleteFileForm" method="post"><input name="file[delete]" id="deleteFile" hidden /></form>
+            <div class="alert alert-info">NOTE: Files older than 30 days are automatically deleted</div>
+        	<table class="table table-hover table-custom" style=" overflow:auto; white-space:nowrap; max-height: 80vh;" >
             	<thead>
                 	<th>#</th>
                 	<th>Sheet Name</th>
@@ -57,19 +69,41 @@ include '../../url/require.php';
                 </thead>
                 <tbody>
                 <?php
-                	$dir = '../excel_files/';
+                	$dir = '../../working/excel/import/';
 
-                	$files = scandir($dir, 1);
+                  $files = scandir($dir, 1);
 
-                	$int = 1;
-                	foreach ( $files as $file ) {
-                		if ( strpos($file, '.xlsx') && $file !== 'tmp_db.xlsx' && $file !== 'format.xlsx' ) {
-                			echo '<tr><td style="width:20px;">'. $int .'</td><td>'. $file .'</td>
-                			<td style="text-align:center;"><a class="fa fa-cloud-download" style="color:green;" href="'. $dir . $file .'"></a></td>
-                			</tr>';
-                			$int++;
-                		}
-                	}
+                  $int = 1;
+                  foreach ( $files as $file ) {
+                    if ( strpos($file, '.xlsx') && $file !== 'tmp_db.xlsx' && $file !== 'format.xlsx' ) {
+                      echo '<tr><td style="width:20px;">'. $int .'</td><td>'. $file .'</td>
+                          <td style="text-align:center;">
+                                    <a class="fa fa-cloud-download" style="color:green;" data-link="'. $dir . $file .'" data-toggle="tooltip" onclick="downloadThis(\''. $dir . $file .'\')" title="Download"></a> 
+                                    <a href="javascript:void(0);" class="fa fa-close" data-toggle="tooltip" title="Delete" onclick="$(\'#removeModalActionButton\').val(\''. $dir . $file .'\'); $(\'#itemToRemove\').text(\''. $file .'\'); $(\'#promptRemoveModal\').modal(\'toggle\');"></a>
+                                </td>
+                      </tr>';
+
+                            echo '';
+                      $int++;
+                    }
+                  }
+
+                  $dir = '../../working/excel/export/';
+
+                  $files = scandir($dir, 1);
+                  foreach ( $files as $file ) {
+                    if ( strpos($file, '.xlsx') && $file !== 'tmp_db.xlsx' && $file !== 'format.xlsx' ) {
+                      echo '<tr><td style="width:20px;">'. $int .'</td><td>'. $file .'</td>
+                          <td style="text-align:center;">
+                                    <a class="fa fa-cloud-download" style="color:green;" data-link="'. $dir . $file .'" data-toggle="tooltip" onclick="downloadThis(\''. $dir . $file .'\')" title="Download"></a> 
+                                    <a href="javascript:void(0);" class="fa fa-close" data-toggle="tooltip" title="Delete" onclick="$(\'#removeModalActionButton\').val(\''. $dir . $file .'\'); $(\'#itemToRemove\').text(\''. $file .'\'); $(\'#promptRemoveModal\').modal(\'toggle\');"></a>
+                                </td>
+                      </tr>';
+
+                            echo '';
+                      $int++;
+                    }
+                  }
                 ?>
                 </tbody>
             </table>
@@ -94,6 +128,19 @@ include '../../url/require.php';
 	$(document).ready(function(){
 		$('[data-toggle="tooltip"]').tooltip(); 
 	});
+
+    function downloadThis(link) {
+        $.ajax({
+            url: link,
+            type: 'HEAD',
+            error: function(){
+                $("#invalidFileModal").modal('toggle');
+            },
+            success: function() {
+                window.location.href = link;
+            }
+        });
+    }
 	</script>
   </body>
 </html>
@@ -120,3 +167,62 @@ include '../../url/require.php';
 	background-color: #DCEDC8;
 }
 </style>
+
+
+
+<!-- Modal -->
+<div id="promptRemoveModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Caution</h4>
+      </div>
+      <form method="post" enctype="multipart/form-data">
+      <input id="remove_category" name="category" hidden>
+      <div class="modal-body">
+        <div class="container">
+            <h4>You are about to permanently delete <strong id="itemToRemove">This</strong>
+            <br>Are you sure you want to perform this action?</h4>
+            <br>
+            <h5><div class="alert alert-error">Warning: This action can not be undone.</div></h5>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="removeModalActionButton" type="submit" class="btn btn-custom" name="file[delete]" value="">Delete</button>
+        <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+        <!-- Modal -->
+<div id="invalidFileModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Error</h4>
+      </div>
+      <form method="post" enctype="multipart/form-data">
+      <input id="remove_category" name="category" hidden>
+      <div class="modal-body">
+        <div class="container">
+            <h4>File Does Not Exist</h4>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-custom" onclick="location.reload();">Close</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+

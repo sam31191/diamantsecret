@@ -27,7 +27,6 @@ if ( session_status() == PHP_SESSION_NONE ) {
             <h5 class="general-title">About Us</h5>           
             <ul class="list-unstyled list-styled">              
               <li class="list-unstyled">
-              <a href="./contact.php">Store Location</a>
               </li>           
               <li class="list-unstyled">
               <a href="./contact.php">Contact Us</a>
@@ -79,10 +78,10 @@ if ( session_status() == PHP_SESSION_NONE ) {
       <div class="footer-content footer-content-bottom clearfix">
         <div class="container">
           <div class="copyright col-md-12">
-            © 2016 <a href="./about-us.html">Diamant Secret</a>. All Rights Reserved.
+            © 2016 <a href="./contact.php">Diamant Secret</a>. All Rights Reserved.
           </div>
           <div id="widget-payment" class="col-md-12" style="text-align:right">
-            <img src="./assets/images/logo.png" />
+            <img src="./images/gfx/logo.png" style="width:200px" />
           </div>
         </div>
       </div>

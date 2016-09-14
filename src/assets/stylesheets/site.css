@@ -30,6 +30,7 @@
 .megamenu-container-1 .sub-mega-menu {
     background: #ffffff url(../../images/gfx/menu_image_1.png) no-repeat center bottom;
     min-height: 490px;
+    background-size: cover;
 }
 .home-banner-wrapper {
     background: url(../../images/gfx/home_banner_image.jpg) no-repeat center;
@@ -211,4 +212,8 @@
 }
 .newsletter-popup .group_input input.form-control:-ms-input-placeholder {
     color: grey !important;
+}
+.container_item {
+    display: table-cell !important;
+    vertical-align: middle;
 }

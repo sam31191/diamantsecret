@@ -31,6 +31,7 @@
 	    <title>Import Excel - Admin Panel</title>
 	    <!-- Bootstrap -->
 	    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+  	<link rel="icon" href="../../images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
 	    <!-- Font Awesome -->
 	    <!-- Custom Theme Style -->
 	    <link href="../assets/custom.min.css" rel="stylesheet">
@@ -39,11 +40,18 @@
 	  </head>
 	  <body class="nav-md">
 
+	  <style type="text/css">
+	  	@media (max-height: 800px){
+		  	.table-custom-items {
+		  		height: 50vh;
+		  	}
+	  	}
+	  </style>
 	  
         <div id="uploadDiv" style="background:rgba(0,0,0,0.75); height:100%; width:100%; position:fixed; z-index:100" hidden>
         <div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 400px; margin-left: -400px; margin-top: -200px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
 	        	<h4><div class='alert alert-info' style="position: fixed;" id="alertDiv">Importing <span id="importedItems">0</span>/<span id="totalItems">0</span></div>
-	        	<a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 0px 16px; /* right: 0px; */ position: fixed; display: block; /* float: right; */ margin-left: 700px;" onclick="location.reload();" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
+	        	<a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 0px 16px; /* right: 0px; */ position: fixed; display: block; /* float: right; */ margin-left: 700px;" onclick="window.location = './import_excel.php';" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
 	        	</h4><table class='table table-condensed table-custom' style="table-layout: fixed; word-wrap: break-word;"><thead><th style="width: 30px;">#</th><th style="width: 60%;">Entry</th><th>Errors</th></thead><tbody id="resultTable"></tbody></table>
         	</div>
         </div>
@@ -65,30 +73,55 @@
 	        <div class="right_col" role="main">
 	        <h3>Import via Excel</h3>
 	        	<form method="post" enctype="multipart/form-data">
-	        		<input type="file" name="excel">
-	        		<button class="btn btn-custom" name="import" style="margin: 10px;">Select File</button>
+	        		<table>
+	        			<tr>
+	        				<td>
+	        					<select class="select-style" name="company_id" title="Select the Client" required>
+				        			<option value="">Select Company</option>
+				        			<?php
+			                        $getCompanies = $pdo->prepare("SELECT * FROM `company_id`");
+			                        $getCompanies->execute();
+
+			                        if ( $getCompanies->rowCount() > 0 ) {
+			                        	foreach ( $getCompanies as $company ) {
+			                        		echo '<option value="'. $company['id'] .'">'. $company['company_name'] .'</option>';
+			                        	}
+			                        } else {
+			                        	echo '<option value="0">N/A</option>';
+			                        }
+				        			?>
+				        		</select>
+	        				</td>
+	        				<td>
+				        		<input type="file" name="excel" style="border-bottom: none;" required>
+	        				</td>
+	        				<td>
+	        					<button class="btn btn-info" name="import" style="margin: 10px;">Upload</button>
+	        				</td>
+	        			</tr>
+	        		</table>
 	        	</form>
 	        	<div  style="border:solid thin #ccc; padding:5px; margin:5px;">
 	        		<h4></h4>
+	        		<a class="btn btn-custom" href="javascript:void(0);" onclick="downloadFormat()" style="float: right; margin-top: -60px;">Download Excel Format</a><a style="display:none;" href="./../assets/format.xlsx" id="downloadFormatStub"></a>
 	        		<?php
 	        			//echo var_dump($_FILES);
 	        			if ( isset($_FILES['excel']) ) {
 		        			if ( $_FILES['excel']['error'] == 0 && $_FILES['excel']['type'] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ) {
-		        				echo '
-						        	<div style="float:right;">
-						        		<button class="btn btn-info" onclick="importThis()">Import Selected (<span class="selected-num">0</span>)</button>
-						        	</div>';
 						        	#<button class="btn btn-info" onclick="importAll()">Import All</button> 
 
 
 
-		        				if ( file_exists($_SESSION['tmp_file']) ) {
+		        				if ( isset($_SESSION['tmp_file']) && file_exists($_SESSION['tmp_file']) ) {
 		        					unlink($_SESSION['tmp_file']);
 		        				}
 
-						        $_SESSION['tmp_file'] = $tmpFile = "./../excel_files/" . strtolower($_SESSION['username']) . "_" . time() . "." . pathinfo($_FILES['excel']['name'], PATHINFO_EXTENSION);
+		        				$timeToken = time();
+						        $tmpFile = "./../../working/excel/import/" . strtolower($_SESSION['username']) . "_" . $timeToken . "." . pathinfo($_FILES['excel']['name'], PATHINFO_EXTENSION);
+						        $_SESSION['tmp_file'] = $tmpFile;
+						        $_SESSION['import_company_id'] = $_POST['company_id'];
 
-		        				pconsole("SESSION:" . $_SESSION['tmp_file']);
+		        				pconsole($_SESSION);
 		        				pconsole("TEMP:" . $tmpFile);
 
 
@@ -112,7 +145,58 @@
 								} else {
 									$products = $productSheet->toArray(null, true, true, true);
 
-									echo '<table class="table table-hover table-custom" style="display:block; overflow:auto; white-space:nowrap;">';
+	                        		pconsole("TEST: ". sizeof($products));
+
+	                        		$numRings = 0;
+	                        		$numEarrings = 0;
+	                        		$numNecklaces = 0;
+	                        		$numPendants = 0;
+	                        		$numBracelets = 0;
+	                        		$numInvalid = 0;
+
+	                        		for ( $i = 0; $i < sizeof($products) - 1; $i++ ) {
+	                        			pconsole("CATEGORY ". intval($i+2) . " = " . $productSheet->getCell('B'.intval($i+2))->getValue());
+	                        			switch ($productSheet->getCell('B'.intval($i+2))->getValue()) {
+	                        				case 1: {
+	                        					$numRings++;
+	                        					break;
+	                        				} case 2: {
+	                        					$numEarrings++;
+	                        					break;
+	                        				} case 3: {
+	                        					$numPendants++;
+	                        					break;
+	                        				} case 4: {
+	                        					$numNecklaces++;
+	                        					break;
+	                        				} case 5: {
+	                        					$numBracelets++;
+	                        					break;
+	                        				} default: {
+	                        					$numInvalid++;
+	                        					break;
+	                        				}
+	                        			}
+	                        		}
+
+	                        		echo '
+						        	<div style="float:right;">
+						        		<button class="btn btn-info" onclick="importAll(\''. $timeToken .'\')">Import All</button>
+						        		<button class="btn btn-info" onclick="importThis(\''. $timeToken .'\')">Import Selected (<span class="selected-num">0</span>)</button>
+						        	</div>';
+
+									if ( isset($_SESSION['import_company_id']) ) {
+	                        			echo '<div style="margin: 10px;"><label>Client: '. getCompany($_SESSION['import_company_id'], $pdo) .'</label><br>
+	                        			<label class="label label-warning label-custom">Total: '. intval(sizeof($products)-1) .'</label>
+	                        			<label class="label label-info label-custom">Rings: '. $numRings .'</label>
+	                        			<label class="label label-info label-custom">Earrings: '. $numEarrings .'</label>
+	                        			<label class="label label-info label-custom">Pendants: '. $numPendants .'</label>
+	                        			<label class="label label-info label-custom">Necklaces: '. $numNecklaces .'</label>
+	                        			<label class="label label-info label-custom">Bracelets: '. $numBracelets .'</label>
+	                        			<label class="label label-danger label-custom">Invalid Entries: '. $numInvalid .'</label></div>';
+	                        		} 
+
+									echo '<table class="table table-hover table-custom table-custom-items">';
 									echo '<thead>';
 									echo '<th><input id="masterCheckbox" type="checkbox" onClick="selectAll(this)"></th>';
 									foreach ( $products[1] as $column ) {
@@ -123,8 +207,17 @@
 									for ( $i = 2; $i <= sizeof($products); $i++ ) {
 										echo '<tr>';
 											echo '<td><input class="select-checkbox" type="checkbox" form="bulkManage" id="row_'.$i.'" value="'. $i .'"></td>';
-										foreach ( $products[$i] as $rows ) {
-											echo '<td>'. $rows .'</td>';
+										for ( $j = 'A'; $j <= 'V'; $j++ ) {
+											//pconsole($products[$i][$j]);
+											if ( $j == 'U' ) {
+												$importRowImages = explode(",", $products[$i][$j]);
+												$listImages = "";
+												foreach ( $importRowImages as $image ) {
+													$listImages .= '<li><a href=\"'. trim($image) .'\" target=\"_blank\">'. $image .'</a></li>';
+												}
+												$products[$i][$j] = "<button class='btn btn-custom btn-sm' onClick=' $(\"#imageModalBody\").html(\"". $listImages ."\"); $(\"#promptShowImages\").modal(\"toggle\");'>" . sizeof($importRowImages) . " image(s) </button>";
+											}
+											echo '<td>'. $products[$i][$j] .'</td>';
 										}
 										echo '</tr>';
 									}
@@ -217,7 +310,7 @@ function bulkRemoveItems() {
 var currentAjax = 0;
 var ajaxQ = [];
 
-function importThis(){
+function importThis(timeToken){
 	
 	count = 0;
 	$('#resultTable').html("");
@@ -239,20 +332,50 @@ function importThis(){
 	checkQ(currentAjax);
 }
 
-function checkQ() {
+function importAll(timeToken){
+	
+	count = 0;
+	$('#resultTable').html("");
+	$('#importedItems').text(0);
+	$(".select-checkbox").each(function (index, elemCount) {
+			count++;
+	});
+	$(".select-checkbox").each(function (index, elem) {
+		$('#totalItems').html(count);
+			id = $(elem).val();
+			ajaxQ.push(id);
+	});
+
+	checkQ(timeToken);
+}
+
+
+function checkQ(timeToken) {
 	console.log("Total: " + ajaxQ.length);
 	console.log("Current: " + currentAjax);
 	if ( currentAjax < ajaxQ.length ) {
 		console.log("Running Query: " + currentAjax);
-		importAjax(ajaxQ[currentAjax], currentAjax);
+		$.ajax({
+			url: './ajax.php?checkToken=' + timeToken,
+			type: 'GET',
+			success: function(result){
+				if ( result == 1 ) {
+					importAjax(ajaxQ[currentAjax], currentAjax, timeToken);
+				} else {
+					$('#resultDiv').html("<h4>Import Failure</h4><br><h5>File you tried to import from has been tampered with. You either have another window open with the same task or the Session has expired, please reload the page to continue.</h5><a href=\"javascript:void(0);\" id=\"uploadDivCloseIcon\" class=\"btn btn-danger\" style=\"font-size: 20px; margin: 0px 16px;\" onclick=\"window.location = './import_excel.php';\" data-toggle=\"tooltip\" data-placement=\"bottom\">Reload Page</a>");
+
+	    			$('#uploadDiv').show();
+				}
+			}
+		});
 	} else {
 		console.log("Ending at: " + currentAjax);
 	}
 }
 
-function importAjax (id, index) {
+function importAjax (id, index, timeToken) {
 	$.ajax({
-		url: './ajax.php?importThis=' + id,
+		url: './ajax.php?importThis=' + id + '&timeToken=' + timeToken,
 		type: 'GET',
 	    beforeSend: function() {
 	    	$('#uploadDiv').show();
@@ -271,7 +394,7 @@ function importAjax (id, index) {
 			console.log("Finished Query: " + index);
 
 			currentAjax++;
-			checkQ();
+			checkQ(timeToken);
 
 	    },
 		success: function(result) {
@@ -297,6 +420,16 @@ function importAjax (id, index) {
 			console.log("JSON Error");
 			console.log(error);
 		},
+	});
+}
+function downloadFormat() {
+	$.ajax({
+		url: './ajax.php?downloadFormat=true',
+		type: 'GET',
+		success: function(result) {
+			console.log(result);
+			window.location.href = './../assets/format.xlsx';
+		}
 	});
 }
 </script>
@@ -342,6 +475,31 @@ function importAjax (id, index) {
 	            <br>Are you sure you want to perform this action?</h4> <!-- Bulk Delete Modal -->
 	            <br>
 	            <h5>Note: This action can not be undone.</h5> <!-- Bulk Delete Modal -->
+	        </div>
+	      </div> <!-- Bulk Delete Modal -->
+	      <div class="modal-footer">
+	        <input id="removeModalActionButton" type="submit" class="btn btn-custom" name="bulkManage" value="delete" form="bulkManage" />
+	        <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
+	      </div>
+	      </form>
+	    </div>
+	  </div>
+	</div>
+
+
+	<div id="promptShowImages" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+
+	    <!-- Modal content-->
+	    <div class="modal-content"> <!-- Bulk Delete Modal -->
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button> <!-- Bulk Delete Modal -->
+	        <h4 class="modal-title">Images</h4> <!-- Bulk Delete Modal -->
+	      </div>
+	      <input id="remove_category" name="category" hidden>
+	      <div class="modal-body"> <!-- Bulk Delete Modal -->
+	        <div class="container" id="imageModalBody">
+	            
 	        </div>
 	      </div> <!-- Bulk Delete Modal -->
 	      <div class="modal-footer">
