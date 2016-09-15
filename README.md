@@ -13,7 +13,7 @@
 + Configuration
     * git config --global user.name "princebhanwra"
     * git config --global user.email "princebhanwra@gmail.com"
-    * git clone https://princebhanwra@bitbucket.org/destiny1/diamantsecret.git --branch <tag>
+    * git clone https://princebhanwra@bitbucket.org/destiny1/diamantsecret.git --branch <branch_name>
     * Create link to this directory
 - Dependencies
     * MySQL, PHP, Apache
