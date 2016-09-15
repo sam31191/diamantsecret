@@ -1,13 +1,13 @@
 # README #
 
-### Diamond B2C website ###
+### Diamond B2C Website ###
 
 * Website: www.diamantsecret.com
 
-## Version ###
+### Version ####
 * First draft - 15/09/2016
 
-### How do I get set up? ###
+### Setup ###
 
 * Install Git
 + Configuration
@@ -18,13 +18,13 @@
 - Dependencies
     * MySQL, PHP, Apache
 
-### Contribution guidelines ###
+### Guidelines ###
 
 * Writing tests
 * Code review
 * Other guidelines
 
-### Who do I talk to? ###
+### Contact Information ###
 
 * Owner: Prince Bhanwra (princebhanwra@gmail.com)
 
