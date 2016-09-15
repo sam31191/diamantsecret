@@ -503,7 +503,6 @@ function downloadFormat() {
 	        </div>
 	      </div> <!-- Bulk Delete Modal -->
 	      <div class="modal-footer">
-	        <input id="removeModalActionButton" type="submit" class="btn btn-custom" name="bulkManage" value="delete" form="bulkManage" />
 	        <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
 	      </div>
 	      </form>
