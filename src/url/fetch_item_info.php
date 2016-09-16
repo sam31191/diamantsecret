@@ -7,7 +7,7 @@
     session_start();
   }
 
-  include 'require.php';
+  include '../conf/config.php';
 
   $fetch = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
   $fetch->execute(array(":key" => $_GET['id']));

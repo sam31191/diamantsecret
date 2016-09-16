@@ -15,7 +15,7 @@ if ( isset($_SESSION['modSession']) ) {
 	}
 }
 
-include '../../url/require.php';
+include '../../conf/config.php';
 
 
     pconsole($_POST);

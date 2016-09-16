@@ -5,7 +5,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 if ( !$_SESSION['loggedIn'] ) {
 	die();
 }
-include 'require.php';
+include 'config.php';
 
 if ( isset($_GET['addtoFav'])) {
 	$getcurrentFavs = $pdo->prepare("SELECT `favorites` FROM `accounts` WHERE `username` = :username");

@@ -31,7 +31,7 @@ include 'PHPExcel/IOFactory.php';
 $url='https://images.baunat.com/en/82414_CL-GW-R3-0030S_1_722x722/0-30-carat-solitaire-diamond-engagement-ring-in-white-gold';
 
 
-include '../url/require.php';
+include '../conf/config.php';
 $array = [
 [ 1,  'Austria', 		20],
 [ 2,  'Belgium', 		21],
@@ -121,7 +121,7 @@ echo '<hr />';
 $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
 //var_dump($sheetData);
 */
-include '../url/require.php';
+include '../conf/config.php';
 
 $q = $pdo->prepare("SELECT items.* FROM items JOIN pendants ON items.unique_key = pendants.unique_key JOIN earrings ON items.unique_key = earrings.unique_key");
 

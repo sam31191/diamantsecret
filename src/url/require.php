@@ -10,8 +10,8 @@
 	$mailSMTPAuth = true;
 	$mailUsername = "contact@diamantsecret.com";
 	$mailPassword = "contact@123";
-	$__ADMINMAIL__ = "ryan.bhanwra@gmail.com";
-	$__ADMIN__ = "Ryan";
+	$__ADMINMAIL__ = "contact@diamantsecret.com";
+	$__ADMIN__ = "Admin";
 
 
 	if ( session_status() == PHP_SESSION_NONE ) {

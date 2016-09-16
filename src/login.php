@@ -32,7 +32,7 @@
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
-include 'url/require.php';
+include 'conf/config.php';
 include './assets/mail_format/admin_mail.php';
 
 pconsole($_POST);
@@ -125,6 +125,9 @@ if ( isset($_POST['login']['username']) ) {
 		$recoveryMail = str_replace("__CLIENT__", $userInfo['username'], $recoveryMail);
 		$recoveryMail = str_replace("__NEWPASS__", $newPass, $recoveryMail);
 
+
+		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
+
 		$mail = new PHPMailer;
 		$mail->isSMTP();
 		#$mail->SMTPDebug = 2;
@@ -134,10 +137,10 @@ if ( isset($_POST['login']['username']) ) {
 		$mail->SMTPAuth = $mailSMTPAuth;
 		$mail->Username = $mailUsername;
 		$mail->Password = $mailPassword;
-		$mail->setFrom('contact@diamantsecret.com', 'Diamant Secret');
+		$mail->setFrom($mailSenderEmail, $mailSenderName);
 		$mail->addAddress($userInfo['email']);
 		$mail->isHTML(true);
-		$mail->Subject = 'Password Reset';
+		$mail->Subject = $testSiteSubject . 'Password Reset';
 		$mail->Body = $recoveryMail;
 		if ( !$mail->send() ) {
 			$error = 'Invalid Email Address';

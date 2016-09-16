@@ -51,7 +51,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 if ( !$_SESSION['loggedIn'] ) {
 	header("Location: ../index.php");
 }
-include 'require.php';
+include '../conf/config.php';
 if ( isset ($_POST['removeFromFavorites']) ) {
 	//echo var_dump($_POST);	
 	$getcurrentFavs = $pdo->prepare("SELECT `favorites` FROM `accounts` WHERE `username` = :username");

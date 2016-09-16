@@ -29,7 +29,7 @@
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
-include 'url/require.php';
+include 'conf/config.php';
 
 ?>
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templatePage notouch">

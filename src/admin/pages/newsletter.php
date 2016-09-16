@@ -14,7 +14,7 @@ if ( isset($_SESSION['modSession']) ) {
 		die();
 	}
 }
-include '../../url/require.php';
+include '../../conf/config.php';
 
 ?>
   <head>

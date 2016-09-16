@@ -14,19 +14,25 @@ if ( isset($_SESSION['modSession']) ) {
 		die();
 	}
 }
-include '../../url/require.php';
+include '../../conf/config.php';
 
 if ( isset($_POST['addItem']) ) {
-	$addCompany = $pdo->prepare("INSERT INTO `company_id` (`company_name`) VALUES (:cn)");
-	$addCompany->execute(array(":cn" => $_POST['company_name']));
+	$addCompany = $pdo->prepare("INSERT INTO `company_id` (`company_name`, `email`, `mobileno`, `address`) VALUES (:cn, :mail, :pno, :add)");
+	$addCompany->execute(array(":cn" => $_POST['company_name'], ":mail" => $_POST['company_mail'], ":pno" => $_POST['company_phone'], ":add" => $_POST['company_address']));
 } else if ( isset($_POST['removeItem']) ) {
 	pconsole($_POST);
 	$addCompany = $pdo->prepare("DELETE FROM `company_id` WHERE `id` = :id");
 	$addCompany->execute(array(":id" => $_POST['removeItem']));
 } else if ( isset($_POST['editItem']) ) {
 	pconsole($_POST);
-	$addCompany = $pdo->prepare("UPDATE `company_id` SET `company_name` = :name WHERE `id` = :id");
-	$addCompany->execute(array(":name" => $_POST['product_name'], ":id" => $_POST['editItem']));
+	$addCompany = $pdo->prepare("UPDATE `company_id` SET `company_name` = :name, `email` = :mail, `mobileno` = :phone, `address` = :address WHERE `id` = :id");
+	$addCompany->execute(array(
+      ":name" => $_POST['company_name'], 
+      ":id" => $_POST['editItem'],
+      ":mail" => $_POST['company_mail'],
+      ":phone" => $_POST['company_phone'],
+      ":address" => $_POST['company_address']
+  ));
 } 
 ?>
   <head>
@@ -35,7 +41,7 @@ if ( isset($_POST['addItem']) ) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Users - Admin Panel</title>
+    <title>Suppliers - Admin Panel</title>
     <!-- Bootstrap -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -61,7 +67,7 @@ if ( isset($_POST['addItem']) ) {
 
         <!-- page content -->
         <div class="right_col" role="main">
-        <h3>Company Management <button class="btn btn-custom" onclick="$('#promptAddItem').modal('toggle');">Add</button>
+        <h3>Supplier Management <button class="btn btn-custom" onclick="$('#promptAddItem').modal('toggle');">Add</button>
         	<div class="btn-group">
         		<?php
 	    		$filter = "id";
@@ -95,8 +101,11 @@ if ( isset($_POST['addItem']) ) {
             		echo '
                 	<thead>
                         <th>ID</th>
-                        <th>Company Name</th>
                         <th>Action</th>
+                        <th>Supplier Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
                 	</thead>
                 	<tbody>';
 
@@ -112,11 +121,14 @@ if ( isset($_POST['addItem']) ) {
                 			foreach ( $getUsers->fetchAll() as $company ) {
                 				echo '<tr>';
                                 echo '<td>'. $company['id'] .'</td>';
-                				echo '<td>'. $company['company_name'] .'</td>';
-                				echo '<td>
-                					<button class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete Client" onclick="$(\'#itemToRemove\').text(\''. $company['company_name'] .'\'); $(\'#removeModalActionButton\').val(\''. $company['id'] .'\'); $(\'#promptRemoveModal\').modal(\'toggle\');"><i class="fa fa-close"></i></button>
-                					<button class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit Client" onclick="$(\'#edit_product_name\').val(\''. $company['company_name'] .'\'); $(\'#editItem\').val(\''. $company['id'] .'\'); $(\'#promptEditItem\').modal(\'toggle\');"><i class="fa fa-pencil"></i></button>
-                					</td>';
+                        echo '<td>
+                          <button class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete Client" onclick="$(\'#itemToRemove\').text(\''. $company['company_name'] .'\'); $(\'#removeModalActionButton\').val(\''. $company['id'] .'\'); $(\'#promptRemoveModal\').modal(\'toggle\');"><i class="fa fa-close"></i></button>
+                          <button class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit Client" onclick="editSupplier(\''. $company['id'] .'\')"><i class="fa fa-pencil"></i></button>
+                          </td>';
+                        echo '<td>'. $company['company_name'] .'</td>';
+                        echo '<td>'. $company['email'] .'</td>';
+                        echo '<td>'. $company['mobileno'] .'</td>';
+                        echo '<td>'. $company['address'] .'</td>';
                 				echo '</tr>';
                 			}
                 		} else {
@@ -178,33 +190,60 @@ if ( isset($_POST['addItem']) ) {
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add New Client</h4>
-      </div>
-      <form method="post" enctype="multipart/form-data" id="addItemForm">
-      <div class="modal-body">
-        <div class="container">
-            <div class="col-sm-12">
-				<tbody>
-					<tr class="table-row">
-						<td class="table-item-label"><span class="table-item-label">Name</span></td>
-						<td>
-							<div class="table-item">
-								<input name="company_name" type="text" class="form-control" placeholder="Company Name (50 Characters)" required maxlength="50" pattern=".{0,50}" >
-							</div>
-						</td>
-					</tr>
-				</tbody>
-            </div>  
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><span id="item_to_edit">Edit</span></h4>
         </div>
+        <form method="post">
+        <div class="modal-body">
+          <div class="container">
+              <div class="col-sm-12">
+          <tbody>
+            <tr class="table-row">
+              <td class="table-item-label"><span class="table-item-label">Name</span></td>
+              <td>
+                <div class="table-item">
+                  <input name="company_name" type="text" class="form-control" placeholder="Supplier Name (50 Characters)" required maxlength="50" pattern=".{0,50}" >
+                </div>
+              </td>
+            </tr>
+
+            <tr class="table-row">
+              <td class="table-item-label"><span class="table-item-label">Email</span></td>
+              <td>
+                <div class="table-item">
+                  <input name="company_mail" type="text" class="form-control" placeholder="Supplier Email" required maxlength="50" pattern=".{0,50}" >
+                </div>
+              </td>
+            </tr>
+
+            <tr class="table-row">
+              <td class="table-item-label"><span class="table-item-label">Phone</span></td>
+              <td>
+                <div class="table-item">
+                  <input name="company_phone" type="text" class="form-control" placeholder="Supplier Phone Number" required maxlength="50" pattern=".{0,50}" >
+                </div>
+              </td>
+            </tr>
+
+            <tr class="table-row">
+              <td class="table-item-label"><span class="table-item-label">Address</span></td>
+              <td>
+                <div class="table-item">
+                  <textarea name="company_address" class="form-control" placeholder="Supplier Address (500 Characters)"></textarea>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+              </div>  
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-custom" name="addItem" value="" >Submit</button>
+          <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
+        </div>
+        </form>
       </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-custom" name="addItem" >Submit</button>
-        <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
-      </div>
-      </form>
-    </div>
   </div>
 </div>
 
@@ -224,7 +263,7 @@ if ( isset($_POST['addItem']) ) {
             <h4>You are about to permanently delete Client: <strong id="itemToRemove">This</strong>
             <br>Are you sure you want to perform this action?</h4>
             <br>
-            <h5><div class="alert alert-error">Warning: This action can not be undone.</div></h5>
+            <h5><div class="alert alert-error">Warning: It is advised to remove this Supplier's items before deleting it, otherwise it may cause instability. <br> This action can not be undone.</div></h5>
         </div>
       </div>
       <div class="modal-footer">
@@ -250,14 +289,41 @@ if ( isset($_POST['addItem']) ) {
 	        <div class="container">
 	            <div class="col-sm-12">
 					<tbody>
-						<tr class="table-row">
-							<td class="table-item-label"><span class="table-item-label">Name</span></td>
-							<td>
-								<div class="table-item">
-									<input id="edit_product_name" name="product_name" type="text" class="form-control" placeholder="Product Name (50 Characters)" required maxlength="50" pattern=".{0,50}" >
-								</div>
-							</td>
-						</tr>
+            <tr class="table-row">
+              <td class="table-item-label"><span class="table-item-label">Name</span></td>
+              <td>
+                <div class="table-item">
+                  <input id="edit_product_name" name="company_name" type="text" class="form-control" placeholder="Supplier Name (50 Characters)" required maxlength="50" pattern=".{0,50}" >
+                </div>
+              </td>
+            </tr>
+
+            <tr class="table-row">
+              <td class="table-item-label"><span class="table-item-label">Email</span></td>
+              <td>
+                <div class="table-item">
+                  <input id="edit_company_mail" name="company_mail" type="text" class="form-control" placeholder="Supplier Email" required maxlength="50" pattern=".{0,50}" >
+                </div>
+              </td>
+            </tr>
+
+            <tr class="table-row">
+              <td class="table-item-label"><span class="table-item-label">Phone</span></td>
+              <td>
+                <div class="table-item">
+                  <input id="edit_company_phone" name="company_phone" type="text" class="form-control" placeholder="Supplier Phone Number" required maxlength="50" pattern=".{0,50}" >
+                </div>
+              </td>
+            </tr>
+
+            <tr class="table-row">
+              <td class="table-item-label"><span class="table-item-label">Address</span></td>
+              <td>
+                <div class="table-item">
+                  <textarea id="edit_company_address" name="company_address" class="form-control" placeholder="Supplier Address (500 Characters)"></textarea>
+                </div>
+              </td>
+            </tr>
 					</tbody>
 	            </div>  
 	        </div>
@@ -270,3 +336,23 @@ if ( isset($_POST['addItem']) ) {
 	    </div>
 	  </div>
 	</div>
+
+  <script type="text/javascript">
+    function editSupplier(key) {
+
+      $.ajax({
+        url: './ajax.php?getSupplierDetails=' + key,
+        type: 'GET',
+        success: function(result) {
+          result = JSON.parse(result);
+          console.log(result);
+          $("#edit_product_name").val(result['company_name']); 
+          $("#edit_company_mail").val(result['email']); 
+          $("#edit_company_phone").val(result['mobileno']); 
+          $("#edit_company_address").text(result['address']); 
+          $("#editItem").val(key); 
+          $("#promptEditItem").modal("toggle");
+        }
+      });
+    }
+  </script>

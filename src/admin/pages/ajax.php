@@ -8,7 +8,7 @@ if ( !isset($_SESSION['modSession']) ) {
 }
 
 
-include '../../url/require.php';
+include '../../conf/config.php';
 
 /** Include path **/
 set_include_path(get_include_path() . PATH_SEPARATOR . '../PHPExcel/PHPExcel/');
@@ -1362,6 +1362,52 @@ if ( isset($_GET['importThis']) ) {
 		} else {
 			echo 0;
 		}
+	}
+} else if ( isset($_GET['fetchImages']) ) {
+	$uniqueKey = $_GET['fetchImages'];
+
+	$getCategory = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
+	$getCategory->execute(array(":key" => $uniqueKey));
+
+	if ( $getCategory->rowCount() > 0 ) {
+		$itemInfo = $getCategory->fetch(PDO::FETCH_ASSOC);
+
+		$fetchInfo2 = $pdo->prepare('SELECT * From '. getCategory($itemInfo['category'], $pdo) .' WHERE `unique_key` = :key');
+		$fetchInfo2->execute(array(":key" => $uniqueKey));
+
+		if ( $fetchInfo2->rowCount() > 0 ) {
+			$itemInfo2 = $fetchInfo2->fetch(PDO::FETCH_ASSOC);
+
+			$images = explode(",", $itemInfo2['images']);
+
+			if ( $itemInfo2['images'] !== "" ) {
+				$imageOutput = "";
+				foreach ( $images as $image ) {
+					if ( !empty($image) ) {	
+						$imageOutput .= '
+						<div class="col-md-3" style="padding: 5px;">
+							<a href="javascript:void(0);" style="position: absolute; right: 10px; z-index: 2; font-size: 16px; color: #F44336;" onclick="$(\'#imageToDelete\').attr(\'src\', \'./../../images/images_md/'. $image .'\'); $(\'#imageToDeleteID\').val(\''. $image .'\'); $(\'#deleteImagekey\').val(\''. $itemInfo['unique_key'] .'\'); $(\'#promptDeleteImage\').modal(\'toggle\');" ><i class="fa fa-close" data-toggle="tooltip" title="Delete"></i></a>
+							<a href="javascript:void(0);"><img class="custom-img-thumbnail" src="./../../images/images_sm/'. $image .'" style="width:100%; border: solid thin #ccc;" /></a>
+						</div>';
+					}
+				}
+
+				echo $imageOutput;
+			}
+		} else {
+			echo "Invalid Item";
+		}
+	} else {
+		echo "Invalid Item";
+	}
+} else if ( isset($_GET['getSupplierDetails']) ) {
+	$getSupplier = $pdo->prepare("SELECT * FROM `company_id` WHERE `id` = :id");
+	$getSupplier->execute(array(":id" => $_GET['getSupplierDetails']));
+
+	if  ( $getSupplier->rowCount() > 0 ) {
+		echo json_encode($getSupplier->fetch(PDO::FETCH_ASSOC));
+	} else {
+		echo "Supplier Not Found";
 	}
 } else {
 	echo "GET not SET";

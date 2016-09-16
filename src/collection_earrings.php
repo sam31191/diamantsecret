@@ -48,7 +48,7 @@
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
-include 'url/require.php';
+include 'conf/config.php';
 if ( isset($_POST['addToCart']) ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
 	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
@@ -852,7 +852,14 @@ function quickShop(id) {
 							sizehtml += '<a class="btn size-badge size-badge-active" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
 							$("#quick-shop-size-value").val(sizes[i]);
 						} else {
-							sizehtml += '<a class="btn size-badge" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
+							if ( sizes[i].indexOf('-') > -1 ) {
+								sizesRange = sizes[i].split('-');
+								for ( var j = sizesRange[0]; j <= sizesRange[1]; j++ ) {
+									sizehtml += '<a class="btn size-badge" name="'+ j +'" onClick="selectSize(this)">'+ j +'</a>';
+								}
+							} else {
+								sizehtml += '<a class="btn size-badge" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
+							}
 						}
 					}
 					//console.log(sizehtml);

@@ -30,7 +30,7 @@
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
-include './url/require.php';
+include './conf/config.php';
 
 if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
 	header("location: ./login.php");

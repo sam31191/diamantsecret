@@ -21,7 +21,7 @@ nav {
 	border-radius:0 !important;
 }
 
-.fa-cog {
+.fa-cog, .fa-arrows-alt, .fa-lock, .fa-power-off {
 	color: #ddd;
 }
 .navbar {
@@ -249,7 +249,9 @@ footer{
 .modal-content {
 	box-shadow:none;
 	border-radius: 0;
-	background-color: #f7f7f7;
+	background-color: #f7f7f7;    
+    max-height: 90vh;
+    overflow: auto;
 }
 .modal-footer {
 	padding: 10px;
@@ -499,4 +501,11 @@ input[type=file] {
 }
 .right_col {
     height: 94vh;
+}
+.custom-img-thumbnail {
+    opacity: 0.50;
+    transition: 0.3s all ease-in;
+}
+.custom-img-thumbnail:hover {
+    opacity: 1;
 }

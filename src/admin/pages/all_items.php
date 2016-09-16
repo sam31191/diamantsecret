@@ -14,7 +14,7 @@ if ( isset($_SESSION['modSession']) ) {
 		die();
 	}
 }
-include '../../url/require.php';
+include '../../conf/config.php';
 
 if ( isset($_POST['featuredAdd']) ) {
 	$addFeatured = $pdo->prepare("UPDATE `items` SET `featured` = 1 WHERE `id` = :id");
@@ -513,6 +513,40 @@ if ( isset($_POST['featuredAdd']) ) {
 			break;
 		} 
 	}
+} else if ( isset($_POST['deleteImage']) ) {
+	pconsole($_POST);
+
+	$getCategory = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
+	$getCategory->execute(array(":key" => $_POST['unique_key']));
+
+	if ( $getCategory->rowCount() > 0 ) {
+		$itemInfo = $getCategory->fetch(PDO::FETCH_ASSOC);
+		$getImages = $pdo->prepare("SELECT * FROM ". getCategory($itemInfo['category'], $pdo) ." WHERE `unique_key` = :key");
+		$getImages->execute(array(":key" => $_POST['unique_key']));
+
+		if ( $getImages->rowCount() > 0 ) {
+			$itemInfo2 = $getImages->fetch(PDO::FETCH_ASSOC);
+
+			$imagesUpdated = str_replace($_POST['deleteImage'] . ",", "", $itemInfo2['images']);
+
+			$updateImages = $pdo->prepare("UPDATE ". getCategory($itemInfo['category'], $pdo) ." SET `images` = :newIMG WHERE `unique_key` = :key");
+			$updateImages->execute(array(":newIMG" => $imagesUpdated, ":key" => $_POST['unique_key']));
+
+			if ( file_exists("./../../images/images/" . $_POST['deleteImage']) ) {
+				unlink("./../../images/images/" . $_POST['deleteImage']);
+			}
+			if ( file_exists("./../../images/images_md/" . $_POST['deleteImage']) ) {
+				unlink("./../../images/images_md/" . $_POST['deleteImage']);
+			}
+			if ( file_exists("./../../images/images_sm/" . $_POST['deleteImage']) ) {
+				unlink("./../../images/images_sm/" . $_POST['deleteImage']);
+			}
+		}
+	}
+} else if ( isset($_POST['addNewImages']) ) {
+	pconsole($_POST);
+	pconsole($_FILES);
+
 }
 
 ?>
@@ -821,7 +855,7 @@ if ( isset($_POST['featuredAdd']) ) {
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=featured&order='. $order .'">Featured '. $featuredCaret .'</a>'; ?></th>
                 	<th>Action</th>
                 	<th>Internal ID</th>
-                	<th>Company ID</th>
+                	<th>Supplier</th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=item_name&order='. $order .'">Name '. $nameCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=item_value&order='. $order .'">Price '. $priceCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=discount&order='. $order .'">Discount '. $discountCaret .'</a>'; ?></th>
@@ -920,7 +954,7 @@ if ( isset($_POST['featuredAdd']) ) {
 								echo '<td>'. $info['width'] .'</td>';
 								echo '<td>'. $info['length'] .'</td>';
 								echo '<td>'. getCountry($info['country_id'], $pdo) .'</td>';
-								echo '<td>'. intval(sizeof(explode(",", $info['images'])) - 1) .' image(s)</td>';
+								echo '<td><button class="btn btn-custom btn-sm" onClick="manageImages(\''. $info['unique_key'] .'\')">'. intval(sizeof(explode(",", $info['images'])) - 1) .' image(s)</button></td>';
 								echo '<td>'. $info['description'] .'</td>';
 								echo '<td>'. $entry['date_added'] .'</td>';
 
@@ -994,6 +1028,69 @@ if ( isset($_POST['featuredAdd']) ) {
 	}
 	</style>
 
+
+        <!-- Modal -->
+        <div id="promptManageImages" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Manage Images</h4>
+              </div>
+              <div class="modal-body">
+                <div id="manageImageDiv" class="container">
+                    
+                </div>
+                <!--<div class="container">
+                	<fieldset>
+                		<legend>Add New Images</legend>
+	                	<form method="post" enctype="multipart/form-data">
+	                		<input type="file" name="addImageTo">
+	                		<input type="text" class="form-control" name="addURLTo" style="margin:5px;" placeholder="Place image URL here (Seperate with comma (,) )">
+	                		<button class="btn btn-custom" style="float:right;" id="addNewImagesID" name="addNewImages" >Add Image</button>
+	                	</form>
+                	</fieldset>
+                </div>-->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div id="promptDeleteImage" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Caution</h4>
+              </div>
+              <form method="post" enctype="multipart/form-data">
+              <input id="deleteImagekey" name="unique_key" hidden>
+              <div class="modal-body">
+                <div class="container" style="text-align:center;">
+                	<img id="imageToDelete" src="" style="max-height:35vh;" />
+                    <h4>You are about to permanently delete this image
+                    <br>Are you sure you want to perform this action?</h4>
+                    <br>
+                    <h5><div class="alert alert-error">Warning: This action can not be undone.</div></h5>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button id="imageToDeleteID" type="submit" class="btn btn-custom" name="deleteImage" value="">Delete</button>
+                <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
 
         <!-- Modal -->
         <div id="promptRemoveModal" class="modal fade" role="dialog">
@@ -1533,6 +1630,22 @@ if ( isset($_POST['featuredAdd']) ) {
     	$("#categoryToRemove").text(message);
     	$("#removeAll").val($(e).attr("name"));
     	$("#promptRemoveAll").modal("toggle");
+    }
+
+    function manageImages(key) {
+    	$.ajax({
+    		url: "ajax.php?fetchImages="+key,
+    		type: "GET",
+    		beforeSend: function() {
+    			$("#promptManageImages").modal("toggle");
+    			$("#manageImageDiv").html("<div style='text-align:center;'><img src='./../../images/gfx/cube_lg.gif'></div>");
+    			$("#addNewImagesID").val(key);
+    		},
+    		success: function(result){
+    			$("#manageImageDiv").html(result);
+    			console.log(result);
+    		}
+    	});
     }
 	
 	</script>

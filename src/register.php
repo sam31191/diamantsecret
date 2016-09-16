@@ -34,10 +34,10 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 	$_SESSION['loggedIn'] = false;
 }
 
-include './url/require.php';
+include './conf/config.php';
   include './assets/mail_format/admin_mail.php';
 
-pconsole($_SESSION);
+pconsole($_POST);
 #pre
 $alert = "";
 
@@ -80,7 +80,9 @@ if ( isset($_POST['register']) ) {
 		$mailBody = file_get_contents("./conf/mail_formats/registration_verification.html");
 		$mailBody = str_replace("__CLIENT__", $_POST['customer']['username'], $mailBody);
 		$mailBody = str_replace("__VERIFICATIONHASH__", $verifyHash, $mailBody);
+		$mailBody = str_replace("__USERNAME__", $_POST['customer']['username'], $mailBody);
 
+		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
 
 		$mail = new PHPMailer;
 		$mail->isSMTP();
@@ -91,10 +93,11 @@ if ( isset($_POST['register']) ) {
 		$mail->SMTPAuth = $mailSMTPAuth;
 		$mail->Username = $mailUsername;
 		$mail->Password = $mailPassword;
-		$mail->setFrom('contact@diamantsecret.com', 'Diamant Secret');
+		$mail->setFrom($mailSenderEmail, $mailSenderName);
 		$mail->addAddress($email);
 		$mail->isHTML(true);
-		$mail->Subject = 'Activation Account';
+		$mail->Subject = $testSiteSubject . 'Activation Account';
+
 		#$mailBody = mailVerify($_POST['customer']['username'], "http://www.diamantsecret.com/register.php?verify=".$verifyHash);
 		$mail->Body = $mailBody;
 		if ( !$mail->send() ) {
@@ -137,7 +140,9 @@ if ( isset($_GET['verify']) ) {
 
 if ( isset($_GET['verifyLogin']) ) {
 
-	$incomingPassword = $_POST['customer']['password'];
+
+	$incomingPassword = ( isset($_POST['customer']['password']) ) ? $_POST['customer']['password'] : "";
+	$incomingUsername = ( isset($_POST['customer']['username']) ) ? $_POST['customer']['username'] : "";
 	$hash = $_GET['verifyLogin'];
 
 	$checkHash = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :hash");
@@ -160,11 +165,29 @@ if ( isset($_GET['verifyLogin']) ) {
 		} else {
 			$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email");
 			$activate->execute(array(":emptyHash" => "", ":email" => $accountToActivate['email']));
-			$alert = "Invalid Login Credentials / Account has been verified however, feel free to <a href='./login.php'  style='color: #607D8B;'>Login</a>";
+			$alert = "Account has been verified";
+			$alert2 = "Invalid Login Credentials </li></li> Click here to <a style='color:#607D8B' href='./login.php'>Login</a>";
 		}
 
 	} else {
-		$alert = "Verification Link has expired";
+		$checkAuth = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `password` = :pass AND `activated` = 1");
+		$checkAuth->execute(array(":user" => $incomingUsername, ":pass" => $incomingPassword));
+
+		if ( $checkAuth->rowCount() > 0 ) {
+			$creds = $checkAuth->fetch(PDO::FETCH_ASSOC);
+
+			$_SESSION['username'] = $creds['username'];
+			$_SESSION['email'] = $creds['email'];
+			$_SESSION['loggedIn'] = true;
+
+			if ( $creds['type'] > 0 ) {
+				$_SESSION['admin'] = $creds['type'];
+			}
+
+			header("Location: ./index.php");
+		} else {
+			$alert = "Verification Link has expired";
+		}
 	}
 }
 ?>
@@ -210,6 +233,19 @@ if ( isset($_GET['verifyLogin']) ) {
 										</div>
 									</div>';
 							}
+							if ( !empty($alert2) ) {
+								echo '
+									<div class="col-md-21 login-alert">
+										<div class="alert alert-danger">
+											<button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="Close">×</button>
+											<div class="errors">
+												<ul>
+													<li>'. $alert2 .'</li>
+												</ul>
+											</div>
+										</div>
+									</div>';
+							}
 							?>
 							</div>
 							<div id="col-main" class="col-md-12 register-page clearfix">
@@ -218,7 +254,7 @@ if ( isset($_GET['verifyLogin']) ) {
 									<ul id="" class="row list-unstyled">
 										<li id="last_namef">
 										<label class="control-label" for="username">Username <span class="req">*</span></label>
-										<input name="customer[username]" pattern="[a-zA-Z0-9-+$_^!][a-zA-Z0-9\s-+$_^!]{2,32}"  id="username" class="form-control " type="text" required>
+										<input name="customer[username]" pattern="[a-zA-Z0-9-+$_^!]{2,32}"  id="username" class="form-control " type="text" required>
 										</li>
 										<li class="clearfix"></li>
 										<li id="emailf" class="">

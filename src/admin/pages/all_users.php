@@ -14,7 +14,7 @@ if ( isset($_SESSION['modSession']) ) {
 		die();
 	}
 }
-include '../../url/require.php';
+include './../../conf/config.php';
 
 pconsole($_SESSION);
 if ( isset($_POST['user']) ) {
@@ -128,12 +128,12 @@ if ( isset($_POST['user']) ) {
 				    <li><a href="?filter='. $filter .'&order='. $currentOrder .'">All</a></li>
 				    <li><a href="?filter='. $filter .'&order='. $currentOrder .'&show=0">Users</a></li>
 				    <li><a href="?filter='. $filter .'&order='. $currentOrder .'&show=1">Admins</a></li>
-				    <li><a href="?filter='. $filter .'&order='. $currentOrder .'&show=2">Super Admins</a></li>
 				  </ul>
 				  ';
 			?>
 			</div>
 			<form method="get" style="float:right; width:200px;"><input type="text" style="background: transparent;" class="form-control" placeholder="Search..." name="search"></form>
+            <form method="post" target="_blank" action="./login_as.php" id="loginAsForm"></form>
 		</h3>
             <div class="container" style="overflow:auto">
                 <table class="table table-condensed table-custom table-custom-items" style="white-space: nowrap;">
@@ -184,11 +184,11 @@ if ( isset($_POST['user']) ) {
                                 if ( isset($_SESSION['loginAs']) && $_SESSION['loginAs'] == $user['username'] ) {
                                     $loginAs = '<button class="btn btn-sm btn-danger" name="user[logoutAs]" value="'. $user['username'] .'" data-toggle="tooltip" title="Logout from '. $user['username'] .'">Logout</button>';
                                 } else {
-                                    $loginAs = '<button class="btn btn-sm btn-info" name="user[loginAs]" value="'. $user['username'] .'" data-toggle="tooltip" title="Login As '. $user['username'] .'">Login</button>';
+                                    $loginAs = '<button class="btn btn-sm btn-info" name="loginAs" value="'. $user['username'] .'" data-toggle="tooltip" title="Login As '. $user['username'] .'" form="loginAsForm">Login</button>';
                                 }
 
                                 if ( $_SESSION['username'] !== $user['username'] ) {
-                                    $deleteUser = '<a class="btn btn-sm btn-danger" name="user[delete]" onclick="$(\'#removeModalUserValue\').val(\''. $user['username'] .'\'); $(\'#promptRemoveUserModal\').modal(\'toggle\');" value="User" data-toggle="tooltip" title="" data-original-title="Delete User"><i class="fa fa-close"></i></a>';
+                                    $deleteUser = '<a class="btn btn-sm btn-danger" name="user[delete]" onclick="$(\'#removeModalUserValue\').val(\''. $user['username'] .'\'); $(\'#userToRemove\').text(\''. $user['username'] .'\'); $(\'#promptRemoveUserModal\').modal(\'toggle\');" value="User" data-toggle="tooltip" title="" data-original-title="Delete User"><i class="fa fa-close"></i></a>';
                                 } else {
                                     $deleteUser = '';
                                 }
@@ -258,7 +258,7 @@ if ( isset($_POST['user']) ) {
       <input id="remove_category" name="category" hidden>
       <div class="modal-body"> <!-- Bulk Delete Modal -->
         <div class="container">
-            <h4>You are about to permanently remove account:  <strong id="itemsToRemove">This</strong>
+            <h4>You are about to permanently remove account:  <strong id="userToRemove">This</strong>
             <br>Are you sure you want to perform this action?</h4> <!-- Bulk Delete Modal -->
             <br>
             <h5>Note: This action can not be undone.</h5> <!-- Bulk Delete Modal -->

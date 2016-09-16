@@ -48,7 +48,7 @@
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
-include 'url/require.php';
+include 'conf/config.php';
 if ( isset($_POST['addToCart']) ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
 	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
@@ -538,7 +538,7 @@ pconsole($_POST);
 																<ul class="row-container list-unstyled clearfix">
 																	<li class="row-left">
 																	<a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
-																	<img src="./images/images_sm/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
+																	<img src="./images/images_md/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
 																	'. $sale .'
 																	</a>
 																	<div class="hbw">
@@ -851,7 +851,14 @@ function quickShop(id) {
 							sizehtml += '<a class="btn size-badge size-badge-active" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
 							$("#quick-shop-size-value").val(sizes[i]);
 						} else {
-							sizehtml += '<a class="btn size-badge" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
+							if ( sizes[i].indexOf('-') > -1 ) {
+								sizesRange = sizes[i].split('-');
+								for ( var j = sizesRange[0]; j <= sizesRange[1]; j++ ) {
+									sizehtml += '<a class="btn size-badge" name="'+ j +'" onClick="selectSize(this)">'+ j +'</a>';
+								}
+							} else {
+								sizehtml += '<a class="btn size-badge" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
+							}
 						}
 					}
 					//console.log(sizehtml);

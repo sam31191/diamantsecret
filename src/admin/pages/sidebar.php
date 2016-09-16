@@ -35,7 +35,7 @@
           <ul class="nav child_menu">
             <li><a href="all_users.php">Users</a></li>
             <li><a href="newsletter.php">Newsletter</a></li>
-            <li><a href="company_management.php">Company Management</a></li>
+            <li><a href="company_management.php">Supplier Management</a></li>
           </ul>
         </li>
         <li><a><i class="fa fa-table"></i> Excel <span class="fa fa-chevron-down"></span></a>
@@ -53,10 +53,10 @@
 
   <!-- /menu footer buttons -->
   <div class="sidebar-footer hidden-small">
-    <a data-toggle="tooltip" data-placement="top" title="Settings">
+    <!--<a data-toggle="tooltip" data-placement="top" title="Settings">
       <span class="fa fa-cog" aria-hidden="true"></span>
     </a>
-    <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+    <a data-toggle="tooltip" data-placement="top" title="FullScreen" onclick="goFullscreen()">
       <span class="fa fa-arrows-alt" aria-hidden="true"></span>
     </a>
     <a data-toggle="tooltip" data-placement="top" title="Lock">
@@ -64,7 +64,7 @@
     </a>
     <a data-toggle="tooltip" data-placement="top" title="Logout">
       <span class="fa fa-power-off" aria-hidden="true"></span>
-    </a>
+    </a>-->
   </div>
   <!-- /menu footer buttons -->
 </div>

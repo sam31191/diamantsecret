@@ -36,7 +36,7 @@ if ( isset($_SESSION['modSession']) && $_SESSION['modSession'] ) {
 <div class="alert-custom notification" id="notification">USERNAME INVALID</div>
 
       <?php 
-	  include '../url/require.php';
+	  include '../conf/config.php';
 	  if ( isset($_POST['Password']) ) {
 		  $authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :username AND `password` = :pass");
 		  $authenticate->execute(array(":username" => $_SESSION['username'], ":pass" => $_POST['Password']));

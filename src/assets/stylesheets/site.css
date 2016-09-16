@@ -152,7 +152,9 @@
     font-size: 11px;
 }
 .modal-content {
-	height: 600px;
+    height: 600px;
+    overflow: auto;
+    padding-bottom: 10px;
 }
 #quick-shop-description {
 	font-size: 14px;
@@ -216,4 +218,7 @@
 .container_item {
     display: table-cell !important;
     vertical-align: middle;
+}
+#quick-shop-modal .modal-header .close {
+    background: #DA0101;
 }
