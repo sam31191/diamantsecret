@@ -1,11 +1,13 @@
 <?php
 
+
     /*  MySQL Configuration */
 	$host = "localhost";
 	$dbname = "prod_diamantsecret";
 	$user = "root";
 	$pass = "";
 	$testSite = false;
+
 
 	/* Mail Configuration */
 	$mailHost = 'mail.diamantsecret.com';
@@ -18,6 +20,10 @@
 	$__ADMINMAIL__ = "princebhanwra@gmail.com";
 	$__ADMINNAME__ = "Admin";
 	$__TESTSITEPREFIX__ = "[Test Site] ";
+
+
+	/* Other changes */
+	// - Update $rootPath in __php__.php file
 
 
 	if ( session_status() == PHP_SESSION_NONE ) {
