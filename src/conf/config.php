@@ -1,10 +1,13 @@
 <?php
+
+    /*  MySQL Configuration */
 	$host = "localhost";
-	$dbname = "website";
+	$dbname = "prod_diamantsecret";
 	$user = "root";
 	$pass = "";
 	$testSite = false;
 
+	/* Mail Configuration */
 	$mailHost = 'mail.diamantsecret.com';
 	$mailPort = 26;
 	$mailSMTPAuth = true;
@@ -33,10 +36,10 @@
 
 			include ('version.php');
 
-			if ( $version['sql_version'] == $__SQLVERSION__ && $version['build_version'] == $__BUILDVERSION__ ) {
+			if ( $version['sql_version'] == $__SQLVERSION__ ) {
 				#continue
 			} else {
-				echo var_dump("INVALID VERSION");
+				echo var_dump("INVALID DATABASE VERSION.", "Found: " . $version['sql_version'] , "Expected: $__SQLVERSION__");
 				die();
 			}
 		}

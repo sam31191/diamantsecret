@@ -1,0 +1,20 @@
+use PROD_DIAMANTSECRET;
+
+drop table version;
+drop table accounts;
+drop table bracelets;
+drop table categories;
+drop table subscribers;
+drop table rings;
+drop table ring_subcategory;
+drop table pendants;
+drop table necklaces;
+drop table moderator_login;
+drop table materials;
+drop table items;
+drop table earrings;
+drop table diamonds;
+drop table diamond_shape;
+drop table country_vat;
+drop table company_id;
+drop table tmp_table;
