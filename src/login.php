@@ -125,11 +125,11 @@ if ( isset($_POST['login']['username']) ) {
 		$userInfo = $checkUser->fetch(PDO::FETCH_ASSOC);
 		require './url/PHPMailerAutoload.php';
 
-		$newPass = generatePass(6);
+		$recoverHash = strtoupper(hash("md5", $_POST['recover']['email'] . 'RECOVER!@#HASH' . generatePass(10)));
 
-		$recoveryMail = file_get_contents('./conf/mail_formats/password_recovery.html');
+		$recoveryMail = file_get_contents('./conf/mail_formats/password_recovery_request.html');
 		$recoveryMail = str_replace("__CLIENT__", $userInfo['username'], $recoveryMail);
-		$recoveryMail = str_replace("__NEWPASS__", $newPass, $recoveryMail);
+		$recoveryMail = str_replace("__RECOVERURL__", $__MAINDOMAIN__ . 'login.php?recoverHash='. $recoverHash, $recoveryMail);
 
 
 		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
@@ -146,25 +146,74 @@ if ( isset($_POST['login']['username']) ) {
 		$mail->setFrom($mailSenderEmail, $mailSenderName);
 		$mail->addAddress($userInfo['email']);
 		$mail->isHTML(true);
-		$mail->Subject = $testSiteSubject . 'Password Reset';
+		$mail->Subject = $testSiteSubject . 'Password Recovery';
 		$mail->Body = $recoveryMail;
 		if ( !$mail->send() ) {
 			$error = 'Invalid Email Address';
 
 		} else {
-			$error = 'Your password has been reset and sent to your Email: ' . $userInfo['email'];
-			$resetPassword = $pdo->prepare("UPDATE `accounts` SET `password` = :pass WHERE `email` = :email");
+			$createHash = $pdo->prepare("UPDATE `accounts` SET `recover_hash` = :pass WHERE `email` = :email");
 
-			$resetPassword->execute(array(
-				":pass" => $newPass,
+			$createHash->execute(array(
+				":pass" => $recoverHash,
 				":email" => $userInfo['email']
 			));
+			$error = 'An email with the instruction to reset your password has been sent to your Inbox';
+			
 		}
 	} else {
 		$error = "Invalid Email";
 	}
 }
 
+if ( isset($_GET['recoverHash']) && !empty($_GET['recoverHash']) ) {
+	$checkHash = $pdo->prepare("SELECT * FROM `accounts` WHERE `recover_hash` = :hash");
+	$checkHash->execute(array(":hash" => $_GET['recoverHash']));
+
+	if ( $checkHash->rowCount() > 0 ) {
+		$userInfo = $checkHash->fetch(PDO::FETCH_ASSOC);
+		$newPass = generatePass(6);
+
+		require './url/PHPMailerAutoload.php';
+		$recoveryMail2 = file_get_contents('./conf/mail_formats/password_recovery.html');
+		$recoveryMail2 = str_replace("__CLIENT__", $userInfo['username'], $recoveryMail2);
+		$recoveryMail2 = str_replace("__NEWPASS__", $newPass, $recoveryMail2);
+
+
+		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
+
+		$mail = new PHPMailer;
+		$mail->isSMTP();
+		#$mail->SMTPDebug = 2;
+		#$mail->Debugoutput = 'html';
+		$mail->Host = $mailHost;
+		$mail->Port = $mailPort;
+		$mail->SMTPAuth = $mailSMTPAuth;
+		$mail->Username = $mailUsername;
+		$mail->Password = $mailPassword;
+		$mail->setFrom($mailSenderEmail, $mailSenderName);
+		$mail->addAddress($userInfo['email']);
+		$mail->isHTML(true);
+		$mail->Subject = $testSiteSubject . 'Password Recovery';
+		$mail->Body = $recoveryMail2;
+		if ( !$mail->send() ) {
+			$error = 'Invalid Email Address';
+		} else {
+			$createHash = $pdo->prepare("UPDATE `accounts` SET `password` = :pass, `recover_hash` = :emptyHash WHERE `email` = :email");
+
+			$createHash->execute(array(
+				":pass" => $newPass,
+				":emptyHash" => "",
+				":email" => $userInfo['email']
+			));
+
+			pconsole($newPass);
+			$error = 'An email with your new password has been sent to your Inbox';
+		}
+	} else {
+		$error = "Invalid Token";
+	}
+}
 
 function generatePass($length = 10) {
 	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -217,7 +266,7 @@ function generatePass($length = 10) {
 																<button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="Close">×</button>
 																<div class="errors">
 																	<ul>
-																		<li>'. $error .'</li>
+																		<li style="font-size:15px;">'. $error .'</li>
 																	</ul>
 																</div>
 															</div>
