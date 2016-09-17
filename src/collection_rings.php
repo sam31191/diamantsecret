@@ -337,7 +337,7 @@ pconsole($_POST);
 																		<form action="#" method="post">
 																			<ul class="row-container list-unstyled clearfix">
 																				<li class="row-left">
-																				<a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
+																				<a href="./product.php?view='. $item['unique_key'] .'" class="container_item"style="max-height:100px">
 																				<img src="./images/images_sm/'. $images[0] .'" class="img-responsive" alt="'. $itemInfo['product_name'] .'">
 																				</a>
 																				</li>
@@ -559,7 +559,7 @@ pconsole($_POST);
 																<ul class="row-container list-unstyled clearfix">
 																	<li class="row-left">
 																	<a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
-																	<img src="./images/images_md/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
+																	<img src="./images/images_md/'. $images[0] .'" class="img-responsive img-custom-collection" alt="Curabitur cursus dignis">
 																	'. $sale .'
 																	</a>
 																	<div class="hbw">
@@ -729,7 +729,7 @@ pconsole($_POST);
 							</div>
 						</div>
 						<div class="col-md-12 product-information">
-							<h1 id="quick-shop-title"><span> <a href="/products/curabitur-cursus-dignis"></a></span></h1>
+							<h1 id="quick-shop-title"><span> <a id="quick-shop-url"></a></span></h1>
 							<div id="quick-shop-infomation" class="description">
 								<div id="quick-shop-description" class="text-left">
 									
@@ -845,6 +845,7 @@ function quickShop(id) {
 				}
 				//Item Name
 				$("#quick-shop-title a").text(result['item_name']);
+				$("#quick-shop-title a").attr("href", "./product.php?view=" + result['unique_key']);
 				
 				//Desc
 				$("#quick-shop-description").html(result['description']);

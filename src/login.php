@@ -37,6 +37,12 @@ include './assets/mail_format/admin_mail.php';
 
 pconsole($_POST);
 
+
+if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
+	session_destroy();
+	$_SESSION['loggedIn'] = false;
+}
+
 if ( isset($_GET['unsub']) ) {
 	//echo var_dump($_GET);
 
@@ -78,8 +84,7 @@ if ( isset($_POST['login']['username']) ) {
 			$error = "Authentication Failed / Check your credentials";
 		}
 	} else {
-		//$error = "No User Found";
-		$error = "Authentication Failed / Check your credentials";
+		$error = "No User Found";
 	}
 } else if ( isset($_POST['form_type']) ) {
 	$checkUser = $pdo->prepare("SELECT `username` FROM `accounts` WHERE `username` = :user");
@@ -110,8 +115,7 @@ if ( isset($_POST['login']['username']) ) {
 			$error = "Authentication Failed / Check your credentials";
 		}
 	} else {
-		//$error = "No User Found";
-		$error = "Authentication Failed / Check your credentials";
+		$error = "No User Found";
 	}
 } else if ( isset($_POST['recover']) ) {
 	$checkUser = $pdo->prepare("SELECT * FROM `accounts` WHERE `email` = :email");
@@ -156,6 +160,8 @@ if ( isset($_POST['login']['username']) ) {
 				":email" => $userInfo['email']
 			));
 		}
+	} else {
+		$error = "Invalid Email";
 	}
 }
 

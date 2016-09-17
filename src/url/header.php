@@ -1,21 +1,21 @@
-<div class="alert" style="
+
+<div class="container" style="
     position: fixed;
-    top: 0px;
-    background: rgba(0, 165, 255, 0.5) none repeat scroll 0% 0%;
-    margin: 25px;
-    width: 250px;
-    min-height: 50px;
+    /* top: 0px; */
+    /* right: 0; */
+    /* margin: 25px; */
+    /* min-width: 250px; */
+    /* min-height: 40px; */
     text-align: center;
     display: none;
-    /* width: 60%; */
-    /* margin: 5% 20%; */
-    right: 0;
-    z-index: 1000;
-    color: white;
-    border: thin solid rgba(191, 191, 191, 0.48);
     font-size: 18px;
-    font-variant: small-caps;
-    font-weight: bold;" id="notificationBox"> Notification </div>
+    background: #f2e4cc;
+    margin: 20px 15%;
+    width: 70%;
+    top: 0px;
+    z-index: 2000;
+    padding: 5px;
+    font-variant: small-caps;" id="notificationBox"></div>
 <?php
 if ( session_status() == PHP_SESSION_NONE ) {
   session_start();
@@ -23,13 +23,13 @@ if ( session_status() == PHP_SESSION_NONE ) {
 
 if ( $testSite && !isset($_SESSION['admin']) ) {
    header("Location: ./under_construction/index.php");
-}
-
-if ( isset($_POST['action']['logout']) ) {
+   die();
+} else if ( isset($_POST['action']['logout']) ) {
   session_unset();
   session_destroy();
 
-  header("location: ./index.php");
+  echo '<script> window.location.href = "./index.php"; </script>';
+  die();
 }
 if ( !isset($_SESSION['loggedIn']) ) {
   $_SESSION['loggedIn'] = false;
@@ -44,7 +44,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 
   $favorites = $info['favorites'];
 }
-if ( isset($_POST['subscribe']) ) {
+/*if ( isset($_POST['subscribe']) ) {
   $checkSubscriber = $pdo->prepare("SELECT * FROM `subscribers` WHERE `email` = :mail");
   $checkSubscriber->execute(array(":mail" => $_POST['email']));
 
@@ -59,7 +59,7 @@ if ( isset($_POST['subscribe']) ) {
 
   echo '<script>$("#notificationBox").toggle(500).delay(2000).toggle(500);  $("#notificationBox").html("<span>'. $notify .'</span>");  </script>';
 
-}
+}*/
 ?>
   <header id="top" class="clearfix" style="    background: rgba(255,255,255,0.6);">
     <!--top-->
@@ -95,7 +95,7 @@ if ( isset($_POST['subscribe']) ) {
                   <div id="bodyBox" style="text-align:right">
                     <ul class="control-container customer-accounts list-unstyled" style="padding:0;">           
                       <a href="./account.php" class="dropdown-item">Favorites<span id="favorite_num_badge" style="padding: 2px 6px; background: #F9A825; border-radius: 100px; margin: 0px 0px 0px 5px; font-size: 12px; color: white; font-weight: bold;">'. intval(count(explode(",", $favorites)) - 1) .'</span></a>
-                      <a href="./account.php" class="dropdown-item">Settings</a>              
+                      <a href="./account.php?show=settings" class="dropdown-item">Settings</a>              
                       <form method="post">
                       <button href="#" class="btn-logout" name="action[logout]" value="true">Logout</button>
                       </form>

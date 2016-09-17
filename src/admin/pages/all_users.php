@@ -93,6 +93,9 @@ if ( isset($_POST['user']) ) {
                         } case 1: {
                             $show = 'Admins';
                             break;
+                        } case 2: {
+                            $show = 'Super Admins';
+                            break;
                         } default: {
                             $show = "All";
                             break;

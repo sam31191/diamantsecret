@@ -10,7 +10,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
         <div class="container">            
           <div class="newsletter col-md-24">
           <form method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
-            <span class="news-desc">We promise only send the good things</span>
+            <span class="news-desc">We promise only send the good things</span><img id="subscribe-loading-img" src="./images/gfx/cube.gif" style="margin: 0px 10px; width: 20px; display:none;" />
             <div class="group_input">
             <input class="form-control" type="email" placeholder="Your Email Address" name="email" id="email-input">
             <div class="unpadding-top"><button class="btn btn-1" type="submit" name="subscribe"><i class="fa fa-paper-plane"></i></button></div>
@@ -87,10 +87,31 @@ if ( session_status() == PHP_SESSION_NONE ) {
       </div>
     </div>   
   </footer>
+
   <script>
 
   $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
+  });
+
+  $("#mc-embedded-subscribe-form").submit(function(event){
+    event.preventDefault();
+    email = $("#email-input").val();
+    $.ajax({
+      url: './url/ajax.php?subscribe='+email,
+      type: 'GET',
+      beforeSend: function(){
+        $("#subscribe-loading-img").show();
+      },
+      success: function(result) {
+        console.log(result);
+        $("#modal-text").text(result);
+        $("#notificationBox").html("<span>"+ result +"</span>");
+        $("#notificationBox").toggle(500).delay(5000).toggle(500);  
+        $("#subscribe-loading-img").hide();
+      }
+    });
+
   });
 
 

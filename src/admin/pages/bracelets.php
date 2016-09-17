@@ -1371,7 +1371,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select id="edit_category" name="category" class="select-style" hidden>
-				                            <option value="">Category</option>
+				                            <option value="">Select</option>
 				                            <option value="1">Ring</option>
 				                            <option value="2">Earring</option>
 				                            <option value="3">Pendant</option>
@@ -1425,7 +1425,7 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Total Carat Weight</span></td>
 								<td>
 									<div class="table-item">
-										<input id="edit_total_carat_weight" name="total_carat_weight" type="text" class="form-control" placeholder="Total Carat (Decimel Number)">
+										<input id="edit_total_carat_weight" name="total_carat_weight" type="text" class="form-control" placeholder="Total Carat (Decimal Number)">
 									</div>
 								</td>
 							</tr>
@@ -1442,7 +1442,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select id="edit_diamond_shape" name="diamond_shape" class="select-style" required>
-				                            <option value="">Diamond Shape</option>
+				                            <option value="">Select</option>
 				                            <option value="1">Round</option>
 				                            <option value="2">Marquise</option>
 				                            <option value="3">Princess</option>
@@ -1464,7 +1464,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select id="edit_clarity" name="clarity" class="select-style" required>
-				                            <option value="">Clarity</option>
+				                            <option value="">Select</option>
 				                            <option value="FL">FL</option>
 				                            <option value="IF">IF</option>
 				                            <option value="VVS1">VVS1</option>
@@ -1484,7 +1484,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select id="edit_color" name="color" class="select-style" required>
-				                            <option value="">Color</option>
+				                            <option value="">Select</option>
 				                            <option value="1">White Stone</option>
 				                            <option value="2">Colored Stone</option>
 				                        </select>
@@ -1496,7 +1496,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select id="edit_material" name="material" class="select-style" required>
-				                            <option value="">Material</option>
+				                            <option value="">Select</option>
 				                            <option value="1">Yellow Gold</option>
 				                            <option value="2">White Gold</option>
 				                            <option value="3">Pink Gold</option>
@@ -1533,7 +1533,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select id="edit_country_id" name="country_id" class="select-style" required>
-				                            <option value="">Select Country</option>
+				                            <option value="">Select</option>
 											<option value="1">Austria</option>
 											<option value="2">Belgium</option>
 											<option value="3">Bulgaria</option>
@@ -1571,7 +1571,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select id="edit_company_id" name="company_id" class="select-style" required>
-				                            <option value="">Select Company</option>
+				                            <option value="">Select</option>
 											<?php 
 				                            $getCompanies = $pdo->prepare("SELECT * FROM `company_id`");
 				                            $getCompanies->execute();
@@ -1695,7 +1695,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select name="diamond_shape" class="select-style" required>
-				                            <option value="">Diamond Shape</option>
+				                            <option value="">Select</option>
 				                            <option value="1">Round</option>
 				                            <option value="2">Marquise</option>
 				                            <option value="3">Princess</option>
@@ -1717,7 +1717,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select name="clarity" class="select-style" required>
-				                            <option value="">Clarity</option>
+				                            <option value="">Select</option>
 				                            <option value="FL">FL</option>
 				                            <option value="IF">IF</option>
 				                            <option value="VVS1">VVS1</option>
@@ -1737,7 +1737,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select name="color" class="select-style" required>
-				                            <option value="">Color</option>
+				                            <option value="">Select</option>
 				                            <option value="1">White Stone</option>
 				                            <option value="2">Colored Stone</option>
 				                        </select>
@@ -1749,7 +1749,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select name="material" class="select-style" required>
-				                            <option value="">Material</option>
+				                            <option value="">Select</option>
 				                            <option value="1">Yellow Gold</option>
 				                            <option value="2">White Gold</option>
 				                            <option value="3">Pink Gold</option>
@@ -1786,7 +1786,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select name="country_id" class="select-style" required>
-				                            <option value="">Select Country</option>
+				                            <option value="">Select</option>
 											<option value="1">Austria</option>
 											<option value="2">Belgium</option>
 											<option value="3">Bulgaria</option>
@@ -1824,7 +1824,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select name="company_id" class="select-style" required>
-				                            <option value="">Select Company</option>
+				                            <option value="">Select</option>
 											<?php 
 				                            $getCompanies = $pdo->prepare("SELECT * FROM `company_id`");
 				                            $getCompanies->execute();

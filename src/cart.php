@@ -24,11 +24,14 @@
 	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
 	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
 </head>
-<div class="alert alert-danger" style="position: fixed; top: 0px; right: 0; margin: 25px; width: 250px; min-height: 40px; text-align: center; display: none; z-index: 1000; font-size: 18px;" id="notificationBox"> </div>
+<div class="alert alert-danger" style="position: fixed; top: 0px; right: 0; margin: 25px; min-width: 250px; min-height: 40px; text-align: center; display: none; z-index: 1000; font-size: 18px;" id="notificationBox"> </div>
 <?php
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
+
+
+
 include 'conf/config.php';
 include './assets/mail_format/admin_mail.php';
 pconsole($_POST);
@@ -522,7 +525,7 @@ if ( isset($_POST['removeItem']) ) {
 																			</a>
 																			</li>
 																			<li class="link">
-																			<a href="./product.html">
+																			<a href="./product.php?view='. $result['unique_key'] .'">
 																			<span class="title-5">'. $itemInfo['product_name'] .'</span>
 																			</a>
 																			<br>

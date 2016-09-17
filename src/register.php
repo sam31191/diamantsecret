@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>User Registration</title>
+  <title>Register Page</title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
@@ -35,7 +35,6 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 }
 
 include './conf/config.php';
-  include './assets/mail_format/admin_mail.php';
 
 pconsole($_POST);
 #pre
@@ -43,81 +42,6 @@ $alert = "";
 
 if ( isset($_POST['register']) ) {
 	pconsole($_POST);
-
-	$checkUsername = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user");
-	$checkUsername->execute(array(":user" => $_POST['customer']['username']));
-	
-	$checkEmail = $pdo->prepare("SELECT * FROM `accounts` WHERE `email` = :user");
-	$checkEmail->execute(array(":user" => $_POST['customer']['email']));
-
-
-	if ( $checkUsername->rowCount() > 0 ) {
-		$checkUsername = $checkUsername->fetch(PDO::FETCH_ASSOC);
-
-		if ( $checkUsername['activated'] == 0 ) {
-			$alert = ' Email with the activation link has already been sent to your Inbox: '. $checkUsername['email'] .' ';
-		} else {
-			$alert = ' Username Already Exists ';
-		}
-	} else if ( $checkEmail->rowCount() > 0 ) {
-		$checkEmail = $checkEmail->fetch(PDO::FETCH_ASSOC);
-
-		if ( $checkEmail['activated'] == 0 ) {
-			$alert = ' Email with the activation link has already been sent to your Inbox: '. $checkEmail['email'] .' ';
-		} else {
-			$alert = ' Email Already Registered. Please <a href="./login.php"  style="color: #607D8B;">Login</a> Instead ';
-		}
-		
-	} else {
-		require './url/PHPMailerAutoload.php';
-
-
-		$email = filter_var(trim($_POST['customer']['email']), FILTER_SANITIZE_EMAIL);
-		#$hashPass = strtoupper(hash("whirlpool", $_POST['customer']['password'] . $HASH));
-		$hashPass = $_POST['customer']['password'];
-		$verifyHash = hash("md5", $email . "VERIFICATIONH1337ASH");
-
-		$mailBody = file_get_contents("./conf/mail_formats/registration_verification.html");
-		$mailBody = str_replace("__CLIENT__", $_POST['customer']['username'], $mailBody);
-		$mailBody = str_replace("__VERIFICATIONHASH__", $verifyHash, $mailBody);
-		$mailBody = str_replace("__USERNAME__", $_POST['customer']['username'], $mailBody);
-
-		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
-
-		$mail = new PHPMailer;
-		$mail->isSMTP();
-		#$mail->SMTPDebug = 2;
-		#$mail->Debugoutput = 'html';
-		$mail->Host = $mailHost;
-		$mail->Port = $mailPort;
-		$mail->SMTPAuth = $mailSMTPAuth;
-		$mail->Username = $mailUsername;
-		$mail->Password = $mailPassword;
-		$mail->setFrom($mailSenderEmail, $mailSenderName);
-		$mail->addAddress($email);
-		$mail->isHTML(true);
-		$mail->Subject = $testSiteSubject . 'Activation Account';
-
-		#$mailBody = mailVerify($_POST['customer']['username'], "http://www.diamantsecret.com/register.php?verify=".$verifyHash);
-		$mail->Body = $mailBody;
-		if ( !$mail->send() ) {
-
-		} else {
-			$alert = 'Registration Successful </li><li>Please follow instructions sent to your email';
-			$createUser = $pdo->prepare("INSERT INTO `accounts` (`username`, `email`, `password`, `first_name`, `last_name`, `mobileno`, `address`, `type`, `activated`, `verification_hash`) VALUES (:user, :email, :password, :first_name, :last_name, :phone_number, :address, 0, 0, :hash)");
-
-			$createUser->execute(array(
-				":user" => trim($_POST['customer']['username']),
-				":email" => $email,
-				":password" => $hashPass,
-				":first_name" => trim($_POST['customer']['first_name']),
-				":last_name" => trim($_POST['customer']['last_name']),
-				":phone_number" => trim($_POST['customer']['phone_number']),
-				":address" => trim($_POST['customer']['address']),
-				":hash" => $verifyHash,
-			));
-		}
-	}
 }
 
 if ( isset($_GET['verify']) ) {
@@ -205,7 +129,7 @@ if ( isset($_GET['verifyLogin']) ) {
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.php" class="homepage-link" title="Back to the frontpage">Home</a>
+								<a href="./index.html" class="homepage-link" title="Back to the frontpage">Home</a>
 								<span>/</span>
 								<span class="page-title">Create Account</span>
 							</div>
@@ -249,22 +173,44 @@ if ( isset($_GET['verifyLogin']) ) {
 							?>
 							</div>
 							<div id="col-main" class="col-md-12 register-page clearfix">
-								<form method="post" id="create_customer" accept-charset="UTF-8">
+								<form id="create_customer" accept-charset="UTF-8" method="post">
 									<input value="create_customer" name="form_type" type="hidden"><input name="utf8" value="✓" type="hidden">
 									<ul id="" class="row list-unstyled">
 										<li id="last_namef">
 										<label class="control-label" for="username">Username <span class="req">*</span></label>
-										<input name="customer[username]" pattern="[a-zA-Z0-9-+$_^!]{2,32}"  id="username" class="form-control " type="text" required>
+											<div class="input-group">
+												<input name="customer[username]" pattern="[a-zA-Z0-9-+$_^!]{2,32}"  id="username" class="form-control invalid" type="text" required>
+												<span class="input-group-addon" id="username_span" style="background :#FFCDD2"><i id="username_fa" class="fa fa-close"></i></span>
+											</div>
 										</li>
 										<li class="clearfix"></li>
 										<li id="emailf" class="">
 										<label class="control-label" for="email">Email <span class="req">*</span></label>
-										<input name="customer[email]" id="email" class="form-control " type="email" required>
+											<div class="input-group">
+												<input name="customer[email]" id="email" class="form-control invalid" type="email"  required>
+												<span class="input-group-addon" id="email_span" style="background :#FFCDD2"><i id="email_fa" class="fa fa-close"></i></span>
+											</div>
 										</li>
 										<li class="clearfix"></li>
 										<li id="passwordf" class="">
-										<label class="control-label" for="password">Password <span class="req">*</span></label>
-										<input value="" name="customer[password]" id="password" pattern=".{6,}" title="Minimum 6 Characters" class="form-control password" type="password" required>
+											<label class="control-label" for="password">Password <span class="req">*</span></label>
+											<div class="input-group">
+												<span class="input-group-addon" style="background :transparent;">
+													<i class="fa fa-eye" onmousedown='$("#password").attr("type","text");' onmouseup='$("#password").attr("type", "password");'></i>
+												</span>
+												<input value="" name="customer[password]" id="password" pattern=".{6,}" title="Minimum 6 Characters" class="form-control password" type="password" required>
+												<span class="input-group-addon" id="password_span" style="background :#FFCDD2"><i id="password_fa" class="fa fa-close"></i></span>
+											</div>
+										</li>
+										<li id="passwordf" class="">
+											<label class="control-label" for="password">Confirm Password <span class="req">*</span></label>
+											<div class="input-group">
+												<span class="input-group-addon" style="background :transparent;">
+													<i class="fa fa-eye" onmousedown="$('#password_confirm').attr('type','text');" onmouseup="$('#password_confirm').attr('type', 'password');"></i>
+												</span>
+												<input value="" name="customer[confirm_password]" id="password_confirm" pattern=".{6,}" title="Minimum 6 Characters" class="form-control password" type="password" required>
+												<span class="input-group-addon" id="password_confirm_span" style="background :#FFCDD2"><i id="password_confirm_fa" class="fa fa-close"></i></span>
+											</div>
 										</li>
 										<li class="clearfix"></li>
 										<li>
@@ -279,7 +225,7 @@ if ( isset($_GET['verifyLogin']) ) {
 										<li class="clearfix"></li>
 										<li id="passwordf" class="">
 										<label class="control-label" for="password">Phone Number</label>
-										<input value="" name="customer[phone_number]" id="phone_number" class="form-control" type="number">
+										<input value="" name="customer[phone_number]" id="phone_number" class="form-control" type="text" pattern="[0-9+ ]{0,20}">
 										</li>
 										<li class="clearfix"></li>
 										<li id="passwordf" class="">
@@ -288,7 +234,7 @@ if ( isset($_GET['verifyLogin']) ) {
 										</li>
 										<li class="clearfix"></li>
 										<li class="unpadding-top action-last">
-										<button class="btn" type="submit" name="register">Create an Account</button>
+										<button class="btn" type="submit" name="register" id="submitButton"><span>Create an Account</span><img src="./images/gfx/cube.gif" style="height: 100%; padding: 6px; margin-top: -5px; display:none;" tabindex="1"></button>
 										</li>
 									</ul>
 								</form>
@@ -302,3 +248,128 @@ if ( isset($_GET['verifyLogin']) ) {
 
 	<?php include './url/footer.php'; ?>
 </body>
+<script type="text/javascript">
+
+$("#username").focusout(function(event){
+	$.ajax({
+		url: './url/ajax.php?verifyUsername='+ $("#username").val(),
+		type: 'GET',
+		success: function(result){
+			if ( result == 1 && $("#username").val().length > 1 ) {
+				$("#username").removeClass("invalid");
+				$("#username").addClass("valid");
+				$("#username_fa").removeClass("fa-close");
+				$("#username_fa").addClass("fa-check");
+				$("#username_span").attr("style", "background: #DCEDC8");
+			} else {
+				$("#username").addClass("invalid");
+				$("#username").removeClass("valid");
+				$("#username_fa").removeClass("fa-check");
+				$("#username_fa").addClass("fa-close");
+				$("#username_span").attr("style", "background: #FFCDD2");
+			}
+		}
+	});
+});
+$("#email").focusout(function(event){
+	$.ajax({
+		url: './url/ajax.php?verifyEmail='+ $("#email").val(),
+		type: 'GET',
+		success: function(result){
+			if ( result == 1 && $("#email").val().indexOf("@") > 0 && $("#email").val().indexOf("@") !== ($("#email").val().length - 1) ) {
+				$("#email").removeClass("invalid");
+				$("#email").addClass("valid");
+				$("#email_fa").removeClass("fa-close");
+				$("#email_fa").addClass("fa-check");
+				$("#email_span").attr("style", "background: #DCEDC8");
+			} else {
+				$("#email").addClass("invalid");
+				$("#email").removeClass("valid");
+				$("#email_fa").removeClass("fa-check");
+				$("#email_fa").addClass("fa-close");
+				$("#email_span").attr("style", "background: #FFCDD2");
+			}
+		}
+	});
+});
+
+$("#password").change(function(event){
+	if ( $("#password").val().length >= 6 ) {
+		$("#password").removeClass("invalid");
+		$("#password").addClass("valid");
+		$("#password_fa").removeClass("fa-close");
+		$("#password_fa").addClass("fa-check");
+		$("#password_span").attr("style", "background: #DCEDC8");
+	} else {
+		$("#password").removeClass("valid");
+		$("#password").addClass("invalid");
+		$("#password_fa").removeClass("fa-check");
+		$("#password_fa").addClass("fa-close");
+		$("#password_span").attr("style", "background: #FFCDD2");
+	}
+
+	$("#password_confirm").change();
+});
+
+$("#password_confirm").change(function(event){
+	if ( $("#password_confirm").val() == $("#password").val() && $("#password_confirm").val().length > 5 ) {
+		$("#password_confirm").removeClass("invalid");
+		$("#password").addClass("valid");
+		$("#password_confirm_fa").removeClass("fa-close");
+		$("#password_confirm_fa").addClass("fa-check");
+		$("#password_confirm_span").attr("style", "background: #DCEDC8");
+	} else {
+		$("#password_confirm").removeClass("valid");
+		$("#password_confirm").addClass("invalid");
+		$("#password_confirm_fa").removeClass("fa-check");
+		$("#password_confirm_fa").addClass("fa-close");
+		$("#password_confirm_span").attr("style", "background: #FFCDD2");
+	}
+});
+
+$("#create_customer").submit(function(event){
+	event.preventDefault();
+
+	if ( $("#username").hasClass("valid") ) {
+		if ( $("#email").hasClass("valid") ) {
+			if ( $("#password").hasClass("valid") ) {
+				if ( $("#password").val() == $("#password_confirm").val() ) {
+					$.ajax({
+						url: './url/ajax.php?register=' + $("#username").val(),
+						type: 'POST',
+						data: $("#create_customer").serialize(),
+						beforeSend: function(){
+							$("#submitButton img").show();
+							$("#submitButton img").focus();
+							$("#submitButton span").text("Registering..");
+						},
+						success: function(result) {
+							console.log(result);
+							$("#submitButton img").hide();
+							$("#submitButton span").text("Registered");
+							$("#notificationBox").html("<span>"+ result +"</span>");
+		        			$("#notificationBox").toggle(500).delay(5000).toggle(500);
+						}
+					});
+				} else { 
+					$("#notificationBox").html("<span>Please check your passwords</span>");
+		        	$("#notificationBox").toggle(500).delay(5000).toggle(500); 
+				}
+
+			} else {
+		        $("#notificationBox").html("<span>Please check your passwords</span>");
+		        $("#notificationBox").toggle(500).delay(5000).toggle(500); 
+			}
+		} else {
+	        $("#notificationBox").html("<span>Email not available</span>");
+	        $("#notificationBox").toggle(500).delay(5000).toggle(500); 
+			// Invalid Email
+		}
+	} else {
+        $("#notificationBox").html("<span>Username not available</span>");
+        $("#notificationBox").toggle(500).delay(5000).toggle(500); 
+		//Invalid Username
+	}
+
+});
+</script>

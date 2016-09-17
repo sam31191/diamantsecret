@@ -208,7 +208,7 @@ pconsole($_POST);
 													</ul>
 												</div>
 											</div>      
-											<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp"> 
+											<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp" style="max-height:570px; display: inline-block; text-align: center;" >
 												<?php echo '<img src="./images/images_md/'. $images[0] .'" alt="'. $itemInfo['product_name'] .'" data-zoom-image="./images/images/'. $images[0] .'"  data-imageIndex="0" id="mainImage">' ?>
 											</div>
 											<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
@@ -319,7 +319,7 @@ pconsole($_POST);
 									                                    	$sizes = explode(",", $itemInfo['ring_size']);
 
 									                                    echo'
-									                                    <div class="input-group" id="quick-shop-size-container">';
+									                                    <div class="input-group" id="">';
 
 									                                    	for ( $i = 0; $i < sizeof($sizes); $i++ ) {
 									                                    		if ( $i == 0 ) {
@@ -415,6 +415,10 @@ pconsole($_POST);
 																} else {
 																	$button = '<button id="add-to-cart" class="btn btn-1 add-to-cart disabled" data-parent=".product-information" type="submit" name="add">Out of Stock</button>';
 																}
+
+																if ( !$_SESSION['loggedIn'] || !isset($_SESSION['loggedIn']) ) {
+																	$button = '<a class="btn btn-1 add-to-cart" data-parent=".product-information" href="./login.php" name="add">Login to access Cart</a>';
+																}
 																echo '
 																<div class="others-bottom clearfix">
 																	'. $button .'
@@ -423,7 +427,7 @@ pconsole($_POST);
 															</div>
 														</form>
 														<div class="wls">
-															<?php echo $wishlist; ?>
+															<?php if ( $_SESSION['loggedIn'] || !isset($_SESSION['loggedIn']) ) echo $wishlist; ?>
 														</div>                                          
 													</div>              
 												</div>
@@ -494,7 +498,6 @@ pconsole($_POST);
 															$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'_FEAT" onClick="addToWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>';
 														}
 														
-
 														echo '   																						
 													<div class="element no_full_width bounceIn not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
 														<ul class="row-container list-unstyled clearfix">
@@ -520,7 +523,7 @@ pconsole($_POST);
 															'. $price .'
 															</div>
 															<div class="list-mode-description">
-																 Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
+																 
 															</div>
 															<div class="hover-appear">
 																<form action="./product.html" method="post">
@@ -558,7 +561,7 @@ pconsole($_POST);
 </body>
 
 
-<div id="quick-shop-modal" class="modal in" role="dialog" aria-hidden="false" tabindex="-1" data-width="800">
+<<div id="quick-shop-modal" class="modal in" role="dialog" aria-hidden="false" tabindex="-1" data-width="800">
 		<div class="modal-backdrop in" style="height: 742px;">
 		</div>
 		<div class="modal-dialog rotateInDownLeft animated">
@@ -572,29 +575,26 @@ pconsole($_POST);
 					<div class="row">
 						<div class="col-md-12 product-image">
 							<div id="quick-shop-image" class="product-image-wrapper">
-								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="./assets/images/demo_354x354.png" data-zoom-image="./assets/images/demo_354x354.png" alt=""/></a>
+								<a class="main-image" style="display: inline-block; max-height: 354px; overflow: hidden;"><img class="img-zoom img-responsive image-fly" src="./assets/images/demo_354x354.png" data-zoom-image="./assets/images/demo_354x354.png" alt=""/></a>
 								<div id="gallery_main_qs" class="product-image-thumb">
 								</div>	
 							</div>
 						</div>
 						<div class="col-md-12 product-information">
-							<h1 id="quick-shop-title"><span> <a href="/products/curabitur-cursus-dignis"></a></span></h1>
+							<h1 id="quick-shop-title"><span> <a id="quick-shop-url"></a></span></h1>
 							<div id="quick-shop-infomation" class="description">
 								<div id="quick-shop-description" class="text-left">
-									<p>
-									</p>
-									<p>
-									</p>
+									
 								</div>
 							</div>
 							<div id="quick-shop-container">
 								<div id="quick-shop-relative" class="relative text-left">
 									<ul class="list-unstyled">
 										<li class="control-group vendor">
-										<span class="control-label">Vendor :</span><a href="/collections/vendors?q=Vendor+1"> Vendor 1</a>
+										<span class="control-label"></a>
 										</li>
 										<li class="control-group type">
-										<span class="control-label">Type :</span><a href="/collections/types?q=Sweaters+Wear"> Sweaters Wear</a>
+										<span class="control-label"></a>
 										</li>
 									</ul>
 								</div>
@@ -637,8 +637,7 @@ pconsole($_POST);
 	                                </div>
                                     
                                     <input id="quick-shop-unique-key" name="unique_key" hidden />
-                                    <button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;">Add to Cart</button>
-                                    
+                                    <div id="buttonDiv"></div>
 								</form>
 							</div>
 						</div>
@@ -647,7 +646,6 @@ pconsole($_POST);
 			</div>
 		</div>
 	</div>
-
 <script>
 
 $("#mainImage").elevateZoom({
@@ -655,8 +653,7 @@ $("#mainImage").elevateZoom({
 	   zoomType: "window", 
 	   containLensZoom: true,
 	   zoomWindowWidth: 350,
-	   tint: true,
-	   tintColour: "#607d8b"
+  		cursor: "crosshair"
 	});  
 
 function addToWishlist(key) {
@@ -730,6 +727,7 @@ function quickShop(id) {
 				}
 				//Item Name
 				$("#quick-shop-title a").text(result['item_name']);
+				$("#quick-shop-title a").attr("href", "./product.php?view=" + result['unique_key']);
 				
 				//Desc
 				$("#quick-shop-description").html(result['description']);
@@ -761,20 +759,15 @@ function quickShop(id) {
 				if ( result['category'] == 1 ) {
 					sizehtml = "";
 					sizes = result['ring_size'].split(",");
-					//console.log(sizes);
 					for ( var i = 0; i < sizes.length; i++ ) {
-						if ( i == 0 ) {
-							sizehtml += '<a class="btn size-badge size-badge-active" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
-							$("#quick-shop-size-value").val(sizes[i]);
-						} else {
-							if ( sizes[i].indexOf('-') > -1 ) {
-								sizesRange = sizes[i].split('-');
-								for ( var j = sizesRange[0]; j <= sizesRange[1]; j++ ) {
-									sizehtml += '<a class="btn size-badge" name="'+ j +'" onClick="selectSize(this)">'+ j +'</a>';
-								}
-							} else {
-								sizehtml += '<a class="btn size-badge" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
+						
+						if ( sizes[i].indexOf('-') > -1 ) {
+							sizesRange = sizes[i].split('-');
+							for ( var j = sizesRange[0]; j <= sizesRange[1]; j++ ) {
+								sizehtml += '<a class="btn size-badge" name="'+ j +'" onClick="selectSize(this)">'+ j +'</a>';
 							}
+						} else {
+							sizehtml += '<a class="btn size-badge" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
 						}
 					}
 					//console.log(sizehtml);
@@ -783,13 +776,28 @@ function quickShop(id) {
 				} else {
 					$("#quick-shop-size").hide();
 				}
-				
+
+				if ( result['pieces_in_stock'] <= 0 ) {
+					$("#buttonDiv").html('<button class="btn" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" disabled>Out of Stock</button>');
+				} else {
+					$("#buttonDiv").html('<button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;">Add to Cart</button>');
+				}
+
 				$("#quick-shop-unique-key").val(result['unique_key']);
 				$("#quick-shop-modal").modal("toggle");
 			}
 		};
-		xmlhttp.open("GET","./url/fetch_item_info.php?id="+id, true);
+
+		xmlhttp.addEventListener( "progress" ,function(e) {
+			if ( e.lengthComputable ) {
+				setTimeout(3000);
+				console.log(e.loaded);
+			}
+		}, false);
+
+		xmlhttp.open("GET","./url/fetch_item_info.php?id="+id, false);
 		xmlhttp.send();
+
 	}
 }
 function removeFromWishlist(key) {
@@ -835,13 +843,19 @@ function selectSize (e) {
 }
 
 function selectImage(image) {
+	$(".zoomContainer").remove();
 	$('#mainImage').data("zoom-image", image).elevateZoom({
 	   responsive: true,
 	   zoomType: "window", 
 	   containLensZoom: true,
 	   zoomWindowWidth: 350,
-	   tint: true,
-	   tintColour: "#607d8b"
+		cursor: "crosshair"
 	}); 
+}
+function quickDisplay(src) {
+	//alert($(src).attr("value"));
+	
+	$("#quick-shop-image .main-image img").attr("src", $(src).attr("value"));
+	//$('#quick-shop-img').attr("src", src);
 }
 </script>

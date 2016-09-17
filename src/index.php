@@ -320,7 +320,7 @@ if ( isset($_POST['addToCart']) ) {
 												<div class="element no_full_width bounceIn col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
-															<a href="./product.php?view='. $product['unique_key'] .'" class="container_item"  style="height:375px;">
+															<a href="./product.php?view='. $product['unique_key'] .'" class="container_item"  style="max-height:375px !important;">
 															<img src="./images/images_md/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
 															'. $sale .'
 															</a>
@@ -569,15 +569,10 @@ if ( isset($_POST['addToCart']) ) {
 							</div>
 						</div>
 						<div class="col-md-12 product-information">
-							<h1 id="quick-shop-title"><span> <a href="/products/curabitur-cursus-dignis">Curabitur cursus dignis</a></span></h1>
+							<h1 id="quick-shop-title"><span> <a id="quick-shop-url"></a></span></h1>
 							<div id="quick-shop-infomation" class="description">
 								<div id="quick-shop-description" class="text-left">
-									<p>
-										Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum.
-									</p>
-									<p>
-										Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor s...
-									</p>
+									
 								</div>
 							</div>
 							<div id="quick-shop-container">
@@ -689,6 +684,7 @@ function quickShop(id) {
 				}
 				//Item Name
 				$("#quick-shop-title a").text(result['item_name']);
+				$("#quick-shop-title a").attr("href", "./product.php?view=" + result['unique_key']);
 				
 				//Desc
 				$("#quick-shop-description").html(result['description']);

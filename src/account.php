@@ -351,3 +351,12 @@ if ( isset($_POST['removeFromFav'])) {
 		</div>
 	</div>
 </div>
+
+<?php
+
+if ( isset($_GET['show']) ) {
+	if ( $_GET['show'] == "settings" ) {
+		echo '<script> $("#settingsModal").modal("toggle"); </script>';
+	}
+}
+?>
