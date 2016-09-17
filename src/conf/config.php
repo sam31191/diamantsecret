@@ -6,8 +6,7 @@
 	$dbname = "prod_diamantsecret";
 	$user = "root";
 	$pass = "";
-	$testSite = false;
-
+	
 
 	/* Mail Configuration */
 	$mailHost = 'mail.diamantsecret.com';
@@ -19,9 +18,15 @@
 	$mailSenderName = "Diamant Secret";
 	$__ADMINMAIL__ = "princebhanwra@gmail.com";
 	$__ADMINNAME__ = "Admin";
+	$__MAINDOMAIN__ = "www.diamantsecret.com";
+	
+	
+	/* Test site options */
+	$testSite = false;
 	$__TESTSITEPREFIX__ = "[Test Site] ";
+	$__TESTSITEDOMAIN__ = "www.testsite.diamantsecret.com";
 
-
+	
 	/* Other changes */
 	// - Update $rootPath in __php__.php file
 
