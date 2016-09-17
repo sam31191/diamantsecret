@@ -5,9 +5,9 @@
 
 $__DB_VERSION_PROGRAMNAME__ = "diamantsecretdb";
 
-$__DB_VERSION_MAJOR__    = "1";
-$__DB_VERSION_MINOR__    = "0";
-$__DB_VERSION_REVISION__ = "0";
+$__DB_VERSION_MAJOR__       = "1";
+$__DB_VERSION_MINOR__       = "0";
+$__DB_VERSION_REVISION__    = "0";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //

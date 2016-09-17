@@ -78,7 +78,8 @@ if ( isset($_POST['login']['username']) ) {
 			$error = "Authentication Failed / Check your credentials";
 		}
 	} else {
-		$error = "No User Found";
+		//$error = "No User Found";
+		$error = "Authentication Failed / Check your credentials";
 	}
 } else if ( isset($_POST['form_type']) ) {
 	$checkUser = $pdo->prepare("SELECT `username` FROM `accounts` WHERE `username` = :user");
@@ -109,7 +110,8 @@ if ( isset($_POST['login']['username']) ) {
 			$error = "Authentication Failed / Check your credentials";
 		}
 	} else {
-		$error = "No User Found";
+		//$error = "No User Found";
+		$error = "Authentication Failed / Check your credentials";
 	}
 } else if ( isset($_POST['recover']) ) {
 	$checkUser = $pdo->prepare("SELECT * FROM `accounts` WHERE `email` = :email");

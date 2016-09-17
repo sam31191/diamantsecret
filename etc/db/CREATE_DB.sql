@@ -72,5 +72,8 @@ source staticData/TB_MATERIALS.sql;
 SELECT 'INSERTING RECORDS IN TB_RING_SUBCATEGORY' as '';
 source staticData/TB_RING_SUBCATEGORY.sql;
 
+SELECT 'INSERTING RECORDS IN TB_ACCOUNTS' as '';
+source staticData/TB_ACCOUNTS.sql;
+
 SELECT 'UPDATING RECORDS IN TB_VERSION' as '';
 source staticData/TB_VERSION.sql;

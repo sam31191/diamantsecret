@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>Register Page</title>
+  <title>User Registration</title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
@@ -103,7 +103,7 @@ if ( isset($_POST['register']) ) {
 		if ( !$mail->send() ) {
 
 		} else {
-			$alert = 'Registration Successful. Please follow the instructions in your Email to continue';
+			$alert = 'Registration Successful </li><li>Please follow instructions sent to your email';
 			$createUser = $pdo->prepare("INSERT INTO `accounts` (`username`, `email`, `password`, `first_name`, `last_name`, `mobileno`, `address`, `type`, `activated`, `verification_hash`) VALUES (:user, :email, :password, :first_name, :last_name, :phone_number, :address, 0, 0, :hash)");
 
 			$createUser->execute(array(
@@ -205,7 +205,7 @@ if ( isset($_GET['verifyLogin']) ) {
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.html" class="homepage-link" title="Back to the frontpage">Home</a>
+								<a href="./index.php" class="homepage-link" title="Back to the frontpage">Home</a>
 								<span>/</span>
 								<span class="page-title">Create Account</span>
 							</div>

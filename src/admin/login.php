@@ -89,7 +89,7 @@ if ( isset($_SESSION['modSession']) && $_SESSION['modSession'] ) {
                 <br />
 
                 <div>
-                  <h1><img src="../images/gfx/logo.png" style="width: 100%;"></h1>
+                  <h1><img src="../images/gfx/logo.png" style="width: 80%;"></h1>
                   <p>©2016 All Rights Reserved. Privacy and Terms</p>
                 </div>
               </div>
