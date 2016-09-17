@@ -15,6 +15,7 @@
     * git config --global user.email "princebhanwra@gmail.com"
     * git clone https://princebhanwra@bitbucket.org/destiny1/diamantsecret.git --branch <branch_name>
     * Update/migrate database
+    * Update configuration file
     * Test website
     * Point link to this directory
 - Dependencies
