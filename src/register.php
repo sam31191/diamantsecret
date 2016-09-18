@@ -179,31 +179,31 @@ if ( isset($_GET['verifyLogin']) ) {
 										<li id="last_namef">
 										<label class="control-label" for="username">Username <span class="req">*</span></label>
 											<div class="input-group">
-												<input name="customer[username]" pattern="[a-zA-Z0-9-+$_^!]{2,32}"  id="username" class="form-control invalid" type="text" required>
-												<span class="input-group-addon" id="username_span" style="background :#f7f7f7"><i id="username_fa" class="fa"></i></span>
+												<input name="customer[username]" pattern="[a-zA-Z0-9-+$_^!]{2,32}"  id="username" class="form-control invalid" type="text" style="border-right: none;" required>
+												<span class="input-group-addon" id="username_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="username_fa" class="fa"></i></span>
 											</div>
 										</li>
 										<li class="clearfix"></li>
 										<li id="emailf" class="">
 										<label class="control-label" for="email">Email <span class="req">*</span></label>
 											<div class="input-group">
-												<input name="customer[email]" id="email" class="form-control invalid" type="email"  required>
-												<span class="input-group-addon" id="email_span" style="background :#f7f7f7"><i id="email_fa" class="fa"></i></span>
+												<input name="customer[email]" id="email" class="form-control invalid" type="email" style="border-right: none;"  required>
+												<span class="input-group-addon" id="email_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="email_fa" class="fa"></i></span>
 											</div>
 										</li>
 										<li class="clearfix"></li>
 										<li id="passwordf" class="">
 											<label class="control-label" for="password">Password <span class="req">*</span></label>
 											<div class="input-group">
-												<input value="" name="customer[password]" id="password" pattern=".{6,}" title="Minimum 6 Characters" class="form-control password" type="password" required>
-												<span class="input-group-addon" id="password_span" style="background :#f7f7f7"><i id="password_fa" class="fa"></i></span>
+												<input value="" name="customer[password]" id="password" pattern=".{6,}" title="Minimum 6 Characters" class="form-control password" type="password" style="border-right: none;" required>
+												<span class="input-group-addon" id="password_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="password_fa" class="fa"></i></span>
 											</div>
 										</li>
 										<li id="passwordf" class="">
 											<label class="control-label" for="password">Confirm Password <span class="req">*</span></label>
 											<div class="input-group">
-												<input value="" name="customer[confirm_password]" id="password_confirm" pattern=".{6,}" title="Minimum 6 Characters" class="form-control password" type="password" required>
-												<span class="input-group-addon" id="password_confirm_span" style="background :#f7f7f7"><i id="password_confirm_fa" class="fa"></i></span>
+												<input value="" name="customer[confirm_password]" id="password_confirm" pattern=".{6,}" title="Minimum 6 Characters" class="form-control password" type="password" style="border-right: none;" required>
+												<span class="input-group-addon" id="password_confirm_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="password_confirm_fa" class="fa"></i></span>
 											</div>
 										</li>
 										<li class="clearfix"></li>
@@ -330,7 +330,7 @@ $("#password_confirm").focusout(function(event){
 $("#password_confirm").keyup(function(event){
 	if ( $("#password_confirm").val() == $("#password").val() && $("#password_confirm").val().length > 5 ) {
 		$("#password_confirm").removeClass("invalid");
-		$("#password").addClass("valid");
+		$("#password_confirm").addClass("valid");
 		$("#password_confirm_fa").removeClass("fa-close");
 		$("#password_confirm_fa").addClass("fa-check");
 		$("#password_confirm_span").attr("style", "background: #DCEDC8");
@@ -341,6 +341,7 @@ $("#password_confirm").keyup(function(event){
 		$("#password_confirm_fa").addClass("fa-close");
 		$("#password_confirm_span").attr("style", "background: #FFCDD2");
 	}
+
 });
 
 $("#create_customer").submit(function(event){
@@ -364,26 +365,39 @@ $("#create_customer").submit(function(event){
 							$("#submitButton img").hide();
 							$("#submitButton span").text("Registered");
 							$("#notificationBox").html("<span>"+ result +"</span>");
-		        			$("#notificationBox").toggle(500).delay(5000).toggle(500);
+		        			if ( $("#notificationBox").is(":hidden") ) {
+					          $("#notificationBox").toggle(500).delay(10000).toggle(500);
+					      	}
 						}
 					});
 				} else { 
 					$("#notificationBox").html("<span>Please check your passwords</span>");
-		        	$("#notificationBox").toggle(500).delay(5000).toggle(500); 
+		        	if ( $("#notificationBox").is(":hidden") ) {
+			          $("#notificationBox").toggle(500).delay(10000).toggle(500); 
+			      	}
 				}
 
 			} else {
 		        $("#notificationBox").html("<span>Please check your passwords</span>");
-		        $("#notificationBox").toggle(500).delay(5000).toggle(500); 
+		        if ( $("#notificationBox").is(":hidden") ) {
+		          $("#notificationBox").toggle(500).delay(10000).toggle(500); 
+		      	}
+		      	$("#password").focus();
 			}
 		} else {
-	        $("#notificationBox").html("<span>Email not available</span>");
-	        $("#notificationBox").toggle(500).delay(5000).toggle(500); 
+	        $("#notificationBox").html("<span>Invalid Email</span>");
+	        if ( $("#notificationBox").is(":hidden") ) {
+	          $("#notificationBox").toggle(500).delay(10000).toggle(500); 
+	      	}
+	      	$("#email").focus();
 			// Invalid Email
 		}
 	} else {
         $("#notificationBox").html("<span>Username not available</span>");
-        $("#notificationBox").toggle(500).delay(5000).toggle(500); 
+        if ( $("#notificationBox").is(":hidden") ) {
+          $("#notificationBox").toggle(500).delay(10000).toggle(500); 
+      	}
+      	$("#username").focus();
 		//Invalid Username
 	}
 

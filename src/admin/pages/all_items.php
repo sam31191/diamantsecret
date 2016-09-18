@@ -647,7 +647,7 @@ if ( isset($_POST['featuredAdd']) ) {
 			if ( $countFeatured->rowCount() > 0 ){
 				$countFeatured = $countFeatured->fetch(PDO::FETCH_ASSOC);
 				if ( $countFeatured['featuredItems'] > $allowedFeatured ) {
-        			echo '<div class="alert alert-error" style="font-size: 15px; color: white; text-align: center;">Note: Only the Latest '. $allowedFeatured .' Items are displayed in the Featured Panel, Sorted by Date.<br><br> You have '. $countFeatured['featuredItems'] .' Items Selected as Featured</div>';
+        			echo '<div class="alert alert-error" style="font-size: 15px; color: white; text-align: center; position: absolute; top: 5px; margin-left: 200px;">Note: Only the Latest '. $allowedFeatured .' Items are displayed in the Featured Panel, Sorted by Date.<br><br> You have '. $countFeatured['featuredItems'] .' Items Selected as Featured</div>';
 				}
 			}
 

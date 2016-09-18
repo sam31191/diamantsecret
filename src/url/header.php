@@ -1,21 +1,4 @@
 
-<div class="container" style="
-    position: fixed;
-    /* top: 0px; */
-    /* right: 0; */
-    /* margin: 25px; */
-    /* min-width: 250px; */
-    /* min-height: 40px; */
-    text-align: center;
-    display: none;
-    font-size: 18px;
-    background: #f2e4cc;
-    margin: 20px 15%;
-    width: 70%;
-    top: 0px;
-    z-index: 2000;
-    padding: 5px;
-    font-variant: small-caps;" id="notificationBox"></div>
 <?php
 if ( session_status() == PHP_SESSION_NONE ) {
   session_start();

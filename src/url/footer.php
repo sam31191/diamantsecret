@@ -12,7 +12,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
           <form method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
             <span class="news-desc">We promise only send the good things</span><img id="subscribe-loading-img" src="./images/gfx/cube.gif" style="margin: 0px 10px; width: 20px; display:none;" />
             <div class="group_input">
-            <input class="form-control" type="email" placeholder="Your Email Address" name="email" id="email-input">
+            <input class="form-control" type="email" placeholder="Your Email Address" name="email" id="email-input" required="true">
             <div class="unpadding-top"><button class="btn btn-1" type="submit" name="subscribe"><i class="fa fa-paper-plane"></i></button></div>
             </div>              
           </form>
@@ -106,8 +106,10 @@ if ( session_status() == PHP_SESSION_NONE ) {
       success: function(result) {
         console.log(result);
         $("#modal-text").text(result);
-        $("#notificationBox").html("<span><br/>"+ result +"<br/>&nbsp;</span>");
-        $("#notificationBox").toggle(500).delay(10000).toggle(500);  
+        $("#notificationBox").html("<span>"+ result +"&nbsp;</span>");
+        if ( $("#notificationBox").is(":hidden") ) {
+          $("#notificationBox").toggle(500).delay(10000).toggle(500);  
+        }
         $("#subscribe-loading-img").hide();
       }
     });
@@ -116,3 +118,23 @@ if ( session_status() == PHP_SESSION_NONE ) {
 
 
   </script>
+
+
+
+<span class="container" style="
+    position: fixed;
+    /* top: 0px; */
+    /* right: 0; */
+    /* margin: 25px; */
+    /* min-width: 250px; */
+    /* min-height: 40px; */
+    text-align: center;
+    display: none;
+    font-size: 18px;
+    background: rgba(3, 169, 244, 0.5);
+    margin: 20px 15%;
+    width: 70%;
+    top: 0px;
+    z-index: 2000;
+    padding: 25px;
+    font-variant: small-caps;" id="notificationBox">...</span>
