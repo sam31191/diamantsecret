@@ -28,6 +28,10 @@ samplle products upload format file:
 - C:\wamp\www\git\diamantsecret\src\admin\assets\format.xlsx - it should not be here & to be generated on fly
 - above file should possibly be created in RAM or like we did for export (remove file after download, cronjob will take care of any leftover work)
 
+Add to wish list not working for admin (added from product detailed view)
+Link on Item name in cart nok. It is pointing to Products page & not specific item page
+
+No need to bold VAT in cart
 
 Remember me flag (optional)
 
