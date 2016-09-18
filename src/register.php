@@ -180,7 +180,7 @@ if ( isset($_GET['verifyLogin']) ) {
 										<label class="control-label" for="username">Username <span class="req">*</span></label>
 											<div class="input-group">
 												<input name="customer[username]" pattern="[a-zA-Z0-9-+$_^!]{2,32}"  id="username" class="form-control invalid" type="text" required>
-												<span class="input-group-addon" id="username_span" style="background :#FFCDD2"><i id="username_fa" class="fa fa-close"></i></span>
+												<span class="input-group-addon" id="username_span" style="background :#f7f7f7"><i id="username_fa" class="fa"></i></span>
 											</div>
 										</li>
 										<li class="clearfix"></li>
@@ -188,28 +188,22 @@ if ( isset($_GET['verifyLogin']) ) {
 										<label class="control-label" for="email">Email <span class="req">*</span></label>
 											<div class="input-group">
 												<input name="customer[email]" id="email" class="form-control invalid" type="email"  required>
-												<span class="input-group-addon" id="email_span" style="background :#FFCDD2"><i id="email_fa" class="fa fa-close"></i></span>
+												<span class="input-group-addon" id="email_span" style="background :#f7f7f7"><i id="email_fa" class="fa"></i></span>
 											</div>
 										</li>
 										<li class="clearfix"></li>
 										<li id="passwordf" class="">
 											<label class="control-label" for="password">Password <span class="req">*</span></label>
 											<div class="input-group">
-												<span class="input-group-addon" style="background :transparent;">
-													<i class="fa fa-eye" onmousedown='$("#password").attr("type","text");' onmouseup='$("#password").attr("type", "password");'></i>
-												</span>
 												<input value="" name="customer[password]" id="password" pattern=".{6,}" title="Minimum 6 Characters" class="form-control password" type="password" required>
-												<span class="input-group-addon" id="password_span" style="background :#FFCDD2"><i id="password_fa" class="fa fa-close"></i></span>
+												<span class="input-group-addon" id="password_span" style="background :#f7f7f7"><i id="password_fa" class="fa"></i></span>
 											</div>
 										</li>
 										<li id="passwordf" class="">
 											<label class="control-label" for="password">Confirm Password <span class="req">*</span></label>
 											<div class="input-group">
-												<span class="input-group-addon" style="background :transparent;">
-													<i class="fa fa-eye" onmousedown="$('#password_confirm').attr('type','text');" onmouseup="$('#password_confirm').attr('type', 'password');"></i>
-												</span>
 												<input value="" name="customer[confirm_password]" id="password_confirm" pattern=".{6,}" title="Minimum 6 Characters" class="form-control password" type="password" required>
-												<span class="input-group-addon" id="password_confirm_span" style="background :#FFCDD2"><i id="password_confirm_fa" class="fa fa-close"></i></span>
+												<span class="input-group-addon" id="password_confirm_span" style="background :#f7f7f7"><i id="password_confirm_fa" class="fa"></i></span>
 											</div>
 										</li>
 										<li class="clearfix"></li>
@@ -250,6 +244,10 @@ if ( isset($_GET['verifyLogin']) ) {
 </body>
 <script type="text/javascript">
 
+$("#username").keyup(function(event){
+	$("#username").focusout();
+});
+
 $("#username").focusout(function(event){
 	$.ajax({
 		url: './url/ajax.php?verifyUsername='+ $("#username").val(),
@@ -271,12 +269,22 @@ $("#username").focusout(function(event){
 		}
 	});
 });
+
+$("#email").keyup(function(event){
+	$("#email").focusout();
+});
+
 $("#email").focusout(function(event){
 	$.ajax({
 		url: './url/ajax.php?verifyEmail='+ $("#email").val(),
 		type: 'GET',
 		success: function(result){
-			if ( result == 1 && $("#email").val().indexOf("@") > 0 && $("#email").val().indexOf("@") !== ($("#email").val().length - 1) ) {
+			if ( result == 1 
+			     && $("#email").val().indexOf("@") > 0 
+				 && $("#email").val().indexOf("@") !== ($("#email").val().length - 1)
+				 && $("#email").val().indexOf(".") < $("#email").val().length - 1
+				 && $("#email").val().indexOf(".") > $("#email").val().indexOf("@")
+				 ) {
 				$("#email").removeClass("invalid");
 				$("#email").addClass("valid");
 				$("#email_fa").removeClass("fa-close");
@@ -293,7 +301,11 @@ $("#email").focusout(function(event){
 	});
 });
 
-$("#password").change(function(event){
+$("#password").focusout(function(event){
+	$("#password").keyup();
+});
+
+$("#password").keyup(function(event){
 	if ( $("#password").val().length >= 6 ) {
 		$("#password").removeClass("invalid");
 		$("#password").addClass("valid");
@@ -308,10 +320,14 @@ $("#password").change(function(event){
 		$("#password_span").attr("style", "background: #FFCDD2");
 	}
 
-	$("#password_confirm").change();
+	$("#password_confirm").keyup();
 });
 
-$("#password_confirm").change(function(event){
+$("#password_confirm").focusout(function(event){
+	$("#password").keyup();
+});
+
+$("#password_confirm").keyup(function(event){
 	if ( $("#password_confirm").val() == $("#password").val() && $("#password_confirm").val().length > 5 ) {
 		$("#password_confirm").removeClass("invalid");
 		$("#password").addClass("valid");

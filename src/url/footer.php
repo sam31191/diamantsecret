@@ -106,8 +106,8 @@ if ( session_status() == PHP_SESSION_NONE ) {
       success: function(result) {
         console.log(result);
         $("#modal-text").text(result);
-        $("#notificationBox").html("<span>"+ result +"</span>");
-        $("#notificationBox").toggle(500).delay(5000).toggle(500);  
+        $("#notificationBox").html("<span><br/>"+ result +"<br/>&nbsp;</span>");
+        $("#notificationBox").toggle(500).delay(10000).toggle(500);  
         $("#subscribe-loading-img").hide();
       }
     });
