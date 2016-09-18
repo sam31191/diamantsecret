@@ -491,6 +491,9 @@ pconsole($_POST);
 													pconsole($totalRows);
 													$perPage = 15;
 													$pages = $totalRows/$perPage;
+													if ( $totalRows%$perPage == 0 ) {
+														$pages -= 0.1;
+													}
 													if ( isset($_GET['page']) ) {
 														$currentPage = $_GET['page'];
 													} else {
