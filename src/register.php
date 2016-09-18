@@ -282,8 +282,8 @@ $("#email").focusout(function(event){
 			if ( result == 1 
 			     && $("#email").val().indexOf("@") > 0 
 				 && $("#email").val().indexOf("@") !== ($("#email").val().length - 1)
-				 && $("#email").val().indexOf(".") < $("#email").val().length - 1
-				 && $("#email").val().indexOf(".") > $("#email").val().indexOf("@")
+				 && $("#email").val().lastIndexOf(".") < $("#email").val().length - 1
+				 && $("#email").val().lastIndexOf(".") > $("#email").val().indexOf("@")
 				 ) {
 				$("#email").removeClass("invalid");
 				$("#email").addClass("valid");
