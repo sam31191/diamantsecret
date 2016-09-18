@@ -1,5 +1,22 @@
 <?php
 
+New user registration msg nok
+New user registration fields width
+new user registration 
+email subscription - empty email - show message already subscribed..
+
+
+
+email subscription:
+- don't show exactly what we are looking for.. instead enter valid email id.. 
+
+we are redirected to home page if session is expired.. best is to redirect to login page & it remembers where you was..
+
+
+
+
+------------------------------------
+
 Add 404 page
 
 

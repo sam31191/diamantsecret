@@ -3,9 +3,9 @@
 
     /*  MySQL Configuration */
 	$host = "localhost";
-	$dbname = "website";
-	$user = "root";
-	$pass = "";
+	$dbname = "PROD_DIAMANTSECRET";
+	$user = "diamants_prod";
+	$pass = "prod_diamants";
 	
 
 	/* Mail Configuration */
@@ -16,10 +16,9 @@
 	$mailPassword = "contact@123";
 	$mailSenderEmail = "contact@diamantsecret.com";
 	$mailSenderName = "Diamant Secret";
-	$__ADMINMAIL__ = "princebhanwra@gmail.com";
+	$__ADMINMAIL__ = "contact@diamantsecret.com";
 	$__ADMINNAME__ = "Admin";
-	$__MAINDOMAIN__ = "http://localhost/git/diamond_website/src/";
-	#$__MAINDOMAIN__ = "http://www.diamantsecret.com/";
+	$__MAINDOMAIN__ = "www.diamantsecret.com/";
 	
 	
 	/* Test site options */

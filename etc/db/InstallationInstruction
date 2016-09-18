@@ -1,0 +1,26 @@
+Java installation:
+
+-copy JAVA from NAOS package in /export/software
+-Go to /usr
+-run jre-6u4-solaris-i586.sh
+-run jre-6u4-solaris-x64.sh 
+-Give permission 755 to /usr/jre1.6.0_04
+-remove old softlink for java
+-Create a new softline by ln -s /usr/jre1.6.0_04 java
+-Check if installation is successfull by running java -version
+
+MySQL Installation:
+
+- Go to /export/software
+- add package by pkgadd -d mysql-5.1.72-solaris10-i386.pkg
+- copy the my.cnf in /opt/mysql/ and change teh permission to 544
+- Create the inodb data directory in as /export/oradata/mysqldata
+- Chnage permission and ownership of this directory as
+drwxr-xr-x   2 mysql    mysql        512 Feb  7 15:30 mysqldata
+- Execute /opt/mysql/mysql/scripts/mysql_install_db --user=mysql --datadir=/export/oradata/mysqldata/
+- start mysql by /etc/init.d/mysql start
+- execute mysqladmin -u root password root
+- open mysql and execute  GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY 'root' WITH GRANT OPTION;
+- Make following link to start my sql on server startup
+   ln /etc/init.d/mysql /etc/rc3.d/S91mysql
+   ln /etc/init.d/mysql /etc/rc0.d/K02mysql
