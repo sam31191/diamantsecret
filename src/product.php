@@ -316,12 +316,36 @@ pconsole($_POST);
 																	</div>
 																	
 								                                    <div id="quick-shop-size">';
-									                                    	$sizes = explode(",", $itemInfo['ring_size']);
-
 									                                    echo'
-									                                    <div class="input-group" id="">';
+									                                    <div class="input-group">';
 
-									                                    	for ( $i = 0; $i < sizeof($sizes); $i++ ) {
+									                                    if ( strpos($itemInfo['ring_size'], ",") !== false ) {
+									                                    	#Item has more than one values, divided by a comma
+									                                    	$sizeArray = explode(",", $itemInfo['ring_size']);
+
+									                                    	foreach ( $sizeArray as $sizeItem ) {
+									                                    		if ( strpos($sizeItem, "-") !== false ) {
+									                                    			#this particular size item has a range.
+									                                    			$sizeRange = explode("-", $sizeItem);
+									                                    			for ( $i = $sizeRange[0]; $i <= $sizeRange[1]; $i++ ) {
+									                                    				echo '<a class="btn size-badge tooptip" name="'. $i .'" onClick="selectSize(this)">'. $i .'</a>'; 
+									                                    			}
+									                                    		} else {
+									                                    			echo '<a class="btn size-badge tooptip" name="'. $sizeItem .'" onClick="selectSize(this)">'. $sizeItem .'</a>';
+									                                    		}
+									                                    	}
+									                                    } else if ( strpos($itemInfo['ring_size'], "-") !== false ) {
+									                                    	#Here you only have one item given, but it's a range
+									                                    	$sizeRange = explode("-", $itemInfo['ring_size']);
+									                                    	for ( $i = $sizeRange[0]; $i <= $sizeRange[1]; $i++ ) {
+								                                    				echo '<a class="btn size-badge tooptip" name="'. $i .'" onClick="selectSize(this)">'. $i .'</a>'; 
+								                                    			}
+									                                    } else {
+									                                    	#There's just 1 item given and it's a singular size
+						                                    				echo '<a class="btn size-badge tooptip" name="'. $itemInfo['ring_size'] .'" onClick="selectSize(this)">'. $itemInfo['ring_size'] .'</a>'; 
+									                                    }
+
+									                                    	/*for ( $i = 0; $i < sizeof($sizes); $i++ ) {
 									                                    		if ( $i == 0 ) {
 									                                    			echo '<a class="btn size-badge tooptip" name="'. $sizes[$i] .'" onClick="selectSize(this)">'. $sizes[$i] .'</a>';
 									                                    		} else {
@@ -342,7 +366,7 @@ pconsole($_POST);
 									                                    				echo '<a class="btn size-badge" name="'. $sizes[$i] .'" onClick="selectSize(this)">'. $sizes[$i] .'</a>';
 									                                    			}
 									                                    		}
-									                                    	}
+									                                    	}*/
 									                                    echo '</div>
 									                                </div>
 																</div>';

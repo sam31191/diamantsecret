@@ -52,7 +52,7 @@
         <div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 400px; margin-left: -400px; margin-top: -200px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
 	        	<h4><div class='alert alert-info' style="position: fixed;" id="alertDiv">Importing <span id="importedItems">0</span>/<span id="totalItems">0</span></div>
 	        	<a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 0px 16px; /* right: 0px; */ position: fixed; display: block; /* float: right; */ margin-left: 700px;" onclick="window.location = './import_excel.php';" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
-	        	</h4><table class='table table-condensed table-custom' style="table-layout: fixed; word-wrap: break-word;"><thead><th style="width: 30px;">#</th><th style="width: 60%;">Entry</th><th>Errors</th></thead><tbody id="resultTable"></tbody></table>
+	        	</h4><table class='table table-condensed table-custom' style="table-layout: fixed; word-wrap: break-word;"><thead><th style="width: 50px;">#</th><th style="width: 60%;">Entry</th><th>Errors</th></thead><tbody id="resultTable"></tbody></table>
         	</div>
         </div>
 

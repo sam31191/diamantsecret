@@ -410,7 +410,7 @@ if ( isset($_POST['removeItem']) ) {
 													Stock
 												</th>
 												<th>
-													VAT
+													<small>Total</small> VAT 
 												</th>
 												<th>
 													SubTotal
@@ -544,7 +544,7 @@ if ( isset($_POST['removeItem']) ) {
 																		<input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="'. $itemInfo['pieces_in_stock'] .'" disabled>
 																	</td>
 																	<td class="total title-1">
-																		<a data-toggle="tooltip" title="'. $vat['vat'] .'%">€'. number_format(($vatValue), 2, ".", "") .'</a>
+																		<span data-toggle="tooltip" title="'. $vat['vat'] .'%">€'. number_format(($vatValue), 2, ".", "") .'</span>
 																	</td>
 																	<td class="total title-1">
 																		€'. number_format($vatAmount, 2, ".", "") .'
