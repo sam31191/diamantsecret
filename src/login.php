@@ -33,7 +33,6 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
 include 'conf/config.php';
-include './assets/mail_format/admin_mail.php';
 
 pconsole($_POST);
 
@@ -57,62 +56,73 @@ if ( isset($_GET['unsub']) ) {
 }
 
 if ( isset($_POST['login']['username']) ) {
-	$checkUser = $pdo->prepare("SELECT `username` FROM `accounts` WHERE `username` = :user");
+	$checkUser = $pdo->prepare("SELECT `username`, `activated` FROM `accounts` WHERE `username` = :user");
 	$checkUser->execute(array(":user" => $_POST['login']['username']));
 
 	if ( $checkUser->rowCount() > 0 ) {
-		$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND BINARY `password` = :pass");
-		$authenticate->execute (
-			array(
-				":user" => $_POST['login']['username'],
-				":pass" => $_POST['login']['password']
-			));
+		//echo var_dump("User Exist");
+		$userData = $checkUser->fetch(PDO::FETCH_ASSOC);
+		if ( $userData['activated'] == 1 ) {
+			$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND BINARY `password` = :pass");
+			$authenticate->execute (
+				array(
+					":user" => $_POST['login']['username'],
+					":pass" => $_POST['login']['password']
+				));
 
-		if ( $authenticate->rowCount() > 0 ) {
-			$result = $authenticate->fetch(PDO::FETCH_ASSOC);
+			if ( $authenticate->rowCount() > 0 ) {
+				$result = $authenticate->fetch(PDO::FETCH_ASSOC);
 
-			$_SESSION['username'] = $result['username'];
-			$_SESSION['email'] = $result['email'];
-			$_SESSION['loggedIn'] = true;
+				$_SESSION['username'] = $result['username'];
+				$_SESSION['email'] = $result['email'];
+				$_SESSION['loggedIn'] = true;
 
-			if ( $result['type'] > 0 ) {
-				$_SESSION['admin'] = $result['type'];
+				if ( $result['type'] > 0 ) {
+					$_SESSION['admin'] = $result['type'];
+				}
+
+				header("Location: index.php");
+			} else {
+				$error = "Authentication Failed / Check your credentials";
 			}
-
-			header("Location: index.php");
 		} else {
-			$error = "Authentication Failed / Check your credentials";
+			$error = "Account is not activated. Please check your Email to activation instructions.";
 		}
 	} else {
 		$error = "No User Found";
 	}
 } else if ( isset($_POST['form_type']) ) {
-	$checkUser = $pdo->prepare("SELECT `username` FROM `accounts` WHERE `username` = :user");
+	$checkUser = $pdo->prepare("SELECT `username`, `activated` FROM `accounts` WHERE `username` = :user");
 	$checkUser->execute(array(":user" => $_POST['customer']['username']));
 
 	if ( $checkUser->rowCount() > 0 ) {
 		//echo var_dump("User Exist");
-		$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND BINARY `password` = :pass");
-		$authenticate->execute (
-			array(
-				":user" => $_POST['customer']['username'],
-				":pass" => $_POST['customer']['password']
-			));
+		$userData = $checkUser->fetch(PDO::FETCH_ASSOC);
+		if ( $userData['activated'] == 1 ) {
+			$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND BINARY `password` = :pass");
+			$authenticate->execute (
+				array(
+					":user" => $_POST['customer']['username'],
+					":pass" => $_POST['customer']['password']
+				));
 
-		if ( $authenticate->rowCount() > 0 ) {
-			$result = $authenticate->fetch(PDO::FETCH_ASSOC);
+			if ( $authenticate->rowCount() > 0 ) {
+				$result = $authenticate->fetch(PDO::FETCH_ASSOC);
 
-			$_SESSION['username'] = $result['username'];
-			$_SESSION['email'] = $result['email'];
-			$_SESSION['loggedIn'] = true;
+				$_SESSION['username'] = $result['username'];
+				$_SESSION['email'] = $result['email'];
+				$_SESSION['loggedIn'] = true;
 
-			if ( $result['type'] > 0 ) {
-				$_SESSION['admin'] = $result['type'];
+				if ( $result['type'] > 0 ) {
+					$_SESSION['admin'] = $result['type'];
+				}
+
+				header("Location: index.php");
+			} else {
+				$error = "Authentication Failed / Check your credentials";
 			}
-
-			header("Location: index.php");
 		} else {
-			$error = "Authentication Failed / Check your credentials";
+			$error = "Account is not activated. Please check your Email to activation instructions.";
 		}
 	} else {
 		$error = "No User Found";
@@ -130,6 +140,7 @@ if ( isset($_POST['login']['username']) ) {
 		$recoveryMail = file_get_contents('./conf/mail_formats/password_recovery_request.html');
 		$recoveryMail = str_replace("__CLIENT__", $userInfo['username'], $recoveryMail);
 		$recoveryMail = str_replace("__RECOVERURL__", $__MAINDOMAIN__ . 'login.php?recoverHash='. $recoverHash, $recoveryMail);
+		$recoveryMail = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $recoveryMail);
 
 
 		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
@@ -178,6 +189,7 @@ if ( isset($_GET['recoverHash']) && !empty($_GET['recoverHash']) ) {
 		$recoveryMail2 = file_get_contents('./conf/mail_formats/password_recovery.html');
 		$recoveryMail2 = str_replace("__CLIENT__", $userInfo['username'], $recoveryMail2);
 		$recoveryMail2 = str_replace("__NEWPASS__", $newPass, $recoveryMail2);
+		$recoveryMail2 = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $recoveryMail2);
 
 
 		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";

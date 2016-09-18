@@ -170,14 +170,19 @@ if ( isset($_POST['addToCart']) ) {
 									$priceCustomer = number_format($itemInfo['item_value'], 2, ".", "");
 								}
 								if ( $itemInfo['category'] == 1 ) {
-									$size = $item[1];
+									if ( $item[1] !== "0" ) {
+										$size = $item[1];
+									} else {
+										$size = "-";
+									}
 								} else {
-									$size = "N/A";
+									$size = "-";
 								}
 								$total = ($price + ( ($vat['vat'] / 100) * $price ) ) * $itemQuantity;
 								$orderedItemsAdmin .= '<tr>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.trim(getCategory($itemInfo['category'],$pdo), "s").'</td>
-											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;"><a href="http://www.diamantsecret.com/product.php?view='. $itemInfo['unique_key'] .'">'.$itemInfo['item_name'].'</a></td>
+											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;"><a href="'. $__MAINDOMAIN__ .'product.php?view='. $itemInfo['unique_key'] .'">'.$itemInfo['item_name'].'</a></td>
+											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'. $size .'</td>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.getDiamondShape($itemInfo2['diamond_shape'],$pdo).'</td>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.getMaterial($itemInfo2['material'],$pdo).'</td>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.$itemInfo2['clarity'].'</td>
@@ -191,9 +196,10 @@ if ( isset($_POST['addToCart']) ) {
 										</tr>';
 								$orderedItems .= '<tr>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.trim(getCategory($itemInfo['category'],$pdo), "s").'</td>
-											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;"><a href="http://www.diamantsecret.com/product.php?view='. $itemInfo['unique_key'] .'">'.$itemInfo['item_name'].'</a></td>
-											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.$itemInfo2['material'].'</td>
-											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.$itemInfo2['diamond_shape'].'</td>
+											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;"><a href="'. $__MAINDOMAIN__ .'product.php?view='. $itemInfo['unique_key'] .'">'.$itemInfo['item_name'].'</a></td>
+											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'. $size .'</td>
+											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.getMaterial($itemInfo2['material'], $pdo).'</td>
+											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.getDiamondShape($itemInfo2['diamond_shape'], $pdo).'</td>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.$itemInfo2['clarity'].'</td>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.$priceCustomer.'</td>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.$itemInfo['discount'].'%</td>
@@ -254,6 +260,7 @@ if ( isset($_POST['addToCart']) ) {
 			$mailToAdmin = str_replace("__TOTAL__", "€".number_format($subtotal, 2, ".", ""), $mailToAdmin);
 			$mailToAdmin = str_replace("__CLIENTMAIL__", $cart['email'], $mailToAdmin);
 			$mailToAdmin = str_replace("__SUPPLIERS__", $suppliers, $mailToAdmin);
+			$mailToAdmin = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $mailToAdmin);
 
 			if ( !empty($cart['mobileno']) ) {
 				$mailToAdmin = str_replace("__CLIENTPHONE__", $cart['mobileno'], $mailToAdmin);
@@ -274,6 +281,7 @@ if ( isset($_POST['addToCart']) ) {
 			$mailToCustomer = str_replace("__USERNAME__", $_SESSION['username'], $mailToCustomer);
 			$mailToCustomer = str_replace("__TOTAL__", "€". number_format($subtotal, 2, ".", ""), $mailToCustomer);
 			$mailToCustomer = str_replace("__SAVINGS__", "€". number_format($savings, 2, ".", ""), $mailToCustomer);
+			$mailToCustomer = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $mailToCustomer);
 			//echo $mailToAdmin;
 			#pconsole($mailToCustomer);
 

@@ -57,6 +57,7 @@ if ( isset($_GET['subscribe']) ) {
 
 		$mailBody = file_get_contents('./../conf/mail_formats/subscription_email.html');
 		$mailBody = str_replace("__UNSUBURL__", $__MAINDOMAIN__ . 'login.php?unsub=' . $hash, $mailBody);
+		$mailBody = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $mailBody);
 
 		if ( $testSite ) {
 			$testSiteSubject = $__TESTSITEPREFIX__;
@@ -151,6 +152,7 @@ if ( isset($_GET['register']) ) {
 		$mailBody = str_replace("__CLIENT__", $_POST['customer']['username'], $mailBody);
 		$mailBody = str_replace("__VERIFICATIONHASH__", $verifyHash, $mailBody);
 		$mailBody = str_replace("__USERNAME__", $_POST['customer']['username'], $mailBody);
+		$mailBody = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $mailBody);
 
 		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
 

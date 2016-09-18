@@ -64,7 +64,8 @@ if ( isset($_POST['file']['delete']) ) {
         	<table class="table table-hover table-custom" style=" overflow:auto; white-space:nowrap; max-height: 80vh;" >
             	<thead>
                 	<th>#</th>
-                	<th>Sheet Name</th>
+                  <th>Sheet Name</th>
+                  <th>Type</th>
                 	<th>Action</th>
                 </thead>
                 <tbody>
@@ -76,7 +77,7 @@ if ( isset($_POST['file']['delete']) ) {
                   $int = 1;
                   foreach ( $files as $file ) {
                     if ( strpos($file, '.xlsx') && $file !== 'tmp_db.xlsx' && $file !== 'format.xlsx' ) {
-                      echo '<tr><td style="width:20px;">'. $int .'</td><td>'. $file .'</td>
+                      echo '<tr><td style="width:20px;">'. $int .'</td><td>'. $file .'</td><td>Import</td>
                           <td style="text-align:center;">
                                     <a class="fa fa-cloud-download" style="color:green;" data-link="'. $dir . $file .'" data-toggle="tooltip" onclick="downloadThis(\''. $dir . $file .'\')" title="Download"></a> 
                                     <a href="javascript:void(0);" class="fa fa-close" data-toggle="tooltip" title="Delete" onclick="$(\'#removeModalActionButton\').val(\''. $dir . $file .'\'); $(\'#itemToRemove\').text(\''. $file .'\'); $(\'#promptRemoveModal\').modal(\'toggle\');"></a>
@@ -93,7 +94,7 @@ if ( isset($_POST['file']['delete']) ) {
                   $files = scandir($dir, 1);
                   foreach ( $files as $file ) {
                     if ( strpos($file, '.xlsx') && $file !== 'tmp_db.xlsx' && $file !== 'format.xlsx' ) {
-                      echo '<tr><td style="width:20px;">'. $int .'</td><td>'. $file .'</td>
+                      echo '<tr><td style="width:20px;">'. $int .'</td><td>'. $file .'</td><td>Export</td>
                           <td style="text-align:center;">
                                     <a class="fa fa-cloud-download" style="color:green;" data-link="'. $dir . $file .'" data-toggle="tooltip" onclick="downloadThis(\''. $dir . $file .'\')" title="Download"></a> 
                                     <a href="javascript:void(0);" class="fa fa-close" data-toggle="tooltip" title="Delete" onclick="$(\'#removeModalActionButton\').val(\''. $dir . $file .'\'); $(\'#itemToRemove\').text(\''. $file .'\'); $(\'#promptRemoveModal\').modal(\'toggle\');"></a>

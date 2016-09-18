@@ -44,6 +44,10 @@ if ( isset($_POST['register']) ) {
 	pconsole($_POST);
 }
 
+if ( isset($_POST['q']) ) {
+	$alert = $_POST['q'];
+}
+
 if ( isset($_GET['verify']) ) {
 	$verify = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :verify");
 	$verify->execute(array(":verify" => $_GET['verify']));
@@ -241,6 +245,9 @@ if ( isset($_GET['verifyLogin']) ) {
 	</div>
 
 	<?php include './url/footer.php'; ?>
+
+
+	<form id="stubAlertForm" method="post"><input type="text" name="q" id="stubAlert"></form>
 </body>
 <script type="text/javascript">
 
@@ -368,7 +375,10 @@ $("#create_customer").submit(function(event){
 		        			if ( $("#notificationBox").is(":hidden") ) {
 					          $("#notificationBox").toggle(500).delay(10000).toggle(500);
 					      	}
-						}
+
+					      	$("#stubAlert").val(result);
+					      	$("#stubAlertForm").submit();						
+					      }
 					});
 				} else { 
 					$("#notificationBox").html("<span>Please check your passwords</span>");

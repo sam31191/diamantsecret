@@ -82,7 +82,7 @@ if ( !isset($_SESSION['admin']) ) {
                 <input type="password" class="form-control" placeholder="Password" required="" name="Password" />
               </div>
               <div>
-                <button class="btn btn-custom submit" href="index.html">Log in</button>
+                <button class="btn btn-custom submit">Log in</button>
               </div>
 
               <div class="clearfix"></div>
@@ -92,7 +92,7 @@ if ( !isset($_SESSION['admin']) ) {
                 <br />
 
                 <div>
-                  <h1><img src="../images/gfx/logo.png" style="width: 100%;"></h1>
+                  <h1><a href="../index.php"><img src="../images/gfx/logo.png" style="width: 100%;"></a></h1>
                   <p>©2016 All Rights Reserved. Privacy and Terms</p>
                 </div>
               </div>
