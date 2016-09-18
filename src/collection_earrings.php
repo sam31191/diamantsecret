@@ -49,7 +49,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
 include 'conf/config.php';
-if ( isset($_POST['addToCart']) ) {
+if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
 	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
 	$fetchCurrentCart->execute(array(":user" => $_USERNAME));
@@ -86,7 +86,7 @@ if ( isset($_POST['addToCart']) ) {
 
 	$updateCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user");
 	$updateCart->execute(array(":cart" => $currentCart, ":user" => $_USERNAME));
-} else if ( isset($_POST['removeFromCart']) ) {
+} else if ( isset($_POST['removeFromCart']) && $_SESSION['loggedIn']  ) {
 	$getCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
 	$getCart->execute(array(
 		":user" => $_USERNAME
@@ -754,7 +754,13 @@ pconsole($_POST);
 	                                </div>
                                     
                                     <input id="quick-shop-unique-key" name="unique_key" hidden />
-                                    <div id="buttonDiv">
+                                    <?php
+                                    if ( $_SESSION['loggedIn'] ) {
+                                    	echo '<div id="buttonDiv"></div>';
+                                    } else {
+                                    	echo '<a class="btn" href="./login.php" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" id="loginToAccessCart">Login to Access Cart</a>';
+                                    }
+                                    ?>
                                     </div>
 								</form>
 							</div>

@@ -51,7 +51,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 }
 include 'conf/config.php';
 
-if ( isset($_POST['addToCart']) ) {
+if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
 	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
 	$fetchCurrentCart->execute(array(":user" => $_USERNAME));
@@ -88,7 +88,7 @@ if ( isset($_POST['addToCart']) ) {
 
 	$updateCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user");
 	$updateCart->execute(array(":cart" => $currentCart, ":user" => $_USERNAME));
-} else if ( isset($_POST['removeFromCart']) ) {
+} else if ( isset($_POST['removeFromCart']) && $_SESSION['loggedIn'] ) {
 	$getCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
 	$getCart->execute(array(
 		":user" => $_USERNAME
@@ -625,8 +625,13 @@ if ( isset($_POST['addToCart']) ) {
 	                                </div>
                                     
                                     <input id="quick-shop-unique-key" name="unique_key" hidden />
-                                    <button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;">Add to Cart</button>
-                                    
+                                    <?php
+                                    if ( $_SESSION['loggedIn'] ) {
+                                    	echo '<button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;">Add to Cart</button>';
+                                    } else {
+                                    	echo '<a class="btn" href="./login.php" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" id="loginToAccessCart">Login to Access Cart</a>';
+                                    }
+                                    ?>
 								</form>
 							</div>
 						</div>
