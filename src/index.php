@@ -353,7 +353,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 																	</div>
 																</form>
 																<div class="product-ajax-qs hidden-xs hidden-sm">
-																	<div data-href="./ajax/_product-qs.html" class="quick_shop" onclick="quickShop(\''. $product['unique_key'] .'\')">
+																	<div class="quick_shop" onclick="quickShop(\''. $product['unique_key'] .'\')">
 																		<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
 																	</div>
 																</div>
@@ -496,14 +496,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 																 Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
 															</div>
 															<div class="hover-appear">
-																<form action="./product.html" method="post">
+																<form method="post">
 																	<div class="effect-ajax-cart">
 																		<input type="hidden" name="quantity" value="1">
 																		<button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $product['unique_key'] .'\'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
 																	</div>
 																</form>
 																<div class="product-ajax-qs hidden-xs hidden-sm">
-																	<div data-href="./ajax/_product-qs.html" class="quick_shop" onclick="quickShop(\''. $product['unique_key'] .'\')">
+																	<div class="quick_shop" onclick="quickShop(\''. $product['unique_key'] .'\')">
 																		<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
 																	</div>
 																</div>

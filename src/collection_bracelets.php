@@ -565,7 +565,7 @@ pconsole($_POST);
 																	<div class="hover-appear">
 																		<a href="product.php?view='. $itemInfo['unique_key'] .'" style="margin:0px 20px; line-height:50px; font-size:13px; font-weight:700; text-transform:uppercase;"><i class="fa fa-bars" aria-hidden="true" style="padding-right:10px;"></i>View Product</a>
 																		<div class="product-ajax-qs hidden-xs hidden-sm">
-																			<div data-href="./ajax/_product-qs.html" class="quick_shop" onclick="quickShop(\''. $item['unique_key'] .'\')">
+																			<div class="quick_shop" onclick="quickShop(\''. $item['unique_key'] .'\')">
 																				<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
 																			</div>
 																		</div>

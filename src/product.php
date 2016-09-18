@@ -550,14 +550,14 @@ pconsole($_POST);
 																 
 															</div>
 															<div class="hover-appear">
-																<form action="./product.html" method="post">
+																<form action="./product.php?view='. $product['unique_key'] .'" method="post">
 																	<div class="effect-ajax-cart">
 																		<input type="hidden" name="quantity" value="1">
 																		<button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $product['unique_key'] .'\'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
 																	</div>
 																</form>
 																<div class="product-ajax-qs hidden-xs hidden-sm">
-																	<div data-href="./ajax/_product-qs.html" class="quick_shop" onclick="quickShop(\''. $product['unique_key'] .'\')">
+																	<div class="quick_shop" onclick="quickShop(\''. $product['unique_key'] .'\')">
 																		<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
 																	</div>
 																</div>

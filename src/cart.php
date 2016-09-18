@@ -563,7 +563,7 @@ if ( isset($_POST['removeItem']) ) {
 																			</a>
 																			</li>
 																			<li class="link">
-																			<a href="./product.html">
+																			<a href="./product.php?view='. $result['unique_key'] .'">
 																			<span class="title-5">'. $itemInfo['product_name'] .'</span>
 																			</a>
 																			<br>
