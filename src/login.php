@@ -1,60 +1,8 @@
-<!doctype html>
-<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-  <link rel="canonical" href="/" />
-  <meta name="description" content="" />
-  <title>Login Page</title>
-  
-    <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
-  
-	<link href="./assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 	
-	<link href="./assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
-  	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
-  	<link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
-	
-	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
-</head>
-
-<body itemscope="" itemtype="http://schema.org/WebPage" class="templateCustomersRegister notouch">
-  
 <?php
-
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
 include 'conf/config.php';
-
-pconsole($_POST);
-
-
-if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
-	session_destroy();
-	$_SESSION['loggedIn'] = false;
-}
-
-if ( isset($_GET['unsub']) ) {
-	//echo var_dump($_GET);
-
-	$checkSub = $pdo->prepare("SELECT * FROM `subscribers` WHERE `hash` = :hash");
-	$checkSub->execute(array(":hash" => $_GET['unsub']));
-	if ( $checkSub->rowCount() > 0 ) {
-		$unsub = $pdo->prepare("DELETE FROM `subscribers` WHERE `hash` = :hash");
-		$unsub->execute(array(":hash" => $_GET['unsub']));
-
-		$error = "You have unsubscribed from our newsletter";
-	}
-}
-
 if ( isset($_POST['login']['username']) ) {
 	$checkUser = $pdo->prepare("SELECT `username`, `activated` FROM `accounts` WHERE `username` = :user");
 	$checkUser->execute(array(":user" => $_POST['login']['username']));
@@ -82,6 +30,7 @@ if ( isset($_POST['login']['username']) ) {
 				}
 
 				header("Location: index.php");
+				exit();
 			} else {
 				$error = "Authentication Failed / Check your credentials";
 			}
@@ -118,6 +67,7 @@ if ( isset($_POST['login']['username']) ) {
 				}
 
 				header("Location: index.php");
+				exit();
 			} else {
 				$error = "Authentication Failed / Check your credentials";
 			}
@@ -127,7 +77,57 @@ if ( isset($_POST['login']['username']) ) {
 	} else {
 		$error = "No User Found";
 	}
-} else if ( isset($_POST['recover']) ) {
+}
+?>
+<!doctype html>
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+  <link rel="canonical" href="/" />
+  <meta name="description" content="" />
+  <title>Login Page</title>
+  
+    <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
+  
+	<link href="./assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 	
+	<link href="./assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
+	<link href="./assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
+	<link href="./assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
+	<link href="./assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
+	<link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
+	<link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
+  	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+  	<link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
+	
+	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" class="templateCustomersRegister notouch">
+  
+<?php
+if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
+	session_destroy();
+	$_SESSION['loggedIn'] = false;
+}
+
+if ( isset($_GET['unsub']) ) {
+	//echo var_dump($_GET);
+
+	$checkSub = $pdo->prepare("SELECT * FROM `subscribers` WHERE `hash` = :hash");
+	$checkSub->execute(array(":hash" => $_GET['unsub']));
+	if ( $checkSub->rowCount() > 0 ) {
+		$unsub = $pdo->prepare("DELETE FROM `subscribers` WHERE `hash` = :hash");
+		$unsub->execute(array(":hash" => $_GET['unsub']));
+
+		$error = "You have unsubscribed from our newsletter";
+	}
+}
+
+if ( isset($_POST['recover']) ) {
 	$checkUser = $pdo->prepare("SELECT * FROM `accounts` WHERE `email` = :email");
 	$checkUser->execute(array(":email" => trim($_POST['recover']['email'])));
 
@@ -157,6 +157,15 @@ if ( isset($_POST['login']['username']) ) {
 		$mail->setFrom($mailSenderEmail, $mailSenderName);
 		$mail->addAddress($userInfo['email']);
 		$mail->isHTML(true);
+		$mail->smtpConnect(
+		    array(
+		        "ssl" => array(
+		            "verify_peer" => false,
+		            "verify_peer_name" => false,
+		            "allow_self_signed" => true
+		        )
+		    )
+		);
 		$mail->Subject = $testSiteSubject . 'Password Recovery';
 		$mail->Body = $recoveryMail;
 		if ( !$mail->send() ) {
@@ -206,6 +215,15 @@ if ( isset($_GET['recoverHash']) && !empty($_GET['recoverHash']) ) {
 		$mail->setFrom($mailSenderEmail, $mailSenderName);
 		$mail->addAddress($userInfo['email']);
 		$mail->isHTML(true);
+		$mail->smtpConnect(
+		    array(
+		        "ssl" => array(
+		            "verify_peer" => false,
+		            "verify_peer_name" => false,
+		            "allow_self_signed" => true
+		        )
+		    )
+		);
 		$mail->Subject = $testSiteSubject . 'Password Recovery';
 		$mail->Body = $recoveryMail2;
 		if ( !$mail->send() ) {

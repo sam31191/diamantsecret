@@ -1,4 +1,12 @@
-<!doctype html>
+<?php
+if ( session_status() == PHP_SESSION_NONE ) {
+	session_start();
+}
+if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
+	header("location: ./login.php");
+	exit();
+}
+?><!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <head>
@@ -26,23 +34,13 @@
 </head>
 <div class="alert alert-danger" style="position: fixed; top: 0px; right: 0; margin: 25px; min-width: 250px; min-height: 40px; text-align: center; display: none; z-index: 1000; font-size: 18px;" id="notificationBox"> </div>
 <?php
-if ( session_status() == PHP_SESSION_NONE ) {
-	session_start();
-}
-
-
-
 include 'conf/config.php';
-include './assets/mail_format/admin_mail.php';
 pconsole($_POST);
 
 #pre
 $subtotalMain = 0;
 $youSave = 0;
 
-if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
-	header("location: ./login.php");
-}
 
 if ( isset($_POST['addToCart']) ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
@@ -305,6 +303,15 @@ if ( isset($_POST['addToCart']) ) {
 			$mail2->setFrom($mailSenderEmail, $mailSenderName);
 			$mail2->addAddress($__ADMINMAIL__);
 			$mail2->isHTML(true);
+			$mail2->smtpConnect(
+			    array(
+			        "ssl" => array(
+			            "verify_peer" => false,
+			            "verify_peer_name" => false,
+			            "allow_self_signed" => true
+			        )
+			    )
+			);
 			$mail2->Subject = $testSiteSubject . 'Enquiry Placed by ' . $_USERNAME;
 			$mail2->Body = $mailToAdmin;
 			if ( !$mail2->send() ) {
@@ -323,6 +330,15 @@ if ( isset($_POST['addToCart']) ) {
 				$mail->setFrom($mailSenderEmail, $mailSenderName);
 				$mail->addAddress($cart['email']);
 				$mail->isHTML(true);
+				$mail->smtpConnect(
+				    array(
+				        "ssl" => array(
+				            "verify_peer" => false,
+				            "verify_peer_name" => false,
+				            "allow_self_signed" => true
+				        )
+				    )
+				);
 				$mail->Subject = $testSiteSubject . 'Enquiry Placed';
 				$mail->Body = $mailToCustomer;
 				if ( !$mail->send() ) {
@@ -357,8 +373,6 @@ if ( isset($_POST['removeItem']) ) {
 		":cart" => $cart,
 		":user" => $_USERNAME
 	));
-
-	header("Location: ./cart.php");
 } 
 ?>
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templateCart notouch">

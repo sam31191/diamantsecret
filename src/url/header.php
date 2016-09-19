@@ -1,13 +1,9 @@
-
 <?php
-if ( session_status() == PHP_SESSION_NONE ) {
-  session_start();
-}
-
 if ( $testSite && !isset($_SESSION['admin']) ) {
-   header("Location: ./under_construction/index.php");
-   die();
-} else if ( isset($_POST['action']['logout']) ) {
+  echo '<script> window.location.href = "./under_construction/index.php"; </script>';
+  die();
+} 
+if ( isset($_POST['action']['logout']) ) {
   session_unset();
   session_destroy();
 
@@ -97,7 +93,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                 </span>
                 <!-- Customer Account Login -->
                 <div id="loginBox" class="dropdown-menu text-left">
-                <form method="post" action="login.php" id="customer_login" accept-charset="UTF-8"><input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
+                <form method="post" action="./login.php" id="customer_login" accept-charset="UTF-8"><input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
                   <div id="bodyBox">
                     <ul class="control-container customer-accounts list-unstyled">
                       <li class="clearfix">

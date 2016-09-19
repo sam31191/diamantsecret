@@ -1,3 +1,63 @@
+<?php
+if ( session_status() == PHP_SESSION_NONE ) {
+	session_start();
+}
+include './conf/config.php';
+if ( isset($_GET['verifyLogin']) ) {
+
+
+	$incomingPassword = ( isset($_POST['customer']['password']) ) ? $_POST['customer']['password'] : "";
+	$incomingUsername = ( isset($_POST['customer']['username']) ) ? $_POST['customer']['username'] : "";
+	$hash = $_GET['verifyLogin'];
+
+	$checkHash = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :hash");
+	$checkHash->execute(array(":hash" => $hash));
+
+	if ( $checkHash->rowCount() > 0 ) {
+		$accountToActivate = $checkHash->fetch(PDO::FETCH_ASSOC);
+		$checkPass = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :hash AND `password` = :pass");
+		$checkPass->execute(array(":hash" => $hash, ":pass" => $incomingPassword));
+
+		if ( $checkPass->rowCount() > 0 ) {
+			$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email");
+			$activate->execute(array(":emptyHash" => "", ":email" => $accountToActivate['email']));
+
+			$_SESSION['username'] = $accountToActivate['username'];
+			$_SESSION['email'] = $accountToActivate['email'];
+			$_SESSION['loggedIn'] = true;
+
+			header("Location: ./index.php");
+			exit();
+		} else {
+			$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email");
+			$activate->execute(array(":emptyHash" => "", ":email" => $accountToActivate['email']));
+			$alert = "Account has been verified";
+			$alert2 = "Invalid Login Credentials </li></li> Click here to <a style='color:#607D8B' href='./login.php'>Login</a>";
+		}
+
+	} else {
+		$checkAuth = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `password` = :pass AND `activated` = 1");
+		$checkAuth->execute(array(":user" => $incomingUsername, ":pass" => $incomingPassword));
+
+		if ( $checkAuth->rowCount() > 0 ) {
+			$creds = $checkAuth->fetch(PDO::FETCH_ASSOC);
+
+			$_SESSION['username'] = $creds['username'];
+			$_SESSION['email'] = $creds['email'];
+			$_SESSION['loggedIn'] = true;
+
+			if ( $creds['type'] > 0 ) {
+				$_SESSION['admin'] = $creds['type'];
+			}
+
+			header("Location: ./index.php");
+			exit();
+		} else {
+			$alert = "Verification Link has expired";
+		}
+	}
+}
+?>
 <!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
@@ -25,16 +85,11 @@
 	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
 </head>
 <?php
-if ( session_status() == PHP_SESSION_NONE ) {
-	session_start();
-}
-
 if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 	session_destroy();
 	$_SESSION['loggedIn'] = false;
 }
 
-include './conf/config.php';
 
 pconsole($_POST);
 #pre
@@ -63,59 +118,6 @@ if ( isset($_GET['verify']) ) {
 		$alert = 'Account Verified. Please <a href="./login.php" style="color: #607D8B;">Login</a>';
 	} else {
 		$alert = 'Verification link has expired';
-	}
-}
-
-if ( isset($_GET['verifyLogin']) ) {
-
-
-	$incomingPassword = ( isset($_POST['customer']['password']) ) ? $_POST['customer']['password'] : "";
-	$incomingUsername = ( isset($_POST['customer']['username']) ) ? $_POST['customer']['username'] : "";
-	$hash = $_GET['verifyLogin'];
-
-	$checkHash = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :hash");
-	$checkHash->execute(array(":hash" => $hash));
-
-	if ( $checkHash->rowCount() > 0 ) {
-		$accountToActivate = $checkHash->fetch(PDO::FETCH_ASSOC);
-		$checkPass = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :hash AND `password` = :pass");
-		$checkPass->execute(array(":hash" => $hash, ":pass" => $incomingPassword));
-
-		if ( $checkPass->rowCount() > 0 ) {
-			$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email");
-			$activate->execute(array(":emptyHash" => "", ":email" => $accountToActivate['email']));
-
-			$_SESSION['username'] = $accountToActivate['username'];
-			$_SESSION['email'] = $accountToActivate['email'];
-			$_SESSION['loggedIn'] = true;
-
-			header("Location: ./index.php");
-		} else {
-			$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email");
-			$activate->execute(array(":emptyHash" => "", ":email" => $accountToActivate['email']));
-			$alert = "Account has been verified";
-			$alert2 = "Invalid Login Credentials </li></li> Click here to <a style='color:#607D8B' href='./login.php'>Login</a>";
-		}
-
-	} else {
-		$checkAuth = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `password` = :pass AND `activated` = 1");
-		$checkAuth->execute(array(":user" => $incomingUsername, ":pass" => $incomingPassword));
-
-		if ( $checkAuth->rowCount() > 0 ) {
-			$creds = $checkAuth->fetch(PDO::FETCH_ASSOC);
-
-			$_SESSION['username'] = $creds['username'];
-			$_SESSION['email'] = $creds['email'];
-			$_SESSION['loggedIn'] = true;
-
-			if ( $creds['type'] > 0 ) {
-				$_SESSION['admin'] = $creds['type'];
-			}
-
-			header("Location: ./index.php");
-		} else {
-			$alert = "Verification Link has expired";
-		}
 	}
 }
 ?>

@@ -1,4 +1,43 @@
-<!DOCTYPE html>
+<?php
+if ( session_status() == PHP_SESSION_NONE ) {
+	session_start();
+}
+include ('../conf/config.php');
+if ( isset($_POST['moderator']) ) {
+
+	$checkModerator = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `type` > 0");
+	$checkModerator->execute(array(":user" => $_POST['moderator']['username']));
+
+	if ( $checkModerator->rowCount() ) {
+		$moderator = $checkModerator->fetch(PDO::FETCH_ASSOC);
+		$moderator = $moderator['username'];
+
+		$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `password` = :pass");
+		$authenticate->execute(array(":user" => $moderator, ":pass" => $_POST['moderator']['password']));
+
+		if ( $authenticate->rowCount() > 0 ) {
+			$result = $authenticate->fetch(PDO::FETCH_ASSOC);
+
+			$_SESSION['username'] = $result['username'];
+			$_SESSION['email'] = $result['email'];
+			$_SESSION['loggedIn'] = true;
+
+			if ( $result['type'] > 0 ) {
+				$_SESSION['admin'] = $result['type'];
+			}
+
+			header("Location: ../index.php");
+			exit();
+		} else {
+			$error = "Authentication Failure";
+			#False Password
+		}
+	} else {
+		$error = "Authentication Failure";
+		#Not Moderator or Username not found
+	}
+}
+?><!DOCTYPE html>
 <!--[if lt IE 7]> <html lang="en" class="no-js ie6"> <![endif]-->
 <!--[if IE 7]>    <html lang="en" class="no-js ie7"> <![endif]-->
 <!--[if IE 8]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -24,48 +63,6 @@
 			</style>
 		<![endif]-->
 	</head>
-
-	<?php
-	include ('../conf/config.php');
-
-	if ( session_status() == PHP_SESSION_NONE ) {
-		session_start();
-	}
-
-	if ( isset($_POST['moderator']) ) {
-
-		$checkModerator = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `type` > 0");
-		$checkModerator->execute(array(":user" => $_POST['moderator']['username']));
-
-		if ( $checkModerator->rowCount() ) {
-			$moderator = $checkModerator->fetch(PDO::FETCH_ASSOC);
-			$moderator = $moderator['username'];
-
-			$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `password` = :pass");
-			$authenticate->execute(array(":user" => $moderator, ":pass" => $_POST['moderator']['password']));
-
-			if ( $authenticate->rowCount() > 0 ) {
-				$result = $authenticate->fetch(PDO::FETCH_ASSOC);
-
-				$_SESSION['username'] = $result['username'];
-				$_SESSION['email'] = $result['email'];
-				$_SESSION['loggedIn'] = true;
-
-				if ( $result['type'] > 0 ) {
-					$_SESSION['admin'] = $result['type'];
-				}
-
-				header("Location: ../index.php");
-			} else {
-				$error = "Authentication Failure";
-				#False Password
-			}
-		} else {
-			$error = "Authentication Failure";
-			#Not Moderator or Username not found
-		}
-	}
-	?>
 	<body>
 
 		<!-- Social Links -->

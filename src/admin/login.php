@@ -1,3 +1,38 @@
+<?php
+if ( session_status() == PHP_SESSION_NONE ) {
+  session_start();
+}
+if ( isset($_SESSION['modSession']) && $_SESSION['modSession'] ) {
+  header("Location: pages/all_items.php");
+  exit();
+}
+if ( !isset($_SESSION['admin']) ) {
+  header ("Location: ./../index.php");
+  exit();
+}
+include '../conf/config.php';
+$message = "";
+if ( isset($_POST['Password']) ) {
+  $authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :username AND `password` = :pass");
+  $authenticate->execute(array(":username" => $_SESSION['username'], ":pass" => $_POST['Password']));
+  
+  if ( $authenticate->rowCount() > 0 ) {
+    $result = $authenticate->fetch(PDO::FETCH_ASSOC);
+    if ( $result['type'] >= 1 ) {
+      $_SESSION['modSession'] = true;
+      $log = $pdo->prepare("INSERT INTO `moderator_login` (`username`, `last_login`, `login_ip`) VALUES (:username, NOW(), :ip)");
+      $log->execute(array(":username" => $_SESSION['username'], ":ip" => get_client_ip())); 
+      header("Location: pages/all_items.php");
+    }
+    else {
+      $message = ("Invalid Admin Rank");
+    }
+  }
+  else {
+    $message = ("Invalid Login");
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,58 +54,16 @@
     <link href="https://colorlib.com/polygon/gentelella/css/animate.min.css" rel="stylesheet">
 
   </head>
-<?php
-if ( session_status() == PHP_SESSION_NONE ) {
-	session_start();
-}
-if ( isset($_SESSION['modSession']) && $_SESSION['modSession'] ) {
-  header("Location: pages/all_items.php");
-}
-if ( !isset($_SESSION['admin']) ) {
-  header ("Location: ./../index.php");
-}
-?>
   <body class="login">
     <div>
       <a class="hiddenanchor" id="signup"></a>
       <a class="hiddenanchor" id="signin"></a>
+      <?php
+        if ( !empty($message) ) {
+          echo '<div class="alert-custom notification" id="notification">'. $message .'</div>';  
+        }
+      ?>
       
-      
-<div class="alert-custom notification" id="notification">USERNAME INVALID</div>
-
-      <?php 
-	  include '../conf/config.php';
-	  if ( isset($_POST['Password']) ) {
-		  $authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :username AND `password` = :pass");
-		  $authenticate->execute(array(":username" => $_SESSION['username'], ":pass" => $_POST['Password']));
-		  
-		  if ( $authenticate->rowCount() > 0 ) {
-		  	$result = $authenticate->fetch(PDO::FETCH_ASSOC);
-  			if ( $result['type'] >= 1 ) {
-  				$_SESSION['modSession'] = true;
-  				$log = $pdo->prepare("INSERT INTO `moderator_login` (`username`, `last_login`, `login_ip`) VALUES (:username, NOW(), :ip)");
-  				$log->execute(array(":username" => $_SESSION['username'], ":ip" => get_client_ip())); 
-  				header("Location: pages/all_items.php");
-  			}
-  			else {
-  				notify ("Invalid Admin Rank");
-  			}
-		  }
-		  else {
-		  	notify ("Invalid Login");
-		  }
-	  }
-	  
-	  function notify( $message ) {
-	?>
-		<script> 
-            document.getElementById("notification").innerHTML = "<?php echo $message; ?>";
-            document.getElementById("notification").style.display = "block"; 
-        </script>';
-    <?php
-	}
-	  ?>
-
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">

@@ -1,9 +1,4 @@
-<?php
-if ( session_status() == PHP_SESSION_NONE ) {
-  session_start();
-}
-?>
-  <footer id="footer">      
+<footer id="footer">      
     <div id="footer-content">
       <h6 class="general-title contact-footer-title">Newsletter</h6>  
       <div id="widget-newsletter">

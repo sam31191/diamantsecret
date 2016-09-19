@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
 <?php
 if ( session_status() == PHP_SESSION_NONE ) {
-	session_start();
+  session_start();
 }
 if ( !isset($_SESSION['modSession']) ) {
 	 header ('Location: ../../index.php');
@@ -14,6 +12,10 @@ if ( isset($_SESSION['modSession']) ) {
 		die();
 	}
 }
+?>
+<!DOCTYPE html>
+<html lang="en">
+<?php
 include '../../conf/config.php';
 
 if ( isset($_POST['featuredAdd']) ) {
