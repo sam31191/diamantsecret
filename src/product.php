@@ -530,7 +530,7 @@ pconsole($_POST);
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
 															<a href="./product.php?view='. $product['unique_key'] .'" class="container_item" style="height:277px;">
-															<img src="./images/images_md/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
+															<img src="./images/images_md/'. $images[0] .'" class="img-responsive" alt="">
 															'. $sale .'
 															</a>
 															<div class="hbw">

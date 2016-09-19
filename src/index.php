@@ -323,7 +323,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
 															<a href="./product.php?view='. $product['unique_key'] .'" class="container_item"  style="max-height:375px !important;">
-															<img src="./images/images_md/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
+															<img src="./images/images_md/'. $images[0] .'" class="img-responsive" alt="">
 															'. $sale .'
 															</a>
 															<div class="hbw">
@@ -345,7 +345,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 																</div>
 															</div>
 															<div class="list-mode-description">
-																 Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
+																 
 															</div>
 															<div class="hover-appear">
 																<form action="./product.php?view='. $product['unique_key'] .'" method="post">
@@ -475,7 +475,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
 															<a href="./product.php?view='. $product['unique_key'] .'" class="container_item" style="height:277px;">
-															<img src="./images/images_md/'. $images[0] .'" class="img-responsive" alt="Curabitur cursus dignis">
+															<img src="./images/images_md/'. $images[0] .'" class="img-responsive" alt="">
 															'. $sale .'
 															</a>
 															<div class="hbw">
@@ -495,7 +495,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 															'. $price .'
 															</div>
 															<div class="list-mode-description">
-																 Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
+																 
 															</div>
 															<div class="hover-appear">
 																<form method="post">
@@ -565,7 +565,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 					<div class="row">
 						<div class="col-md-12 product-image">
 							<div id="quick-shop-image" class="product-image-wrapper">
-								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="./assets/images/demo_354x354.png" data-zoom-image="./assets/images/demo_354x354.png" alt=""/></a>
+								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="./images/gfx/cube_lg.gif" data-zoom-image="./images/gfx/cube_lg.gif" alt=""/></a>
 								<div id="gallery_main_qs" class="product-image-thumb">
 								</div>	
 							</div>
@@ -752,6 +752,7 @@ function quickShop(id) {
 			}
 		};
 		xmlhttp.open("GET","./url/fetch_item_info.php?id="+id, true);
+		$("#quick-shop-image .main-image img").attr("src", "./images/gfx/cube_lg.gif");
 		xmlhttp.send();
 	}
 }
