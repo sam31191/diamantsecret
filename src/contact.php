@@ -100,7 +100,7 @@ include 'conf/config.php';
 										}
 										</script>
 
-										<script src="https://maps.googleapis.com/maps/api/js?callback=myMap&v=3&key=AIzaSyD6JnbJVXXq-jmg_hqNOl5yWGyJraxSbd4"></script>
+										<script src="https://maps.googleapis.com/maps/api/js?callback=myMap&v=3&key=AIzaSyAk_N6UbtKDMpR8WOeAKWPJwtYJ9QcyeJY"></script>
 									</div>
 								</div>
 							</div>
