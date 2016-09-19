@@ -89,7 +89,6 @@ if ( isset($_POST['moderator']) ) {
 		<nav class="main-nav">
 			<ul>
 				<li><a href="#home" class="active">Home</a></li>
-				<!-- <li><a href="#about">About</a></li> -->
 				<li><a href="#contact">Contact</a></li>
 				<li><a href="#moderator">Moderator Access</a></li>
 			</ul>
@@ -102,7 +101,8 @@ if ( isset($_POST['moderator']) ) {
 		<!-- Home Page -->
 		<section class="content show" id="home">
 			<h1>Welcome</h1>
-			<h5>Our new site is coming soon!</h5>
+			<h5>Sorry, we're down for maintenance</h5>
+			<h3>Please come back in a short while</h3>
 			<p></p>
 			<p><a href="#contact">Contact us &#187;</a></p>
 		</section>
