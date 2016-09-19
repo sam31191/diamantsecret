@@ -5,6 +5,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 if ( isset($_POST['loginAs']) ) {
 	$_SESSION['loginAs'] = $_POST['loginAs'];
 	header("Location: ../../index.php");
+	exit();
 } else {
 	#404
 }

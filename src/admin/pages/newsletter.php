@@ -2,20 +2,20 @@
 if ( session_status() == PHP_SESSION_NONE ) {
   session_start();
 }
+if ( !isset($_SESSION['modSession']) ) {
+     header ('Location: ../../index.php');
+     die();
+}
+if ( isset($_SESSION['modSession']) ) {
+    if ( !$_SESSION['modSession'] || $_SESSION['admin'] <= 0 ) {
+        header ('Location: ../../index.php');
+        die();
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <?php
-if ( !isset($_SESSION['modSession']) ) {
-	 header ('Location: ../../index.php');
-	 die();
-}
-if ( isset($_SESSION['modSession']) ) {
-	if ( !$_SESSION['modSession'] || $_SESSION['admin'] <= 0 ) {
-		header ('Location: ../../index.php');
-		die();
-	}
-}
 include '../../conf/config.php';
 
 ?>

@@ -1,7 +1,12 @@
 <?php
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
-}?>
+}
+if ( !isset($_GET['view']) || empty($_GET['view']) ) {
+	header("Location: ./collection.php");
+	exit();
+}
+?>
 <!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
@@ -52,9 +57,6 @@ if ( session_status() == PHP_SESSION_NONE ) {
 </head>
 
 <?php
-if ( !isset($_GET['view']) || empty($_GET['view']) ) {
-	header("Location: ./collection.php");
-}
 include 'conf/config.php';
 if ( isset($_POST['addToCart']) ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';

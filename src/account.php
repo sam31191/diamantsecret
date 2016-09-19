@@ -4,6 +4,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 }
 if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
 	header("location: ./login.php");
+	exit();
 }
 ?><!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
