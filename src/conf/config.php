@@ -5,7 +5,7 @@
 	$host = "localhost";
 	$dbname = "PROD_DIAMANTSECRET";
 	$user = "diamants_prod";
-	$pass = "prod_diamants";
+	$pass = "_diamants";
 	
 
 	/* Mail Configuration */
