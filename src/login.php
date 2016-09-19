@@ -1,3 +1,8 @@
+<?php
+if ( session_status() == PHP_SESSION_NONE ) {
+	session_start();
+}
+?>
 <!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
@@ -28,10 +33,6 @@
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templateCustomersRegister notouch">
   
 <?php
-
-if ( session_status() == PHP_SESSION_NONE ) {
-	session_start();
-}
 include 'conf/config.php';
 
 pconsole($_POST);

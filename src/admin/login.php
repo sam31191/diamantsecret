@@ -1,3 +1,8 @@
+<?php
+if ( session_status() == PHP_SESSION_NONE ) {
+  session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -20,9 +25,6 @@
 
   </head>
 <?php
-if ( session_status() == PHP_SESSION_NONE ) {
-	session_start();
-}
 if ( isset($_SESSION['modSession']) && $_SESSION['modSession'] ) {
   header("Location: pages/all_items.php");
 }

@@ -1,4 +1,8 @@
-<!doctype html>
+<?php
+if ( session_status() == PHP_SESSION_NONE ) {
+	session_start();
+}
+?><!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <head>
@@ -26,12 +30,6 @@
 </head>
 <div class="alert alert-danger" style="position: fixed; top: 0px; right: 0; margin: 25px; min-width: 250px; min-height: 40px; text-align: center; display: none; z-index: 1000; font-size: 18px;" id="notificationBox"> </div>
 <?php
-if ( session_status() == PHP_SESSION_NONE ) {
-	session_start();
-}
-
-
-
 include 'conf/config.php';
 include './assets/mail_format/admin_mail.php';
 pconsole($_POST);

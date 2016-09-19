@@ -1,10 +1,9 @@
 <?php
-  if (!isset($_GET['id'])) {
-    die();
-  }
-
   if ( session_status() == PHP_SESSION_NONE ) {
     session_start();
+  }
+  if (!isset($_GET['id'])) {
+    die();
   }
 
   include '../conf/config.php';

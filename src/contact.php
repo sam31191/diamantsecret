@@ -1,4 +1,8 @@
-<!doctype html>
+<?php
+if ( session_status() == PHP_SESSION_NONE ) {
+	session_start();
+}
+?><!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <head>
@@ -25,10 +29,6 @@
 	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
 </head>
 <?php
-
-if ( session_status() == PHP_SESSION_NONE ) {
-	session_start();
-}
 include 'conf/config.php';
 
 ?>

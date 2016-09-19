@@ -1,9 +1,11 @@
-	<!DOCTYPE html>
+<?php
+if ( session_status() == PHP_SESSION_NONE ) {
+  session_start();
+}
+?>
+<!DOCTYPE html>
 	<html lang="en">
 	<?php
-	if ( session_status() == PHP_SESSION_NONE ) {
-		session_start();
-	}
 	if ( !isset($_SESSION['modSession']) ) {
 		 header ('Location: ../../index.php');
 		 die();

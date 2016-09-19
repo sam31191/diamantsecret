@@ -1,12 +1,7 @@
-
 <?php
-if ( session_status() == PHP_SESSION_NONE ) {
-  session_start();
-}
-
 if ( $testSite && !isset($_SESSION['admin']) ) {
-   header("Location: ./under_construction/index.php");
-   die();
+  echo '<script> window.location.href = "./under_construction/index.php"; </script>';
+  die();
 } else if ( isset($_POST['action']['logout']) ) {
   session_unset();
   session_destroy();
