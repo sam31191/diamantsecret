@@ -2,6 +2,9 @@
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
+if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
+	header("location: ./login.php");
+}
 ?><!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
@@ -38,9 +41,6 @@ pconsole($_POST);
 $subtotalMain = 0;
 $youSave = 0;
 
-if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
-	header("location: ./login.php");
-}
 
 if ( isset($_POST['addToCart']) ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
@@ -355,8 +355,6 @@ if ( isset($_POST['removeItem']) ) {
 		":cart" => $cart,
 		":user" => $_USERNAME
 	));
-
-	header("Location: ./cart.php");
 } 
 ?>
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templateCart notouch">
