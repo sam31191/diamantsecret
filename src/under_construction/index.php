@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?php
+if ( session_status() == PHP_SESSION_NONE ) {
+	session_start();
+}
+?><!DOCTYPE html>
 <!--[if lt IE 7]> <html lang="en" class="no-js ie6"> <![endif]-->
 <!--[if IE 7]>    <html lang="en" class="no-js ie7"> <![endif]-->
 <!--[if IE 8]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -27,11 +31,6 @@
 
 	<?php
 	include ('../conf/config.php');
-
-	if ( session_status() == PHP_SESSION_NONE ) {
-		session_start();
-	}
-
 	if ( isset($_POST['moderator']) ) {
 
 		$checkModerator = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `type` > 0");
