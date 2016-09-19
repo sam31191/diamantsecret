@@ -588,7 +588,7 @@ pconsole($_POST);
 </body>
 
 
-<<div id="quick-shop-modal" class="modal in" role="dialog" aria-hidden="false" tabindex="-1" data-width="800">
+<div id="quick-shop-modal" class="modal in" role="dialog" aria-hidden="false" tabindex="-1" data-width="800">
 		<div class="modal-backdrop in" style="height: 742px;">
 		</div>
 		<div class="modal-dialog rotateInDownLeft animated">
