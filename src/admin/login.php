@@ -11,6 +11,7 @@ if ( !isset($_SESSION['admin']) ) {
   exit();
 }
 include '../conf/config.php';
+$message = "";
 if ( isset($_POST['Password']) ) {
   $authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :username AND `password` = :pass");
   $authenticate->execute(array(":username" => $_SESSION['username'], ":pass" => $_POST['Password']));
@@ -24,19 +25,12 @@ if ( isset($_POST['Password']) ) {
       header("Location: pages/all_items.php");
     }
     else {
-      notify ("Invalid Admin Rank");
+      $message = ("Invalid Admin Rank");
     }
   }
   else {
-    notify ("Invalid Login");
+    $message = ("Invalid Login");
   }
-}
-
-function notify( $message ) {
-  echo '<script> 
-        document.getElementById("notification").innerHTML = '. $message .';
-        document.getElementById("notification").style.display = "block"; 
-    </script>';
 }
 ?>
 <!DOCTYPE html>
@@ -64,9 +58,12 @@ function notify( $message ) {
     <div>
       <a class="hiddenanchor" id="signup"></a>
       <a class="hiddenanchor" id="signin"></a>
+      <?php
+        if ( !empty($message) ) {
+          echo '<div class="alert-custom notification" id="notification">'. $message .'</div>';  
+        }
+      ?>
       
-      
-<div class="alert-custom notification" id="notification">USERNAME INVALID</div>
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
