@@ -436,11 +436,11 @@ pconsole($_POST);
 										</div>
 										<div id="sandBox-wrapper" class="group-product-item row collection-full">
 											<ul id="sandBox" class="list-unstyled">
-												<!-- <li class="element first no_full_width" data-alpha="Curabitur cursus dignis" data-price="25900">
+												<!-- <li class="element first no_full_width" data-alpha="" data-price="25900">
 													<ul class="row-container list-unstyled clearfix">
 														<li class="row-left">
 														<a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
-														<img src="./assets/images/demo_270x270.png" class="img-responsive" alt="Curabitur cursus dignis">
+														<img src="./assets/images/demo_270x270.png" class="img-responsive" alt="">
 														<span class="sale_banner">
 														<span class="sale_text">Sale</span>
 														</span>
@@ -451,7 +451,7 @@ pconsole($_POST);
 														</li>
 														<li class="row-right parent-fly animMix">
 														<div class="product-content-left">
-															<a class="title-5" href="./product.php?view='. $item['unique_key'] .'">Curabitur cursus dignis</a>
+															<a class="title-5" href="./product.php?view='. $item['unique_key'] .'"></a>
 															<span class="spr-badge" id="spr_badge_129323821155" data-rating="0.0">
 															<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 															<span class="spr-badge-caption">
@@ -465,7 +465,7 @@ pconsole($_POST);
 															</div>
 														</div>
 														<div class="list-mode-description">
-															 Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis amet voluptas assumenda est, omnis dolor repellendus quis nostrum. Temporibus autem quibusdam et aut officiis debitis aut rerum dolorem necessitatibus saepe eveniet ut et neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed...
+															 
 														</div>
 														<div class="hover-appear">
 															<form action="#" method="post">
@@ -554,11 +554,11 @@ pconsole($_POST);
 															$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="addToWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>';
 														}
 
-														$element = '<li class="element no_full_width" data-alpha="Curabitur cursus dignis" data-price="20000">
+														$element = '<li class="element no_full_width" data-alpha="" data-price="20000">
 																<ul class="row-container list-unstyled clearfix">
 																	<li class="row-left">
 																	<a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
-																	<img src="./images/images_md/'. $images[0] .'" class="img-responsive  img-custom-collection" alt="Curabitur cursus dignis">
+																	<img src="./images/images_md/'. $images[0] .'" class="img-responsive  img-custom-collection" alt="">
 																	'. $sale .'
 																	</a>
 																	<div class="hbw">
@@ -712,7 +712,7 @@ pconsole($_POST);
 					<div class="row">
 						<div class="col-md-12 product-image">
 							<div id="quick-shop-image" class="product-image-wrapper">
-								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="./assets/images/demo_354x354.png" data-zoom-image="./assets/images/demo_354x354.png" alt=""/></a>
+								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="" data-zoom-image="" alt=""/></a>
 								<div id="gallery_main_qs" class="product-image-thumb">
 								</div>	
 							</div>
@@ -909,6 +909,7 @@ function quickShop(id) {
 		}, false);
 
 		xmlhttp.open("GET","./url/fetch_item_info.php?id="+id, false);
+		$("#quick-shop-image .main-image img").attr("src", "./images/gfx/cube_lg.gif");
 		xmlhttp.send();
 
 	}
