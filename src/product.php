@@ -541,7 +541,6 @@ pconsole($_POST);
 															<div class="product-content-left">
 																<a class="title-5" href="./product.php?view='. $product['unique_key'] .'">'. $product['item_name'] .'</a>
 																<span class="spr-badge" id="spr_badge_1293238211" data-rating="0.0">
-																<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 																<span class="spr-badge-caption">
 																No reviews </span>
 																</span>

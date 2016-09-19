@@ -1033,7 +1033,7 @@ if ( isset($_GET['importThis']) ) {
 
 		foreach ( $imgArray as $img ) {
 			if ( !empty($img) ) {
-				$numImg .= "http://diamantsecret.com/images/" . $img . ",";
+				$numImg .= $__MAINDOMAIN__ . "images/" . $img . ",";
 			}
 		}
 
@@ -1189,7 +1189,7 @@ if ( isset($_GET['importThis']) ) {
 
 		foreach ( $imgArray as $img ) {
 			if ( !empty($img) ) {
-				$numImg .= "http://diamantsecret.com/images/" . $img . ",";
+				$numImg .=  $__MAINDOMAIN__ . "images/" . $img . ",";
 			}
 		}
 

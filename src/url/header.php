@@ -206,7 +206,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                     </a>
                     </li>
                     <li class="dropdown mega-menu">
-                    <a href="./collection.php" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
+                    <a href="./collection.php" class="dropdown-toggle dropdown-link" data-toggle="dropdown" onclick="window.location.href= './collection.php';">
                     <span>Collections</span>
                     <i class="fa fa-caret-down"></i>
                     <i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>

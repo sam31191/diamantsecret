@@ -543,7 +543,7 @@ if ( isset($_POST['removeItem']) ) {
 																		<ul class="list-inline">
 																			<li class="image">
 																			<a href="./product.php?view='. $result['unique_key'] .'">
-																			<img src="./images/images_sm/'. $images[0] .'" alt="'. $itemInfo['product_name'] .'">
+																			<img src="./images/images_sm/'. $images[0] .'?v='. time() .'" alt="'. $itemInfo['product_name'] .'">
 																			</a>
 																			</li>
 																			<li class="link">

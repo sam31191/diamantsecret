@@ -1391,7 +1391,7 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Price</span></td>
 								<td>
 									<div class="table-item">
-										<input id="edit_product_price" name="product_price" type="text" class="form-control" placeholder="Product Price € (<option value="">Select Number)" required pattern="[0-9]{1,}[.,]{1}[0-9]{2,2}" title="Format: 100.00">
+										<input id="edit_product_price" name="product_price" type="text" class="form-control" placeholder="Product Price € (Decimal Number)" required pattern="[0-9]{1,}[.,]{1}[0-9]{2,2}" title="Format: 100.00">
 									</div>
 								</td>
 							</tr>

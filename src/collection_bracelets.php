@@ -319,7 +319,7 @@ pconsole($_POST);
 																			<ul class="row-container list-unstyled clearfix">
 																				<li class="row-left">
 																				<a href="./product.php?view='. $item['unique_key'] .'" class="container_item"style="max-height:100px">
-																				<img src="./images/images_sm/'. $images[0] .'" class="img-responsive" alt="'. $itemInfo['product_name'] .'">
+																				<img src="./images/images_sm/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="'. $itemInfo['product_name'] .'">
 																				</a>
 																				</li>
 																				<li class="row-right parent-fly animMix">
@@ -543,7 +543,7 @@ pconsole($_POST);
 																<ul class="row-container list-unstyled clearfix">
 																	<li class="row-left">
 																	<a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
-																	<img src="./images/images_md/'. $images[0] .'" class="img-responsive img-custom-collection" alt="">
+																	<img src="./images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive img-custom-collection" alt="">
 																	'. $sale .'
 																	</a>
 																	<div class="hbw">
@@ -808,7 +808,7 @@ function quickShop(id) {
 				if ( result['images'] == "" ) {
 					images[0] = "0.png";
 				}	
-				$("#quick-shop-image .main-image img").attr("src", "./images/images_md/" + images[0]);
+				$("#quick-shop-image .main-image img").attr("src", "./images/images_md/" + images[0] + '?v=' + Date.now());
 				
 				//Remove old Thumbs if any
 				var currentThumbs = $(".image-thumb").length;
@@ -818,7 +818,7 @@ function quickShop(id) {
 				}
 				//Item Thumbnals
 				for ( var i = 0; i < images.length-1; i++ ) {
-					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/images_md/'+ images[i] +'" ><img src="./images/images_sm/'+ images[i] +'" alt=""/></a>';
+					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/images_md/'+ images[i] +'?v='+ Date.now() +'" ><img src="./images/images_sm/'+ images[i] +'?v='+ Date.now() +'" alt=""/></a>';
 					//console.log("1 Item Added");
 					$('#gallery_main_qs').owlCarousel().data('owlCarousel').addItem(content);
 					$('.owl-item').toggleClass('show-item');
