@@ -35,7 +35,6 @@ if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
 <div class="alert alert-danger" style="position: fixed; top: 0px; right: 0; margin: 25px; min-width: 250px; min-height: 40px; text-align: center; display: none; z-index: 1000; font-size: 18px;" id="notificationBox"> </div>
 <?php
 include 'conf/config.php';
-include './assets/mail_format/admin_mail.php';
 pconsole($_POST);
 
 #pre
