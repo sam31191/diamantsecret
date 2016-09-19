@@ -157,6 +157,15 @@ if ( isset($_POST['recover']) ) {
 		$mail->setFrom($mailSenderEmail, $mailSenderName);
 		$mail->addAddress($userInfo['email']);
 		$mail->isHTML(true);
+		$mail->smtpConnect(
+		    array(
+		        "ssl" => array(
+		            "verify_peer" => false,
+		            "verify_peer_name" => false,
+		            "allow_self_signed" => true
+		        )
+		    )
+		);
 		$mail->Subject = $testSiteSubject . 'Password Recovery';
 		$mail->Body = $recoveryMail;
 		if ( !$mail->send() ) {
@@ -206,6 +215,15 @@ if ( isset($_GET['recoverHash']) && !empty($_GET['recoverHash']) ) {
 		$mail->setFrom($mailSenderEmail, $mailSenderName);
 		$mail->addAddress($userInfo['email']);
 		$mail->isHTML(true);
+		$mail->smtpConnect(
+		    array(
+		        "ssl" => array(
+		            "verify_peer" => false,
+		            "verify_peer_name" => false,
+		            "allow_self_signed" => true
+		        )
+		    )
+		);
 		$mail->Subject = $testSiteSubject . 'Password Recovery';
 		$mail->Body = $recoveryMail2;
 		if ( !$mail->send() ) {

@@ -303,6 +303,15 @@ if ( isset($_POST['addToCart']) ) {
 			$mail2->setFrom($mailSenderEmail, $mailSenderName);
 			$mail2->addAddress($__ADMINMAIL__);
 			$mail2->isHTML(true);
+			$mail2->smtpConnect(
+			    array(
+			        "ssl" => array(
+			            "verify_peer" => false,
+			            "verify_peer_name" => false,
+			            "allow_self_signed" => true
+			        )
+			    )
+			);
 			$mail2->Subject = $testSiteSubject . 'Enquiry Placed by ' . $_USERNAME;
 			$mail2->Body = $mailToAdmin;
 			if ( !$mail2->send() ) {
@@ -321,6 +330,15 @@ if ( isset($_POST['addToCart']) ) {
 				$mail->setFrom($mailSenderEmail, $mailSenderName);
 				$mail->addAddress($cart['email']);
 				$mail->isHTML(true);
+				$mail->smtpConnect(
+				    array(
+				        "ssl" => array(
+				            "verify_peer" => false,
+				            "verify_peer_name" => false,
+				            "allow_self_signed" => true
+				        )
+				    )
+				);
 				$mail->Subject = $testSiteSubject . 'Enquiry Placed';
 				$mail->Body = $mailToCustomer;
 				if ( !$mail->send() ) {

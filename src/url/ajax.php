@@ -77,6 +77,15 @@ if ( isset($_GET['subscribe']) ) {
 		$mail->setFrom($mailSenderEmail, $mailSenderName);
 		$mail->addAddress($email);
 		$mail->isHTML(true);
+		$mail->smtpConnect(
+		    array(
+		        "ssl" => array(
+		            "verify_peer" => false,
+		            "verify_peer_name" => false,
+		            "allow_self_signed" => true
+		        )
+		    )
+		);
 		$mail->Subject = $testSiteSubject . 'Subscription';
 		$mail->Body = $mailBody;
 		if ( !$mail->send() ) {
@@ -168,6 +177,15 @@ if ( isset($_GET['register']) ) {
 		$mail->setFrom($mailSenderEmail, $mailSenderName);
 		$mail->addAddress($email);
 		$mail->isHTML(true);
+		$mail->smtpConnect(
+		    array(
+		        "ssl" => array(
+		            "verify_peer" => false,
+		            "verify_peer_name" => false,
+		            "allow_self_signed" => true
+		        )
+		    )
+		);
 		$mail->Subject = $testSiteSubject . 'Activation Account';
 
 		#$mailBody = mailVerify($_POST['customer']['username'], "http://www.diamantsecret.com/register.php?verify=".$verifyHash);
