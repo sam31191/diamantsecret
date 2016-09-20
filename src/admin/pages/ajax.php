@@ -1315,7 +1315,7 @@ if ( isset($_GET['importThis']) ) {
 		    )
 		);
 		$mail->Subject = 'Newsletter';
-		$mail->Body = "Greetings, " . urldecode($_POST['content'] . "<hr /><div style='text-align:center;'>If you wish to unsubscribe to our Newsletter, please <a rel='noindex, nofollow' target='_blank' href='http://diamantsecret.com/login.php?unsub=".$getMail['hash']."'>click here</a></div>");
+		$mail->Body = "Greetings, " . urldecode($_POST['content'] . "<hr /><div style='text-align:center;'>If you wish to unsubscribe to our Newsletter, please <a rel='noindex, nofollow' target='_blank' href='". $__MAINDOMAIN__. "login.php?unsub=".$getMail['hash']."'>click here</a></div>");
 		if ( !$mail->send() ) {
 			echo 'Failed';
 		} else {
