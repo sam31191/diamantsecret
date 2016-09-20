@@ -39,6 +39,7 @@ if ( isset($_SESSION['modSession']) ) {
 	    <link href="../assets/custom.min.css" rel="stylesheet">
 	    <link href="../assets/font-awesome.min.css" rel="stylesheet">
 	    <link href="../assets/admin.css" rel="stylesheet">
+		<script src="../../js/jquery-1.12.0.js"></script>
 	  </head>
 	  <body class="nav-md">
 
@@ -56,6 +57,12 @@ if ( isset($_SESSION['modSession']) ) {
 	        	<a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 0px 16px; /* right: 0px; */ position: fixed; display: block; /* float: right; */ margin-left: 700px;" onclick="window.location = './import_excel.php';" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
 	        	</h4><table class='table table-condensed table-custom' style="table-layout: fixed; word-wrap: break-word;"><thead><th style="width: 50px;">#</th><th style="width: 60%;">Entry</th><th>Errors</th></thead><tbody id="resultTable"></tbody></table>
         	</div>
+        </div>
+
+        <!-- Loading Div -->
+        <div style="    position: fixed; width: 100%; height: 100%; z-index: 10; text-align: center; font-size: 22px; font-weight: lighter; display: inline-block; vertical-align: middle; background: rgba(255, 255, 255, 0.85) none repeat scroll 0% 0%; padding: 10%; display:none;" id="loadingDiv">
+        	<img src="./../../images/gfx/cube_lg.gif">
+        	<span style="display:block">Loading your sheet, please be patient...</span>
         </div>
 
 	    <div class="container body" style="background-color:#607d8b;">
@@ -123,9 +130,6 @@ if ( isset($_SESSION['modSession']) ) {
 						        $_SESSION['tmp_file'] = $tmpFile;
 						        $_SESSION['import_company_id'] = $_POST['company_id'];
 
-		        				pconsole($_SESSION);
-		        				pconsole("TEMP:" . $tmpFile);
-
 
 			        			$xlFile = $_FILES['excel']['tmp_name'];
 
@@ -157,7 +161,7 @@ if ( isset($_SESSION['modSession']) ) {
 	                        		$numInvalid = 0;
 
 	                        		for ( $i = 0; $i < sizeof($products) - 1; $i++ ) {
-	                        			pconsole("CATEGORY ". intval($i+2) . " = " . $productSheet->getCell('B'.intval($i+2))->getValue());
+	                        			#pconsole("CATEGORY ". intval($i+2) . " = " . $productSheet->getCell('B'.intval($i+2))->getValue());
 	                        			switch ($productSheet->getCell('B'.intval($i+2))->getValue()) {
 	                        				case 1: {
 	                        					$numRings++;
@@ -206,6 +210,7 @@ if ( isset($_SESSION['modSession']) ) {
 									}
 									echo '</thead>';
 									echo '<tbody>';
+									echo '<script>$("#loadingDiv").show();</script>';
 									for ( $i = 2; $i <= sizeof($products); $i++ ) {
 										echo '<tr>';
 											echo '<td><input class="select-checkbox" type="checkbox" form="bulkManage" id="row_'.$i.'" value="'. $i .'"></td>';
@@ -223,6 +228,8 @@ if ( isset($_SESSION['modSession']) ) {
 										}
 										echo '</tr>';
 									}
+
+									echo '<script>$("#loadingDiv").hide();</script>';
 									echo '</tbody>';
 									echo '</table>';
 								}
@@ -511,5 +518,3 @@ function downloadFormat() {
 	    </div>
 	  </div>
 	</div>
-
-	<?php pconsole($_FILES); ?>

@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `cart` varchar(128) NOT NULL,
   `activated` int(11) NOT NULL,
   `verification_hash` varchar(128) NOT NULL,
+  `recover_hash` varchar(128) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Email` (`email`,`username`)
 ) ENGINE=InnoDB;
