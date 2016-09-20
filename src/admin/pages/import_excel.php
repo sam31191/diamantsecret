@@ -81,13 +81,17 @@ if ( isset($_SESSION['modSession']) ) {
 	        <!-- page content -->
 	        <div class="right_col" role="main">
 	        <h3>Import via Excel</h3>
-	        	<form method="post" enctype="multipart/form-data">
+	        <?php
+	        $checkCompanies = $pdo->prepare("SELECT * FROM `company_id`");
+	        $checkCompanies->execute();
+
+	        if ( $checkCompanies->rowCount() > 0 ) {
+	        	echo '<form method="post" enctype="multipart/form-data">
 	        		<table>
 	        			<tr>
 	        				<td>
 	        					<select class="select-style" name="company_id" title="Select the Client" required>
-				        			<option value="">Select Company</option>
-				        			<?php
+				        			<option value="">Select Company</option>';
 			                        $getCompanies = $pdo->prepare("SELECT * FROM `company_id`");
 			                        $getCompanies->execute();
 
@@ -98,8 +102,8 @@ if ( isset($_SESSION['modSession']) ) {
 			                        } else {
 			                        	echo '<option value="0">N/A</option>';
 			                        }
-				        			?>
-				        		</select>
+
+				        		echo '</select>
 	        				</td>
 	        				<td>
 				        		<input type="file" name="excel" style="border-bottom: none;" required>
@@ -109,7 +113,12 @@ if ( isset($_SESSION['modSession']) ) {
 	        				</td>
 	        			</tr>
 	        		</table>
-	        	</form>
+	        	</form>';
+	        } else {
+	        	echo '<div class="alert alert-info" style="display: inline-block;"> Please add a supplier prior to importing </div>';
+	        }
+	        ?>
+	        	
 	        	<div  style="border:solid thin #ccc; padding:5px; margin:5px;">
 	        		<h4></h4>
 	        		<a class="btn btn-custom" href="javascript:void(0);" onclick="downloadFormat()" style="float: right; margin-top: -60px;">Download Excel Format</a><a style="display:none;" href="./../assets/format.xlsx" id="downloadFormatStub"></a>
@@ -140,98 +149,113 @@ if ( isset($_SESSION['modSession']) ) {
 		        				}
 		        				//echo var_dump($_FILES['excel']['type']);
 
+		        				$excelReader = PHPExcel_IOFactory::createReader('Excel2007');
+		        				$sheetData = $excelReader->listWorksheetInfo($xlFile);
 
-								$PHPExcel = PHPExcel_IOFactory::load($xlFile);
+		        				$productSheetExists = false;
+		        				$productSheetSize = 0;
 
+		        				foreach ($sheetData as $sheet ) {
+		        					if ( $sheet['worksheetName'] == "products" ) {
+		        						$productSheetExists = true;
+		        						$productSheetSize = $sheet['totalRows'];
+		        						pconsole($sheet);
+		        					} 
+		        				}
 								//$xl = $PHPExcel->getActiveSheet()->toArray(null, true, true, true);
 
-								$productSheet = $PHPExcel->getSheetByName('products');
-								if ( is_null($productSheet) ) {
+								if ( !$productSheetExists ) {
 									echo "Sheet not found";
 								} else {
-									$products = $productSheet->toArray(null, true, true, true);
+									if ( $productSheetSize <= '2001' ) {
+										pconsole("Entered loading phase");
+										$PHPExcel = PHPExcel_IOFactory::load($xlFile);
+										$productSheet = $PHPExcel->getSheetByName('products');
+										$products = $productSheet->toArray(null, true, true, true);
+		                        		pconsole("TEST: ". $productSheet->getHighestRow());
 
-	                        		pconsole("TEST: ". sizeof($products));
+		                        		$numRings = 0;
+		                        		$numEarrings = 0;
+		                        		$numNecklaces = 0;
+		                        		$numPendants = 0;
+		                        		$numBracelets = 0;
+		                        		$numInvalid = 0;
 
-	                        		$numRings = 0;
-	                        		$numEarrings = 0;
-	                        		$numNecklaces = 0;
-	                        		$numPendants = 0;
-	                        		$numBracelets = 0;
-	                        		$numInvalid = 0;
+		                        		for ( $i = 0; $i < sizeof($products) - 1; $i++ ) {
+		                        			#pconsole("CATEGORY ". intval($i+2) . " = " . $productSheet->getCell('B'.intval($i+2))->getValue());
+		                        			switch ($productSheet->getCell('B'.intval($i+2))->getValue()) {
+		                        				case 1: {
+		                        					$numRings++;
+		                        					break;
+		                        				} case 2: {
+		                        					$numEarrings++;
+		                        					break;
+		                        				} case 3: {
+		                        					$numPendants++;
+		                        					break;
+		                        				} case 4: {
+		                        					$numNecklaces++;
+		                        					break;
+		                        				} case 5: {
+		                        					$numBracelets++;
+		                        					break;
+		                        				} default: {
+		                        					$numInvalid++;
+		                        					break;
+		                        				}
+		                        			}
+		                        		}
 
-	                        		for ( $i = 0; $i < sizeof($products) - 1; $i++ ) {
-	                        			#pconsole("CATEGORY ". intval($i+2) . " = " . $productSheet->getCell('B'.intval($i+2))->getValue());
-	                        			switch ($productSheet->getCell('B'.intval($i+2))->getValue()) {
-	                        				case 1: {
-	                        					$numRings++;
-	                        					break;
-	                        				} case 2: {
-	                        					$numEarrings++;
-	                        					break;
-	                        				} case 3: {
-	                        					$numPendants++;
-	                        					break;
-	                        				} case 4: {
-	                        					$numNecklaces++;
-	                        					break;
-	                        				} case 5: {
-	                        					$numBracelets++;
-	                        					break;
-	                        				} default: {
-	                        					$numInvalid++;
-	                        					break;
-	                        				}
-	                        			}
-	                        		}
+		                        		echo '
+							        	<div style="float:right;">
+							        		<button class="btn btn-info" onclick="importAll(\''. $timeToken .'\')">Import All</button>
+							        		<button class="btn btn-info" onclick="importThis(\''. $timeToken .'\')">Import Selected (<span class="selected-num">0</span>)</button>
+							        	</div>';
 
-	                        		echo '
-						        	<div style="float:right;">
-						        		<button class="btn btn-info" onclick="importAll(\''. $timeToken .'\')">Import All</button>
-						        		<button class="btn btn-info" onclick="importThis(\''. $timeToken .'\')">Import Selected (<span class="selected-num">0</span>)</button>
-						        	</div>';
+										if ( isset($_SESSION['import_company_id']) ) {
+		                        			echo '<div style="margin: 10px;"><label>Client: '. getCompany($_SESSION['import_company_id'], $pdo) .'</label><br>
+		                        			<label class="label label-warning label-custom">Total: '. intval(sizeof($products)-1) .'</label>
+		                        			<label class="label label-info label-custom">Rings: '. $numRings .'</label>
+		                        			<label class="label label-info label-custom">Earrings: '. $numEarrings .'</label>
+		                        			<label class="label label-info label-custom">Pendants: '. $numPendants .'</label>
+		                        			<label class="label label-info label-custom">Necklaces: '. $numNecklaces .'</label>
+		                        			<label class="label label-info label-custom">Bracelets: '. $numBracelets .'</label>
+		                        			<label class="label label-danger label-custom">Invalid Entries: '. $numInvalid .'</label></div>';
+		                        		} 
 
-									if ( isset($_SESSION['import_company_id']) ) {
-	                        			echo '<div style="margin: 10px;"><label>Client: '. getCompany($_SESSION['import_company_id'], $pdo) .'</label><br>
-	                        			<label class="label label-warning label-custom">Total: '. intval(sizeof($products)-1) .'</label>
-	                        			<label class="label label-info label-custom">Rings: '. $numRings .'</label>
-	                        			<label class="label label-info label-custom">Earrings: '. $numEarrings .'</label>
-	                        			<label class="label label-info label-custom">Pendants: '. $numPendants .'</label>
-	                        			<label class="label label-info label-custom">Necklaces: '. $numNecklaces .'</label>
-	                        			<label class="label label-info label-custom">Bracelets: '. $numBracelets .'</label>
-	                        			<label class="label label-danger label-custom">Invalid Entries: '. $numInvalid .'</label></div>';
-	                        		} 
-
-									echo '<table class="table table-hover table-custom table-custom-items">';
-									echo '<thead>';
-									echo '<th><input id="masterCheckbox" type="checkbox" onClick="selectAll(this)"></th>';
-									foreach ( $products[1] as $column ) {
-										echo '<th>'. $column .'</th>';
-									}
-									echo '</thead>';
-									echo '<tbody>';
-									echo '<script>$("#loadingDiv").show();</script>';
-									for ( $i = 2; $i <= sizeof($products); $i++ ) {
-										echo '<tr>';
-											echo '<td><input class="select-checkbox" type="checkbox" form="bulkManage" id="row_'.$i.'" value="'. $i .'"></td>';
-										for ( $j = 'A'; $j <= 'V'; $j++ ) {
-											//pconsole($products[$i][$j]);
-											if ( $j == 'U' ) {
-												$importRowImages = explode(",", $products[$i][$j]);
-												$listImages = "";
-												foreach ( $importRowImages as $image ) {
-													$listImages .= '<li><a href=\"'. trim($image) .'\" target=\"_blank\">'. $image .'</a></li>';
-												}
-												$products[$i][$j] = "<button class='btn btn-custom btn-sm' onClick=' $(\"#imageModalBody\").html(\"". $listImages ."\"); $(\"#promptShowImages\").modal(\"toggle\");'>" . sizeof($importRowImages) . " image(s) </button>";
-											}
-											echo '<td>'. $products[$i][$j] .'</td>';
+										echo '<table class="table table-hover table-custom table-custom-items">';
+										echo '<thead>';
+										echo '<th><input id="masterCheckbox" type="checkbox" onClick="selectAll(this)"></th>';
+										foreach ( $products[1] as $column ) {
+											echo '<th>'. $column .'</th>';
 										}
-										echo '</tr>';
-									}
+										echo '</thead>';
+										echo '<tbody>';
+										echo '<script>$("#loadingDiv").show();</script>';
+										for ( $i = 2; $i <= sizeof($products); $i++ ) {
+											echo '<tr>';
+												echo '<td><input class="select-checkbox" type="checkbox" form="bulkManage" id="row_'.$i.'" value="'. $i .'"></td>';
+											for ( $j = 'A'; $j <= 'V'; $j++ ) {
+												//pconsole($products[$i][$j]);
+												if ( $j == 'U' ) {
+													$importRowImages = explode(",", $products[$i][$j]);
+													$listImages = "";
+													foreach ( $importRowImages as $image ) {
+														$listImages .= '<li><a href=\"'. trim($image) .'\" target=\"_blank\">'. $image .'</a></li>';
+													}
+													$products[$i][$j] = "<button class='btn btn-custom btn-sm' onClick=' $(\"#imageModalBody\").html(\"". $listImages ."\"); $(\"#promptShowImages\").modal(\"toggle\");'>" . sizeof($importRowImages) . " image(s) </button>";
+												}
+												echo '<td>'. $products[$i][$j] .'</td>';
+											}
+											echo '</tr>';
+										}
 
-									echo '<script>$("#loadingDiv").hide();</script>';
-									echo '</tbody>';
-									echo '</table>';
+										echo '<script>$("#loadingDiv").hide();</script>';
+										echo '</tbody>';
+										echo '</table>';
+									} else {
+		        						echo '<div class="alert alert-error" style="font-variant:small-caps;">Maximum entries per excel file exceeded. You have '. (intval($productSheetSize) - 1) .' entries. <br>Maximum allowed for performance reasons is 2000</div>';
+									}
 								}
 		        			} else {
 		        				echo '<div class="alert alert-error" style="font-variant:small-caps;">Error: File not valid</div>';
