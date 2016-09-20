@@ -16,24 +16,24 @@
 	$mailPassword = "contact@123";
 	$mailSenderEmail = "contact@diamantsecret.com";
 	$mailSenderName = "Diamant Secret";
-	$__ADMINMAIL__ = "contact@diamantsecret.com";
+	$__ADMINMAIL__ = "ryan.bhanwra@gmail.com";
 	$__ADMINNAME__ = "Admin";
-	$__MAINDOMAIN__ = "www.diamantsecret.com/";
+	$__MAINDOMAIN__ = "http://localhost/git/diamweb/src/";
+	#$__MAINDOMAIN__ = "http://www.diamantsecret.com/";
 	
 	
 	/* Test site options */
 	$testSite = false;
 	$__TESTSITEPREFIX__ = "[Test Site] ";
-	$__TESTSITEDOMAIN__ = "www.testsite.diamantsecret.com";
+	$__TESTSITEDOMAIN__ = "http://localhost/git/diamweb/src/testsite/";
+
+	if ( $testSite ) {
+		$__MAINDOMAIN__ = $__TESTSITEDOMAIN__;
+	}
 
 	
 	/* Other changes */
 	// - Update $rootPath in __php__.php file
-
-
-	if ( session_status() == PHP_SESSION_NONE ) {
-		session_start();
-	}
 
 	try{
 		$pdo = new PDO("mysql:host=$host; dbname=$dbname", $user, $pass);
