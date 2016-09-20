@@ -3,9 +3,6 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
 include 'conf/config.php';
-
-$__DOMAIN__ = $testSite?$__TESTSITEDOMAIN__:$__MAINDOMAIN__;
-
 if ( isset($_POST['login']['username']) ) {
 	$checkUser = $pdo->prepare("SELECT `username`, `activated` FROM `accounts` WHERE `username` = :user");
 	$checkUser->execute(array(":user" => $_POST['login']['username']));
@@ -142,8 +139,8 @@ if ( isset($_POST['recover']) ) {
 
 		$recoveryMail = file_get_contents('./conf/mail_formats/password_recovery_request.html');
 		$recoveryMail = str_replace("__CLIENT__", $userInfo['username'], $recoveryMail);
-		$recoveryMail = str_replace("__RECOVERURL__", $__DOMAIN__ . 'login.php?recoverHash='. $recoverHash, $recoveryMail);
-		$recoveryMail = str_replace("__MAINDOMAIN__", $__DOMAIN__, $recoveryMail);
+		$recoveryMail = str_replace("__RECOVERURL__", $__MAINDOMAIN__ . 'login.php?recoverHash='. $recoverHash, $recoveryMail);
+		$recoveryMail = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $recoveryMail);
 
 
 		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
@@ -201,7 +198,7 @@ if ( isset($_GET['recoverHash']) && !empty($_GET['recoverHash']) ) {
 		$recoveryMail2 = file_get_contents('./conf/mail_formats/password_recovery.html');
 		$recoveryMail2 = str_replace("__CLIENT__", $userInfo['username'], $recoveryMail2);
 		$recoveryMail2 = str_replace("__NEWPASS__", $newPass, $recoveryMail2);
-		$recoveryMail2 = str_replace("__MAINDOMAIN__", $__DOMAIN__, $recoveryMail2);
+		$recoveryMail2 = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $recoveryMail2);
 
 
 		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
