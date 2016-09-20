@@ -61,8 +61,8 @@ if ( isset($_SESSION['modSession']) ) {
 
         <!-- Loading Div -->
         <div style="    position: fixed; width: 100%; height: 100%; z-index: 10; text-align: center; font-size: 22px; font-weight: lighter; display: inline-block; vertical-align: middle; background: rgba(255, 255, 255, 0.85) none repeat scroll 0% 0%; padding: 10%; display:none;" id="loadingDiv">
-        	<img src="./../../images/gfx/cube_lg.gif">
-        	<span style="display:block">Loading your sheet, please be patient...</span>
+        	<img src="./../../images/gfx/cube_lg.gif" height="100" width="100">
+        	<span style="display:block">Loading, please wait..</span>
         </div>
 
 	    <div class="container body" style="background-color:#607d8b;">
