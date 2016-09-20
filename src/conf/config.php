@@ -24,7 +24,7 @@
 	/* Test site options */
 	$testSite = false;
 	$__TESTSITEPREFIX__ = "[Test Site] ";
-	$__TESTSITEDOMAIN__ = "www.testsite.diamantsecret.com";
+	$__TESTSITEDOMAIN__ = "www.diamantsecret.com/testsite/";
 
 	
 	/* Other changes */

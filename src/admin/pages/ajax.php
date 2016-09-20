@@ -13,6 +13,8 @@ include '../../conf/config.php';
 /** Include path **/
 set_include_path(get_include_path() . PATH_SEPARATOR . '../PHPExcel/PHPExcel/');
 
+$__DOMAIN__ = $testSite?$__TESTSITEDOMAIN__:$__MAINDOMAIN__;
+
 /** PHPExcel_IOFactory */
 include '../PHPExcel/PHPExcel/IOFactory.php';
 if ( isset($_GET['importThis']) ) {
@@ -1033,7 +1035,7 @@ if ( isset($_GET['importThis']) ) {
 
 		foreach ( $imgArray as $img ) {
 			if ( !empty($img) ) {
-				$numImg .= $__MAINDOMAIN__ . "images/" . $img . ",";
+				$numImg .= $__DOMAIN__ . "images/" . $img . ",";
 			}
 		}
 
@@ -1189,7 +1191,7 @@ if ( isset($_GET['importThis']) ) {
 
 		foreach ( $imgArray as $img ) {
 			if ( !empty($img) ) {
-				$numImg .=  $__MAINDOMAIN__ . "images/" . $img . ",";
+				$numImg .=  $__DOMAIN__ . "images/" . $img . ",";
 			}
 		}
 
@@ -1315,7 +1317,7 @@ if ( isset($_GET['importThis']) ) {
 		    )
 		);
 		$mail->Subject = 'Newsletter';
-		$mail->Body = "Greetings, " . urldecode($_POST['content'] . "<hr /><div style='text-align:center;'>If you wish to unsubscribe to our Newsletter, please <a rel='noindex, nofollow' target='_blank' href='http://diamantsecret.com/login.php?unsub=".$getMail['hash']."'>click here</a></div>");
+		$mail->Body = "Greetings, " . urldecode($_POST['content'] . "<hr /><div style='text-align:center;'>If you wish to unsubscribe to our Newsletter, please <a rel='noindex, nofollow' target='_blank' href='http://$__DOMAIN__/login.php?unsub=".$getMail['hash']."'>click here</a></div>");
 		if ( !$mail->send() ) {
 			echo 'Failed';
 		} else {

@@ -4,6 +4,8 @@ if ( session_status() == PHP_SESSION_NONE ) {
 }
 include './../conf/config.php';
 
+$__DOMAIN__ = $testSite?$__TESTSITEDOMAIN__:$__MAINDOMAIN__;
+
 if ( isset($_GET['addtoFav'])) {
 	if ( !$_SESSION['loggedIn'] ) {
 		die();
@@ -56,8 +58,8 @@ if ( isset($_GET['subscribe']) ) {
 		require './PHPMailerAutoload.php';
 
 		$mailBody = file_get_contents('./../conf/mail_formats/subscription_email.html');
-		$mailBody = str_replace("__UNSUBURL__", $__MAINDOMAIN__ . 'login.php?unsub=' . $hash, $mailBody);
-		$mailBody = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $mailBody);
+		$mailBody = str_replace("__UNSUBURL__", $__DOMAIN__ . 'login.php?unsub=' . $hash, $mailBody);
+		$mailBody = str_replace("__MAINDOMAIN__", $__DOMAIN__, $mailBody);
 
 		if ( $testSite ) {
 			$testSiteSubject = $__TESTSITEPREFIX__;
@@ -161,7 +163,7 @@ if ( isset($_GET['register']) ) {
 		$mailBody = str_replace("__CLIENT__", $_POST['customer']['username'], $mailBody);
 		$mailBody = str_replace("__VERIFICATIONHASH__", $verifyHash, $mailBody);
 		$mailBody = str_replace("__USERNAME__", $_POST['customer']['username'], $mailBody);
-		$mailBody = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $mailBody);
+		$mailBody = str_replace("__MAINDOMAIN__", $__DOMAIN__, $mailBody);
 
 		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
 
@@ -188,7 +190,7 @@ if ( isset($_GET['register']) ) {
 		);
 		$mail->Subject = $testSiteSubject . 'Activation Account';
 
-		#$mailBody = mailVerify($_POST['customer']['username'], "http://www.diamantsecret.com/register.php?verify=".$verifyHash);
+		#$mailBody = mailVerify($_POST['customer']['username'], "http://$__DOMAIN__/register.php?verify=".$verifyHash);
 		$mail->Body = $mailBody;
 		if ( !$mail->send() ) {
 			$alert = "Invalid Email";

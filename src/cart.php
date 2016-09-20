@@ -41,6 +41,7 @@ pconsole($_POST);
 $subtotalMain = 0;
 $youSave = 0;
 
+$__DOMAIN__ = $testSite?$__TESTSITEDOMAIN__:$__MAINDOMAIN__;
 
 if ( isset($_POST['addToCart']) ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
@@ -179,7 +180,7 @@ if ( isset($_POST['addToCart']) ) {
 								$total = ($price + ( ($vat['vat'] / 100) * $price ) ) * $itemQuantity;
 								$orderedItemsAdmin .= '<tr>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.trim(getCategory($itemInfo['category'],$pdo), "s").'</td>
-											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;"><a href="'. $__MAINDOMAIN__ .'product.php?view='. $itemInfo['unique_key'] .'">'.$itemInfo['item_name'].'</a></td>
+											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;"><a href="'. $__DOMAIN__ .'product.php?view='. $itemInfo['unique_key'] .'">'.$itemInfo['item_name'].'</a></td>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'. $size .'</td>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.getDiamondShape($itemInfo2['diamond_shape'],$pdo).'</td>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.getMaterial($itemInfo2['material'],$pdo).'</td>
@@ -194,7 +195,7 @@ if ( isset($_POST['addToCart']) ) {
 										</tr>';
 								$orderedItems .= '<tr>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.trim(getCategory($itemInfo['category'],$pdo), "s").'</td>
-											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;"><a href="'. $__MAINDOMAIN__ .'product.php?view='. $itemInfo['unique_key'] .'">'.$itemInfo['item_name'].'</a></td>
+											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;"><a href="'. $__DOMAIN__ .'product.php?view='. $itemInfo['unique_key'] .'">'.$itemInfo['item_name'].'</a></td>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'. $size .'</td>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.getMaterial($itemInfo2['material'], $pdo).'</td>
 											<td style="border: none;font-variant: small-caps;padding: 3px;text-align:center;">'.getDiamondShape($itemInfo2['diamond_shape'], $pdo).'</td>
@@ -258,7 +259,7 @@ if ( isset($_POST['addToCart']) ) {
 			$mailToAdmin = str_replace("__TOTAL__", "€".number_format($subtotal, 2, ".", ""), $mailToAdmin);
 			$mailToAdmin = str_replace("__CLIENTMAIL__", $cart['email'], $mailToAdmin);
 			$mailToAdmin = str_replace("__SUPPLIERS__", $suppliers, $mailToAdmin);
-			$mailToAdmin = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $mailToAdmin);
+			$mailToAdmin = str_replace("__MAINDOMAIN__", $__DOMAIN__, $mailToAdmin);
 
 			if ( !empty($cart['mobileno']) ) {
 				$mailToAdmin = str_replace("__CLIENTPHONE__", $cart['mobileno'], $mailToAdmin);
@@ -279,7 +280,7 @@ if ( isset($_POST['addToCart']) ) {
 			$mailToCustomer = str_replace("__USERNAME__", $_SESSION['username'], $mailToCustomer);
 			$mailToCustomer = str_replace("__TOTAL__", "€". number_format($subtotal, 2, ".", ""), $mailToCustomer);
 			$mailToCustomer = str_replace("__SAVINGS__", "€". number_format($savings, 2, ".", ""), $mailToCustomer);
-			$mailToCustomer = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $mailToCustomer);
+			$mailToCustomer = str_replace("__MAINDOMAIN__", $__DOMAIN__, $mailToCustomer);
 			//echo $mailToAdmin;
 			#pconsole($mailToCustomer);
 
