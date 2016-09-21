@@ -386,7 +386,7 @@ function importAll(timeToken){
 function checkQ(timeToken) {
 	console.log("Total: " + ajaxQ.length);
 	console.log("Current: " + currentAjax);
-	if ( currentAjax < ajaxQ.length ) {
+	if ( ajaxQ.length > 0 ) {
 		console.log("Running Query: " + currentAjax);
 		$.ajax({
 			url: './ajax.php?checkToken=' + timeToken,
