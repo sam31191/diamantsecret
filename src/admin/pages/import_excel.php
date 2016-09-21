@@ -55,7 +55,7 @@ if ( isset($_SESSION['modSession']) ) {
         <div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 400px; margin-left: -400px; margin-top: -200px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
 	        	<h4><div class='alert alert-info' style="position: fixed;" id="alertDiv">Importing <span id="importedItems">0</span>/<span id="totalItems">0</span></div>
 	        	<a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 0px 16px; /* right: 0px; */ position: fixed; display: block; /* float: right; */ margin-left: 700px;" onclick="window.location = './import_excel.php';" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
-	        	</h4><table class='table table-condensed table-custom' style="table-layout: fixed; word-wrap: break-word;"><thead><th style="width: 50px;">#</th><th style="width: 60%;">Entry</th><th>Errors</th></thead><tbody id="resultTable"></tbody></table>
+	        	</h4><table class='table table-condensed table-custom' style="table-layout: fixed; word-wrap: break-word;"><thead><th style="width: 50px;">#</th><th style="width: 60%;">Entry</th><th>Images</th><th>Errors</th></thead><tbody id="resultTable"></tbody></table>
         	</div>
         </div>
 
@@ -343,6 +343,7 @@ function bulkRemoveItems() {
 var currentAjax = 0;
 var ajaxQ = [];
 
+
 function importThis(timeToken){
 	
 	count = 0;
@@ -362,7 +363,9 @@ function importThis(timeToken){
 		}
 	});
 
-	checkQ(currentAjax);
+	console.log(ajaxQ);
+
+	checkQ(timeToken);
 }
 
 function importAll(timeToken){
@@ -393,7 +396,8 @@ function checkQ(timeToken) {
 			type: 'GET',
 			success: function(result){
 				if ( result == 1 ) {
-					importAjax(ajaxQ[currentAjax], currentAjax, timeToken);
+					//importAjax(ajaxQ[currentAjax], currentAjax, timeToken);
+					importAjaxEntries(ajaxQ.join("-"), timeToken);
 				} else {
 					$('#resultDiv').html("<h4>Import Failure</h4><br><h5>File you tried to import from has been tampered with. You either have another window open with the same task or the Session has expired, please reload the page to continue.</h5><a href=\"javascript:void(0);\" id=\"uploadDivCloseIcon\" class=\"btn btn-danger\" style=\"font-size: 20px; margin: 0px 16px;\" onclick=\"window.location = './import_excel.php';\" data-toggle=\"tooltip\" data-placement=\"bottom\">Reload Page</a>");
 
@@ -404,6 +408,73 @@ function checkQ(timeToken) {
 	} else {
 		console.log("Ending at: " + currentAjax);
 	}
+}
+var imageArray = new Array();
+var imageCount = 0;
+function importAjaxEntries ( entries, timeToken ) {
+	$.ajax({
+		url: './ajax.php?importEntries=&timeToken=' + timeToken,
+		data: {
+			"entries" : entries
+		},
+		type: 'POST',
+	    beforeSend: function() {
+	    	$('#uploadDiv').show();
+	    	$('#uploadDivCloseIcon').hide();
+	    	$('#resultTable').append('<tr><td>-</td><td>Loading</td><td><img style="width:24px" src="../../images/gfx/cube.gif"></td></tr>');
+    	
+	    },
+	    complete: function () {
+
+	    },
+	    success: function (result) {
+	    	result = JSON.parse(result);
+	    	$("#resultTable").html(result[0]);
+	    	imageArray = result[1];
+	    	console.log(imageArray);
+
+	    	processImages(imageArray[imageCount]);
+	    }
+	});
+}
+
+function processImages(images) {
+	if ( imageCount < ajaxQ.length ) {
+		console.log("Adding Image: " + imageCount);
+		addImage(images['images'], images['key']);
+	}
+
+}
+
+function addImage(images, key) {
+	$.ajax({
+		url: './ajax.php?addImages=' + key,
+		data: {
+			"images": images
+		},
+		type: "POST",
+		beforeSend: function() {
+			$("#row_image_" + key).text("Processing-..");
+		},
+		complete: function() {
+			$('#importedItems').text(parseInt($('#importedItems').text()) + 1);
+	    	if ( $('#totalItems').text() == $('#importedItems').text() ) {
+		    	$('#uploadDivCloseIcon').show();
+		    	$('#alertDiv').removeClass("alert-info");
+		    	$('#alertDiv').addClass("alert-success");
+		    	$('#alertDiv').html("Import Complete!");
+		    }
+			imageCount++;
+			processImages(imageArray[imageCount]);
+		},
+		success: function ( result ) {
+			$("#row_image_" + key).html(result);
+			if ( result !== '<span class="fa fa-check" style="color:green;"></span>' ) {
+				$("#row_image_" + key).attr("style", "background:#EF9A9A;")
+			} 
+			console.log(result);
+		}
+	});
 }
 
 function importAjax (id, index, timeToken) {
@@ -426,8 +497,8 @@ function importAjax (id, index, timeToken) {
 		    }
 			console.log("Finished Query: " + index);
 
-			currentAjax++;
-			checkQ(timeToken);
+			//currentAjax++;
+			//checkQ(timeToken);
 
 	    },
 		success: function(result) {

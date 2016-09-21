@@ -151,6 +151,11 @@ if ( isset($_GET['importThis']) ) {
 						$uniqueKey = generateUniqueKey();
 					}
 
+					#Working around not null description attribute
+					if ( empty($products[$i]['V']) ) {
+						$products[$i]['V'] = "-";
+					}
+
 					$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, NOW())");
 						$addItem->execute(array(
 							":unique_key" => $uniqueKey,
@@ -362,69 +367,72 @@ if ( isset($_GET['importThis']) ) {
 					$images = "";
 					$imageArray = explode(",", 	$products[$i]['U']);
 
-					for ( $j = 0; $j < sizeof($imageArray); $j++ ) {
-						$url = trim($imageArray[$j]);
 
-						$ext = explode(".", $url);
-						$ext =  '.' . $ext[sizeof($ext)-1];
-						$count = 0;
-						$img = '../../images/images/'. $imgName . '_' . $itemID .'_' . $count . $ext;
-						$img_md = '../../images/images_md/'. $imgName . '_' . $itemID .'_' . $count . $ext;
-						$img_sm = '../../images/images_sm/'. $imgName . '_' . $itemID .'_' . $count . $ext;
-						while ( file_exists($img) ) {
-							$count++;
+					if ( !empty($products[$i]['U']) ) {
+						for ( $j = 0; $j < sizeof($imageArray); $j++ ) {
+							$url = trim($imageArray[$j]);
+
+							$ext = explode(".", $url);
+							$ext =  '.' . $ext[sizeof($ext)-1];
+							$count = 0;
 							$img = '../../images/images/'. $imgName . '_' . $itemID .'_' . $count . $ext;
 							$img_md = '../../images/images_md/'. $imgName . '_' . $itemID .'_' . $count . $ext;
 							$img_sm = '../../images/images_sm/'. $imgName . '_' . $itemID .'_' . $count . $ext;
-						}
-
-						$image_dir = "../../images/";
-
-						if ( !is_dir($image_dir . 'images/') ) {
-							mkdir($image_dir . 'images/');
-						}
-						if ( !is_dir($image_dir . 'images_md/') ) {
-							mkdir($image_dir . 'images_md/');
-						}
-						if ( !is_dir($image_dir . 'images_sm/') ) {
-							mkdir($image_dir . 'images_sm/');
-						}
-						
-
-
-						$ch=curl_init();
-						$timeout=30;
-
-						curl_setopt($ch, CURLOPT_URL, $url);
-						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-						curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-						curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-						$inputImg=curl_exec($ch);
-						$curlError = curl_error($ch);
-						$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-						curl_close($ch);
-
-						if ( empty($curlError) ) {
-							if ( strpos($contentType, "image/") === false ) {
-								$intError .= 'Invalid Image: ' . $url . '<br>';
-							} else {
-								file_put_contents($img, $inputImg);
-								create_thumb($img, 600, 600, $img_md);
-								create_thumb($img, 200, 200, $img_sm);
-								$images .= basename($img) . ",";
+							while ( file_exists($img) ) {
+								$count++;
+								$img = '../../images/images/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+								$img_md = '../../images/images_md/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+								$img_sm = '../../images/images_sm/'. $imgName . '_' . $itemID .'_' . $count . $ext;
 							}
-						} else {
-							if ( strstr($curlError, "Connection timed out") ) {
-								$intError .= 'Image took too long to download: ' . $url . '<br>' ;
-							} else if ( strstr($curlError, "malformed" ) ) {
-								$intError .= "Invalid Image URL";
+
+							$image_dir = "../../images/";
+
+							if ( !is_dir($image_dir . 'images/') ) {
+								mkdir($image_dir . 'images/');
+							}
+							if ( !is_dir($image_dir . 'images_md/') ) {
+								mkdir($image_dir . 'images_md/');
+							}
+							if ( !is_dir($image_dir . 'images_sm/') ) {
+								mkdir($image_dir . 'images_sm/');
+							}
+							
+
+
+							$ch=curl_init();
+							$timeout=30;
+
+							curl_setopt($ch, CURLOPT_URL, $url);
+							curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+							curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+							curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+							$inputImg=curl_exec($ch);
+							$curlError = curl_error($ch);
+							$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+							curl_close($ch);
+
+							if ( empty($curlError) ) {
+								if ( strpos($contentType, "image/") === false ) {
+									$intError .= 'Invalid Image: ' . $url . '<br>';
+								} else {
+									file_put_contents($img, $inputImg);
+									create_thumb($img, 600, 600, $img_md);
+									create_thumb($img, 200, 200, $img_sm);
+									$images .= basename($img) . ",";
+								}
 							} else {
-								$intError .= $curlError . '<br>' ;
+								if ( strstr($curlError, "Connection timed out") ) {
+									$intError .= 'Image took too long to download: ' . $url . '<br>' ;
+								} else if ( strstr($curlError, "malformed" ) ) {
+									$intError .= "Invalid Image URL";
+								} else {
+									$intError .= $curlError . '<br>' ;
+								}
 							}
 						}
-
-
+					} else {
+						$intError .= "No Image Found";
 					}
 
 					switch ($products[$i]['B']) {
@@ -474,6 +482,489 @@ if ( isset($_GET['importThis']) ) {
 		echo "Error: File ". $_SESSION['tmp_file'] ." Invalid";
 	}
 
+} else if ( isset($_GET['importEntries']) ) {
+	if ( file_exists($_SESSION['tmp_file']) ) {
+		$xlFile = $_SESSION['tmp_file'];
+		$PHPExcel = PHPExcel_IOFactory::load($xlFile);
+
+		//$xl = $PHPExcel->getActiveSheet()->toArray(null, true, true, true);
+
+		$productSheet = $PHPExcel->getSheetByName('products');
+		if ( is_null($productSheet) ) {
+			echo "Sheet not found";
+		} else {
+			$products = $productSheet->toArray(null, true, true, true);
+			//$toAdd = explode("_", $_GET['importThis']);
+
+			$error = "";
+
+			if ( strpos($xlFile, $_GET['timeToken']) !== false ) {
+				
+			} else {
+				$error = "Invalid Session File / You either have another window open with the same task or the Session has expired <br> Please refresh or continue on the other window";
+			}
+
+			if ( sizeof($products[1]) !== 22 ) {
+				echo '<h4><div class="alert alert-error">Invalid Excel Format</div></h4><p>Please download the defined Excel Format and use that to input entries.</p><br><br><br><br>
+				<a class="btn btn-custom"onclick="downloadFormat()">Download Format</a>';
+				return;
+			}
+
+			if ( !isset($products[1]['A']) || $products[1]['A'] !== "Company Id" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['A'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['B']) || $products[1]['B'] !== "Category Id" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['B'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['C']) || $products[1]['C'] !== "Internal Id" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['C'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['D']) || $products[1]['D'] !== "Product Name"){
+				$error .= "Invalid Column: <strong>" . $products[1]['D'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['E']) || $products[1]['E'] !== "Amount" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['E'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['F']) || $products[1]['F'] !== "Discount Percent" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['F'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['G']) || $products[1]['G'] !== "Pieces in stock" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['G'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['H']) || $products[1]['H'] !== "Days for shipment" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['H'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['I']) || $products[1]['I'] !== "Total carat weight" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['I'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['J']) || $products[1]['J'] !== "No. of stones" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['J'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['K']) || $products[1]['K'] !== "Diamond Shape" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['K'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['L']) || $products[1]['L'] !== "Clarity" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['L'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['M']) || $products[1]['M'] !== "Color" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['M'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['N']) || $products[1]['N'] !== "Material" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['N'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['O']) || $products[1]['O'] !== "Height" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['O'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['P']) || $products[1]['P'] !== "Width" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['P'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['Q']) || $products[1]['Q'] !== "Length" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['Q'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['R']) || $products[1]['R'] !== "Country Id" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['R'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['S']) || $products[1]['S'] !== "Ring subcategory" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['S'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['T']) || $products[1]['T'] !== "Ring size" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['T'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['U']) || $products[1]['U'] !== "Images (comma \",\" separated)" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['U'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['V']) || $products[1]['V'] !== "Description" ) {
+				$error .= "Invalid Column: <strong>" . $products[1]['V'] . "</strong><br>";
+			}
+
+			if ( empty($error) ) {
+				$entries = explode("-", $_POST['entries']);
+
+				$resultArray = "";
+				$index = 1;
+				$imageList = array();
+
+				foreach ( $entries as $i ) {
+
+					$acceptedCategories = array(1,2,3,4,5);
+					$acceptedClarity = array("FL", "IF", "VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "SI3", "I1");
+					
+					if ( empty($products[$i]['D']) ) {
+						$result = "";
+
+						$result .= "<tr style='background: #EF9A9A;'><td>" . $index . "</td>";
+						$result .= "<td>". "Invalid Entry" ."</td>";
+						$result .= "<td>". $i ."</td>";
+						$result .= "<td>". "Empty Data" ."</td></tr>";
+					} else if ( !in_array($products[$i]['B'], $acceptedCategories) ) {
+						$result = "";
+
+						$result .= "<tr style='background: #EF9A9A;'><td>" . $index . "</td>";
+						$result .= "<td>". $products[$i]['D'] ."</td>";
+						$result .= "<td>". $i ."</td>";
+						$result .= "<td>". "Invalid Clarity: " . $products[$i]['J'] ."</td></tr>";
+					} else if ( !in_array($products[$i]['L'], $acceptedClarity) ) {
+
+						$result = "";
+
+						$result .= "<tr style='background: #EF9A9A;'><td>" . $index . "</td>";
+						$result .= "<td>". $products[$i]['D'] ."</td>";
+						$result .= "<td>". $i ."</td>";
+						$result .= "<td>". "Invalid Clarity: " . $products[$i]['J'] ."</td></tr>";
+					} else {
+						$company_id = "0";
+						if ( isset($_SESSION['import_company_id']) ) {
+							$company_id = $_SESSION['import_company_id'];
+						}
+						$uniqueKey = generateUniqueKey();
+						
+						while ( checkKey($uniqueKey, $pdo) ) {
+							$uniqueKey = generateUniqueKey();
+						}
+
+						#Working around not null description attribute
+						if ( empty($products[$i]['V']) ) {
+							$products[$i]['V'] = "-";
+						}
+
+						$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, NOW())");
+							$addItem->execute(array(
+								":unique_key" => $uniqueKey,
+								":product_name" => $products[$i]['D'],
+								":product_price" => $products[$i]['E'],
+								":discount" => $products[$i]['F'],
+								":category" => $products[$i]['B']
+							));
+
+						switch ($products[$i]['B']) {
+							case 1: {
+								$addInfo = $pdo->prepare("INSERT INTO `rings` 
+									(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `ring_subcategory`, `ring_size`) 
+									VALUES 
+									(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :ring_subcategory, :ring_size)");
+								$addInfo->execute(array(
+									":unique_key" => $uniqueKey,
+									":company_id" => $company_id,
+									":internal_id" => $products[$i]['C'],
+									":product_name" => $products[$i]['D'],
+									":pieces_in_stock" => $products[$i]['G'],
+									":days_for_shipment" => $products[$i]['H'],
+									":total_carat_weight" => $products[$i]['I'],
+									":no_of_stones" => $products[$i]['J'],
+									":diamond_shape" => $products[$i]['K'],
+									":clarity" => $products[$i]['L'],
+									":color" => $products[$i]['M'],
+									":material" => $products[$i]['N'],
+									":height" => $products[$i]['O'],
+									":width" => $products[$i]['P'],
+									":length" => $products[$i]['Q'],
+									":country_id" => $products[$i]['R'],
+									":images" => "",
+									":description" => $products[$i]['V'],
+									":ring_subcategory" => $products[$i]['S'],
+									":ring_size" => $products[$i]['T']
+								));
+
+
+								$getitemID = $pdo->prepare("SELECT `id` FROM `rings` WHERE `unique_key` = :unique_key");
+								$getitemID->execute(array(":unique_key" => $uniqueKey));
+								$itemID = $getitemID->fetch(PDO::FETCH_ASSOC);
+								$itemID = $itemID['id'];
+
+								break;
+							} case 2: {
+								$addInfo = $pdo->prepare("INSERT INTO `earrings` 
+									(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`) 
+									VALUES 
+									(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description)");
+								$addInfo->execute(array(
+									":unique_key" => $uniqueKey,
+									":company_id" => $company_id,
+									":internal_id" => $products[$i]['C'],
+									":product_name" => $products[$i]['D'],
+									":pieces_in_stock" => $products[$i]['G'],
+									":days_for_shipment" => $products[$i]['H'],
+									":total_carat_weight" => $products[$i]['I'],
+									":no_of_stones" => $products[$i]['J'],
+									":diamond_shape" => $products[$i]['K'],
+									":clarity" => $products[$i]['L'],
+									":color" => $products[$i]['M'],
+									":material" => $products[$i]['N'],
+									":height" => $products[$i]['O'],
+									":width" => $products[$i]['P'],
+									":length" => $products[$i]['Q'],
+									":country_id" => $products[$i]['R'],
+									":images" => "",
+									":description" => $products[$i]['V']
+								));
+
+								
+								$getitemID = $pdo->prepare("SELECT `id` FROM `earrings` WHERE `unique_key` = :unique_key");
+								$getitemID->execute(array(":unique_key" => $uniqueKey));
+								$itemID = $getitemID->fetch(PDO::FETCH_ASSOC);
+								$itemID = $itemID['id'];
+
+								break;
+							} case 3: {
+								$addInfo = $pdo->prepare("INSERT INTO `pendants` 
+									(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`) 
+									VALUES 
+									(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description)");
+								$addInfo->execute(array(
+									":unique_key" => $uniqueKey,
+									":company_id" => $company_id,
+									":internal_id" => $products[$i]['C'],
+									":product_name" => $products[$i]['D'],
+									":pieces_in_stock" => $products[$i]['G'],
+									":days_for_shipment" => $products[$i]['H'],
+									":total_carat_weight" => $products[$i]['I'],
+									":no_of_stones" => $products[$i]['J'],
+									":diamond_shape" => $products[$i]['K'],
+									":clarity" => $products[$i]['L'],
+									":color" => $products[$i]['M'],
+									":material" => $products[$i]['N'],
+									":height" => $products[$i]['O'],
+									":width" => $products[$i]['P'],
+									":length" => $products[$i]['Q'],
+									":country_id" => $products[$i]['R'],
+									":images" => "",
+									":description" => $products[$i]['V']
+								));
+
+								
+								$getitemID = $pdo->prepare("SELECT `id` FROM `pendants` WHERE `unique_key` = :unique_key");
+								$getitemID->execute(array(":unique_key" => $uniqueKey));
+								$itemID = $getitemID->fetch(PDO::FETCH_ASSOC);
+								$itemID = $itemID['id'];
+
+								break;
+							} case 4: {
+								$addInfo = $pdo->prepare("INSERT INTO `necklaces` 
+									(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`) 
+									VALUES 
+									(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description)");
+								$addInfo->execute(array(
+									":unique_key" => $uniqueKey,
+									":company_id" => $company_id,
+									":internal_id" => $products[$i]['C'],
+									":product_name" => $products[$i]['D'],
+									":pieces_in_stock" => $products[$i]['G'],
+									":days_for_shipment" => $products[$i]['H'],
+									":total_carat_weight" => $products[$i]['I'],
+									":no_of_stones" => $products[$i]['J'],
+									":diamond_shape" => $products[$i]['K'],
+									":clarity" => $products[$i]['L'],
+									":color" => $products[$i]['M'],
+									":material" => $products[$i]['N'],
+									":height" => $products[$i]['O'],
+									":width" => $products[$i]['P'],
+									":length" => $products[$i]['Q'],
+									":country_id" => $products[$i]['R'],
+									":images" => "",
+									":description" => $products[$i]['V']
+								));
+
+								
+								$getitemID = $pdo->prepare("SELECT `id` FROM `necklaces` WHERE `unique_key` = :unique_key");
+								$getitemID->execute(array(":unique_key" => $uniqueKey));
+								$itemID = $getitemID->fetch(PDO::FETCH_ASSOC);
+								$itemID = $itemID['id'];
+
+								break;
+							} case 5: {
+								$addInfo = $pdo->prepare("INSERT INTO `bracelets` 
+									(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`) 
+									VALUES 
+									(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description)");
+								$addInfo->execute(array(
+									":unique_key" => $uniqueKey,
+									":company_id" => $company_id,
+									":internal_id" => $products[$i]['C'],
+									":product_name" => $products[$i]['D'],
+									":pieces_in_stock" => $products[$i]['G'],
+									":days_for_shipment" => $products[$i]['H'],
+									":total_carat_weight" => $products[$i]['I'],
+									":no_of_stones" => $products[$i]['J'],
+									":diamond_shape" => $products[$i]['K'],
+									":clarity" => $products[$i]['L'],
+									":color" => $products[$i]['M'],
+									":material" => $products[$i]['N'],
+									":height" => $products[$i]['O'],
+									":width" => $products[$i]['P'],
+									":length" => $products[$i]['Q'],
+									":country_id" => $products[$i]['R'],
+									":images" => "",
+									":description" => $products[$i]['V']
+								));
+
+								
+								$getitemID = $pdo->prepare("SELECT `id` FROM `bracelets` WHERE `unique_key` = :unique_key");
+								$getitemID->execute(array(":unique_key" => $uniqueKey));
+								$itemID = $getitemID->fetch(PDO::FETCH_ASSOC);
+								$itemID = $itemID['id'];
+
+								break;
+							} 
+						}
+
+						switch ($products[$i]['B']) {
+							case 1: {
+								$imgName = "ring";
+								break;
+							} case 2: {
+								$imgName = "earring";
+								break;
+							} case 3: {
+								$imgName = "pendant";
+								break;
+							} case 4: {
+								$imgName = "necklace";
+								break;
+							} case 5: {
+								$imgName = "bracelet";
+								break;
+							} default: {
+								$result = "";
+
+								$result .= "<tr style='background: #EF9A9A;'><td>" . $index . "</td>";
+								$result .= "<td>". $products[$i]['D'] ."</td>";
+								$result .= "<td>". $i ."</td></tr>";
+								$result .= "<td>". "Invalid Category" ."</td>";
+							}
+						}
+
+						$intError = "";
+						$images = "";
+						$imageArray = explode(",", 	$products[$i]['U']);
+
+						if ( empty($intError) ) {
+							$intError = "None";
+						}
+						//$result .= "<tr><td>Added New Entry: " . $products[$i]['D'] . "</td><td>" . $intError .  "</td></tr>";
+
+						#$imageList[$uniqueKey] = $products[$i]['U'];
+
+						array_push($imageList, array("key" => $uniqueKey, "images" => $products[$i]['U']));
+						$result = "";
+
+						$result .= "<tr><td>" . $index . "</td>";
+						$result .= "<td>". $products[$i]['D'] ."</td>";
+						$result .= "<td id='row_image_". $uniqueKey ."'><img src='./../../images/gfx/cube.gif' style='width:20px' /></td>";
+						$result .= "<td id='row_error_". $uniqueKey ."'>". $intError ."</td></tr>";
+					}
+
+					$resultArray .= $result;
+					$index++;
+				}
+
+				echo json_encode(array($resultArray, $imageList));
+
+			} else {
+				echo '<h4>Import Failed</h4><br>'. $error . "<br>Please Fix The Errors and Try to Import Again <br><br><br> Alternatively, you can download the format here: <button class='btn btn-custom' onclick='downloadFormat()'> Download Format </button><br><br><button class='btn btn-danger' onclick='window.location = \"./import_excel.php\";'>Reloag Page</button>";
+			}
+
+		}
+
+	} else {
+		echo "Error: File ". $_SESSION['tmp_file'] ." Invalid";
+	}
+} else if ( isset($_GET['addImages']) ) {
+	$images = $_POST['images'];
+	$imageArray = explode(",", $images);
+
+	$fetchInfo = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
+	$fetchInfo->execute(array(":key" => $_GET['addImages']));
+
+	if ( $fetchInfo->rowCount() > 0 ) {
+		$itemInfo = $fetchInfo->fetch(PDO::FETCH_ASSOC);
+
+		$fetchInfo2 = $pdo->prepare("SELECT * FROM ". getCategory($itemInfo['category'], $pdo) . " WHERE `unique_key` = :key");
+		$fetchInfo2->execute(array(":key" => $_GET['addImages']));
+
+		if ( $fetchInfo2->rowCount() > 0 ) {
+			$itemInfo2 = $fetchInfo2->fetch(PDO::FETCH_ASSOC);
+
+			$imgName = trim(getCategory($itemInfo['category'], $pdo), "s");
+			$itemID = $itemInfo2['id'];
+			$intError = "";
+			$imageVarForDB = "";
+
+			if ( !empty($images) ) {
+				for ( $j = 0; $j < sizeof($imageArray); $j++ ) {
+					$url = trim($imageArray[$j]);
+
+					$ext = explode(".", $url);
+					$ext =  '.' . $ext[sizeof($ext)-1];
+					$count = 0;
+					$img = '../../images/images/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+					$img_md = '../../images/images_md/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+					$img_sm = '../../images/images_sm/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+					while ( file_exists($img) ) {
+						$count++;
+						$img = '../../images/images/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+						$img_md = '../../images/images_md/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+						$img_sm = '../../images/images_sm/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+					}
+
+					$image_dir = "../../images/";
+
+					if ( !is_dir($image_dir . 'images/') ) {
+						mkdir($image_dir . 'images/');
+					}
+					if ( !is_dir($image_dir . 'images_md/') ) {
+						mkdir($image_dir . 'images_md/');
+					}
+					if ( !is_dir($image_dir . 'images_sm/') ) {
+						mkdir($image_dir . 'images_sm/');
+					}
+					
+
+
+					$ch=curl_init();
+					$timeout=30;
+
+					curl_setopt($ch, CURLOPT_URL, $url);
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+					curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+					$inputImg=curl_exec($ch);
+					$curlError = curl_error($ch);
+					$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+					curl_close($ch);
+
+					if ( empty($curlError) ) {
+						if ( strpos($contentType, "image/") === false ) {
+							$intError .= 'Invalid Image: ' . $url . '<br>';
+						} else {
+							file_put_contents($img, $inputImg);
+							create_thumb($img, 600, 600, $img_md);
+							create_thumb($img, 200, 200, $img_sm);
+							$imageVarForDB .= basename($img) . ",";
+						}
+					} else {
+						if ( strstr($curlError, "Connection timed out") ) {
+							$intError .= 'Image took too long to download: ' . $url . '<br>' ;
+						} else if ( strstr($curlError, "malformed" ) ) {
+							$intError .= "Invalid Image URL";
+						} else {
+							$intError .= $curlError . '<br>' ;
+						}
+					}
+				}
+
+				$updateImages = $pdo->prepare("UPDATE " . getCategory($itemInfo['category'], $pdo) . " SET `images` = :imageVar WHERE `unique_key` = :key");
+				$updateImages->execute(array(":imageVar" => $imageVarForDB, ":key" => $_GET['addImages']));
+			} else {
+				$intError .= "No Image Found";
+			}
+
+			if ( empty($intError) ) {
+				$intError = '<span class="fa fa-check" style="color:green;"></span>';
+			}
+			echo $intError;
+		}
+	}
 } else if ( isset($_GET['importAll']) ) {
 	if ( file_exists($_SESSION['tmp_file']) ) {
 		$xlFile = $_SESSION['tmp_file'];
