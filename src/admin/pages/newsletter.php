@@ -37,6 +37,24 @@ include '../../conf/config.php';
 
     <script src="../assets/ckeditor/ckeditor.js"></script>
     <script src="../assets/ckeditor/config.js"></script>
+
+    <script type="text/javascript" src="../assets/tinymce/tinymce.min.js"></script>
+    <script>
+    tinymce.init({
+        selector: '#tiny_mce',
+        width: "100%",
+        plugins: [
+            'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            'searchreplace wordcount visualblocks visualchars code fullscreen',
+            'insertdatetime media nonbreaking save table contextmenu directionality',
+            'emoticons template paste textcolor colorpicker textpattern imagetools'
+          ],
+        height: "220px",
+        toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+          toolbar2: 'print preview media | forecolor backcolor emoticons',
+          image_advtab: true,
+        });
+    </script>
   </head>
   <div id="sendingMailDiv" style="background:rgba(0,0,0,0.75); height:100%; width:100%; position:fixed; z-index:100" hidden>
             <div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 400px; margin-left: -400px; margin-top: -200px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
@@ -71,14 +89,16 @@ include '../../conf/config.php';
 
                 $newestSub = ( sizeof($subs) > 0 ) ? $subs[sizeof($subs)-1]['email'] : "N/A";
 
-                echo '<h4>Total Subscribers: '. sizeof($subs) .' <small><button class="btn btn-custom" onclick="$(\'#showAllModal\').modal(\'toggle\');">View All</button></small></h4>';
+                echo '<h4>Total Subscribers: '. sizeof($subs) .' <small><button class="btn btn-custom" onclick="$(\'#showAllModal\').modal(\'toggle\');">View All</button><button class="btn btn-custom" style="float:right;" onclick="$(\'#showTemplates\').modal(\'toggle\');">Templates</button></small></h4>';
                 echo '<h5>Newest Subscriber: '. $newestSub .'</h5>';
                 ?>
                 </div>
-                    <textarea name="rtfEditor" id="rtfEditor" rows="10" cols="80"></textarea>
+                    <!-- <textarea name="rtfEditor" id="rtfEditor" rows="10" cols="80"></textarea>
                     <script type="text/javascript">
                      CKEDITOR.replace( 'rtfEditor' ); 
-                     </script>
+                     </script>-->
+
+                     <textarea id="tiny_mce"></textarea>
                      <?php
                      if ( sizeof($subs) > 0 ) {
                         echo '<button  class="btn btn-custom" onclick="sendNewsletter()" style="margin: 10px; float: right; width: 100px;">Send</button>';
@@ -149,11 +169,12 @@ include '../../conf/config.php';
     function sendMail(mail) {
         console.log("Mail: " + mail);
 
+        //console.log(encodeURIComponent(tinyMCE.activeEditor.getContent()));
         $.ajax({
             url: './ajax.php?sendNewsletter=true',
             method: 'POST',
             data: {
-                content: encodeURIComponent(CKEDITOR.instances.rtfEditor.getData()),
+                content: encodeURIComponent(tinyMCE.activeEditor.getContent()),
                 email: mail
             },
             beforeSend: function(){
@@ -217,6 +238,45 @@ include '../../conf/config.php';
   </div>
 </div>
 
+
+<div id="showTemplates" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Templates</h4>
+      </div>
+      <div class="modal-body" style="max-height: 60vh; overflow: auto;">
+        <div class="container">
+            <table class="table table-custom table-condensed" style="width:60%; margin-left:20%;">
+                <thead>
+                    <th>Template</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                    <?php
+                    $templates = scandir('./newsletter/');
+
+                    foreach ( $templates as $template ) {
+                        if ( strstr($template, '.html') !== false ) {
+                            echo '<td>'. $template .'</td>';
+                            echo '<td><a class="btn btn-custom" href="./newsletter/'. $template .'" target="_blank">Preview</a><button class="btn btn-custom" onclick="loadTemplate(this)" value="./newsletter/'. $template .'">Load</button></td>';
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <style type="text/css">
 .form-label {
     text-align: right;
@@ -239,3 +299,16 @@ include '../../conf/config.php';
 	background-color: #DCEDC8;
 }
 </style>
+
+<script type="text/javascript">
+    function loadTemplate(element) {
+        $.ajax({
+            url: $(element).val(),
+            type: 'GET',
+            success: function(result){
+                tinyMCE.activeEditor.setContent(result);
+            }
+        });
+
+    }
+</script>

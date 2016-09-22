@@ -132,4 +132,4 @@
     top: 0px;
     z-index: 2000;
     padding: 25px;
-    font-variant: small-caps;" id="notificationBox">...</span>
+    font-variant: small-caps;z-index: 10000;" id="notificationBox">...</span>

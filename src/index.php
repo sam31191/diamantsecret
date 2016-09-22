@@ -534,14 +534,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 	<?php include 'url/footer.php'; ?>
 	
 	<div class="newsletter-popup" style="display: none;">
-		<form method="post" name="mc-embedded-subscribe-form" target="_blank">
+		<form method="post" name="mc-embedded-subscribe-form" id="mc-embedded-subscribe-form-popup">
 			<h4>Special Offers</h4>
 			<p class="tagline" style="">
 				Subscribe to our Newsletter and get notified with exclusive offers
 			</p>
 			<div class="group_input">
-				<input class="form-control" type="email" name="email" placeholder="YOUR EMAIL">
-				<button class="btn" type="submit" name="subscribe"><i class="fa fa-paper-plane"></i></button>
+				<input class="form-control" type="email" name="email" placeholder="YOUR EMAIL" id="email-input-popup">
+				<button class="btn" type="submit" name="subscribe" id="button-popup"><i class="fa fa-paper-plane"></i></button><img id="subscribe-loading-img-popup" src="./images/gfx/cube.gif" style="margin: 0px 10px; width: 20px; display:none;" />
 			</div>
 		</form>
 		<div id="popup-hide">
@@ -829,6 +829,31 @@ function removeFromWishlist(key) {
   xmlhttp.open("GET","url/ajax.php?removeFromFav="+key,true);
   xmlhttp.send();
 }
+
+
+
+$("#mc-embedded-subscribe-form-popup").submit(function(event){
+event.preventDefault();
+email = $("#email-input-popup").val();
+$.ajax({
+	  url: './url/ajax.php?subscribe='+email,
+	  type: 'GET',
+	  beforeSend: function(){
+	    $("#subscribe-loading-img-popup").show();
+	  },
+	  success: function(result) {
+	    console.log(result);
+	    $("#modal-text").text(result);
+	    $("#notificationBox").html("<span>"+ result +"&nbsp;</span>");
+	    if ( $("#notificationBox").is(":hidden") ) {
+	      $("#notificationBox").toggle(500).delay(10000).toggle(500);  
+	    }
+	    $("#subscribe-loading-img-popup").hide();
+	  }
+	});
+
+});
+
 
 </script>
 <?php

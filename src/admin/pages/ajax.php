@@ -17,6 +17,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . '../PHPExcel/PHPExcel/');
 include '../PHPExcel/PHPExcel/IOFactory.php';
 if ( isset($_GET['importThis']) ) {
 	if ( file_exists($_SESSION['tmp_file']) ) {
+
 		$xlFile = $_SESSION['tmp_file'];
 		$PHPExcel = PHPExcel_IOFactory::load($xlFile);
 
@@ -1321,7 +1322,8 @@ if ( isset($_GET['importThis']) ) {
 		    )
 		);
 		$mail->Subject = 'Newsletter';
-		$mail->Body = "Greetings, " . urldecode($_POST['content'] . "<hr /><div style='text-align:center;'>If you wish to unsubscribe to our Newsletter, please <a rel='noindex, nofollow' target='_blank' href='". $__MAINDOMAIN__. "login.php?unsub=".$getMail['hash']."'>click here</a></div>");
+		//$mail->Body = "Greetings, " . urldecode($_POST['content'] . "<hr /><div style='text-align:center;'>If you wish to unsubscribe to our Newsletter, please <a rel='noindex, nofollow' target='_blank' href='". $__MAINDOMAIN__. "login.php?unsub=".$getMail['hash']."'>click here</a></div>");
+		$mail->Body = file_get_contents('./newsletter/sample.html');
 		if ( !$mail->send() ) {
 			echo 'Failed';
 		} else {
