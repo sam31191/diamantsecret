@@ -1325,10 +1325,12 @@ if ( isset($_POST['featuredAdd']) ) {
 								<td>
 									<div class="table-item">
 										<select id="edit_material" name="material" class="select-style" required>
-				                            <option value="">Select</option>
+				                            <option value="">Select</option>..
 				                            <option value="1">Yellow Gold</option>
 				                            <option value="2">White Gold</option>
 				                            <option value="3">Pink Gold</option>
+				                            <option value="4">Silver</option>
+				                            <option value="5">Platinum</option>
 				                        </select>
 									</div>
 								</td>
