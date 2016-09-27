@@ -48,7 +48,7 @@ if ( isset($_SESSION['modSession']) ) {
 
         		
         	<div style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 300px; margin-left: -400px; margin-top: -150px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
-        		<a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 19px; position: absolute; display: block; z-index: 1; right: 0;" onclick="finalizeExport()" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
+        		<a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 19px; position: absolute; display: block; z-index: 1; right: 0;" onclick="window.location = './export_excel.php';" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
         	</div>
         	
         	<div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 300px; margin-left: -400px; margin-top: -150px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
@@ -552,7 +552,6 @@ function bulkRemoveItems() {
 	$("#promptBulkRemoveModal").modal("toggle");
 }
 
-var exportFile = "";
 function exportSelected() {
 	//alert("Exporting Selected");
 
@@ -598,14 +597,11 @@ function exportSelected() {
 		success: function(result) {
 			console.log("JSON RESULT");
 			console.log(result);
-			result = JSON.parse(result);
 			$("#uploadDiv").show();
-			$("#resultDiv").html(result[0]);
-			exportFile = result[1];
+			$("#resultDiv").html(result);
 		}
 	});
 }
-
 
 function exportAll(category = 0) {
 	//alert("Exporting All");
@@ -641,20 +637,8 @@ function exportAll(category = 0) {
 		success: function(result) {
 			console.log("JSON RESULT");
 			console.log(result);
-			result = JSON.parse(result);
 			$("#uploadDiv").show();
-			$("#resultDiv").html(result[0]);
-			exportFile = result[1];
-		}
-	});
-}
-
-function finalizeExport() {
-	$.ajax({
-		url: './ajax.php?finalizeExport=' + exportFile,
-		type: 'GET',
-		complete: function() {
-			window.location = "./export_excel.php";
+			$("#resultDiv").html(result);
 		}
 	});
 }

@@ -3,9 +3,9 @@
 
     /*  MySQL Configuration */
 	$host = "localhost";
-	$dbname = "website";
-	$user = "root";
-	$pass = "";
+	$dbname = "PROD_DIAMANTSECRET";
+	$user = "diamants_prod";
+	$pass = "_diamants";
 	
 
 	/* Mail Configuration */
@@ -16,16 +16,15 @@
 	$mailPassword = "contact@123";
 	$mailSenderEmail = "contact@diamantsecret.com";
 	$mailSenderName = "Diamant Secret";
-	$__ADMINMAIL__ = "ryan.bhanwra@gmail.com";
+	$__ADMINMAIL__ = "contact@diamantsecret.com";
 	$__ADMINNAME__ = "Admin";
-	$__MAINDOMAIN__ = "http://localhost/git/diamweb/src/";
-	#$__MAINDOMAIN__ = "http://www.diamantsecret.com/";
+	$__MAINDOMAIN__ = "http://www.diamantsecret.com/";
 	
 	
 	/* Test site options */
 	$testSite = false;
 	$__TESTSITEPREFIX__ = "[Test Site] ";
-	$__TESTSITEDOMAIN__ = "http://localhost/git/diamweb/src/testsite/";
+	$__TESTSITEDOMAIN__ = "http://www.diamantsecret.com/testsite/";
 
 	if ( $testSite ) {
 		$__MAINDOMAIN__ = $__TESTSITEDOMAIN__;
@@ -149,18 +148,6 @@
 
 	function getCategory($dsID, $pdo) {
 		$getMaterial = $pdo->prepare("SELECT * FROM `categories` WHERE `id` = :id");
-		$getMaterial->execute(array(":id" => $dsID));
-
-		if ( $getMaterial->rowCount() > 0 ) {
-			$material = $getMaterial->fetch(PDO::FETCH_ASSOC);
-			return $material['category'];
-			//echo $material['category'];
-		} else {
-			return "N/A";
-		}
-	}
-	function getRingCategory($dsID, $pdo) {
-		$getMaterial = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `id` = :id");
 		$getMaterial->execute(array(":id" => $dsID));
 
 		if ( $getMaterial->rowCount() > 0 ) {

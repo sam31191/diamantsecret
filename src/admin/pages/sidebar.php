@@ -33,17 +33,16 @@
         </li>
         <li><a><i class="fa fa-cogs"></i> Management <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
-            <li><a href="all_users.php"><i class="fa fa-users" style="font-size:14px;"></i>Users</a></li>
-            <li><a href="newsletter.php"><i class="fa fa-envelope-o" style="font-size:14px;"></i>Newsletter</a></li>
-            <li><a href="company_management.php"><i class="fa fa-suitcase" style="font-size:14px;"></i>Supplier Management</a></li>
+            <li><a href="all_users.php">Users</a></li>
+            <li><a href="newsletter.php">Newsletter</a></li>
+            <li><a href="company_management.php">Supplier Management</a></li>
           </ul>
         </li>
-        <li><a><i class="fa fa-table"></i> Import / Export <span class="fa fa-chevron-down"></span></a>
+        <li><a><i class="fa fa-table"></i> Excel <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
-            <li><a href="import_excel.php"><i class="fa fa-upload" style="font-size:14px;"></i>Import via Excel</a></li>
-            <li><a href="import_zip.php"><i class="fa fa-file-archive-o" style="font-size:14px;"></i>Import via Zip</a></li>
-            <li><a href="export_excel.php"><i class="fa fa-download" style="font-size:14px;"></i>Export to Excel</a></li>
-            <li><a href="excel_download.php"><i class="fa fa-table" style="font-size:14px;"></i>Excel Sheets</a></li>
+            <li><a href="import_excel.php">Import via Excel</a></li>
+            <li><a href="export_excel.php">Export to Excel</a></li>
+            <li><a href="excel_download.php">Excel Sheets</a></li>
           </ul>
         </li>
       </ul>
