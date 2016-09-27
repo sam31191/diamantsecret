@@ -4,12 +4,12 @@ if ( session_status() == PHP_SESSION_NONE ) {
 }
 if ( !isset($_SESSION['modSession']) ) {
 	 header ('Location: ../../index.php');
-	 die();
+	 exit();
 }
 if ( isset($_SESSION['modSession']) ) {
 	if ( !$_SESSION['modSession'] || $_SESSION['admin'] <= 0 ) {
 		header ('Location: ../../index.php');
-		die();
+		exit();
 	}
 }
 ?>
@@ -18,13 +18,13 @@ if ( isset($_SESSION['modSession']) ) {
 <?php
 include '../../conf/config.php';
 
+
 if ( isset($_POST['featuredAdd']) ) {
-	$addFeatured = $pdo->prepare("UPDATE `items` SET `featured` = 1 WHERE `id` = :id");
-	$addFeatured->execute(array(":id" => $_POST['featuredAdd']));
-	
+	$addFeatured = $pdo->prepare("UPDATE `items` SET `featured` = 1 WHERE `unique_key` = :unique_key");
+	$addFeatured->execute(array(":unique_key" => $_POST['featuredAdd']));
 } else if ( isset ($_POST['featuredRemove']) ) {
-	$removeFeatured = $pdo->prepare("UPDATE `items` SET `featured` = 0 WHERE `id` = :id");
-	$removeFeatured->execute(array(":id" => $_POST['featuredRemove']));
+	$removeFeatured = $pdo->prepare("UPDATE `items` SET `featured` = 0 WHERE `unique_key` = :unique_key");
+	$removeFeatured->execute(array(":unique_key" => $_POST['featuredRemove']));
 } else if ( isset($_POST['removeItem']) ) {
 	//echo var_dump($_POST);
 
@@ -99,7 +99,6 @@ if ( isset($_POST['featuredAdd']) ) {
 			}
 		}
 	} 
-
 } else if ( isset($_POST['editItem']) ) {
 
 	//echo var_dump($_POST);
@@ -318,7 +317,6 @@ if ( isset($_POST['featuredAdd']) ) {
 				foreach ( $images as $image ) {
 					if ( $image !== "") {
 						//echo var_dump($image);
-						
 						$imageFile = "../../images/images/" . $image;
 						$imageMDFile = "../../images/images_md/" . $image;
 						$imageSMFile = "../../images/images_sm/" . $image;
@@ -661,7 +659,32 @@ if ( isset($_POST['featuredAdd']) ) {
 			}
 		}
 	}
-} 
+} else if ( isset($_POST['filterBy']) ) {
+	pconsole($_POST);
+	if ( isset($_POST[$_POST['filterBy']]) ) {
+		pconsole($_POST[$_POST['filterBy']]);
+		$_SESSION[$_POST['filterBy']] = $_POST[$_POST['filterBy']];
+	} else {
+		if ( isset($_SESSION[$_POST['filterBy']]) ) {
+			unset($_SESSION[$_POST['filterBy']]);
+		}
+	}
+} else if ( isset($_POST['clearFilters']) ) {
+	if ( isset($_SESSION['diamond_shape']) ) {
+		unset($_SESSION['diamond_shape']);
+	}
+	if ( isset($_SESSION['material']) ) {
+		unset($_SESSION['material']);
+	}
+	if ( isset($_SESSION['color']) ) {
+		unset($_SESSION['color']);
+	}
+	if ( isset($_SESSION['clarity']) ) {
+		unset($_SESSION['clarity']);
+	}
+}
+		pconsole($_SESSION);
+
 function create_thumb($file, $w, $h,  $thumb_dir, $crop=FALSE) {
 	list($width, $height) = getimagesize($file);
 	$r = $width / $height;
@@ -682,39 +705,11 @@ function create_thumb($file, $w, $h,  $thumb_dir, $crop=FALSE) {
 			$newwidth = $w;
 		}
 	}
-	$src = imagecreatefromfile($file);
+	$src = imagecreatefromjpeg($file);
 	$dst = imagecreatetruecolor($newwidth, $newheight);
 	imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
 	
 	return imagejpeg($dst, $thumb_dir);
-}
-
-function imagecreatefromfile( $filename ) {
-    if (!file_exists($filename)) {
-        throw new InvalidArgumentException('File "'.$filename.'" not found.');
-    }
-    switch ( strtolower( pathinfo( $filename, PATHINFO_EXTENSION ))) {
-        case 'jpeg':
-        case 'jpg':
-            return imagecreatefromjpeg($filename);
-        break;
-
-        case 'png':
-            return imagecreatefrompng($filename); 
-            $background = imagecolorallocate($filename, 255, 255, 255);
-	        imagecolortransparent($filename, $background);
-	        imagealphablending($filename, false);
-	        imagesavealpha($filename, true);
-        break;
-
-        case 'gif':
-            return imagecreatefromgif($filename);
-        break;
-
-        default:
-            throw new InvalidArgumentException('File "'.$filename.'" is not valid jpg, png or gif image.');
-        break;
-    }
 }
 	
 function generateUniqueKey($length = 10) {
@@ -771,7 +766,6 @@ function checkKey($key, $pdo) {
         <!-- page content -->
         <div class="right_col" role="main">
         <div>
-        
         <h3><?php
 
         	echo '<div class="btn-group">
@@ -788,6 +782,12 @@ function checkKey($key, $pdo) {
 				    <li><a href="./bracelets.php">Braclets</a></li>
 				  </ul>
 				</div>';
+        	/*if ( isset($_GET['order']) && isset($_GET['filter']) ) {
+        		echo '<small>Sorted: <span style="text-transform: capitalize;">'. str_replace("_", " ", $_GET['filter']) .' - '; 
+        		echo ($_GET['order'] == "ASC") ? "Ascending" : "Descending";
+        		echo '</span></small>';
+        	}*/
+        	echo '<span style="font-size: 14px; margin: 10px;" id="filtersApplied"></span>';
 
 			$count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items` WHERE `category` = 2");
 			$count->execute();
@@ -838,19 +838,19 @@ function checkKey($key, $pdo) {
 			}
 
 
-    		echo '<h3><small>' . $totalRows . ' Items Found</small>
+    		echo '<h3><small><span id="total_items">' . $totalRows . '</span> Items Found</small>
 		        		<form method="post" id="bulkManage" style="float:right">
 		                <button class="btn btn-warning" name="bulkManage" value="feature">Add to Featured (<span class="selected-num">0</span>)</button>
 		                <button class="btn btn-default" name="bulkManage" value="unfeature">Remove from Featured (<span class="selected-num">0</span>)</button>
 		                <a class="btn btn-danger" onclick="bulkRemoveItems()">Delete Selected (<span class="selected-num">0</span>)</a>
-		                <a href="javascript:void(0);" class="btn btn-danger" onclick="removeAll(this)" name="earrings">Delete All</a>
+		                <a href="javascript:void(0);" class="btn btn-danger" onclick="removeAll(this)" name="rings">Delete All</a>
 		            </form>
 		        </h3>';
         	?></h3>
 
         	<table class="table table-hover table-custom table-custom-items" >
             	<thead>
-                	<?php
+            		<?php
             		$typeCaret = "";
             		$idCaret = "";
             		$featuredCaret = "";
@@ -877,142 +877,142 @@ function checkKey($key, $pdo) {
 
             		switch ($filter . " " . $currentOrder) {
             			case 'category DESC': {
-            				$typeCaret = '<i class="fa fa-caret-down"></i>';
+            				$typeCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'category ASC': {
-            				$typeCaret = '<i class="fa fa-caret-up"></i>';
+            				$typeCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'items.id ASC': {
-            				$idCaret = '<i class="fa fa-caret-down"></i>';
+            				$idCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'items.id DESC': {
-            				$idCaret = '<i class="fa fa-caret-up"></i>';
+            				$idCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'featured ASC': {
-            				$featuredCaret = '<i class="fa fa-caret-down"></i>';
+            				$featuredCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'featured DESC': {
-            				$featuredCaret = '<i class="fa fa-caret-up"></i>';
+            				$featuredCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'internal_id ASC': {
-            				$internalIDCaret = '<i class="fa fa-caret-down"></i>';
+            				$internalIDCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'internal_id DESC': {
-            				$internalIDCaret = '<i class="fa fa-caret-up"></i>';
+            				$internalIDCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'company_id ASC': {
-            				$companyCaret = '<i class="fa fa-caret-down"></i>';
+            				$companyCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'company_id DESC': {
-            				$companyCaret = '<i class="fa fa-caret-up"></i>';
+            				$companyCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'item_name ASC': {
-            				$nameCaret = '<i class="fa fa-caret-down"></i>';
+            				$nameCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'item_name DESC': {
-            				$nameCaret = '<i class="fa fa-caret-up"></i>';
+            				$nameCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'item_value ASC': {
-            				$priceCaret = '<i class="fa fa-caret-down"></i>';
+            				$priceCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'item_value DESC': {
-            				$priceCaret = '<i class="fa fa-caret-up"></i>';
+            				$priceCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'discount ASC': {
-            				$discountCaret = '<i class="fa fa-caret-down"></i>';
+            				$discountCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'discount DESC': {
-            				$discountCaret = '<i class="fa fa-caret-up"></i>';
+            				$discountCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'pieces_in_stock ASC': {
-            				$stockCaret = '<i class="fa fa-caret-down"></i>';
+            				$stockCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'pieces_in_stock DESC': {
-            				$stockCaret = '<i class="fa fa-caret-up"></i>';
+            				$stockCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'days_for_shipment ASC': {
-            				$shipmentCaret = '<i class="fa fa-caret-down"></i>';
+            				$shipmentCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'days_for_shipment DESC': {
-            				$shipmentCaret = '<i class="fa fa-caret-up"></i>';
+            				$shipmentCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'total_carat_weight ASC': {
-            				$caratWeightCaret = '<i class="fa fa-caret-down"></i>';
+            				$caratWeightCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'total_carat_weight DESC': {
-            				$caratWeightCaret = '<i class="fa fa-caret-up"></i>';
+            				$caratWeightCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'no_of_stones ASC': {
-            				$numOfStonesCaret = '<i class="fa fa-caret-down"></i>';
+            				$numOfStonesCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'no_of_stones DESC': {
-            				$numOfStonesCaret = '<i class="fa fa-caret-up"></i>';
+            				$numOfStonesCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'diamond_shape ASC': {
-            				$diamondShapeCaret = '<i class="fa fa-caret-down"></i>';
+            				$diamondShapeCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'diamond_shape DESC': {
-            				$diamondShapeCaret = '<i class="fa fa-caret-up"></i>';
+            				$diamondShapeCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'clarity ASC': {
-            				$clarityCaret = '<i class="fa fa-caret-down"></i>';
+            				$clarityCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'clarity DESC': {
-            				$clarityCaret = '<i class="fa fa-caret-up"></i>';
+            				$clarityCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'color ASC': {
-            				$colorCaret = '<i class="fa fa-caret-down"></i>';
+            				$colorCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'color DESC': {
-            				$colorCaret = '<i class="fa fa-caret-up"></i>';
+            				$colorCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'material ASC': {
-            				$materialCaret = '<i class="fa fa-caret-down"></i>';
+            				$materialCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'material DESC': {
-            				$materialCaret = '<i class="fa fa-caret-up"></i>';
+            				$materialCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'height ASC': {
-            				$heightCaret = '<i class="fa fa-caret-down"></i>';
+            				$heightCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'height DESC': {
-            				$heightCaret = '<i class="fa fa-caret-up"></i>';
+            				$heightCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'width ASC': {
-            				$widthCaret = '<i class="fa fa-caret-down"></i>';
+            				$widthCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'width DESC': {
-            				$widthCaret = '<i class="fa fa-caret-up"></i>';
+            				$widthCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'length ASC': {
-            				$lengthCaret = '<i class="fa fa-caret-down"></i>';
+            				$lengthCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'length DESC': {
-            				$lengthCaret = '<i class="fa fa-caret-up"></i>';
+            				$lengthCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'country_id ASC': {
-            				$countryCaret = '<i class="fa fa-caret-down"></i>';
+            				$countryCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'country_id DESC': {
-            				$countryCaret = '<i class="fa fa-caret-up"></i>';
+            				$countryCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'ring_size ASC': {
-            				$ringSizeCaret = '<i class="fa fa-caret-down"></i>';
+            				$ringSizeCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'ring_size DESC': {
-            				$ringSizeCaret = '<i class="fa fa-caret-up"></i>';
+            				$ringSizeCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'ring_subcategory ASC': {
-            				$ringCategoryCaret = '<i class="fa fa-caret-down"></i>';
+            				$ringCategoryCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'ring_subcategory DESC': {
-            				$ringCategoryCaret = '<i class="fa fa-caret-up"></i>';
+            				$ringCategoryCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} case 'date_added ASC': {
-            				$dateAddedCaret = '<i class="fa fa-caret-down"></i>';
+            				$dateAddedCaret = '<i class="fa fa-sort-amount-asc"></i>';
             				break;
             			} case 'date_added DESC': {
-            				$dateAddedCaret = '<i class="fa fa-caret-up"></i>';
+            				$dateAddedCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
             			} default: {
 
@@ -1035,27 +1035,226 @@ function checkKey($key, $pdo) {
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=days_for_shipment&order='. $order .'">Shipment Days'. $shipmentCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=total_carat_weight&order='. $order .'">Carat Weight'. $caratWeightCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=no_of_stones&order='. $order .'"># of Stones'. $numOfStonesCaret .'</a>'; ?></th>
-                	<th><?php echo '<a href="?page='. $currentPage .'&filter=diamond_shape&order='. $order .'">Diamond Shape'. $diamondShapeCaret .'</a>'; ?></th>
-                	<th><?php echo '<a href="?page='. $currentPage .'&filter=clarity&order='. $order .'">Clarity'. $clarityCaret .'</a>'; ?></th>
-                	<th><?php echo '<a href="?page='. $currentPage .'&filter=color&order='. $order .'">Color '. $colorCaret .'</a>'; ?></th>
-                	<th><?php echo '<a href="?page='. $currentPage .'&filter=material&order='. $order .'">Material '. $materialCaret .'</a>'; ?></th>
+                	<th><?php 
+                		echo '<a href="?page='. $currentPage .'&filter=diamond_shape&order='. $order .'">Diamond Shape'. $diamondShapeCaret .'</a>';
+                		$fetchDiamondShapes = $pdo->prepare("SELECT * FROM `diamond_shape`");
+                		$fetchDiamondShapes->execute();
+
+                		if ( $fetchDiamondShapes->rowCount() > 0 ) {
+
+	                		echo '<div class="btn-group">
+							  <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0px 5px; border-radius: 10px; margin-left: 5px;">
+							    <span class="caret"></span>
+							    <span class="sr-only">Toggle Dropdown</span>
+							  </button>
+							  <ul class="dropdown-menu" style="margin-left: -140px; padding:5px">
+							  	<form method="post">';
+							    foreach ( $fetchDiamondShapes->fetchAll() as $item ) {
+							    	$checkedX = "";
+							    	if ( isset($_SESSION['diamond_shape']) ) {
+							    		foreach ( $_SESSION['diamond_shape'] as $entry ) {
+							    			if ( $entry == $item['id'] ) {
+							    				$checkedX = "checked";
+							    			} 
+							    		}
+							    	}
+							    	echo '<li style=""><input type="checkbox" name="diamond_shape['. $item['category'] .']" value="'. $item['id'] .'" '. $checkedX .' ><span style="margin: 5px;">'. $item['category'] .'</span></li>';
+							    }
+							  echo'
+							  	<input name="filterBy" value="diamond_shape" hidden />
+							  	<button class="btn btn-info btn-block">Filter</button>
+							  	</form>
+							  </ul>
+							</div>'; 
+                		}
+						?>
+					</th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=clarity&order='. $order .'">Clarity'. $clarityCaret .'</a>'; 
+                		echo '<div class="btn-group">
+							  <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0px 5px; border-radius: 10px; margin-left: 5px;">
+							    <span class="caret"></span>
+							    <span class="sr-only">Toggle Dropdown</span>
+							  </button>
+							  <ul class="dropdown-menu" style="margin-left: -70px; padding: 5px; min-width: 90px;"> <form method="post">';
+							  		$clarityArray = array("FL", "IF", "VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "SI3", "I1");
+
+							  		foreach ( $clarityArray as $item ) {
+						  				$checkedX = "";
+							  			if ( isset($_SESSION['clarity']) ) {
+								    		foreach ( $_SESSION['clarity'] as $entry ) {
+								    			pconsole("Entry: " . $entry . " = Item: " . $item);
+								    			if ( $entry == $item ) {
+								    				$checkedX = "checked";
+								    			} 
+								    		}
+								    	}
+							  			echo '<li><input type="checkbox" name="clarity['. $item .']" value="'. $item .'" '. $checkedX .'><span style="margin: 5px;">'. $item .'</span></li>';
+							  		}
+							  echo'
+							  	<input name="filterBy" value="clarity" hidden />
+							  	<button class="btn btn-danger btn-block">Filter</button>
+							  	</form>
+							  </ul>
+							</div>';
+                	?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=color&order='. $order .'">Color '. $colorCaret .'</a>'; 
+                			echo '<div class="btn-group">
+							  <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0px 5px; border-radius: 10px; margin-left: 5px;">
+							    <span class="caret"></span>
+							    <span class="sr-only">Toggle Dropdown</span>
+							  </button>
+							  <ul class="dropdown-menu" style="margin-left: -140px; padding:5px">
+							  	<form method="post">';
+							  		$colorArray = array("White Stone" => 1, "Colored Stone" => 2);
+							  		foreach ( $colorArray as $item => $id ) {
+						  				$checkedX = "";
+							  			if ( isset($_SESSION['color']) ) {
+								    		foreach ( $_SESSION['color'] as $entry ) {
+								    			pconsole("Entry: " . $entry . " = Item: " . $item);
+								    			if ( $entry == $id ) {
+								    				$checkedX = "checked";
+								    			} 
+								    		}
+								    	}
+							  			echo '<li><input type="checkbox" name="color['. $item .']" value="'. $id .'" '. $checkedX .'><span style="margin: 5px;">'. $item .'</span></li>';
+							  		}
+							  echo'
+							  	<input name="filterBy" value="color" hidden />
+							  	<button class="btn btn-success btn-block">Filter</button>
+							  	</form>
+							  </ul>
+							</div>'; 
+                	?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=material&order='. $order .'">Material '. $materialCaret .'</a>'; 
+                	$fetchDiamondShapes = $pdo->prepare("SELECT * FROM `materials`");
+                		$fetchDiamondShapes->execute();
+
+                		if ( $fetchDiamondShapes->rowCount() > 0 ) {
+
+	                		echo '<div class="btn-group">
+							  <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0px 5px; border-radius: 10px; margin-left: 5px;">
+							    <span class="caret"></span>
+							    <span class="sr-only">Toggle Dropdown</span>
+							  </button>
+							  <ul class="dropdown-menu" style="margin-left: -140px; padding:5px">
+							  	<form method="post">';
+							    foreach ( $fetchDiamondShapes->fetchAll() as $item ) {
+							    	$checkedX = "";
+							    	if ( isset($_SESSION['material']) ) {
+							    		foreach ( $_SESSION['material'] as $entry ) {
+							    			if ( $entry == $item['id'] ) {
+							    				$checkedX = "checked";
+							    			} 
+							    		}
+							    	}
+							    	echo '<li style=""><input type="checkbox" name="material['. $item['category'] .']" value="'. $item['id'] .'" '. $checkedX .'><span style="margin: 5px;">'. $item['category'] .'</span></li>';
+							    }
+							  echo'
+							  	<input name="filterBy" value="material" hidden />
+							  	<button class="btn btn-warning btn-block">Filter</button>
+							  	</form>
+							  </ul>
+							</div>'; 
+                		}
+                	?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=height&order='. $order .'">Height '. $heightCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=width&order='. $order .'">Width '. $widthCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=length&order='. $order .'">Length '. $lengthCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=country_id&order='. $order .'">Country '. $countryCaret .'</a>'; ?></th>
+                	<!--<th><?php echo '<a href="?page='. $currentPage .'&filter=ring_size&order='. $order .'">Ring Size '. $ringSizeCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=ring_subcategory&order='. $order .'">Ring Category '. $ringCategoryCaret .'</a>'; ?></th>-->
                 	<th>Images</th>
                 	<th>Description</th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=date_added&order='. $order .'">Added On '. $dateAddedCaret .'</a>'; ?></th>
                 </thead>
                 <tbody>
                 	<?php
-		        	$query = $pdo->prepare("SELECT * FROM `items` INNER JOIN `earrings` ON items.unique_key = earrings.unique_key WHERE `category` = 2 ORDER BY ". $filter . " " . $currentOrder . " LIMIT ". $offset .", ". $perPage ." ");
+
+                	$filterDiamondShape = "";
+                	$filterMaterial = "";
+                	$filterColor = "";
+                	$filterClarity = "";
+
+                	$filtersApplied = "";
+
+            		if ( isset($_SESSION['diamond_shape']) && !is_null($_SESSION['diamond_shape']) && !empty($_SESSION['diamond_shape']) ) {
+            			$count = 0;
+            			$filterDiamondShape = " AND (";
+            			foreach ( $_SESSION['diamond_shape'] as $clause ) {
+            				if ( $count == 0 ) {
+            					$filterDiamondShape .= " `diamond_shape` = $clause ";
+            					$filtersApplied .= "<span class='label label-info'>". getDiamondShape($clause, $pdo) ."</span> ";
+            				} else {
+            					$filterDiamondShape .= " OR `diamond_shape` = $clause ";
+            					$filtersApplied .= "<span class='label label-info'>". getDiamondShape($clause, $pdo) ."</span> ";
+            				}
+            				$count++;
+            			}
+            			$filterDiamondShape .= " )";
+            		}
+
+            		if ( isset($_SESSION['material']) && !is_null($_SESSION['material']) && !empty($_SESSION['material']) ) {
+            			$count = 0;
+            			$filterMaterial = " AND (";
+            			foreach ( $_SESSION['material'] as $clause ) {
+            				if ( $count == 0 ) {
+            					$filterMaterial .= " `material` = $clause ";
+            					$filtersApplied .= "<span class='label label-warning'>". getMaterial($clause, $pdo) ."</span> ";
+            				} else {
+            					$filterMaterial .= " OR `material` = $clause ";
+            					$filtersApplied .= "<span class='label label-warning'>". getMaterial($clause, $pdo) ."</span> ";
+            				}
+            				$count++;
+            			}
+            			$filterMaterial .= " )";
+            		}
+
+            		if ( isset($_SESSION['color']) && !is_null($_SESSION['color']) && !empty($_SESSION['color']) ) {
+            			$count = 0;
+            			$filterColor = " AND (";
+            			foreach ( $_SESSION['color'] as $clause ) {
+            				$cX = ( $clause == 1 ) ? "White Stone" : "Colored Stone";
+            				if ( $count == 0 ) {
+            					$filterColor .= " `color` = $clause ";
+            					$filtersApplied .= "<span class='label label-success'>". $cX ."</span> ";
+            				} else {
+            					$filterColor .= " OR `color` = $clause ";
+            					$filtersApplied .= "<span class='label label-success'>". $cX ."</span> ";
+            				}
+            				$count++;
+            			}
+            			$filterColor .= " )";
+            		}
+
+            		if ( isset($_SESSION['clarity']) && !is_null($_SESSION['clarity']) && !empty($_SESSION['clarity']) ) {
+            			$count = 0;
+            			$filterClarity = " AND (";
+            			foreach ( $_SESSION['clarity'] as $clause ) {
+            				if ( $count == 0 ) {
+            					$filterClarity .= " `clarity` = \"$clause\" ";
+            					$filtersApplied .= "<span class='label label-danger'>". $clause ."</span> ";
+            				} else {
+            					$filterClarity .= " OR `clarity` = \"$clause\" ";
+            					$filtersApplied .= "<span class='label label-danger'>". $clause ."</span> ";
+            				}
+            				$count++;
+            			}
+            			$filterClarity .= " )";
+            		}
+
+            		if ( !empty($filtersApplied) ) {
+            			$filtersApplied .= "<form style='display: inline;' method='post'><button name='clearFilters' class='label btn btn-custom'>CLEAR</button></form>";
+            		}
+
+					echo '<script>document.getElementById("filtersApplied").innerHTML = "'. $filtersApplied .'";</script>';
+
+		        	$query = $pdo->prepare("SELECT * FROM `items` INNER JOIN `earrings` ON items.unique_key = earrings.unique_key WHERE `category` = 2 ". $filterDiamondShape . $filterMaterial . $filterColor . $filterClarity ." ORDER BY ". $filter . " " . $currentOrder . " LIMIT ". $offset .", ". $perPage ." ");
+		        	pconsole($query);
 					$query->execute(array(":first" => 10));
 					if ( $query->rowCount() > 0 ) {
-						
+						echo '<script>document.getElementById("total_items").innerHTML = "'. $query->rowCount() .'";</script>';
 						$result = $query->fetchAll();
 						foreach ( $result as $entry ) {
-
 
 							switch ($entry['category']) {
 								case 1: {
@@ -1097,9 +1296,9 @@ function checkKey($key, $pdo) {
 								echo '<td>'. $entry['id'] .'</td>';
 
 								if ( $entry['featured'] == 1 ) {
-									$featured = '<form method="post"><button class="glyphicon glyphicon-star glyphicon-custom" name="featuredRemove" value="'. $entry['id'] .'" data-toggle="tooltip" title="Remove from Featured"></button></form>';
+									$featured = '<form method="post"><button class="glyphicon glyphicon-star glyphicon-custom" name="featuredRemove" value="'. $entry['unique_key'] .'" data-toggle="tooltip" title="Remove from Featured"></button></form>';
 								} else {
-									$featured = '<form method="post"><button class="glyphicon glyphicon-star-empty glyphicon-custom" name="featuredAdd" value="'. $entry['id'] .'" data-toggle="tooltip" title="Add to Featured"></button></form>';
+									$featured = '<form method="post"><button class="glyphicon glyphicon-star-empty glyphicon-custom" name="featuredAdd" value="'. $entry['unique_key'] .'" data-toggle="tooltip" title="Add to Featured"></button></form>';
 								}
 								echo '<td style="text-align:center;">'. $featured .'</td>';
 
@@ -1126,6 +1325,8 @@ function checkKey($key, $pdo) {
 								echo '<td>'. $info['width'] .'</td>';
 								echo '<td>'. $info['length'] .'</td>';
 								echo '<td>'. getCountry($info['country_id'], $pdo) .'</td>';
+								#echo '<td>'. $info['ring_size'] .'</td>';
+								#echo '<td>'. getRingCategory($info['ring_subcategory'], $pdo) .'</td>';
 								echo '<td><button class="btn btn-custom btn-sm" onClick="manageImages(\''. $info['unique_key'] .'\')">'. intval(sizeof(explode(",", $info['images'])) - 1) .' image(s)</button></td>';
 								echo '<td>'. $info['description'] .'</td>';
 								echo '<td>'. $entry['date_added'] .'</td>';
@@ -1596,6 +1797,33 @@ function checkKey($key, $pdo) {
 									</div>
 								</td>
 							</tr>
+							<!--<tr>
+								<td> <span class="table-item-label">Ring Size</span></td>
+								<td>
+									<div class="table-item">
+										<input id="edit_ring_size" name="ring_size" type="text" class="form-control" placeholder="Ring Size, Numbers separator (,) 50,51,52, / Range, separator (-) 55-60" required>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td> <span class="table-item-label">Ring Subcategory</span> </td>
+								<td>
+									<div class="table-item">
+										
+										<select id="edit_ring_subcategory" name="ring_subcategory" class="select-style" required>
+				                            <option value="">Select</option>
+											<option value="1">Diamond Ring</option>
+											<option value="2">Gems Ring</option>
+											<option value="3">Beads Ring</option>
+											<option value="4">White Gold Ring</option>
+											<option value="5">Yellow Gold Ring</option>
+											<option value="6">Pink Gold Ring</option>
+											<option value="7">Platinum</option>
+											<option value="8">Silver Ring</option>
+				                        </select>
+									</div>
+								</td>
+							</tr>-->
 							<tr>
 								<td>
 									<span class="table-item-label">Description</span>
@@ -1678,7 +1906,7 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Total Carat Weight</span></td>
 								<td>
 									<div class="table-item">
-										<input name="total_carat_weight" type="text" class="form-control" placeholder="Total Carat (<option value="">Select Number)">
+										<input name="total_carat_weight" type="text" class="form-control" placeholder="Total Carat (Decimal Number)">
 									</div>
 								</td>
 							</tr>
@@ -1749,7 +1977,7 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<select name="material" class="select-style" required>
-				                            <option value="">Select</option>..
+				                            <option value="">Select</option>
 				                            <option value="1">Yellow Gold</option>
 				                            <option value="2">White Gold</option>
 				                            <option value="3">Pink Gold</option>
@@ -1851,6 +2079,33 @@ function checkKey($key, $pdo) {
 									</div>
 								</td>
 							</tr>
+							<!--<tr>
+								<td> <span class="table-item-label">Ring Size</span></td>
+								<td>
+									<div class="table-item">
+										<input name="ring_size" type="text" class="form-control" placeholder="Ring Size, Numbers separator (,) 50,51,52, / Range, separator (-) 55-60" required>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td> <span class="table-item-label">Ring Subcategory</span> </td>
+								<td>
+									<div class="table-item">
+										
+										<select name="ring_subcategory" class="select-style" required>
+				                            <option value="">Select</option>
+											<option value="1">Diamond Ring</option>
+											<option value="2">Gems Ring</option>
+											<option value="3">Beads Ring</option>
+											<option value="4">White Gold Ring</option>
+											<option value="5">Yellow Gold Ring</option>
+											<option value="6">Pink Gold Ring</option>
+											<option value="7">Platinum</option>
+											<option value="8">Silver Ring</option>
+				                        </select>
+									</div>
+								</td>
+							</tr>-->
 							<tr>
 								<td><span class="table-item-label">Images</span></td>
 								<td>
@@ -1942,7 +2197,7 @@ function checkKey($key, $pdo) {
 					
 					$("#promptEditItem").modal("toggle");
 				} catch ( e ) {
-					console.log(result);
+					console.log(e);
 				}
 			},
 			failure: function(error) {

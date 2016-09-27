@@ -481,9 +481,10 @@ if ( isset($_GET['importThis']) ) {
 		echo "Error: File ". $_SESSION['tmp_file'] ." Invalid";
 	}
 
-} else if ( isset($_GET['importAll']) ) {
-	if ( file_exists($_SESSION['tmp_file']) ) {
-		$xlFile = $_SESSION['tmp_file'];
+} else if ( isset($_GET['importZip']) ) {
+	if ( file_exists('../../working/zip/import/products.xlsx') ) {
+
+		$xlFile = '../../working/zip/import/products.xlsx';
 		$PHPExcel = PHPExcel_IOFactory::load($xlFile);
 
 		//$xl = $PHPExcel->getActiveSheet()->toArray(null, true, true, true);
@@ -497,15 +498,9 @@ if ( isset($_GET['importThis']) ) {
 
 			$error = "";
 
-			echo $_GET['timeToken'];
-
-			if ( strpos($xlFile, $_GET['timeToken']) !== false ) {
-				$error = "Invalid Session File / You either have another window open with the same task or the Session has expired <br> Please refresh or continue on the other window";
-			}
-
 			if ( sizeof($products[1]) !== 22 ) {
 				echo '<h4><div class="alert alert-error">Invalid Excel Format</div></h4><p>Please download the defined Excel Format and use that to input entries.</p><br><br><br><br>
-				<a class="btn btn-custom" onclick="downloadFormat()" >Download Format</a>';
+				<a class="btn btn-custom"onclick="downloadFormat()">Download Format</a>';
 				return;
 			}
 
@@ -578,7 +573,7 @@ if ( isset($_GET['importThis']) ) {
 
 			if ( empty($error) ) {
 				$result = "";
-				$i = $_GET['importThis'];
+				$i = $_GET['importZip'];
 
 				if ( empty($products[$i]['D']) ) {
 					$result = [];
@@ -608,8 +603,8 @@ if ( isset($_GET['importThis']) ) {
 				}
 
 					$company_id = "0";
-					if ( isset($_SESSION['import_company_id']) ) {
-						$company_id = $_SESSION['import_company_id'];
+					if ( isset($_SESSION['import_company_id_zip']) ) {
+						$company_id = $_SESSION['import_company_id_zip'];
 					}
 					$uniqueKey = generateUniqueKey();
 					
@@ -828,69 +823,71 @@ if ( isset($_GET['importThis']) ) {
 					$images = "";
 					$imageArray = explode(",", 	$products[$i]['U']);
 
-					for ( $j = 0; $j < sizeof($imageArray); $j++ ) {
-						$url = trim($imageArray[$j]);
+					if ( !empty($products[$i]['U']) ) {
+						for ( $j = 0; $j < sizeof($imageArray); $j++ ) {
+							$url = $__MAINDOMAIN__ . 'working/zip/import/images/' . trim($imageArray[$j]);
 
-						$ext = explode(".", $url);
-						$ext =  '.' . $ext[sizeof($ext)-1];
-						$count = 0;
-						$img = '../../images/images/'. $imgName . '_' . $itemID .'_' . $count . $ext;
-						$img_md = '../../images/images_md/'. $imgName . '_' . $itemID .'_' . $count . $ext;
-						$img_sm = '../../images/images_sm/'. $imgName . '_' . $itemID .'_' . $count . $ext;
-						while ( file_exists($img) ) {
-							$count++;
+							$ext = explode(".", $url);
+							$ext =  '.' . $ext[sizeof($ext)-1];
+							$count = 0;
 							$img = '../../images/images/'. $imgName . '_' . $itemID .'_' . $count . $ext;
 							$img_md = '../../images/images_md/'. $imgName . '_' . $itemID .'_' . $count . $ext;
 							$img_sm = '../../images/images_sm/'. $imgName . '_' . $itemID .'_' . $count . $ext;
-						}
-
-						$image_dir = "../../images/";
-
-						if ( !is_dir($image_dir . 'images/') ) {
-							mkdir($image_dir . 'images/');
-						}
-						if ( !is_dir($image_dir . 'images_md/') ) {
-							mkdir($image_dir . 'images_md/');
-						}
-						if ( !is_dir($image_dir . 'images_sm/') ) {
-							mkdir($image_dir . 'images_sm/');
-						}
-						
-
-
-						$ch=curl_init();
-						$timeout=30;
-
-						curl_setopt($ch, CURLOPT_URL, $url);
-						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-						curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-						curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-						$inputImg=curl_exec($ch);
-						$curlError = curl_error($ch);
-						$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-						curl_close($ch);
-
-						if ( empty($curlError) ) {
-							if ( strpos($contentType, "image/") === false ) {
-								$intError .= 'Invalid Image: ' . $url . '<br>';
-							} else {
-								file_put_contents($img, $inputImg);
-								create_thumb($img, 600, 600, $img_md);
-								create_thumb($img, 200, 200, $img_sm);
-								$images .= basename($img) . ",";
+							while ( file_exists($img) ) {
+								$count++;
+								$img = '../../images/images/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+								$img_md = '../../images/images_md/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+								$img_sm = '../../images/images_sm/'. $imgName . '_' . $itemID .'_' . $count . $ext;
 							}
-						} else {
-							if ( strstr($curlError, "Connection timed out") ) {
-								$intError .= 'Image took too long to download: ' . $url . '<br>' ;
-							} else if ( strstr($curlError, "malformed" ) ) {
-								$intError .= "Invalid Image URL";
+
+							$image_dir = "../../images/";
+
+							if ( !is_dir($image_dir . 'images/') ) {
+								mkdir($image_dir . 'images/');
+							}
+							if ( !is_dir($image_dir . 'images_md/') ) {
+								mkdir($image_dir . 'images_md/');
+							}
+							if ( !is_dir($image_dir . 'images_sm/') ) {
+								mkdir($image_dir . 'images_sm/');
+							}
+							
+
+
+							$ch=curl_init();
+							$timeout=30;
+
+							curl_setopt($ch, CURLOPT_URL, $url);
+							curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+							curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+							curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+							$inputImg=curl_exec($ch);
+							$curlError = curl_error($ch);
+							$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+							curl_close($ch);
+
+							if ( empty($curlError) ) {
+								if ( strpos($contentType, "image/") === false ) {
+									$intError .= 'Invalid Image: ' . $url . '<br>';
+								} else {
+									file_put_contents($img, $inputImg);
+									create_thumb($img, 600, 600, $img_md);
+									create_thumb($img, 200, 200, $img_sm);
+									$images .= basename($img) . ",";
+								}
 							} else {
-								$intError .= $curlError . '<br>' ;
+								if ( strstr($curlError, "Connection timed out") ) {
+									$intError .= 'Image took too long to download: ' . $url . '<br>' ;
+								} else if ( strstr($curlError, "malformed" ) ) {
+									$intError .= "Invalid Image URL";
+								} else {
+									$intError .= $curlError . '<br>' ;
+								}
 							}
 						}
-
-
+					} else {
+						$intError .= "No Image Found";
 					}
 
 					switch ($products[$i]['B']) {
@@ -923,6 +920,8 @@ if ( isset($_GET['importThis']) ) {
 					}
 					//$result .= "<tr><td>Added New Entry: " . $products[$i]['D'] . "</td><td>" . $intError .  "</td></tr>";
 
+					unset($PHPExcel);
+
 					$result = [];
 
 					array_push($result, $products[$i]['D']);
@@ -935,6 +934,8 @@ if ( isset($_GET['importThis']) ) {
 			}
 
 		}
+
+		unset($PHPExcel);
 
 	} else {
 		echo "Error: File ". $_SESSION['tmp_file'] ." Invalid";
@@ -1084,7 +1085,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel = PHPExcel_IOFactory::createWriter($outputExcel, 'Excel2007'); 
 	$outputExcel->save($file . $ext);
 
-	echo '<h4><div class="alert alert-success">Export Successful</div></h4><br><br><p>Backup Created: ' . basename($file . $ext) . '<br><br><a class="btn btn-custom" href="'. $file . $ext .'">Download</a>';
+	echo json_encode(array('<h4><div class="alert alert-success">Export Successful</div></h4><br><br><p>Backup Created: ' . basename($file . $ext) . '<br><br><a class="btn btn-custom" href="'. $file . $ext .'">Download</a>', $file.$ext));
 
 } else if ( isset($_GET['exportAll']) ) {
 
@@ -1239,7 +1240,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel = PHPExcel_IOFactory::createWriter($outputExcel, 'Excel2007'); 
 	$outputExcel->save($file . $ext);
 
-	echo '<h4><div class="alert alert-success">Export Successful</div></h4><br><br><p>Backup Created: ' . basename($file . $ext) . '<br><br><a class="btn btn-custom" href="'. $file . $ext .'">Download</a>';
+	echo json_encode(array('<h4><div class="alert alert-success">Export Successful</div></h4><br><br><p>Backup Created: ' . basename($file . $ext) . '<br><br><a class="btn btn-custom" href="'. $file . $ext .'">Download</a>', $file.$ext));
 
 } else if ( isset($_GET['getInfo']) ) {
 	$fetchItem = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
@@ -1380,6 +1381,17 @@ if ( isset($_GET['importThis']) ) {
 			echo 0;
 		}
 	}
+} else if ( isset($_GET['checkZipToken']) ) {
+	if ( file_exists('./../../working/zip/import/token') ) {
+		$token = file_get_contents('./../../working/zip/import/token');
+		if ( $token == $_GET['checkZipToken'] ) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	} else {
+		echo 0;
+	}
 } else if ( isset($_GET['fetchImages']) ) {
 	$uniqueKey = $_GET['fetchImages'];
 
@@ -1426,8 +1438,28 @@ if ( isset($_GET['importThis']) ) {
 	} else {
 		echo "Supplier Not Found";
 	}
-} else {
-	echo "GET not SET";
+} else if ( isset($_GET['clearImportFolder']) ) {
+	try {
+		$dir = "./../../working/zip/import/";
+		$files = scandir($dir);
+		foreach ( $files as $file ) {
+			if ( $file == ".." || $file == "." ) {
+				continue;
+			} else {
+				( is_file($dir . $file) ) ? unlink($dir . $file) : rrmdir($dir . $file);
+			}
+		}
+		echo 1;
+	} catch ( Exception $e ) {
+		echo var_dump($e);
+	}
+} else if ( isset($_GET['finalizeExport']) ) {
+	if ( isset($_GET['finalizeExport']) ) {
+		if ( file_exists($_GET['finalizeExport']) ) {
+			unlink($_GET['finalizeExport']);
+		}
+	}
+} else {	echo "GET not SET";
 }
 
 
@@ -1587,4 +1619,17 @@ if ( isset($_GET['importThis']) ) {
 		}
 
 	}
+
+function rrmdir($dir) { 
+   if (is_dir($dir)) { 
+     $objects = scandir($dir); 
+     foreach ($objects as $object) { 
+       if ($object != "." && $object != "..") { 
+         if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
+       } 
+     } 
+     reset($objects); 
+     rmdir($dir); 
+   } 
+ } 
 ?>

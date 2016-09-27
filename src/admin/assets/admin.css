@@ -509,3 +509,6 @@ input[type=file] {
 .custom-img-thumbnail:hover {
     opacity: 1;
 }
+.label-success {
+    background-color: #26b99a;
+}
