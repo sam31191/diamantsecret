@@ -158,5 +158,17 @@
 			return "N/A";
 		}
 	}
+	function getRingCategory($dsID, $pdo) {
+		$getMaterial = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `id` = :id");
+		$getMaterial->execute(array(":id" => $dsID));
+
+		if ( $getMaterial->rowCount() > 0 ) {
+			$material = $getMaterial->fetch(PDO::FETCH_ASSOC);
+			return $material['category'];
+			//echo $material['category'];
+		} else {
+			return "N/A";
+		}
+	}
 
 ?>

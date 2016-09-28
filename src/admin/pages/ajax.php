@@ -481,9 +481,10 @@ if ( isset($_GET['importThis']) ) {
 		echo "Error: File ". $_SESSION['tmp_file'] ." Invalid";
 	}
 
-} else if ( isset($_GET['importAll']) ) {
-	if ( file_exists($_SESSION['tmp_file']) ) {
-		$xlFile = $_SESSION['tmp_file'];
+} else if ( isset($_GET['importZip']) ) {
+	if ( file_exists('../../working/zip/import/products.xlsx') ) {
+
+		$xlFile = '../../working/zip/import/products.xlsx';
 		$PHPExcel = PHPExcel_IOFactory::load($xlFile);
 
 		//$xl = $PHPExcel->getActiveSheet()->toArray(null, true, true, true);
@@ -497,15 +498,9 @@ if ( isset($_GET['importThis']) ) {
 
 			$error = "";
 
-			echo $_GET['timeToken'];
-
-			if ( strpos($xlFile, $_GET['timeToken']) !== false ) {
-				$error = "Invalid Session File / You either have another window open with the same task or the Session has expired <br> Please refresh or continue on the other window";
-			}
-
 			if ( sizeof($products[1]) !== 22 ) {
 				echo '<h4><div class="alert alert-error">Invalid Excel Format</div></h4><p>Please download the defined Excel Format and use that to input entries.</p><br><br><br><br>
-				<a class="btn btn-custom" onclick="downloadFormat()" >Download Format</a>';
+				<a class="btn btn-custom"onclick="downloadFormat()">Download Format</a>';
 				return;
 			}
 
@@ -578,7 +573,7 @@ if ( isset($_GET['importThis']) ) {
 
 			if ( empty($error) ) {
 				$result = "";
-				$i = $_GET['importThis'];
+				$i = $_GET['importZip'];
 
 				if ( empty($products[$i]['D']) ) {
 					$result = [];
@@ -608,8 +603,8 @@ if ( isset($_GET['importThis']) ) {
 				}
 
 					$company_id = "0";
-					if ( isset($_SESSION['import_company_id']) ) {
-						$company_id = $_SESSION['import_company_id'];
+					if ( isset($_SESSION['import_company_id_zip']) ) {
+						$company_id = $_SESSION['import_company_id_zip'];
 					}
 					$uniqueKey = generateUniqueKey();
 					
@@ -828,69 +823,71 @@ if ( isset($_GET['importThis']) ) {
 					$images = "";
 					$imageArray = explode(",", 	$products[$i]['U']);
 
-					for ( $j = 0; $j < sizeof($imageArray); $j++ ) {
-						$url = trim($imageArray[$j]);
+					if ( !empty($products[$i]['U']) ) {
+						for ( $j = 0; $j < sizeof($imageArray); $j++ ) {
+							$url = $__MAINDOMAIN__ . 'working/zip/import/images/' . trim($imageArray[$j]);
 
-						$ext = explode(".", $url);
-						$ext =  '.' . $ext[sizeof($ext)-1];
-						$count = 0;
-						$img = '../../images/images/'. $imgName . '_' . $itemID .'_' . $count . $ext;
-						$img_md = '../../images/images_md/'. $imgName . '_' . $itemID .'_' . $count . $ext;
-						$img_sm = '../../images/images_sm/'. $imgName . '_' . $itemID .'_' . $count . $ext;
-						while ( file_exists($img) ) {
-							$count++;
+							$ext = explode(".", $url);
+							$ext =  '.' . $ext[sizeof($ext)-1];
+							$count = 0;
 							$img = '../../images/images/'. $imgName . '_' . $itemID .'_' . $count . $ext;
 							$img_md = '../../images/images_md/'. $imgName . '_' . $itemID .'_' . $count . $ext;
 							$img_sm = '../../images/images_sm/'. $imgName . '_' . $itemID .'_' . $count . $ext;
-						}
-
-						$image_dir = "../../images/";
-
-						if ( !is_dir($image_dir . 'images/') ) {
-							mkdir($image_dir . 'images/');
-						}
-						if ( !is_dir($image_dir . 'images_md/') ) {
-							mkdir($image_dir . 'images_md/');
-						}
-						if ( !is_dir($image_dir . 'images_sm/') ) {
-							mkdir($image_dir . 'images_sm/');
-						}
-						
-
-
-						$ch=curl_init();
-						$timeout=30;
-
-						curl_setopt($ch, CURLOPT_URL, $url);
-						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-						curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-						curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-						$inputImg=curl_exec($ch);
-						$curlError = curl_error($ch);
-						$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-						curl_close($ch);
-
-						if ( empty($curlError) ) {
-							if ( strpos($contentType, "image/") === false ) {
-								$intError .= 'Invalid Image: ' . $url . '<br>';
-							} else {
-								file_put_contents($img, $inputImg);
-								create_thumb($img, 600, 600, $img_md);
-								create_thumb($img, 200, 200, $img_sm);
-								$images .= basename($img) . ",";
+							while ( file_exists($img) ) {
+								$count++;
+								$img = '../../images/images/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+								$img_md = '../../images/images_md/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+								$img_sm = '../../images/images_sm/'. $imgName . '_' . $itemID .'_' . $count . $ext;
 							}
-						} else {
-							if ( strstr($curlError, "Connection timed out") ) {
-								$intError .= 'Image took too long to download: ' . $url . '<br>' ;
-							} else if ( strstr($curlError, "malformed" ) ) {
-								$intError .= "Invalid Image URL";
+
+							$image_dir = "../../images/";
+
+							if ( !is_dir($image_dir . 'images/') ) {
+								mkdir($image_dir . 'images/');
+							}
+							if ( !is_dir($image_dir . 'images_md/') ) {
+								mkdir($image_dir . 'images_md/');
+							}
+							if ( !is_dir($image_dir . 'images_sm/') ) {
+								mkdir($image_dir . 'images_sm/');
+							}
+							
+
+
+							$ch=curl_init();
+							$timeout=30;
+
+							curl_setopt($ch, CURLOPT_URL, $url);
+							curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+							curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+							curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+							$inputImg=curl_exec($ch);
+							$curlError = curl_error($ch);
+							$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+							curl_close($ch);
+
+							if ( empty($curlError) ) {
+								if ( strpos($contentType, "image/") === false ) {
+									$intError .= 'Invalid Image: ' . $url . '<br>';
+								} else {
+									file_put_contents($img, $inputImg);
+									create_thumb($img, 600, 600, $img_md);
+									create_thumb($img, 200, 200, $img_sm);
+									$images .= basename($img) . ",";
+								}
 							} else {
-								$intError .= $curlError . '<br>' ;
+								if ( strstr($curlError, "Connection timed out") ) {
+									$intError .= 'Image took too long to download: ' . $url . '<br>' ;
+								} else if ( strstr($curlError, "malformed" ) ) {
+									$intError .= "Invalid Image URL";
+								} else {
+									$intError .= $curlError . '<br>' ;
+								}
 							}
 						}
-
-
+					} else {
+						$intError .= "No Image Found";
 					}
 
 					switch ($products[$i]['B']) {
@@ -923,6 +920,8 @@ if ( isset($_GET['importThis']) ) {
 					}
 					//$result .= "<tr><td>Added New Entry: " . $products[$i]['D'] . "</td><td>" . $intError .  "</td></tr>";
 
+					unset($PHPExcel);
+
 					$result = [];
 
 					array_push($result, $products[$i]['D']);
@@ -935,6 +934,8 @@ if ( isset($_GET['importThis']) ) {
 			}
 
 		}
+
+		unset($PHPExcel);
 
 	} else {
 		echo "Error: File ". $_SESSION['tmp_file'] ." Invalid";
@@ -1084,7 +1085,167 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel = PHPExcel_IOFactory::createWriter($outputExcel, 'Excel2007'); 
 	$outputExcel->save($file . $ext);
 
-	echo '<h4><div class="alert alert-success">Export Successful</div></h4><br><br><p>Backup Created: ' . basename($file . $ext) . '<br><br><a class="btn btn-custom" href="'. $file . $ext .'">Download</a>';
+	echo json_encode(array('<h4><div class="alert alert-success">Export Successful</div></h4><br><br><p>Backup Created: ' . basename($file . $ext) . '<br><br><a class="btn btn-custom" href="'. $file . $ext .'">Download</a>', $file.$ext));
+
+} else if ( isset($_GET['exportSelectedZip']) ) {
+
+	$file = '../../working/excel/export/DiamantSecret '. date("d-M-y");
+	$ext = '.xlsx';
+
+	$count = 1;
+	while ( file_exists($file . $ext) ) {
+		$file = '../../working/excel/export/DiamantSecret '. date("d-M-y") . '_' . $count;
+		$count++;
+	}
+
+	$outputExcel = new PHPExcel();
+
+	$outputExcel->setActiveSheetIndex(0);
+	$outputExcel->getActiveSheet()->setTitle('products');
+
+	#Adding Columns
+	$outputExcel->getActiveSheet()->getStyle('A1:V1')->getFont()->setBold(true);
+	$outputExcel->getActiveSheet()->setCellValue('A1', "Company Id" );
+	$outputExcel->getActiveSheet()->setCellValue('B1', "Category Id" );
+	$outputExcel->getActiveSheet()->setCellValue('C1', "Internal Id" );
+	$outputExcel->getActiveSheet()->setCellValue('D1', "Product Name");
+	$outputExcel->getActiveSheet()->setCellValue('E1', "Amount" );
+	$outputExcel->getActiveSheet()->setCellValue('F1', "Discount Percent" );
+	$outputExcel->getActiveSheet()->setCellValue('G1', "Pieces in stock" );
+	$outputExcel->getActiveSheet()->setCellValue('H1', "Days for shipment" );
+	$outputExcel->getActiveSheet()->setCellValue('I1', "Total carat weight" );
+	$outputExcel->getActiveSheet()->setCellValue('J1', "No. of stones" );
+	$outputExcel->getActiveSheet()->setCellValue('K1', "Diamond Shape" );
+	$outputExcel->getActiveSheet()->setCellValue('L1', "Clarity" );
+	$outputExcel->getActiveSheet()->setCellValue('M1', "Color" );
+	$outputExcel->getActiveSheet()->setCellValue('N1', "Material" );
+	$outputExcel->getActiveSheet()->setCellValue('O1', "Height" );
+	$outputExcel->getActiveSheet()->setCellValue('P1', "Width" );
+	$outputExcel->getActiveSheet()->setCellValue('Q1', "Length" );
+	$outputExcel->getActiveSheet()->setCellValue('R1', "Country Id" );
+	$outputExcel->getActiveSheet()->setCellValue('S1', "Ring subcategory" );
+	$outputExcel->getActiveSheet()->setCellValue('T1', "Ring size" );
+	$outputExcel->getActiveSheet()->setCellValue('U1', "Images (comma \",\" separated)" );
+	$outputExcel->getActiveSheet()->setCellValue('V1', "Description" ) ;
+
+	#$outputExcel->getActiveSheet()->getStyle('V1:V'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
+	#$outputExcel->getActiveSheet()->getStyle('U1:U'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
+
+	$getItems = $pdo->prepare("SELECT * FROM `items`");
+	$getItems->execute();
+
+	$allItems = $getItems->fetchAll();
+
+	$array = [];
+
+	if ( !empty($_GET['exportSelectedZip']) ) {
+		foreach ( $allItems as $selected ) {
+			if ( strpos($_GET['exportSelectedZip'], $selected['unique_key']) === false ) {
+				
+			} else {
+				array_push($array, $selected);
+			}
+		}
+	} else {
+		$array = $allItems;
+	}
+
+	
+	$zipPath = '../../working/zip/archives/export/DiamantSecret_' . date("d-M-y") .".zip";
+	
+	$count = 1;
+	while ( file_exists($zipPath) ) {
+		$zipPath = '../../working/zip/archives/export/DiamantSecret_' . date("d-M-y") . "_" . $count .".zip";
+		$count++;
+	}
+
+	$zipExport = new ZipArchive();
+	$zipExport->open($zipPath, ZipArchive::CREATE || ZipArchive::OVERWRITE);
+	$zipExport->addEmptyDir('images');
+
+	$row = 2;
+	foreach ( $array as $item ) {
+		switch ($item['category']) {
+			case 1: {
+				$itemInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :uniqueKey");
+				break;
+			} case 2: {
+				$itemInfo = $pdo->prepare("SELECT * FROM `earrings` WHERE `unique_key` = :uniqueKey");
+				break;
+			} case 3: {
+				$itemInfo = $pdo->prepare("SELECT * FROM `pendants` WHERE `unique_key` = :uniqueKey");
+				break;
+			} case 4: {
+				$itemInfo = $pdo->prepare("SELECT * FROM `necklaces` WHERE `unique_key` = :uniqueKey");
+				break;
+			} case 5: {
+				$itemInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :uniqueKey");
+				break;
+			} default: {
+				echo '<div class="alert alert-error">Fatal Error: Invalid Category '. $item['category'].' for item <strong>'. $item['item_name'] .'</strong></div>';
+				return;
+			}
+		}
+		$itemInfo->execute(array(":uniqueKey" => $item['unique_key']));
+
+		$itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
+
+		if ( !isset($itemInfo['ring_subcategory']) ) {
+			$itemInfo['ring_subcategory'] = $itemInfo['ring_size'] = "ITEM_NOT_RING";
+		}
+
+		$imgArray = explode(",", $itemInfo['images']);
+
+		foreach ( $imgArray as $img ) {
+			if ( !empty($img) ) {
+				$zipExport->addFile('../../images/images/' . $img , "images/" . $img);
+			}
+		}
+
+		$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompany($itemInfo['company_id'], $pdo));
+		$outputExcel->getActiveSheet()->setCellValue('B' . $row , $item['category']);
+		$outputExcel->getActiveSheet()->setCellValue('C' . $row , $itemInfo['internal_id']);
+		$outputExcel->getActiveSheet()->setCellValue('D' . $row , $itemInfo['product_name']);
+		$outputExcel->getActiveSheet()->setCellValue('E' . $row , $item['item_value']);
+		$outputExcel->getActiveSheet()->setCellValue('F' . $row , $item['discount']);
+		$outputExcel->getActiveSheet()->setCellValue('G' . $row , $itemInfo['pieces_in_stock']);
+		$outputExcel->getActiveSheet()->setCellValue('H' . $row , $itemInfo['days_for_shipment']);
+		$outputExcel->getActiveSheet()->setCellValue('I' . $row , $itemInfo['total_carat_weight']);
+		$outputExcel->getActiveSheet()->setCellValue('J' . $row , $itemInfo['no_of_stones']);
+		$outputExcel->getActiveSheet()->setCellValue('K' . $row , $itemInfo['diamond_shape']);
+		$outputExcel->getActiveSheet()->setCellValue('L' . $row , $itemInfo['clarity']);
+		$outputExcel->getActiveSheet()->setCellValue('M' . $row , $itemInfo['color']);
+		$outputExcel->getActiveSheet()->setCellValue('N' . $row , $itemInfo['material']);
+		$outputExcel->getActiveSheet()->setCellValue('O' . $row , $itemInfo['height']);
+		$outputExcel->getActiveSheet()->setCellValue('P' . $row , $itemInfo['width']);
+		$outputExcel->getActiveSheet()->setCellValue('Q' . $row , $itemInfo['length']);
+		$outputExcel->getActiveSheet()->setCellValue('R' . $row , $itemInfo['country_id']);
+		$outputExcel->getActiveSheet()->setCellValue('S' . $row , $itemInfo['ring_subcategory']);
+		$outputExcel->getActiveSheet()->setCellValue('T' . $row , $itemInfo['ring_size']);
+		$outputExcel->getActiveSheet()->setCellValue('U' . $row , trim($itemInfo['images'], "," ) );
+		$outputExcel->getActiveSheet()->setCellValue('V' . $row , $itemInfo['description']);
+
+
+		$row++;
+	} 
+
+
+	#Setting Rest Sheets.
+	addMiscSheets($outputExcel, $pdo);
+	$outputExcel->setActiveSheetIndex(0);
+
+
+	header('Content-Type: application/vnd.ms-excel'); 
+	header('Content-Disposition: attachment;filename="results.xlsx"'); 
+	header('Cache-Control: max-age=0'); 
+	$outputExcel = PHPExcel_IOFactory::createWriter($outputExcel, 'Excel2007'); 
+	$outputExcel->save($file . $ext);
+
+	$zipExport->addFile($file . $ext, "products.xlsx");
+	$zipExport->close();
+
+
+	echo json_encode(array('<h4><div class="alert alert-success">Export Successful</div></h4><br><br><p>Backup Created: ' . basename($zipPath) . '<br><br><a class="btn btn-custom" href="'. $zipPath .'">Download</a>', $file.$ext));
 
 } else if ( isset($_GET['exportAll']) ) {
 
@@ -1200,6 +1361,7 @@ if ( isset($_GET['importThis']) ) {
 			}
 		}
 
+
 		$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompany($itemInfo['company_id'], $pdo));
 		$outputExcel->getActiveSheet()->setCellValue('B' . $row , $item['category']);
 		$outputExcel->getActiveSheet()->setCellValue('C' . $row , $itemInfo['internal_id']);
@@ -1239,7 +1401,181 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel = PHPExcel_IOFactory::createWriter($outputExcel, 'Excel2007'); 
 	$outputExcel->save($file . $ext);
 
-	echo '<h4><div class="alert alert-success">Export Successful</div></h4><br><br><p>Backup Created: ' . basename($file . $ext) . '<br><br><a class="btn btn-custom" href="'. $file . $ext .'">Download</a>';
+	echo json_encode(array('<h4><div class="alert alert-success">Export Successful</div></h4><br><br><p>Backup Created: ' . basename($file . $ext) . '<br><br><a class="btn btn-custom" href="'. $file . $ext .'">Download</a>', $file.$ext));
+
+} else if ( isset($_GET['exportAllZip']) ) {
+
+	$file = '../../working/excel/export/DiamantSecret '. date("d-M-y");
+	$ext = '.xlsx';
+
+	$count = 1;
+	while ( file_exists($file . $ext) ) {
+		$file = '../../working/excel/export/DiamantSecret '. date("d-M-y") . '_' . $count;
+		$count++;
+	}
+
+	$outputExcel = new PHPExcel();
+
+	$outputExcel->setActiveSheetIndex(0);
+	$outputExcel->getActiveSheet()->setTitle('products');
+
+	#Adding Columns
+	$outputExcel->getActiveSheet()->getStyle('A1:V1')->getFont()->setBold(true);
+	$outputExcel->getActiveSheet()->setCellValue('A1', "Company Id" );
+	$outputExcel->getActiveSheet()->setCellValue('B1', "Category Id" );
+	$outputExcel->getActiveSheet()->setCellValue('C1', "Internal Id" );
+	$outputExcel->getActiveSheet()->setCellValue('D1', "Product Name");
+	$outputExcel->getActiveSheet()->setCellValue('E1', "Amount" );
+	$outputExcel->getActiveSheet()->setCellValue('F1', "Discount Percent" );
+	$outputExcel->getActiveSheet()->setCellValue('G1', "Pieces in stock" );
+	$outputExcel->getActiveSheet()->setCellValue('H1', "Days for shipment" );
+	$outputExcel->getActiveSheet()->setCellValue('I1', "Total carat weight" );
+	$outputExcel->getActiveSheet()->setCellValue('J1', "No. of stones" );
+	$outputExcel->getActiveSheet()->setCellValue('K1', "Diamond Shape" );
+	$outputExcel->getActiveSheet()->setCellValue('L1', "Clarity" );
+	$outputExcel->getActiveSheet()->setCellValue('M1', "Color" );
+	$outputExcel->getActiveSheet()->setCellValue('N1', "Material" );
+	$outputExcel->getActiveSheet()->setCellValue('O1', "Height" );
+	$outputExcel->getActiveSheet()->setCellValue('P1', "Width" );
+	$outputExcel->getActiveSheet()->setCellValue('Q1', "Length" );
+	$outputExcel->getActiveSheet()->setCellValue('R1', "Country Id" );
+	$outputExcel->getActiveSheet()->setCellValue('S1', "Ring subcategory" );
+	$outputExcel->getActiveSheet()->setCellValue('T1', "Ring size" );
+	$outputExcel->getActiveSheet()->setCellValue('U1', "Images (comma \",\" separated)" );
+	$outputExcel->getActiveSheet()->setCellValue('V1', "Description" ) ;
+
+	#$outputExcel->getActiveSheet()->getStyle('V1:V'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
+	#$outputExcel->getActiveSheet()->getStyle('U1:U'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
+
+	switch ($_GET['exportAllZip']) {
+		case 0: {
+			$category = "";
+			break;
+		} case 1: {
+			$category = " WHERE `category` = ". $_GET['exportAllZip'];
+			break;
+		} case 2: {
+			$category = " WHERE `category` = ". $_GET['exportAllZip'];
+			break;
+		} case 3: {
+			$category = " WHERE `category` = ". $_GET['exportAllZip'];
+			break;
+		} case 4: {
+			$category = " WHERE `category` = ". $_GET['exportAllZip'];
+			break;
+		} case 5: {
+			$category = " WHERE `category` = ". $_GET['exportAllZip'];
+			break;
+		} default: {
+			$category = "";
+			break;
+		} 
+	}
+
+	$getItems = $pdo->prepare("SELECT * FROM `items`". $category);
+	$getItems->execute();
+
+	$allItems = $getItems->fetchAll();
+
+	$array = $allItems;
+
+	$zipPath = '../../working/zip/archives/export/DiamantSecret_' . date("d-M-y") .".zip";
+	
+	$count = 1;
+	while ( file_exists($zipPath) ) {
+		$zipPath = '../../working/zip/archives/export/DiamantSecret_' . date("d-M-y") . "_" . $count .".zip";
+		$count++;
+	}
+
+
+	$zipExport = new ZipArchive();
+	$zipExport->open($zipPath, ZipArchive::CREATE || ZipArchive::OVERWRITE);
+	$zipExport->addEmptyDir('images');
+
+
+	$row = 2;
+	foreach ( $array as $item ) {
+		switch ($item['category']) {
+			case 1: {
+				$itemInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :uniqueKey");
+				break;
+			} case 2: {
+				$itemInfo = $pdo->prepare("SELECT * FROM `earrings` WHERE `unique_key` = :uniqueKey");
+				break;
+			} case 3: {
+				$itemInfo = $pdo->prepare("SELECT * FROM `pendants` WHERE `unique_key` = :uniqueKey");
+				break;
+			} case 4: {
+				$itemInfo = $pdo->prepare("SELECT * FROM `necklaces` WHERE `unique_key` = :uniqueKey");
+				break;
+			} case 5: {
+				$itemInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :uniqueKey");
+				break;
+			} 
+		}
+		$itemInfo->execute(array(":uniqueKey" => $item['unique_key']));
+
+		$itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
+
+		if ( !isset($itemInfo['ring_subcategory']) ) {
+			$itemInfo['ring_subcategory'] = $itemInfo['ring_size'] = "ITEM_NOT_RING";
+		}
+
+		$numImg = "";
+
+		$imgArray = explode(",", $itemInfo['images']);
+
+		foreach ( $imgArray as $img ) {
+			if ( !empty($img) ) {
+				$zipExport->addFile('../../images/images/' . $img , "images/" . $img);
+			}
+		}
+
+
+		$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompany($itemInfo['company_id'], $pdo));
+		$outputExcel->getActiveSheet()->setCellValue('B' . $row , $item['category']);
+		$outputExcel->getActiveSheet()->setCellValue('C' . $row , $itemInfo['internal_id']);
+		$outputExcel->getActiveSheet()->setCellValue('D' . $row , $itemInfo['product_name']);
+		$outputExcel->getActiveSheet()->setCellValue('E' . $row , $item['item_value']);
+		$outputExcel->getActiveSheet()->setCellValue('F' . $row , $item['discount']);
+		$outputExcel->getActiveSheet()->setCellValue('G' . $row , $itemInfo['pieces_in_stock']);
+		$outputExcel->getActiveSheet()->setCellValue('H' . $row , $itemInfo['days_for_shipment']);
+		$outputExcel->getActiveSheet()->setCellValue('I' . $row , $itemInfo['total_carat_weight']);
+		$outputExcel->getActiveSheet()->setCellValue('J' . $row , $itemInfo['no_of_stones']);
+		$outputExcel->getActiveSheet()->setCellValue('K' . $row , $itemInfo['diamond_shape']);
+		$outputExcel->getActiveSheet()->setCellValue('L' . $row , $itemInfo['clarity']);
+		$outputExcel->getActiveSheet()->setCellValue('M' . $row , $itemInfo['color']);
+		$outputExcel->getActiveSheet()->setCellValue('N' . $row , $itemInfo['material']);
+		$outputExcel->getActiveSheet()->setCellValue('O' . $row , $itemInfo['height']);
+		$outputExcel->getActiveSheet()->setCellValue('P' . $row , $itemInfo['width']);
+		$outputExcel->getActiveSheet()->setCellValue('Q' . $row , $itemInfo['length']);
+		$outputExcel->getActiveSheet()->setCellValue('R' . $row , $itemInfo['country_id']);
+		$outputExcel->getActiveSheet()->setCellValue('S' . $row , $itemInfo['ring_subcategory']);
+		$outputExcel->getActiveSheet()->setCellValue('T' . $row , $itemInfo['ring_size']);
+		$outputExcel->getActiveSheet()->setCellValue('U' . $row , trim($itemInfo['images'], ","));
+		$outputExcel->getActiveSheet()->setCellValue('V' . $row , $itemInfo['description']);
+
+
+		$row++;
+	} 
+
+
+	#Setting Rest Sheets.
+	addMiscSheets($outputExcel, $pdo);
+	$outputExcel->setActiveSheetIndex(0);
+
+
+	header('Content-Type: application/vnd.ms-excel'); 
+	header('Content-Disposition: attachment;filename="results.xlsx"'); 
+	header('Cache-Control: max-age=0'); 
+	$outputExcel = PHPExcel_IOFactory::createWriter($outputExcel, 'Excel2007'); 
+	$outputExcel->save($file . $ext);
+
+
+	$zipExport->addFile($file . $ext, "products.xlsx");
+	$zipExport->close();
+
+	echo json_encode(array('<h4><div class="alert alert-success">Export Successful</div></h4><br><br><p>Zip Created: ' . basename($zipPath) . '<br><br><a class="btn btn-custom" href="'. $zipPath .'">Download</a>', $file.$ext));
 
 } else if ( isset($_GET['getInfo']) ) {
 	$fetchItem = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
@@ -1380,6 +1716,17 @@ if ( isset($_GET['importThis']) ) {
 			echo 0;
 		}
 	}
+} else if ( isset($_GET['checkZipToken']) ) {
+	if ( file_exists('./../../working/zip/import/token') ) {
+		$token = file_get_contents('./../../working/zip/import/token');
+		if ( $token == $_GET['checkZipToken'] ) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+	} else {
+		echo 0;
+	}
 } else if ( isset($_GET['fetchImages']) ) {
 	$uniqueKey = $_GET['fetchImages'];
 
@@ -1426,8 +1773,28 @@ if ( isset($_GET['importThis']) ) {
 	} else {
 		echo "Supplier Not Found";
 	}
-} else {
-	echo "GET not SET";
+} else if ( isset($_GET['clearImportFolder']) ) {
+	try {
+		$dir = "./../../working/zip/import/";
+		$files = scandir($dir);
+		foreach ( $files as $file ) {
+			if ( $file == ".." || $file == "." ) {
+				continue;
+			} else {
+				( is_file($dir . $file) ) ? unlink($dir . $file) : rrmdir($dir . $file);
+			}
+		}
+		echo 1;
+	} catch ( Exception $e ) {
+		echo var_dump($e);
+	}
+} else if ( isset($_GET['finalizeExport']) ) {
+	if ( isset($_GET['finalizeExport']) ) {
+		if ( file_exists($_GET['finalizeExport']) ) {
+			unlink($_GET['finalizeExport']);
+		}
+	}
+} else {	echo "GET not SET";
 }
 
 
@@ -1587,4 +1954,17 @@ if ( isset($_GET['importThis']) ) {
 		}
 
 	}
+
+function rrmdir($dir) { 
+   if (is_dir($dir)) { 
+     $objects = scandir($dir); 
+     foreach ($objects as $object) { 
+       if ($object != "." && $object != "..") { 
+         if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
+       } 
+     } 
+     reset($objects); 
+     rmdir($dir); 
+   } 
+ } 
 ?>

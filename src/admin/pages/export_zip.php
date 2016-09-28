@@ -30,7 +30,7 @@ if ( isset($_SESSION['modSession']) ) {
 	    <meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <title>Export Excel - Admin Panel</title>
+	    <title>Export Zip - Admin Panel</title>
 	    <!-- Bootstrap -->
 	    <link href="../../css/bootstrap.min.css" rel="stylesheet">
 	    <!-- Font Awesome -->
@@ -74,7 +74,7 @@ if ( isset($_SESSION['modSession']) ) {
 	        <div class="right_col" role="main">
 	        <div>
         
-		        <h3>Export to Excel 
+		        <h3>Export to Zip 
 		        	<div class="btn-group">
 		            <?php 
 		                if ( isset($_GET['show']) ){
@@ -567,7 +567,7 @@ function exportSelected() {
 	console.log(selected);
 
 	$.ajax({
-		url: './ajax.php?exportSelected=' + selected,
+		url: './ajax.php?exportSelectedZip=' + selected,
 		type: 'GET',
 		xhr: function() {
 	        var xhr = new window.XMLHttpRequest();
@@ -610,7 +610,7 @@ function exportSelected() {
 function exportAll(category = 0) {
 	//alert("Exporting All");
 	$.ajax({
-		url: './ajax.php?exportAll=' + category,
+		url: './ajax.php?exportAllZip=' + category,
 		type: 'GET',
 		xhr: function() {
 	        var xhr = new window.XMLHttpRequest();
@@ -654,7 +654,7 @@ function finalizeExport() {
 		url: './ajax.php?finalizeExport=' + exportFile,
 		type: 'GET',
 		complete: function() {
-			window.location = "./export_excel.php";
+			window.location = "./export_zip.php";
 		}
 	});
 }
