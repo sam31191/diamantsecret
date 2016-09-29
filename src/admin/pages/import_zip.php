@@ -43,8 +43,6 @@ if ( isset($_SESSION['modSession']) ) {
 
 
 		<script src="../../js/jquery-1.12.0.js"></script>
-		<script src="../assets/custom.min.js"></script>
-		<script src="../../js/bootstrap.min.js"></script>
 	  </head>
 	  <body class="nav-md">
 
@@ -369,6 +367,9 @@ if ( isset($_SESSION['modSession']) ) {
 	    </div>
 
 	    <!-- jQuery -->
+	    
+		<script src="../assets/custom.min.js"></script>
+		<script src="../../js/bootstrap.min.js"></script>
 		<script src="./file-upload/js/vendor/jquery.ui.widget.js"></script>
 		<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 		<script src="./file-upload/js/jquery.iframe-transport.js"></script>
