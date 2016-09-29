@@ -322,7 +322,7 @@ if ( isset($_POST['removeFromFav'])) {
 					</div>
 					<div class="col-md-12">
 						<label>Phone Number</label>
-						<input type="text" name="mobileno" value="'. $info['mobileno'] .'" pattern="[0-9]{4,}" class="form-control">
+						<input type="text" name="mobileno" value="'. $info['mobileno'] .'" pattern="[0-9+ ]{4,}" class="form-control">
 					</div>
 					<div class="col-md-12">
 						<label>Address</label>
