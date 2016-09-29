@@ -40,6 +40,11 @@ if ( isset($_SESSION['modSession']) ) {
 	    <link href="../assets/font-awesome.min.css" rel="stylesheet">
 	    <link href="../assets/admin.css" rel="stylesheet">
 	    <link rel="stylesheet" href="./file-upload/css/jquery.fileupload.css">
+
+
+		<script src="../../js/jquery-1.12.0.js"></script>
+		<script src="../assets/custom.min.js"></script>
+		<script src="../../js/bootstrap.min.js"></script>
 	  </head>
 	  <body class="nav-md">
 
@@ -54,7 +59,7 @@ if ( isset($_SESSION['modSession']) ) {
         <div id="uploadDiv" style="background:rgba(0,0,0,0.75); height:100%; width:100%; position:fixed; z-index:100" hidden>
         <div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 400px; margin-left: -400px; margin-top: -200px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
 	        	<h4><div class='alert alert-info' style="position: fixed;" id="alertDiv">Importing <span id="importedItems">0</span>/<span id="totalItems">0</span></div>
-	        	<a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 0px 16px; /* right: 0px; */ position: fixed; display: block; /* float: right; */ margin-left: 700px;" onclick="window.location = './import_zip.php';" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
+	        	<a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 0px 16px; /* right: 0px; */ position: fixed; display: block; /* float: right; */ margin-left: 700px;" onclick="finalizeImport()" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
 	        	</h4><table class='table table-condensed table-custom' style="table-layout: fixed; word-wrap: break-word;"><thead><th style="width: 50px;">#</th><th style="width: 60%;">Entry</th><th>Errors</th></thead><tbody id="resultTable"></tbody></table>
         	</div>
         </div>
@@ -180,7 +185,7 @@ if ( isset($_SESSION['modSession']) ) {
 		        						pconsole( "Sheet Found" );
 		        						#Extracting to ./working/zip/import
 		        						$checkImportFolder = scandir($importDir);
-		        						if ( sizeof($checkImportFolder) > 2 ) {
+		        						if ( sizeof($checkImportFolder) > 3 ) {
 		        							pconsole( "Import folder occupied / Give empty prompt" );
         									echo '<div class="alert alert-danger">Import folder seems to be already in use. <br>This could be due to it being used in another session or a different System. In order to continue, you would need to clear the import folder.<br><br><button class="btn btn-warning" onClick="$(\'#promptClearImportFolder\').modal(\'toggle\');">Clear Import</button></div>';
 		        						} else {
@@ -364,10 +369,6 @@ if ( isset($_SESSION['modSession']) ) {
 	    </div>
 
 	    <!-- jQuery -->
-
-		<script src="../../js/jquery-1.12.0.js"></script>
-		<script src="../assets/custom.min.js"></script>
-		<script src="../../js/bootstrap.min.js"></script>
 		<script src="./file-upload/js/vendor/jquery.ui.widget.js"></script>
 		<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 		<script src="./file-upload/js/jquery.iframe-transport.js"></script>
@@ -472,8 +473,10 @@ function bulkRemoveItems() {
 
 var currentAjax = 0;
 var ajaxQ = [];
+var globalTimeToken = "";
 
 function importThis(timeToken){
+	globalTimeToken = timeToken;
 	
 	count = 0;
 	$('#resultTable').html("");
@@ -492,10 +495,11 @@ function importThis(timeToken){
 		}
 	});
 
-	checkQ(currentAjax);
+	checkQ(timeToken);
 }
 
 function importAll(timeToken){
+	globalTimeToken = timeToken;
 	
 	count = 0;
 	$('#resultTable').html("");
@@ -605,6 +609,28 @@ function clearImportFolder() {
 				window.location.reload();
 			} else {
 				console.log(result);
+			}
+		}
+	});
+}
+
+function finalizeImport() {
+	$.ajax({
+		url: './ajax.php?finalizeImport=' + globalTimeToken,
+		type: 'GET',
+		success: function(result) {
+			console.log(result);
+			try {
+				result = JSON.parse(result);
+				if ( result['tokenMatch'] ) {
+					console.log("token matched");
+				} else {
+					console.log("Token mismatch");
+				}
+
+				window.location = "./import_zip.php";
+			} catch (error) {
+				console.log(error);
 			}
 		}
 	});

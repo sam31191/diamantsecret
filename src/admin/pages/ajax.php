@@ -1627,6 +1627,7 @@ if ( isset($_GET['importThis']) ) {
 	}
 
 	echo json_encode($subs);
+
 } else if ( isset($_GET['sendNewsletter']) ) {
 	require '../../url/PHPMailerAutoload.php';
 
@@ -1708,6 +1709,7 @@ if ( isset($_GET['importThis']) ) {
 
 	$outputExcel = PHPExcel_IOFactory::createWriter($outputExcel, 'Excel2007'); 
 	$outputExcel->save('./../assets/format.xlsx');
+
 } else if (isset($_GET['checkToken']) ) {
 	if ( isset($_SESSION['tmp_file']) ) {
 		if ( strpos($_SESSION['tmp_file'], $_GET['checkToken']) !== false ) {
@@ -1716,6 +1718,7 @@ if ( isset($_GET['importThis']) ) {
 			echo 0;
 		}
 	}
+
 } else if ( isset($_GET['checkZipToken']) ) {
 	if ( file_exists('./../../working/zip/import/token') ) {
 		$token = file_get_contents('./../../working/zip/import/token');
@@ -1727,6 +1730,7 @@ if ( isset($_GET['importThis']) ) {
 	} else {
 		echo 0;
 	}
+
 } else if ( isset($_GET['fetchImages']) ) {
 	$uniqueKey = $_GET['fetchImages'];
 
@@ -1764,6 +1768,7 @@ if ( isset($_GET['importThis']) ) {
 	} else {
 		echo "Invalid Item";
 	}
+
 } else if ( isset($_GET['getSupplierDetails']) ) {
 	$getSupplier = $pdo->prepare("SELECT * FROM `company_id` WHERE `id` = :id");
 	$getSupplier->execute(array(":id" => $_GET['getSupplierDetails']));
@@ -1773,12 +1778,13 @@ if ( isset($_GET['importThis']) ) {
 	} else {
 		echo "Supplier Not Found";
 	}
+
 } else if ( isset($_GET['clearImportFolder']) ) {
 	try {
 		$dir = "./../../working/zip/import/";
 		$files = scandir($dir);
 		foreach ( $files as $file ) {
-			if ( $file == ".." || $file == "." ) {
+			if ( $file == ".." || $file == "." || $file == ".gitignore" ) {
 				continue;
 			} else {
 				( is_file($dir . $file) ) ? unlink($dir . $file) : rrmdir($dir . $file);
@@ -1788,14 +1794,40 @@ if ( isset($_GET['importThis']) ) {
 	} catch ( Exception $e ) {
 		echo var_dump($e);
 	}
+
 } else if ( isset($_GET['finalizeExport']) ) {
 	if ( isset($_GET['finalizeExport']) ) {
 		if ( file_exists($_GET['finalizeExport']) ) {
 			unlink($_GET['finalizeExport']);
 		}
 	}
-} else {	echo "GET not SET";
-}
+
+} else if ( isset($_GET['finalizeImport']) ) {
+
+	if ( file_exists('./../../working/zip/import/token') ) {
+		$token = file_get_contents('./../../working/zip/import/token');
+
+		if ( $token == $_GET['finalizeImport'] ) {
+			try {
+				$dir = "./../../working/zip/import/";
+				$files = scandir($dir);
+				foreach ( $files as $file ) {
+					if ( $file == ".." || $file == "." || $file == ".gitignore" ) {
+						continue;
+					} else {
+						( is_file($dir . $file) ) ? unlink($dir . $file) : rrmdir($dir . $file);
+					}
+				}
+				echo json_encode(array("tokenMatch" => true));
+			} catch ( Exception $e ) {
+				echo var_dump($e);
+			}	
+		} else {
+			echo json_encode(array("tokenMatch" => false));
+		}
+	}
+	
+} else {	echo "GET not SET";		}
 
 
 
