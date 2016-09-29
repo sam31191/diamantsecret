@@ -135,11 +135,11 @@ pconsole($_POST);
 								<div id="page-header">
 									<h1 id="page-title">Collection</h1>
 								</div>
-								<div class="collection-warper col-sm-24 clearfix"> 
+								<!-- <div class="collection-warper col-sm-24 clearfix"> 
 									<div class="collection-panner">
 										<img src="./images/gfx/collection_banner.jpg" class="img-responsive" alt="">
 									</div>
-								</div>
+								</div>-->
 								<?php
 
 								
@@ -489,6 +489,107 @@ pconsole($_POST);
       </div>
     </div>
   </div>
+  <div class="home-popular-collections">
+									<div class="container">
+										<div class="group_home_collections row">
+											<div class="col-md-24">
+												<div class="home_collections">
+													<h6 class="general-title">Popular Collections</h6>
+													<div class="home_collections_wrapper">												
+														<div id="home_collections">
+																		<div class="home_collections_item">
+																			<div class="home_collections_item_inner">
+																				<div class="collection-details">
+																					<a href="./collection_rings.php" title="Browse our Rings">
+																						<img src="./images/gfx/ring_270x270.png" alt="Rings">
+																					</a>
+																				</div>
+																				<div class="hover-overlay">
+																					<span class="col-name"><a href="./collection_rings.php">Rings</a></span>
+																					<div class="collection-action">
+																						<a href="./collection_rings.php">See the Collection</a>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="home_collections_item">
+																			<div class="home_collections_item_inner">
+																				<div class="collection-details">
+																					<a href="./collection_earrings.php" title="Browse our Earrings">
+																					<img src="./images/gfx/earring_270x270.png" alt="Earrings">
+																					</a>
+																				</div>
+																				<div class="hover-overlay">
+																					<span class="col-name"><a href="./collection_earrings.php">Earrings</a></span>
+																					<div class="collection-action">
+																						<a href="./collection_earrings.php">See the Collection</a>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="home_collections_item">
+																			<div class="home_collections_item_inner">
+																				<div class="collection-details">
+																					<a href="./collection_pendants.php" title="Browse our Pendants">
+																					<img src="./images/gfx/pendant_270x270.png" alt="Pendants">
+																					</a>
+																				</div>
+																				<div class="hover-overlay">
+																					<span class="col-name"><a href="./collection_pendants.php">Pendants</a></span>
+																					<div class="collection-action">
+																						<a href="./collection_pendants.php">See the Collection</a>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="home_collections_item">
+																			<div class="home_collections_item_inner">
+																				<div class="collection-details">
+																					<a href="./collection_necklaces.php" title="Browse our Necklaces">
+																					<img src="./images/gfx/necklace_270x270.png" alt="Necklaces">
+																					</a>
+																				</div>
+																				<div class="hover-overlay">
+																					<span class="col-name"><a href="./collection_necklaces.php">Necklaces</a></span>
+																					<div class="collection-action">
+																						<a href="./collection_necklaces.php">See the Collection</a>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="home_collections_item">
+																			<div class="home_collections_item_inner">
+																				<div class="collection-details">
+																					<a href="./collection_bracelets.php" title="Browse our Bracelets">
+																						<img src="./images/gfx/bracelet_270x270.png" alt="Bracelets">
+																					</a>
+																				</div>
+																				<div class="hover-overlay">
+																					<span class="col-name"><a href="./collection_bracelets.php">Bracelets</a></span>
+																					<div class="collection-action">
+																						<a href="./collection_bracelets.php">See the Collection</a>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+															</div>													
+														</div>
+													</div>
+												</div>
+												<script>
+												  $(document).ready(function() {
+													$('.collection-details').hover(
+													  function() {
+														$(this).parent().addClass("collection-hovered");
+													  },
+													  function() {
+													  $(this).parent().removeClass("collection-hovered");
+													  });
+												  });
+												</script>
+											</div>
+										</div>
+								</div>
 
     <?php include './url/footer.php'; ?>
 
