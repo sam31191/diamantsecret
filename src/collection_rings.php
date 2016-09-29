@@ -200,7 +200,7 @@ pconsole($_POST);
 														<p class="title">
 															Clarity
 														</p>
-														<select form="filterForm" name="clarity">
+														<select form="filterForm" name="clarity" id="clarityFilter">
 															<option value="">Clarity</option>
 								                            <option value="FL">FL</option>
 								                            <option value="IF">IF</option>
@@ -214,6 +214,14 @@ pconsole($_POST);
 								                            <option value="I1">I1</option>
 														</select>
 													</div>
+
+													<?php
+
+													if ( !empty($clarityTag) ) {
+														echo "<script>$('#clarityFilter option[value=$clarityTag]').attr('selected', 'true');</script>";
+													}
+
+													?>
 													<!-- tags groupd 2 -->
 													<div class="tag-group" id="coll-filter-2">
 														<p class="title">
@@ -227,8 +235,17 @@ pconsole($_POST);
 															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Platinum" value="5" onclick="filterMaterial(this.value)">PL</button></li>
 														</ul>
 													</div>
+
+													<?php
+
+													if ( !empty($materialTag) ) {
+														echo "<script>$('#coll-filter-2 ul li button[value=$materialTag]').addClass('material-tag-active');
+															$('#filterMaterial').val($materialTag);</script>";
+													}
+
+													?>
 													<!-- tags groupd 3 -->
-													<div class="tag-group" id="coll-filter-2">
+													<div class="tag-group" id="coll-filter-2-color">
 														<p class="title">
 															Stone
 														</p>
@@ -237,13 +254,21 @@ pconsole($_POST);
 															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Colored Stone" value="2" onclick="filterStone(this.value)">Colored</button></li>
 														</ul>
 													</div>
+													<?php
+
+													if ( !empty($stoneTag) ) {
+														echo "<script>$('#coll-filter-2-color ul li button[value=$stoneTag]').addClass('stone-tag-active'); 
+															$('#filterStone').val($stoneTag)</script>";
+													}
+
+													?>
 													<!-- tags groupd 4 -->
-													<div class="tag-group" id="coll-filter-2">
+													<div class="tag-group" id="coll-filter-2-ring">
 														<p class="title">
 															Ring
 														</p>
 														<ul>
-															<select form="filterForm" name="ring_category">
+														<select form="filterForm" name="ring_category">
 															<option value="">Ring Category</option>
 								                            <option value="1">Diamond Ring</option>
 								                            <option value="2">Half Eternity Diamond Ring</option>
@@ -254,6 +279,14 @@ pconsole($_POST);
 														</select>
 														</ul>
 													</div>
+
+													<?php
+
+													if ( !empty($ringTag) ) {
+														echo "<script>$('#coll-filter-2-ring ul select option[value=$ringTag]').attr('selected', 'true');</script>";
+													}
+
+													?>
 													<!-- tags groupd 4 -->
 												</div>
 											</div>  
@@ -509,11 +542,29 @@ pconsole($_POST);
 													</ul>
 												</li> -->
 												<?php
-													$count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items` WHERE `category` = 1");
+													$filterX = "";
+
+													if ( !empty($materialTag) ) {
+														$filterX .= " AND `material` = '" . $materialTag . "' ";
+													}
+
+													if ( !empty($clarityTag) ) {
+														$filterX .= " AND `clarity` = '" . $clarityTag . "' ";
+													}
+
+													if ( !empty($stoneTag) ) {
+														$filterX .= " AND `color` = '" . $stoneTag . "' ";
+													}
+
+													if ( !empty($ringTag) ) {
+														$filterX .= " AND `ring_subcategory` = '" . $ringTag . "' ";
+													}
+
+													$count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items` INNER JOIN `rings` ON items.unique_key = rings.unique_key WHERE `category` = 1" . $filterX);
 													$count->execute();
 													$totalRows = $count->fetch(PDO::FETCH_ASSOC);
 													$totalRows = $totalRows['totalRows'];
-													pconsole($totalRows);
+													pconsole("Total Rows - ". $totalRows);
 													$perPage = 15;
 													$pages = $totalRows/$perPage;
 													if ( $totalRows%$perPage == 0 ) {
@@ -531,7 +582,7 @@ pconsole($_POST);
 													}
 
 													$filter = "ORDER BY ". $filterTag ." ". $orderTag .", `date_added` DESC LIMIT ". $offset . ", " . $perPage;
-													$getAll = $pdo->prepare("SELECT * FROM `items` WHERE `category` = 1 " . $filter);
+													$getAll = $pdo->prepare("SELECT * FROM `items` INNER JOIN `rings` ON items.unique_key = rings.unique_key WHERE `category` = 1 " . $filterX . $filter );
 													$getAll->execute();
 													$allItems = $getAll->fetchAll();
 

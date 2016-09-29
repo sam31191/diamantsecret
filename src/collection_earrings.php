@@ -163,6 +163,12 @@ pconsole($_POST);
 									} else {
 										$clarityTag = "";
 									}
+									if ( isset($_GET['ring_category']) ) {
+										$ringTag = $_GET['ring_category'];
+										#echo '<label class="label label-info">'. $_GET['ring_category'] .'</label>';
+									} else {
+										$ringTag = "";
+									}
 									if ( isset($_GET['filter']) ) {
 										$filterTag = $_GET['filter'];
 									} else {
@@ -188,13 +194,13 @@ pconsole($_POST);
 														<input id="filterMaterial" name="material" hidden />
 														<input id="filterStone" name="stone" hidden />
 													</form>
-													<h6 class="sb-title">Filter <a href="./collection_earrings.php" style="font-size:12px">clear</a><button class="btn" form="filterForm" type="submit" style="float:right;">Apply</button></h6>
+													<h6 class="sb-title">Filter <a href="./collection_rings.php" style="font-size:12px">clear</a><button class="btn" form="filterForm" type="submit" style="float:right;">Apply</button></h6>
 													<!-- tags groupd 1 -->
 													<div class="tag-group" id="coll-filter-1">
 														<p class="title">
 															Clarity
 														</p>
-														<select form="filterForm" name="clarity">
+														<select form="filterForm" name="clarity" id="clarityFilter">
 															<option value="">Clarity</option>
 								                            <option value="FL">FL</option>
 								                            <option value="IF">IF</option>
@@ -208,6 +214,14 @@ pconsole($_POST);
 								                            <option value="I1">I1</option>
 														</select>
 													</div>
+
+													<?php
+
+													if ( !empty($clarityTag) ) {
+														echo "<script>$('#clarityFilter option[value=$clarityTag]').attr('selected', 'true');</script>";
+													}
+
+													?>
 													<!-- tags groupd 2 -->
 													<div class="tag-group" id="coll-filter-2">
 														<p class="title">
@@ -221,8 +235,17 @@ pconsole($_POST);
 															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Platinum" value="5" onclick="filterMaterial(this.value)">PL</button></li>
 														</ul>
 													</div>
+
+													<?php
+
+													if ( !empty($materialTag) ) {
+														echo "<script>$('#coll-filter-2 ul li button[value=$materialTag]').addClass('material-tag-active');
+															$('#filterMaterial').val($materialTag);</script>";
+													}
+
+													?>
 													<!-- tags groupd 3 -->
-													<div class="tag-group" id="coll-filter-2">
+													<div class="tag-group" id="coll-filter-2-color">
 														<p class="title">
 															Stone
 														</p>
@@ -231,8 +254,39 @@ pconsole($_POST);
 															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Colored Stone" value="2" onclick="filterStone(this.value)">Colored</button></li>
 														</ul>
 													</div>
+													<?php
+
+													if ( !empty($stoneTag) ) {
+														echo "<script>$('#coll-filter-2-color ul li button[value=$stoneTag]').addClass('stone-tag-active'); 
+															$('#filterStone').val($stoneTag)</script>";
+													}
+
+													?>
 													<!-- tags groupd 4 -->
-													
+													<!-- <div class="tag-group" id="coll-filter-2-ring">
+														<p class="title">
+															Ring
+														</p>
+														<ul>
+														<select form="filterForm" name="ring_category">
+															<option value="">Ring Category</option>
+								                            <option value="1">Diamond Ring</option>
+								                            <option value="2">Half Eternity Diamond Ring</option>
+								                            <option value="3">Full Eternity Diamond Ring</option>
+								                            <option value="4">Solitaire Diamond Ring</option>
+								                            <option value="5">Gems Ring</option>
+								                            <option value="6">Pearls Ring</option>
+														</select>
+														</ul>
+													</div>-->
+
+													<?php
+
+													if ( !empty($ringTag) ) {
+														echo "<script>$('#coll-filter-2-ring ul select option[value=$ringTag]').attr('selected', 'true');</script>";
+													}
+
+													?>
 													<!-- tags groupd 4 -->
 												</div>
 											</div>  
@@ -424,6 +478,7 @@ pconsole($_POST);
 																		$select1 = "selected";
 																	}
 																}
+																
 																echo '<option value="?filter=featured&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select1 .'>Featured</option>';
 																echo '<option value="?filter=item_value&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select2 .'>Price: High to Low</option>';
 																echo '<option value="?filter=item_value&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select3 .'>Price: Low to High</option>';
@@ -488,11 +543,29 @@ pconsole($_POST);
 													</ul>
 												</li> -->
 												<?php
-													$count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items` WHERE `category` = 2");
+													$filterX = "";
+
+													if ( !empty($materialTag) ) {
+														$filterX .= " AND `material` = '" . $materialTag . "' ";
+													}
+
+													if ( !empty($clarityTag) ) {
+														$filterX .= " AND `clarity` = '" . $clarityTag . "' ";
+													}
+
+													if ( !empty($stoneTag) ) {
+														$filterX .= " AND `color` = '" . $stoneTag . "' ";
+													}
+
+													if ( !empty($ringTag) ) {
+														$filterX .= " AND `ring_subcategory` = '" . $ringTag . "' ";
+													}
+
+													$count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items` INNER JOIN `earrings` ON items.unique_key = earrings.unique_key WHERE `category` = 2" . $filterX);
 													$count->execute();
 													$totalRows = $count->fetch(PDO::FETCH_ASSOC);
 													$totalRows = $totalRows['totalRows'];
-													pconsole($totalRows);
+													pconsole("Total Rows - ". $totalRows);
 													$perPage = 15;
 													$pages = $totalRows/$perPage;
 													if ( $totalRows%$perPage == 0 ) {
@@ -510,7 +583,7 @@ pconsole($_POST);
 													}
 
 													$filter = "ORDER BY ". $filterTag ." ". $orderTag .", `date_added` DESC LIMIT ". $offset . ", " . $perPage;
-													$getAll = $pdo->prepare("SELECT * FROM `items` WHERE `category` = 2 " . $filter);
+													$getAll = $pdo->prepare("SELECT * FROM `items` INNER JOIN `earrings` ON items.unique_key = earrings.unique_key WHERE `category` = 2 " . $filterX . $filter );
 													$getAll->execute();
 													$allItems = $getAll->fetchAll();
 
@@ -632,10 +705,20 @@ pconsole($_POST);
 															} else {
 																$filterCheck++;
 															}
+
+															if ( $ringFilter ) {
+																if ( $_GET['ring_category'] == $itemInfo['ring_subcategory'] ) {
+																	$filterCheck++;
+																} else {
+
+																}
+															} else {
+																$filterCheck++;
+															}
 															
 															pconsole($filterCheck);
 
-															if ( $filterCheck == 3 ) {
+															if ( $filterCheck == 4 ) {
 																echo $element;
 															}
 														} else {
@@ -650,7 +733,7 @@ pconsole($_POST);
 											  <?php 
 											  	for ( $i = 0; $i < $pages; $i++ ) {
 											  		if ( $i == 0 ) {
-											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">first</a></li>';
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&ring_category='. $ringTag .'">first</a></li>';
 											  		}
 
 											  		if ( $i > $currentPage - 3 && $i < $currentPage + 3 ) {
@@ -658,13 +741,13 @@ pconsole($_POST);
 											  			if ( $i == $currentPage ) {
 											  				$class = "active";
 											  			}
-											  			echo '<li class="'. $class .'"><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">'. intval($i+1) .'</a></li>';
+											  			echo '<li class="'. $class .'"><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&ring_category='. $ringTag .'">'. intval($i+1) .'</a></li>';
 											  		}else if ( $i > $currentPage - 4 && $i < $currentPage + 4 ) {
 											  			echo '<li><a href="javascript:void(0);">.</a></li>';
 											  		}
 
 											  		if ( $i == intval($pages) ){
-											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">last</a></li>';
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&ring_category='. $ringTag .'">last</a></li>';
 											  		}
 											  	}
 											  ?>
@@ -766,7 +849,6 @@ pconsole($_POST);
                                     	echo '<a class="btn" href="./login.php" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" id="loginToAccessCart">Login to Access Cart</a>';
                                     }
                                     ?>
-                                    </div>
 								</form>
 							</div>
 						</div>
@@ -858,12 +940,8 @@ function quickShop(id) {
 				if ( result['category'] == 1 ) {
 					sizehtml = "";
 					sizes = result['ring_size'].split(",");
-					//console.log(sizes);
 					for ( var i = 0; i < sizes.length; i++ ) {
-						if ( i == 0 ) {
-							sizehtml += '<a class="btn size-badge size-badge-active" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
-							$("#quick-shop-size-value").val(sizes[i]);
-						} else {
+						
 							if ( sizes[i].indexOf('-') > -1 ) {
 								sizesRange = sizes[i].split('-');
 								for ( var j = sizesRange[0]; j <= sizesRange[1]; j++ ) {
@@ -872,7 +950,6 @@ function quickShop(id) {
 							} else {
 								sizehtml += '<a class="btn size-badge" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
 							}
-						}
 					}
 					//console.log(sizehtml);
 					$("#quick-shop-size-container").html(sizehtml);
