@@ -33,6 +33,11 @@
 	
 	/* Other changes */
 	// - Update $rootPath in __php__.php file
+	$__IMPORT_IMAGE_RES__ = array(
+		"LARGE" => 1600,
+		"MED" => 600,
+		"SMALL" => 200
+	);
 
 	try{
 		$pdo = new PDO("mysql:host=$host; dbname=$dbname", $user, $pass);

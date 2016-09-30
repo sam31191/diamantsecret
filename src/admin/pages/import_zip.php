@@ -1,4 +1,5 @@
 <?php
+ini_set('memory_limit','512M');
 if ( session_status() == PHP_SESSION_NONE ) {
   session_start();
 }
@@ -83,7 +84,7 @@ if ( isset($_SESSION['modSession']) ) {
 
 	        <!-- page content -->
 	        <div class="right_col" role="main">
-	        <h3>Import via Zip</h3>
+	        <h3>Import via Zip<small style="font-size: 12px; color: #aaa; margin-left: 10px;">Info: Recommended Image Resolution (1200x1200px) / Minimum (800x800px)</small></h3>
 	        <?php
 	        $checkCompanies = $pdo->prepare("SELECT * FROM `company_id`");
 	        $checkCompanies->execute();
@@ -188,6 +189,7 @@ if ( isset($_SESSION['modSession']) ) {
         									echo '<div class="alert alert-danger">Import folder seems to be already in use. <br>This could be due to it being used in another session or a different System. In order to continue, you would need to clear the import folder.<br><br><button class="btn btn-warning" onClick="$(\'#promptClearImportFolder\').modal(\'toggle\');">Clear Import</button></div>';
 		        						} else {
 		        							pconsole( "Import folder available / Extracting files now" );
+											echo '<script>$("#loadingDiv").show();</script>';
 		        							if ( $zip->extractTo($importDir) ) {
 		        								pconsole( "Extract Successful" );
 		        								$zip->close();
@@ -287,7 +289,6 @@ if ( isset($_SESSION['modSession']) ) {
 														}
 														echo '</thead>';
 														echo '<tbody>';
-														echo '<script>$("#loadingDiv").show();</script>';
 														for ( $i = 2; $i <= sizeof($products); $i++ ) {
 															echo '<tr>';
 																echo '<td><input class="select-checkbox" type="checkbox" form="bulkManage" id="row_'.$i.'" value="'. $i .'"></td>';
@@ -306,7 +307,6 @@ if ( isset($_SESSION['modSession']) ) {
 															echo '</tr>';
 														}
 
-														echo '<script>$("#loadingDiv").hide();</script>';
 														echo '</tbody>';
 														echo '</table>';
 													} else {
@@ -325,6 +325,7 @@ if ( isset($_SESSION['modSession']) ) {
 		        									unlink($relativePath);
 		        								}
 		        							}
+											echo '<script>$("#loadingDiv").hide();</script>';
 		        						}
 		        					} else {
 		        						pconsole( "Excel Sheet Missing" );
@@ -367,7 +368,7 @@ if ( isset($_SESSION['modSession']) ) {
 	    </div>
 
 	    <!-- jQuery -->
-	    
+
 		<script src="../assets/custom.min.js"></script>
 		<script src="../../js/bootstrap.min.js"></script>
 		<script src="./file-upload/js/vendor/jquery.ui.widget.js"></script>
@@ -605,6 +606,11 @@ function clearImportFolder() {
 	$.ajax({
 		url: './ajax.php?clearImportFolder=true',
 		type: 'GET',
+		beforeSend: function() {
+			$("#modal_ClearImport_ClearButton").text("Clearing...");
+			$("#modal_ClearImport_ClearButton").attr("disabled", true);
+			$("#modal_ClearImport_CloseButton").attr("disabled", true);
+		},
 		success: function(result) {
 			if ( result == 1 ) {
 				window.location.reload();
@@ -698,7 +704,7 @@ function finalizeImport() {
 	    <!-- Modal content-->
 	    <div class="modal-content"> <!-- Bulk Delete Modal -->
 	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button> <!-- Bulk Delete Modal -->
+	         <!-- Bulk Delete Modal -->
 	        <h4 class="modal-title">Caution</h4> <!-- Bulk Delete Modal -->
 	      </div>
 	      <input id="remove_category" name="category" hidden>
@@ -711,8 +717,8 @@ function finalizeImport() {
 	        </div>
 	      </div> <!-- Bulk Delete Modal -->
 	      <div class="modal-footer">
-	        <button  class="btn btn-custom" value="clear" onclick="clearImportFolder()">Clear</button>
-	        <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
+	        <button  class="btn btn-custom" value="clear" id="modal_ClearImport_ClearButton" onclick="clearImportFolder()">Clear</button>
+	        <button type="button" class="btn btn-custom" id="modal_ClearImport_CloseButton" data-dismiss="modal">Close</button>
 	      </div>
 	    </div>
 	  </div>

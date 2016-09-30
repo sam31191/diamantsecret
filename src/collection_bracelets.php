@@ -513,6 +513,7 @@ pconsole($_POST);
 																echo '<option value="?filter=item_value&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&price_range='. $priceTag .'" '. $select3 .'>Price: Low to High</option>';
 																echo '<option value="?filter=item_name&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&price_range='. $priceTag .'" '. $select4 .'>A - Z</option>';
 																echo '<option value="?filter=item_name&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&price_range='. $priceTag .'" '. $select5 .'>Z - A</option>';
+															?>
 														</select>
 													</div>
 													</li>

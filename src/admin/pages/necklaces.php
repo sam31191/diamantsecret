@@ -603,8 +603,9 @@ if ( isset($_POST['featuredAdd']) ) {
 						$image_sm_file .= "_" . $i; 
 					}
 					if ( move_uploaded_file($_FILES['itemImage']['tmp_name'][$count], $image_file . "." . $image_ext) ) {
-						create_thumb($image_file . "." . $image_ext, 600, 600, $image_md_file . '.' . $image_ext);
-						create_thumb($image_file . "." . $image_ext, 200, 200, $image_sm_file . '.' . $image_ext);
+						create_thumb($image_file . "." . $image_ext, $__IMPORT_IMAGE_RES__['LARGE'], $__IMPORT_IMAGE_RES__['LARGE'], $image_file . '.' . $image_ext);
+						create_thumb($image_file . "." . $image_ext, $__IMPORT_IMAGE_RES__['MED'], $__IMPORT_IMAGE_RES__['MED'], $image_md_file . '.' . $image_ext);
+						create_thumb($image_file . "." . $image_ext, $__IMPORT_IMAGE_RES__['SMALL'], $__IMPORT_IMAGE_RES__['SMALL'], $image_sm_file . '.' . $image_ext);
 					}
 				} else {
 					echo var_dump("Not Image");

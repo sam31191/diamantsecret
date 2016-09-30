@@ -641,10 +641,15 @@ function exportAll(category = 0) {
 		success: function(result) {
 			console.log("JSON RESULT");
 			console.log(result);
-			result = JSON.parse(result);
-			$("#uploadDiv").show();
-			$("#resultDiv").html(result[0]);
-			exportFile = result[1];
+			if ( JSON.parse(result) ) {	
+				result = JSON.parse(result);
+				$("#uploadDiv").show();
+				$("#resultDiv").html(result[0]);
+				exportFile = result[1];
+			} else {
+				$("#uploadDiv").show();
+				$("#resultDiv").html("An error occured, please try again, if the error continues to persist, please try exporting in chunks");
+			}
 		}
 	});
 }

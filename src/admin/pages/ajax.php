@@ -1,4 +1,6 @@
 <?php
+ini_set('memory_limit','512M');
+ini_set('max_execution_time', 600);
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
@@ -19,7 +21,14 @@ if ( isset($_GET['importThis']) ) {
 	if ( file_exists($_SESSION['tmp_file']) ) {
 
 		$xlFile = $_SESSION['tmp_file'];
-		$PHPExcel = PHPExcel_IOFactory::load($xlFile);
+
+		include './chunk_reader.php';
+		$objReader = PHPExcel_IOFactory::createReader(PHPExcel_IOFactory::identify($xlFile));
+		$readFilter = new myReadFilter();
+		$objReader->setReadFilter($readFilter);
+		$readFilter->getRow($_GET['importThis']);
+
+		$PHPExcel = $objReader->load($xlFile);
 
 		//$xl = $PHPExcel->getActiveSheet()->toArray(null, true, true, true);
 
@@ -412,8 +421,9 @@ if ( isset($_GET['importThis']) ) {
 									$intError .= 'Invalid Image: ' . $url . '<br>';
 								} else {
 									file_put_contents($img, $inputImg);
-									create_thumb($img, 600, 600, $img_md);
-									create_thumb($img, 200, 200, $img_sm);
+									create_thumb($img, $__IMPORT_IMAGE_RES__['LARGE'], $__IMPORT_IMAGE_RES__['LARGE'], $img);
+									create_thumb($img, $__IMPORT_IMAGE_RES__['MED'], $__IMPORT_IMAGE_RES__['MED'], $img_md);
+									create_thumb($img, $__IMPORT_IMAGE_RES__['SMALL'], $__IMPORT_IMAGE_RES__['SMALL'], $img_sm);
 									$images .= basename($img) . ",";
 								}
 							} else {
@@ -485,7 +495,14 @@ if ( isset($_GET['importThis']) ) {
 	if ( file_exists('../../working/zip/import/products.xlsx') ) {
 
 		$xlFile = '../../working/zip/import/products.xlsx';
-		$PHPExcel = PHPExcel_IOFactory::load($xlFile);
+
+		include './chunk_reader.php';
+		$objReader = PHPExcel_IOFactory::createReader(PHPExcel_IOFactory::identify($xlFile));
+		$readFilter = new myReadFilter();
+		$objReader->setReadFilter($readFilter);
+		$readFilter->getRow($_GET['importZip']);
+
+		$PHPExcel = $objReader->load($xlFile);
 
 		//$xl = $PHPExcel->getActiveSheet()->toArray(null, true, true, true);
 
@@ -494,6 +511,7 @@ if ( isset($_GET['importThis']) ) {
 			echo "Sheet not found";
 		} else {
 			$products = $productSheet->toArray(null, true, true, true);
+
 			//$toAdd = explode("_", $_GET['importThis']);
 
 			$error = "";
@@ -872,8 +890,9 @@ if ( isset($_GET['importThis']) ) {
 									$intError .= 'Invalid Image: ' . $url . '<br>';
 								} else {
 									file_put_contents($img, $inputImg);
-									create_thumb($img, 600, 600, $img_md);
-									create_thumb($img, 200, 200, $img_sm);
+									create_thumb($img, $__IMPORT_IMAGE_RES__['LARGE'], $__IMPORT_IMAGE_RES__['LARGE'], $img);
+									create_thumb($img, $__IMPORT_IMAGE_RES__['MED'], $__IMPORT_IMAGE_RES__['MED'], $img_md);
+									create_thumb($img, $__IMPORT_IMAGE_RES__['SMALL'], $__IMPORT_IMAGE_RES__['SMALL'], $img_sm);
 									$images .= basename($img) . ",";
 								}
 							} else {
