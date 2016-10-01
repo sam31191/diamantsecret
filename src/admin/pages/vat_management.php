@@ -19,21 +19,15 @@ if ( isset($_SESSION['modSession']) ) {
 include '../../conf/config.php';
 
 if ( isset($_POST['addItem']) ) {
-	$addCompany = $pdo->prepare("INSERT INTO `company_id` (`company_name`, `email`, `mobileno`, `address`) VALUES (:cn, :mail, :pno, :add)");
-	$addCompany->execute(array(":cn" => $_POST['company_name'], ":mail" => $_POST['company_mail'], ":pno" => $_POST['company_phone'], ":add" => $_POST['company_address']));
-} else if ( isset($_POST['removeItem']) ) {
-	pconsole($_POST);
-	$addCompany = $pdo->prepare("DELETE FROM `company_id` WHERE `id` = :id");
-	$addCompany->execute(array(":id" => $_POST['removeItem']));
+	$addCompany = $pdo->prepare("INSERT INTO `country_vat` (`country_name`, `vat`) VALUES (:cn, :vat)");
+	$addCompany->execute(array(":cn" => $_POST['country_name'], ":mail" => $_POST['country_vat']));
 } else if ( isset($_POST['editItem']) ) {
 	pconsole($_POST);
-	$addCompany = $pdo->prepare("UPDATE `company_id` SET `company_name` = :name, `email` = :mail, `mobileno` = :phone, `address` = :address WHERE `id` = :id");
+	$addCompany = $pdo->prepare("UPDATE `country_vat` SET `country_name` = :name, `vat` = :vat WHERE `id` = :id");
 	$addCompany->execute(array(
-      ":name" => $_POST['company_name'], 
+      ":name" => $_POST['country_name'], 
       ":id" => $_POST['editItem'],
-      ":mail" => $_POST['company_mail'],
-      ":phone" => $_POST['company_phone'],
-      ":address" => $_POST['company_address']
+      ":vat" => $_POST['country_vat']
   ));
 } 
 ?>
@@ -43,7 +37,7 @@ if ( isset($_POST['addItem']) ) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Suppliers - Admin Panel</title>
+    <title>VAT - Admin Panel</title>
     <!-- Bootstrap -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -69,7 +63,7 @@ if ( isset($_POST['addItem']) ) {
 
         <!-- page content -->
         <div class="right_col" role="main">
-        <h3>Supplier Management <button class="btn btn-custom" onclick="$('#promptAddItem').modal('toggle');">Add</button>
+        <h3>VAT Management <button class="btn btn-custom" onclick="$('#promptAddItem').modal('toggle');">Add</button>
         	<div class="btn-group">
         		<?php
 	    		$filter = "id";
@@ -93,7 +87,7 @@ if ( isset($_POST['addItem']) ) {
 			<form method="get" style="float:right; width:200px;"><input type="text" style="background: transparent;" class="form-control" placeholder="Search..." name="search"></form>
 		</h3>
             <div class="container" style="overflow:auto">
-                <table class="table" style="white-space: nowrap;">
+                <table class="table table-custom table-custom-items" style="white-space: nowrap; display:block">
             		<?php
             		if ( isset($_GET['order']) && isset($_GET['filter']) ) {
                 		echo '<small>Sorted: <span style="text-transform: capitalize;">'. str_replace("_", " ", $_GET['filter']) .' - '; 
@@ -104,18 +98,16 @@ if ( isset($_POST['addItem']) ) {
                 	<thead>
                         <th>ID</th>
                         <th>Action</th>
-                        <th>Supplier Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Address</th>
+                        <th>Country</th>
+                        <th>VAT</th>
                 	</thead>
                 	<tbody>';
 
                 		if ( isset($_GET['search']) ) {
-                			$getUsers = $pdo->prepare("SELECT * FROM `company_id` WHERE `company_name` LIKE :search");
+                			$getUsers = $pdo->prepare("SELECT * FROM `country_vat` WHERE `country_name` LIKE :search");
                 			$getUsers->execute(array(":search" => '%' . $_GET['search'] . '%'));
                 		} else {
-                			$getUsers = $pdo->prepare("SELECT * FROM `company_id` ". $show ." ORDER BY " . $filter . " " . $currentOrder);
+                			$getUsers = $pdo->prepare("SELECT * FROM `country_vat` ". $show ." ORDER BY " . $filter . " " . $currentOrder);
                 			$getUsers->execute();
                 		}
 
@@ -124,13 +116,10 @@ if ( isset($_POST['addItem']) ) {
                 				echo '<tr>';
                                 echo '<td>'. $company['id'] .'</td>';
                         echo '<td>
-                          <button class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete Client" onclick="$(\'#itemToRemove\').text(\''. $company['company_name'] .'\'); $(\'#removeModalActionButton\').val(\''. $company['id'] .'\'); $(\'#promptRemoveModal\').modal(\'toggle\');"><i class="fa fa-close"></i></button>
                           <button class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit Client" onclick="editSupplier(\''. $company['id'] .'\')"><i class="fa fa-pencil"></i></button>
                           </td>';
-                        echo '<td>'. $company['company_name'] .'</td>';
-                        echo '<td>'. $company['email'] .'</td>';
-                        echo '<td>'. $company['mobileno'] .'</td>';
-                        echo '<td>'. $company['address'] .'</td>';
+                        echo '<td>'. $company['country_name'] .'</td>';
+                        echo '<td>'. $company['vat'] .'</td>';
                 				echo '</tr>';
                 			}
                 		} else {
@@ -202,37 +191,19 @@ if ( isset($_POST['addItem']) ) {
               <div class="col-sm-12">
           <tbody>
             <tr class="table-row">
-              <td class="table-item-label"><span class="table-item-label">Name</span></td>
+              <td class="table-item-label"><span class="table-item-label">Country</span></td>
               <td>
                 <div class="table-item">
-                  <input name="company_name" type="text" class="form-control" placeholder="Supplier Name (50 Characters)" required maxlength="50" pattern=".{0,50}" >
+                  <input id="" name="country_name" type="text" class="form-control" placeholder="Country Name" required maxlength="100" pattern=".{0,100}" >
                 </div>
               </td>
             </tr>
 
             <tr class="table-row">
-              <td class="table-item-label"><span class="table-item-label">Email</span></td>
+              <td class="table-item-label"><span class="table-item-label">VAT (%)</span></td>
               <td>
                 <div class="table-item">
-                  <input name="company_mail" type="text" class="form-control" placeholder="Supplier Email" required maxlength="50" pattern=".{0,50}" >
-                </div>
-              </td>
-            </tr>
-
-            <tr class="table-row">
-              <td class="table-item-label"><span class="table-item-label">Phone</span></td>
-              <td>
-                <div class="table-item">
-                  <input name="company_phone" type="text" class="form-control" placeholder="Supplier Phone Number" required maxlength="50" pattern=".{0,50}" >
-                </div>
-              </td>
-            </tr>
-
-            <tr class="table-row">
-              <td class="table-item-label"><span class="table-item-label">Address</span></td>
-              <td>
-                <div class="table-item">
-                  <textarea name="company_address" class="form-control" placeholder="Supplier Address (500 Characters)"></textarea>
+                  <input id="" name="country_vat" type="number" class="form-control" placeholder="VAT in percent" required min="0" max="99" pattern=".{0,2}" >
                 </div>
               </td>
             </tr>
@@ -292,37 +263,19 @@ if ( isset($_POST['addItem']) ) {
 	            <div class="col-sm-12">
 					<tbody>
             <tr class="table-row">
-              <td class="table-item-label"><span class="table-item-label">Name</span></td>
+              <td class="table-item-label"><span class="table-item-label">Country</span></td>
               <td>
                 <div class="table-item">
-                  <input id="edit_product_name" name="company_name" type="text" class="form-control" placeholder="Supplier Name (50 Characters)" required maxlength="50" pattern=".{0,50}" >
+                  <input id="edit_country_name" name="country_name" type="text" class="form-control" placeholder="Country Name" required maxlength="100" pattern=".{0,100}" >
                 </div>
               </td>
             </tr>
 
             <tr class="table-row">
-              <td class="table-item-label"><span class="table-item-label">Email</span></td>
+              <td class="table-item-label"><span class="table-item-label">VAT (%)</span></td>
               <td>
                 <div class="table-item">
-                  <input id="edit_company_mail" name="company_mail" type="text" class="form-control" placeholder="Supplier Email" required maxlength="50" pattern=".{0,50}" >
-                </div>
-              </td>
-            </tr>
-
-            <tr class="table-row">
-              <td class="table-item-label"><span class="table-item-label">Phone</span></td>
-              <td>
-                <div class="table-item">
-                  <input id="edit_company_phone" name="company_phone" type="text" class="form-control" placeholder="Supplier Phone Number" required maxlength="50" pattern=".{0,50}" >
-                </div>
-              </td>
-            </tr>
-
-            <tr class="table-row">
-              <td class="table-item-label"><span class="table-item-label">Address</span></td>
-              <td>
-                <div class="table-item">
-                  <textarea id="edit_company_address" name="company_address" class="form-control" placeholder="Supplier Address (500 Characters)"></textarea>
+                  <input id="edit_country_vat" name="country_vat" type="number" class="form-control" placeholder="VAT in percent" required min="0" max="99" pattern=".{0,2}" >
                 </div>
               </td>
             </tr>
@@ -343,15 +296,13 @@ if ( isset($_POST['addItem']) ) {
     function editSupplier(key) {
 
       $.ajax({
-        url: './ajax.php?getSupplierDetails=' + key,
+        url: './ajax.php?getVatDetails=' + key,
         type: 'GET',
         success: function(result) {
           result = JSON.parse(result);
           console.log(result);
-          $("#edit_product_name").val(result['company_name']); 
-          $("#edit_company_mail").val(result['email']); 
-          $("#edit_company_phone").val(result['mobileno']); 
-          $("#edit_company_address").text(result['address']); 
+          $("#edit_country_name").val(result['country_name']); 
+          $("#edit_country_vat").val(result['vat']);
           $("#editItem").val(key); 
           $("#promptEditItem").modal("toggle");
         }

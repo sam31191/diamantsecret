@@ -1704,7 +1704,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->getActiveSheet()->setTitle('products');
 
 	#Adding Columns
-	$outputExcel->getActiveSheet()->getStyle('A1:T1')->getFont()->setBold(true);
+	$outputExcel->getActiveSheet()->getStyle('A1:V1')->getFont()->setBold(true);
 	$outputExcel->getActiveSheet()->setCellValue('A1', "Company Id" );
 	$outputExcel->getActiveSheet()->setCellValue('B1', "Category Id" );
 	$outputExcel->getActiveSheet()->setCellValue('C1', "Internal Id" );
@@ -1805,6 +1805,16 @@ if ( isset($_GET['importThis']) ) {
 		echo json_encode($getSupplier->fetch(PDO::FETCH_ASSOC));
 	} else {
 		echo "Supplier Not Found";
+	}
+
+} else if ( isset($_GET['getVatDetails']) ) {
+	$getSupplier = $pdo->prepare("SELECT * FROM `country_vat` WHERE `id` = :id");
+	$getSupplier->execute(array(":id" => $_GET['getVatDetails']));
+
+	if  ( $getSupplier->rowCount() > 0 ) {
+		echo json_encode($getSupplier->fetch(PDO::FETCH_ASSOC));
+	} else {
+		echo "Country Vat Not Found";
 	}
 
 } else if ( isset($_GET['clearImportFolder']) ) {

@@ -36,6 +36,7 @@
             <li><a href="all_users.php"><i class="fa fa-users" style="font-size:14px;"></i>Users</a></li>
             <li><a href="newsletter.php"><i class="fa fa-envelope-o" style="font-size:14px;"></i>Newsletter</a></li>
             <li><a href="company_management.php"><i class="fa fa-suitcase" style="font-size:14px;"></i>Supplier Management</a></li>
+            <li><a href="vat_management.php"><i class="fa fa-percent" style="font-size:14px;"></i>VAT Management</a></li>
           </ul>
         </li>
         <li><a><i class="fa fa-table"></i> Import / Export <span class="fa fa-chevron-down"></span></a>
