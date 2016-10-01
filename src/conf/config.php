@@ -39,6 +39,9 @@
 		"SMALL" => 200
 	);
 
+	$__MAX_MEMORY_LIMIT__ = '1024M';
+	$__CRONJOB_DELETE_DAYS__ = 10;
+
 	try{
 		$pdo = new PDO("mysql:host=$host; dbname=$dbname", $user, $pass);
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -1,5 +1,6 @@
 <?php
-ini_set('memory_limit','512M');
+include '../../conf/config.php';
+ini_set('memory_limit',$__MAX_MEMORY_LIMIT__);
 if ( session_status() == PHP_SESSION_NONE ) {
   session_start();
 }
@@ -17,7 +18,6 @@ if ( isset($_SESSION['modSession']) ) {
 <!DOCTYPE html>
 	<html lang="en">
 	<?php
-	include '../../conf/config.php';
 
 	/** Include path **/
 	set_include_path(get_include_path() . PATH_SEPARATOR . '../PHPExcel/PHPExcel/');
@@ -58,7 +58,7 @@ if ( isset($_SESSION['modSession']) ) {
         <div id="uploadDiv" style="background:rgba(0,0,0,0.75); height:100%; width:100%; position:fixed; z-index:100" hidden>
         <div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 400px; margin-left: -400px; margin-top: -200px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
 	        	<h4><div class='alert alert-info' style="position: fixed;" id="alertDiv">Importing <span id="importedItems">0</span>/<span id="totalItems">0</span></div>
-	        	<a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 0px 16px; /* right: 0px; */ position: fixed; display: block; /* float: right; */ margin-left: 700px;" onclick="finalizeImport()" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
+	        	<a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 0px 16px; /* right: 0px; */ position: fixed; display: block; /* float: right; */ margin-left: 700px;" onclick="window.location = './import_zip.php';" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
 	        	</h4><table class='table table-condensed table-custom' style="table-layout: fixed; word-wrap: break-word;"><thead><th style="width: 50px;">#</th><th style="width: 60%;">Entry</th><th>Errors</th></thead><tbody id="resultTable"></tbody></table>
         	</div>
         </div>
@@ -84,7 +84,7 @@ if ( isset($_SESSION['modSession']) ) {
 
 	        <!-- page content -->
 	        <div class="right_col" role="main">
-	        <h3>Import via Zip<small style="font-size: 12px; color: #aaa; margin-left: 10px;">Info: Recommended Image Resolution (1200x1200px) / Minimum (800x800px)</small></h3>
+	        <h3>Import via Zip<small style="font-size: 12px; color: #aaa; margin-left: 10px;"></small></h3>
 	        <?php
 	        $checkCompanies = $pdo->prepare("SELECT * FROM `company_id`");
 	        $checkCompanies->execute();
@@ -176,15 +176,17 @@ if ( isset($_SESSION['modSession']) ) {
 		        				$zip = new ZipArchive();
 		        				$openZip = $zip->open($relativePath);
 		        				$_SESSION['import_company_id_zip'] = $_POST['company_id'];
-		        				$importDir = "./../../working/zip/import/";
+		                        $timeToken = time(); //Declared here as the folder needs to be set here
+		        				$importDir = "./../../working/zip/import/" . $timeToken . "/";
 
 		        				if ( $zip->getFromName("images/") !== false ) {
 		        					pconsole( "Folder Found" );
 		        					if ( $zip->getFromName("products.xlsx") !== false ) {
 		        						pconsole( "Sheet Found" );
 		        						#Extracting to ./working/zip/import
+										mkdir($importDir);
 		        						$checkImportFolder = scandir($importDir);
-		        						if ( sizeof($checkImportFolder) > 3 ) {
+		        						if ( sizeof($checkImportFolder) > 2  ) {
 		        							pconsole( "Import folder occupied / Give empty prompt" );
         									echo '<div class="alert alert-danger">Import folder seems to be already in use. <br>This could be due to it being used in another session or a different System. In order to continue, you would need to clear the import folder.<br><br><button class="btn btn-warning" onClick="$(\'#promptClearImportFolder\').modal(\'toggle\');">Clear Import</button></div>';
 		        						} else {
@@ -196,7 +198,6 @@ if ( isset($_SESSION['modSession']) ) {
 		        								if ( file_exists($relativePath) ) {
 		        									unlink($relativePath);
 		        								}
-				                        		$timeToken = time(); //Declared here as the file is also created here
 				                       			try {
 				                       				$tokenFile = fopen($importDir . 'token', 'w');
 				                       				fwrite($tokenFile, $timeToken);
@@ -559,6 +560,7 @@ function importAjax (id, index, timeToken) {
 		    	$('#alertDiv').removeClass("alert-info");
 		    	$('#alertDiv').addClass("alert-success");
 		    	$('#alertDiv').html("Import Complete!");
+		    	finalizeImport();
 		    }
 			console.log("Finished Query: " + index);
 
@@ -634,8 +636,6 @@ function finalizeImport() {
 				} else {
 					console.log("Token mismatch");
 				}
-
-				window.location = "./import_zip.php";
 			} catch (error) {
 				console.log(error);
 			}

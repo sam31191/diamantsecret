@@ -62,8 +62,8 @@ if ( isset($_POST['file']['delete']) ) {
         <div>
         <h3>Sheets</h3>
             <form id="deleteFileForm" method="post"><input name="file[delete]" id="deleteFile" hidden /></form>
-            <div class="alert alert-info">NOTE: Files older than 30 days are automatically deleted</div>
-        	<table class="table table-hover table-custom" style=" overflow:auto; white-space:nowrap; max-height: 80vh;" >
+            <div class="alert alert-info">NOTE: Files older than <?php echo $__CRONJOB_DELETE_DAYS__; ?> days are automatically deleted</div>
+        	<table class="table table-hover table-custom table-custom-items" style=" overflow:auto; white-space:nowrap; max-height: 80vh;" >
             	<thead>
                 	<th>#</th>
                   <th>Sheet Name</th>
@@ -97,6 +97,24 @@ if ( isset($_POST['file']['delete']) ) {
                   foreach ( $files as $file ) {
                     if ( strpos($file, '.xlsx') && $file !== 'tmp_db.xlsx' && $file !== 'format.xlsx' ) {
                       echo '<tr><td style="width:20px;">'. $int .'</td><td>'. $file .'</td><td>Export</td>
+                          <td style="text-align:center;">
+                                    <a class="fa fa-cloud-download" style="color:green;" data-link="'. $dir . $file .'" data-toggle="tooltip" onclick="downloadThis(\''. $dir . $file .'\')" title="Download"></a> 
+                                    <a href="javascript:void(0);" class="fa fa-close" data-toggle="tooltip" title="Delete" onclick="$(\'#removeModalActionButton\').val(\''. $dir . $file .'\'); $(\'#itemToRemove\').text(\''. $file .'\'); $(\'#promptRemoveModal\').modal(\'toggle\');"></a>
+                                </td>
+                      </tr>';
+
+                            echo '';
+                      $int++;
+                    }
+                  }
+
+
+                  $dir = '../../working/zip/archives/export/';
+
+                  $files = scandir($dir, 1);
+                  foreach ( $files as $file ) {
+                    if ( strpos($file, '.zip') && $file !== '.gitignore') {
+                      echo '<tr><td style="width:20px;">'. $int .'</td><td>'. $file .'</td><td>Zip Export</td>
                           <td style="text-align:center;">
                                     <a class="fa fa-cloud-download" style="color:green;" data-link="'. $dir . $file .'" data-toggle="tooltip" onclick="downloadThis(\''. $dir . $file .'\')" title="Download"></a> 
                                     <a href="javascript:void(0);" class="fa fa-close" data-toggle="tooltip" title="Delete" onclick="$(\'#removeModalActionButton\').val(\''. $dir . $file .'\'); $(\'#itemToRemove\').text(\''. $file .'\'); $(\'#promptRemoveModal\').modal(\'toggle\');"></a>

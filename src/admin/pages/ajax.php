@@ -1,5 +1,6 @@
 <?php
-ini_set('memory_limit','512M');
+include '../../conf/config.php';
+ini_set('memory_limit', $__MAX_MEMORY_LIMIT__);
 ini_set('max_execution_time', 600);
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
@@ -10,7 +11,6 @@ if ( !isset($_SESSION['modSession']) ) {
 }
 
 
-include '../../conf/config.php';
 
 /** Include path **/
 set_include_path(get_include_path() . PATH_SEPARATOR . '../PHPExcel/PHPExcel/');
@@ -159,6 +159,10 @@ if ( isset($_GET['importThis']) ) {
 					
 					while ( checkKey($uniqueKey, $pdo) ) {
 						$uniqueKey = generateUniqueKey();
+					}
+
+					if ( empty($products[$i]['V']) ) {
+						$products[$i]['V'] = "-";
 					}
 
 					$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, NOW())");
@@ -492,9 +496,9 @@ if ( isset($_GET['importThis']) ) {
 	}
 
 } else if ( isset($_GET['importZip']) ) {
-	if ( file_exists('../../working/zip/import/products.xlsx') ) {
+	if ( file_exists('../../working/zip/import/'. $_GET['timeToken'] .'/products.xlsx') ) {
 
-		$xlFile = '../../working/zip/import/products.xlsx';
+		$xlFile = '../../working/zip/import/'. $_GET['timeToken'] .'/products.xlsx';
 
 		include './chunk_reader.php';
 		$objReader = PHPExcel_IOFactory::createReader(PHPExcel_IOFactory::identify($xlFile));
@@ -629,6 +633,11 @@ if ( isset($_GET['importThis']) ) {
 					while ( checkKey($uniqueKey, $pdo) ) {
 						$uniqueKey = generateUniqueKey();
 					}
+
+					if ( empty($products[$i]['V']) ) {
+						$products[$i]['V'] = "-";
+					}
+
 
 					$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, NOW())");
 						$addItem->execute(array(
@@ -843,7 +852,7 @@ if ( isset($_GET['importThis']) ) {
 
 					if ( !empty($products[$i]['U']) ) {
 						for ( $j = 0; $j < sizeof($imageArray); $j++ ) {
-							$url = $__MAINDOMAIN__ . 'working/zip/import/images/' . trim($imageArray[$j]);
+							$url = $__MAINDOMAIN__ . 'working/zip/import/'. $_GET['timeToken'] .'/images/' . trim($imageArray[$j]);
 
 							$ext = explode(".", $url);
 							$ext =  '.' . $ext[sizeof($ext)-1];
@@ -1739,8 +1748,8 @@ if ( isset($_GET['importThis']) ) {
 	}
 
 } else if ( isset($_GET['checkZipToken']) ) {
-	if ( file_exists('./../../working/zip/import/token') ) {
-		$token = file_get_contents('./../../working/zip/import/token');
+	if ( file_exists('./../../working/zip/import/'. $_GET['checkZipToken'] .'/token') ) {
+		$token = file_get_contents('./../../working/zip/import/'. $_GET['checkZipToken'] .'/token');
 		if ( $token == $_GET['checkZipToken'] ) {
 			echo 1;
 		} else {
@@ -1823,12 +1832,12 @@ if ( isset($_GET['importThis']) ) {
 
 } else if ( isset($_GET['finalizeImport']) ) {
 
-	if ( file_exists('./../../working/zip/import/token') ) {
-		$token = file_get_contents('./../../working/zip/import/token');
+	if ( file_exists('./../../working/zip/import/'. $_GET['finalizeImport'] .'/token') ) {
+		$token = file_get_contents('./../../working/zip/import/'. $_GET['finalizeImport'] .'/token');
 
 		if ( $token == $_GET['finalizeImport'] ) {
 			try {
-				$dir = "./../../working/zip/import/";
+				$dir = "./../../working/zip/import/". $_GET['finalizeImport'] . "/";
 				$files = scandir($dir);
 				foreach ( $files as $file ) {
 					if ( $file == ".." || $file == "." || $file == ".gitignore" ) {
@@ -1837,6 +1846,7 @@ if ( isset($_GET['importThis']) ) {
 						( is_file($dir . $file) ) ? unlink($dir . $file) : rrmdir($dir . $file);
 					}
 				}
+				rmdir($dir);
 				echo json_encode(array("tokenMatch" => true));
 			} catch ( Exception $e ) {
 				echo var_dump($e);

@@ -80,7 +80,7 @@ if ( isset($_SESSION['modSession']) ) {
 
 	        <!-- page content -->
 	        <div class="right_col" role="main">
-	        <h3>Import via Excel<small style="font-size: 12px; color: #aaa; margin-left: 10px;">Info: Recommended Image Resolution (1200x1200px) / Minimum (800x800px)</small></h3>
+	        <h3>Import via Excel<small style="font-size: 12px; color: #aaa; margin-left: 10px;"></small></h3>
 	        <?php
 	        $checkCompanies = $pdo->prepare("SELECT * FROM `company_id`");
 	        $checkCompanies->execute();
