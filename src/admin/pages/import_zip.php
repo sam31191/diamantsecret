@@ -176,7 +176,7 @@ if ( isset($_SESSION['modSession']) ) {
 		        				$zip = new ZipArchive();
 		        				$openZip = $zip->open($relativePath);
 		        				$_SESSION['import_company_id_zip'] = $_POST['company_id'];
-		                        $timeToken = time(); //Declared here as the folder needs to be set here
+		                        $timeToken = round(microtime(true) * 10000); //Declared here as the folder needs to be set here
 		        				$importDir = "./../../working/zip/import/" . $timeToken . "/";
 
 		        				if ( $zip->getFromName("images/") !== false ) {
@@ -199,8 +199,9 @@ if ( isset($_SESSION['modSession']) ) {
 		        									unlink($relativePath);
 		        								}
 				                       			try {
+				                       				$tokenContent = json_encode(array("token" => $timeToken, "timestamp" => date("Ymd")));
 				                       				$tokenFile = fopen($importDir . 'token', 'w');
-				                       				fwrite($tokenFile, $timeToken);
+				                       				fwrite($tokenFile, $tokenContent);
 				                       				fclose($tokenFile);
 				                       				pconsole("Token Created");
 				                       			} catch ( Exception $e ) {
@@ -529,12 +530,14 @@ function checkQ(timeToken) {
 			url: './ajax.php?checkZipToken=' + timeToken,
 			type: 'GET',
 			success: function(result){
+				console.log(result);
 				if ( result == 1 ) {
 					importAjax(ajaxQ.shift(), currentAjax, timeToken);
 				} else {
-					$('#resultDiv').html("<h4>Import Failure</h4><br><h5>File you tried to import from has been tampered with. You either have another window open with the same task or the Session has expired, please reload the page to continue.</h5><a href=\"javascript:void(0);\" id=\"uploadDivCloseIcon\" class=\"btn btn-danger\" style=\"font-size: 20px; margin: 0px 16px;\" onclick=\"window.location = './import_zip.php';\" data-toggle=\"tooltip\" data-placement=\"bottom\">Reload Page</a>");
+					$('#resultDiv').html("<h4>Import Failure</h4><br><h5>File you tried to import from has been tampered with. You either have another window open with the same task or the Session has expired, please reload the page to continue.</h5><a href=\"javascript:void(0);\" id=\"uploadDivCloseIcon\" class=\"btn btn-danger\" style=\"font-size: 20px; margin: 0px 16px;\" onclick=\"finalizeImport(); window.location = './import_zip.php';\" data-toggle=\"tooltip\" data-placement=\"bottom\">Reload Page</a>");
 
 	    			$('#uploadDiv').show();
+	    			finalizeImport();
 				}
 			}
 		});
@@ -606,7 +609,7 @@ function downloadFormat() {
 
 function clearImportFolder() {
 	$.ajax({
-		url: './ajax.php?clearImportFolder=true',
+		url: './ajax.php?clearImportFolder=' + globalTimeToken,
 		type: 'GET',
 		beforeSend: function() {
 			$("#modal_ClearImport_ClearButton").text("Clearing...");

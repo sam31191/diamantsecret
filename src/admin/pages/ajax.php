@@ -1749,8 +1749,8 @@ if ( isset($_GET['importThis']) ) {
 
 } else if ( isset($_GET['checkZipToken']) ) {
 	if ( file_exists('./../../working/zip/import/'. $_GET['checkZipToken'] .'/token') ) {
-		$token = file_get_contents('./../../working/zip/import/'. $_GET['checkZipToken'] .'/token');
-		if ( $token == $_GET['checkZipToken'] ) {
+		$token = json_decode(file_get_contents('./../../working/zip/import/'. $_GET['checkZipToken'] .'/token'));
+		if ( $token->{'token'} == $_GET['checkZipToken'] ) {
 			echo 1;
 		} else {
 			echo 0;
@@ -1809,7 +1809,7 @@ if ( isset($_GET['importThis']) ) {
 
 } else if ( isset($_GET['clearImportFolder']) ) {
 	try {
-		$dir = "./../../working/zip/import/";
+		$dir = "./../../working/zip/import/" . $_GET['clearImportFolder'] . "/";
 		$files = scandir($dir);
 		foreach ( $files as $file ) {
 			if ( $file == ".." || $file == "." || $file == ".gitignore" ) {
@@ -1818,6 +1818,7 @@ if ( isset($_GET['importThis']) ) {
 				( is_file($dir . $file) ) ? unlink($dir . $file) : rrmdir($dir . $file);
 			}
 		}
+		rmdir($dir);
 		echo 1;
 	} catch ( Exception $e ) {
 		echo var_dump($e);
@@ -1833,9 +1834,9 @@ if ( isset($_GET['importThis']) ) {
 } else if ( isset($_GET['finalizeImport']) ) {
 
 	if ( file_exists('./../../working/zip/import/'. $_GET['finalizeImport'] .'/token') ) {
-		$token = file_get_contents('./../../working/zip/import/'. $_GET['finalizeImport'] .'/token');
+		$token = json_decode(file_get_contents('./../../working/zip/import/'. $_GET['finalizeImport'] .'/token'));
 
-		if ( $token == $_GET['finalizeImport'] ) {
+		if ( $token->{'token'} == $_GET['finalizeImport'] ) {
 			try {
 				$dir = "./../../working/zip/import/". $_GET['finalizeImport'] . "/";
 				$files = scandir($dir);
