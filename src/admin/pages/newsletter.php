@@ -250,7 +250,7 @@ include '../../conf/config.php';
       </div>
       <div class="modal-body" style="max-height: 60vh; overflow: auto;">
         <div class="container">
-            <table class="table table-custom table-condensed" style="width:60%; margin-left:20%;">
+            <table class="table table-custom table-condensed" style="width:80%; margin-left:10%;">
                 <thead>
                     <th>Template</th>
                     <th>Actions</th>
@@ -261,8 +261,10 @@ include '../../conf/config.php';
 
                     foreach ( $templates as $template ) {
                         if ( strstr($template, '.html') !== false ) {
+                            echo '<tr>';
                             echo '<td>'. $template .'</td>';
                             echo '<td><a class="btn btn-custom" href="./newsletter/'. $template .'" target="_blank">Preview</a><button class="btn btn-custom" onclick="loadTemplate(this)" value="./newsletter/'. $template .'">Load</button></td>';
+                            echo '</tr>';
                         }
                     }
                     ?>
