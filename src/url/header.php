@@ -135,7 +135,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
         <ul class="list-inline">
           <li class="top-logo">
             <a id="site-title" href="./index.php" title="Diamant Secret">          
-            <img class="img-responsive" src="./images/gfx/logo.png" alt="Diamant Secret">          
+            <img class="img-responsive" src="./images/gfx/logo.png" alt="Diamant Secret" style="max-width: 300px;">
             </a>
           </li>
           <li class="navigation">     
