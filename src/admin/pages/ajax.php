@@ -1216,45 +1216,53 @@ if ( isset($_GET['importThis']) ) {
 		}
 		$itemInfo->execute(array(":uniqueKey" => $item['unique_key']));
 
-		$itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
+		if ( $itemInfo->rowCount() > 0 ) {
 
-		if ( !isset($itemInfo['ring_subcategory']) ) {
-			$itemInfo['ring_subcategory'] = $itemInfo['ring_size'] = "ITEM_NOT_RING";
-		}
+			$itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
 
-		$imgArray = explode(",", $itemInfo['images']);
-
-		foreach ( $imgArray as $img ) {
-			if ( !empty($img) ) {
-				$zipExport->addFile('../../images/images/' . $img , "images/" . $img);
+			if ( !isset($itemInfo['ring_subcategory']) ) {
+				$itemInfo['ring_subcategory'] = $itemInfo['ring_size'] = "ITEM_NOT_RING";
 			}
+
+			//echo $itemInfo['id'];
+
+			$numImg = "";
+
+			$imgArray = explode(",", $itemInfo['images']);
+
+			foreach ( $imgArray as $img ) {
+				if ( !empty($img) ) {
+					$zipExport->addFile('../../images/images/' . $img , "images/" . $img);
+				}
+			}
+
+
+			$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompany($itemInfo['company_id'], $pdo));
+			$outputExcel->getActiveSheet()->setCellValue('B' . $row , $item['category']);
+			$outputExcel->getActiveSheet()->setCellValue('C' . $row , $itemInfo['internal_id']);
+			$outputExcel->getActiveSheet()->setCellValue('D' . $row , $itemInfo['product_name']);
+			$outputExcel->getActiveSheet()->setCellValue('E' . $row , $item['item_value']);
+			$outputExcel->getActiveSheet()->setCellValue('F' . $row , $item['discount']);
+			$outputExcel->getActiveSheet()->setCellValue('G' . $row , $itemInfo['pieces_in_stock']);
+			$outputExcel->getActiveSheet()->setCellValue('H' . $row , $itemInfo['days_for_shipment']);
+			$outputExcel->getActiveSheet()->setCellValue('I' . $row , $itemInfo['total_carat_weight']);
+			$outputExcel->getActiveSheet()->setCellValue('J' . $row , $itemInfo['no_of_stones']);
+			$outputExcel->getActiveSheet()->setCellValue('K' . $row , $itemInfo['diamond_shape']);
+			$outputExcel->getActiveSheet()->setCellValue('L' . $row , $itemInfo['clarity']);
+			$outputExcel->getActiveSheet()->setCellValue('M' . $row , $itemInfo['color']);
+			$outputExcel->getActiveSheet()->setCellValue('N' . $row , $itemInfo['material']);
+			$outputExcel->getActiveSheet()->setCellValue('O' . $row , $itemInfo['height']);
+			$outputExcel->getActiveSheet()->setCellValue('P' . $row , $itemInfo['width']);
+			$outputExcel->getActiveSheet()->setCellValue('Q' . $row , $itemInfo['length']);
+			$outputExcel->getActiveSheet()->setCellValue('R' . $row , $itemInfo['country_id']);
+			$outputExcel->getActiveSheet()->setCellValue('S' . $row , $itemInfo['ring_subcategory']);
+			$outputExcel->getActiveSheet()->setCellValue('T' . $row , $itemInfo['ring_size']);
+			$outputExcel->getActiveSheet()->setCellValue('U' . $row , trim($itemInfo['images'], ","));
+			$outputExcel->getActiveSheet()->setCellValue('V' . $row , $itemInfo['description']);
+
+
+			$row++;
 		}
-
-		$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompany($itemInfo['company_id'], $pdo));
-		$outputExcel->getActiveSheet()->setCellValue('B' . $row , $item['category']);
-		$outputExcel->getActiveSheet()->setCellValue('C' . $row , $itemInfo['internal_id']);
-		$outputExcel->getActiveSheet()->setCellValue('D' . $row , $itemInfo['product_name']);
-		$outputExcel->getActiveSheet()->setCellValue('E' . $row , $item['item_value']);
-		$outputExcel->getActiveSheet()->setCellValue('F' . $row , $item['discount']);
-		$outputExcel->getActiveSheet()->setCellValue('G' . $row , $itemInfo['pieces_in_stock']);
-		$outputExcel->getActiveSheet()->setCellValue('H' . $row , $itemInfo['days_for_shipment']);
-		$outputExcel->getActiveSheet()->setCellValue('I' . $row , $itemInfo['total_carat_weight']);
-		$outputExcel->getActiveSheet()->setCellValue('J' . $row , $itemInfo['no_of_stones']);
-		$outputExcel->getActiveSheet()->setCellValue('K' . $row , $itemInfo['diamond_shape']);
-		$outputExcel->getActiveSheet()->setCellValue('L' . $row , $itemInfo['clarity']);
-		$outputExcel->getActiveSheet()->setCellValue('M' . $row , $itemInfo['color']);
-		$outputExcel->getActiveSheet()->setCellValue('N' . $row , $itemInfo['material']);
-		$outputExcel->getActiveSheet()->setCellValue('O' . $row , $itemInfo['height']);
-		$outputExcel->getActiveSheet()->setCellValue('P' . $row , $itemInfo['width']);
-		$outputExcel->getActiveSheet()->setCellValue('Q' . $row , $itemInfo['length']);
-		$outputExcel->getActiveSheet()->setCellValue('R' . $row , $itemInfo['country_id']);
-		$outputExcel->getActiveSheet()->setCellValue('S' . $row , $itemInfo['ring_subcategory']);
-		$outputExcel->getActiveSheet()->setCellValue('T' . $row , $itemInfo['ring_size']);
-		$outputExcel->getActiveSheet()->setCellValue('U' . $row , trim($itemInfo['images'], "," ) );
-		$outputExcel->getActiveSheet()->setCellValue('V' . $row , $itemInfo['description']);
-
-
-		$row++;
 	} 
 
 
@@ -1539,52 +1547,60 @@ if ( isset($_GET['importThis']) ) {
 			} case 5: {
 				$itemInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :uniqueKey");
 				break;
-			} 
+			} default: {
+				echo '<div class="alert alert-error">Fatal Error: Invalid Category '. $item['category'].' for item <strong>'. $item['item_name'] .'</strong></div>';
+				return;
+			}
 		}
 		$itemInfo->execute(array(":uniqueKey" => $item['unique_key']));
 
-		$itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
+		if ( $itemInfo->rowCount() > 0 ) {
 
-		if ( !isset($itemInfo['ring_subcategory']) ) {
-			$itemInfo['ring_subcategory'] = $itemInfo['ring_size'] = "ITEM_NOT_RING";
-		}
+			$itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
 
-		$numImg = "";
-
-		$imgArray = explode(",", $itemInfo['images']);
-
-		foreach ( $imgArray as $img ) {
-			if ( !empty($img) ) {
-				$zipExport->addFile('../../images/images/' . $img , "images/" . $img);
+			if ( !isset($itemInfo['ring_subcategory']) ) {
+				$itemInfo['ring_subcategory'] = $itemInfo['ring_size'] = "ITEM_NOT_RING";
 			}
+
+			//echo $itemInfo['id'];
+
+			$numImg = "";
+
+			$imgArray = explode(",", $itemInfo['images']);
+
+			foreach ( $imgArray as $img ) {
+				if ( !empty($img) ) {
+					$zipExport->addFile('../../images/images/' . $img , "images/" . $img);
+				}
+			}
+
+
+			$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompany($itemInfo['company_id'], $pdo));
+			$outputExcel->getActiveSheet()->setCellValue('B' . $row , $item['category']);
+			$outputExcel->getActiveSheet()->setCellValue('C' . $row , $itemInfo['internal_id']);
+			$outputExcel->getActiveSheet()->setCellValue('D' . $row , $itemInfo['product_name']);
+			$outputExcel->getActiveSheet()->setCellValue('E' . $row , $item['item_value']);
+			$outputExcel->getActiveSheet()->setCellValue('F' . $row , $item['discount']);
+			$outputExcel->getActiveSheet()->setCellValue('G' . $row , $itemInfo['pieces_in_stock']);
+			$outputExcel->getActiveSheet()->setCellValue('H' . $row , $itemInfo['days_for_shipment']);
+			$outputExcel->getActiveSheet()->setCellValue('I' . $row , $itemInfo['total_carat_weight']);
+			$outputExcel->getActiveSheet()->setCellValue('J' . $row , $itemInfo['no_of_stones']);
+			$outputExcel->getActiveSheet()->setCellValue('K' . $row , $itemInfo['diamond_shape']);
+			$outputExcel->getActiveSheet()->setCellValue('L' . $row , $itemInfo['clarity']);
+			$outputExcel->getActiveSheet()->setCellValue('M' . $row , $itemInfo['color']);
+			$outputExcel->getActiveSheet()->setCellValue('N' . $row , $itemInfo['material']);
+			$outputExcel->getActiveSheet()->setCellValue('O' . $row , $itemInfo['height']);
+			$outputExcel->getActiveSheet()->setCellValue('P' . $row , $itemInfo['width']);
+			$outputExcel->getActiveSheet()->setCellValue('Q' . $row , $itemInfo['length']);
+			$outputExcel->getActiveSheet()->setCellValue('R' . $row , $itemInfo['country_id']);
+			$outputExcel->getActiveSheet()->setCellValue('S' . $row , $itemInfo['ring_subcategory']);
+			$outputExcel->getActiveSheet()->setCellValue('T' . $row , $itemInfo['ring_size']);
+			$outputExcel->getActiveSheet()->setCellValue('U' . $row , trim($itemInfo['images'], ","));
+			$outputExcel->getActiveSheet()->setCellValue('V' . $row , $itemInfo['description']);
+
+
+			$row++;
 		}
-
-
-		$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompany($itemInfo['company_id'], $pdo));
-		$outputExcel->getActiveSheet()->setCellValue('B' . $row , $item['category']);
-		$outputExcel->getActiveSheet()->setCellValue('C' . $row , $itemInfo['internal_id']);
-		$outputExcel->getActiveSheet()->setCellValue('D' . $row , $itemInfo['product_name']);
-		$outputExcel->getActiveSheet()->setCellValue('E' . $row , $item['item_value']);
-		$outputExcel->getActiveSheet()->setCellValue('F' . $row , $item['discount']);
-		$outputExcel->getActiveSheet()->setCellValue('G' . $row , $itemInfo['pieces_in_stock']);
-		$outputExcel->getActiveSheet()->setCellValue('H' . $row , $itemInfo['days_for_shipment']);
-		$outputExcel->getActiveSheet()->setCellValue('I' . $row , $itemInfo['total_carat_weight']);
-		$outputExcel->getActiveSheet()->setCellValue('J' . $row , $itemInfo['no_of_stones']);
-		$outputExcel->getActiveSheet()->setCellValue('K' . $row , $itemInfo['diamond_shape']);
-		$outputExcel->getActiveSheet()->setCellValue('L' . $row , $itemInfo['clarity']);
-		$outputExcel->getActiveSheet()->setCellValue('M' . $row , $itemInfo['color']);
-		$outputExcel->getActiveSheet()->setCellValue('N' . $row , $itemInfo['material']);
-		$outputExcel->getActiveSheet()->setCellValue('O' . $row , $itemInfo['height']);
-		$outputExcel->getActiveSheet()->setCellValue('P' . $row , $itemInfo['width']);
-		$outputExcel->getActiveSheet()->setCellValue('Q' . $row , $itemInfo['length']);
-		$outputExcel->getActiveSheet()->setCellValue('R' . $row , $itemInfo['country_id']);
-		$outputExcel->getActiveSheet()->setCellValue('S' . $row , $itemInfo['ring_subcategory']);
-		$outputExcel->getActiveSheet()->setCellValue('T' . $row , $itemInfo['ring_size']);
-		$outputExcel->getActiveSheet()->setCellValue('U' . $row , trim($itemInfo['images'], ","));
-		$outputExcel->getActiveSheet()->setCellValue('V' . $row , $itemInfo['description']);
-
-
-		$row++;
 	} 
 
 
