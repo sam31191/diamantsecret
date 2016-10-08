@@ -257,9 +257,6 @@ if ( isset($_POST['removeFromFav'])) {
 																<span class="status_authorized">N/A</span>
 															</td>
 															<td>
-																<span class="status_unfulfilled">N/A</span>
-															</td>
-															<td>
 																<span class="total"><form method="post"><button class="btn btn-custom" name="removeFromFav" value="'. $item .'">Remove</button></form></span>
 															</td>
 														</tr>';

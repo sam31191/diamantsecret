@@ -1250,11 +1250,15 @@ function checkKey($key, $pdo) {
 					echo '<script>document.getElementById("filtersApplied").innerHTML = "'. $filtersApplied .'";</script>';
 
 		        	$query = $pdo->prepare("SELECT * FROM `items` INNER JOIN `pendants` ON items.unique_key = pendants.unique_key WHERE `category` = 3 ". $filterDiamondShape . $filterMaterial . $filterColor . $filterClarity ." ORDER BY ". $filter . " " . $currentOrder . " LIMIT ". $offset .", ". $perPage ." ");
+		        	$queryCount = $pdo->prepare("SELECT items.id, COUNT(items.id) AS itemCount FROM `items` INNER JOIN `pendants` ON items.unique_key = pendants.unique_key WHERE `category` = 3 ". $filterDiamondShape . $filterMaterial . $filterColor . $filterClarity ." ORDER BY ". $filter . " " . $currentOrder . " LIMIT ". $offset .", ". $perPage ." ");
 		        	pconsole($query);
 					$query->execute(array(":first" => 10));
+					$queryCount->execute(array(":first" => 10));
 					if ( $query->rowCount() > 0 ) {
-						echo '<script>document.getElementById("total_items").innerHTML = "'. $query->rowCount() .'";</script>';
 						$result = $query->fetchAll();
+						$resultCount = $queryCount->fetch(PDO::FETCH_ASSOC);
+						echo '<script>document.getElementById("total_items").innerHTML = "'. $resultCount['itemCount'] .'";</script>';
+						pconsole("COUNT:" . $resultCount['itemCount']);
 						foreach ( $result as $entry ) {
 
 							switch ($entry['category']) {
