@@ -1094,7 +1094,7 @@ if ( isset($_GET['importThis']) ) {
 		$outputExcel->getActiveSheet()->setCellValue('R' . $row , $itemInfo['country_id']);
 		$outputExcel->getActiveSheet()->setCellValue('S' . $row , $itemInfo['ring_subcategory']);
 		$outputExcel->getActiveSheet()->setCellValue('T' . $row , $itemInfo['ring_size']);
-		$outputExcel->getActiveSheet()->setCellValue('U' . $row , $numImg);
+		$outputExcel->getActiveSheet()->setCellValue('U' . $row , trim($numImg, ","));
 		$outputExcel->getActiveSheet()->setCellValue('V' . $row , $itemInfo['description']);
 
 
@@ -1418,7 +1418,7 @@ if ( isset($_GET['importThis']) ) {
 		$outputExcel->getActiveSheet()->setCellValue('R' . $row , $itemInfo['country_id']);
 		$outputExcel->getActiveSheet()->setCellValue('S' . $row , $itemInfo['ring_subcategory']);
 		$outputExcel->getActiveSheet()->setCellValue('T' . $row , $itemInfo['ring_size']);
-		$outputExcel->getActiveSheet()->setCellValue('U' . $row , $numImg);
+		$outputExcel->getActiveSheet()->setCellValue('U' . $row , trim($numImg,","));
 		$outputExcel->getActiveSheet()->setCellValue('V' . $row , $itemInfo['description']);
 
 
