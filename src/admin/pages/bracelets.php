@@ -844,7 +844,7 @@ function checkKey($key, $pdo) {
 		                <button class="btn btn-warning" name="bulkManage" value="feature">Add to Featured (<span class="selected-num">0</span>)</button>
 		                <button class="btn btn-default" name="bulkManage" value="unfeature">Remove from Featured (<span class="selected-num">0</span>)</button>
 		                <a class="btn btn-danger" onclick="bulkRemoveItems()">Delete Selected (<span class="selected-num">0</span>)</a>
-		                <a href="javascript:void(0);" class="btn btn-danger" onclick="removeAll(this)" name="rings">Delete All</a>
+		                <a href="javascript:void(0);" class="btn btn-danger" onclick="removeAll(this)" name="bracelets">Delete All</a>
 		            </form>
 		        </h3>';
         	?></h3>
