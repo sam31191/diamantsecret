@@ -137,43 +137,65 @@ pconsole($_POST);
 									$_GET['view'];
 									$getItem = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :unique_key");
 									$getItem->execute(array(":unique_key" => $_GET['view']));
-									$item = $getItem->fetch(PDO::FETCH_ASSOC);
+									if ( $getItem->rowCount() > 0 ) {
+										$item = $getItem->fetch(PDO::FETCH_ASSOC);
 
-									$getCategory = $pdo->prepare("SELECT * FROM `categories` WHERE `id` = :id");
-									$getCategory->execute(array(":id" => $item['category']));
-									$category = $getCategory->fetch(PDO::FETCH_ASSOC);
-									$category = $category['category'];
+										$getCategory = $pdo->prepare("SELECT * FROM `categories` WHERE `id` = :id");
+										$getCategory->execute(array(":id" => $item['category']));
+										$category = $getCategory->fetch(PDO::FETCH_ASSOC);
+										$category = $category['category'];
 
-									$table = '`'. $category .'`';
+										$table = '`'. $category .'`';
 
-									$itemInfo = $pdo->prepare("SELECT * FROM ". $table ." WHERE `unique_key` = :unique_key");
-									$itemInfo->execute(array(":unique_key" => $_GET['view']));
+										$itemInfo = $pdo->prepare("SELECT * FROM ". $table ." WHERE `unique_key` = :unique_key");
+										$itemInfo->execute(array(":unique_key" => $_GET['view']));
 
-									$itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
+										$itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
 
-									$images = explode(",", $itemInfo['images']);
+										$images = explode(",", $itemInfo['images']);
 
-									$sale = "";
-									$price = '<span class="price">€'. $item['item_value'] .'</span>';
-									if ( $item['discount'] > 0 ) {
+										$sale = "";
+										$price = '<span class="price">€'. $item['item_value'] .'</span>';
+										if ( $item['discount'] > 0 ) {
+											
+											$value = $item['item_value'] -  (($item['discount'] / 100 ) * $item['item_value']);
+											$sale = '<span class="sale_banner"><span class="sale_text">Sale</span></span>';
+											$price = '<span class="price_sale">€'. number_format($value, 2, ".", "") .'</span>
+														 <span class="dash">/</span> <del class="price_compare">€'. $item['item_value'] .'</del>';
+										}
+
+										if ( strstr($favorites, $item['unique_key']) ) {
+											$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="removeFromWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart fav-true"></i><span class="list-mode" style="text-transform:uppercase; font-weight: bold;">Remove from Wishlist</span></a>';
+										} else {
+											$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="addToWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode" style="text-transform:uppercase; font-weight: bold;">Add to Wishlist</span></a>';
+										}
 										
-										$value = $item['item_value'] -  (($item['discount'] / 100 ) * $item['item_value']);
-										$sale = '<span class="sale_banner"><span class="sale_text">Sale</span></span>';
-										$price = '<span class="price_sale">€'. number_format($value, 2, ".", "") .'</span>
-													 <span class="dash">/</span> <del class="price_compare">€'. $item['item_value'] .'</del>';
-									}
+										pconsole($itemInfo);
 
-									if ( strstr($favorites, $item['unique_key']) ) {
-										$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="removeFromWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart fav-true"></i><span class="list-mode" style="text-transform:uppercase; font-weight: bold;">Remove from Wishlist</span></a>';
+										echo '<a href="./collection_'. $category .'.php" style="text-transform:capitalize;">'. $category .'</a>';
+										echo '<span>/</span>';
+										echo '<span>'. $item['item_name'] .'</span>';
 									} else {
-										$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="addToWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode" style="text-transform:uppercase; font-weight: bold;">Add to Wishlist</span></a>';
+										$itemInfo['product_name'] = "Invalid Item";
+										$images = array("0.png");
+										$itemInfo['description'] = "";
+										$itemInfo['material'] = "";
+										$itemInfo['color'] = "";
+										$color = "";
+										$category = "";
+										$itemInfo['clarity'] = "";
+										$item['unique_key'] = "";
+										$item['category'] = "";
+										$itemInfo['length'] = "";
+										$itemInfo['width'] = "";
+										$itemInfo['height'] = "";
+										$itemInfo['no_of_stones'] = "";
+										$itemInfo['total_carat_weight'] = "";
+										$itemInfo['diamond_shape'] = "";
+										$price = "";
+										$itemInfo['pieces_in_stock'] = "";
+										$wishlist = "";
 									}
-									
-									pconsole($itemInfo);
-
-									echo '<a href="./collection_'. $category .'.php" style="text-transform:capitalize;">'. $category .'</a>';
-									echo '<span>/</span>';
-									echo '<span>'. $item['item_name'] .'</span>'
 								?>
 							</div>
 						</div>

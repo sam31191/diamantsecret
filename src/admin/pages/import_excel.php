@@ -413,7 +413,7 @@ function importAjax (id, index, timeToken) {
 	    beforeSend: function() {
 	    	$('#uploadDiv').show();
 	    	$('#uploadDivCloseIcon').hide();
-	    	$('#resultTable').append('<tr><td>'+ index +'</td><td id="row_'+ id +'_result">Loading</td><td id="row_'+ id +'_error"><img style="width:24px" src="../../images/gfx/cube.gif"></td></tr>');
+	    	$('#resultTable').append('<tr><td>'+ (index+1) +'</td><td id="row_'+ id +'_result">Loading</td><td id="row_'+ id +'_error"><img style="width:24px" src="../../images/gfx/cube.gif"></td></tr>');
     	
 	    },
 	    complete: function(result) {
