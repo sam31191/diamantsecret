@@ -151,10 +151,283 @@ if ( isset($_GET['importThis']) ) {
 					return;
 				}
 
+
+				$internalID = $products[$i]['C'];
+				switch( $products[$i]['B'] ) {
+					case 1 : {
+						$checkInternalID = $pdo->prepare("SELECT * FROM rings WHERE `internal_id` = :intID");
+						$checkInternalID->execute(array(":intID" => $internalID));
+
+						if ( $checkInternalID->rowCount() > 0 ) {
+							$resultValues = $checkInternalID->fetch(PDO::FETCH_ASSOC);
+
+							$getItemMainValues = $pdo->prepare("SELECT * FROM items WHERE `unique_key` = :unique_key");
+							$getItemMainValues->execute(array(":unique_key" => $resultValues['unique_key']));
+
+							if ( $getItemMainValues->rowCount() > 0 ) {
+								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'] . $resultValues['ring_size'] . $resultValues['ring_subcategory'];
+
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'] . $products[$i]['T'] . $products[$i]['S'];
+
+								$hashDB = strtoupper(hash("md5", $valuesDB ));
+
+
+								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
+								
+								#for Rings (has column S T and U)
+								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
+
+								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
+								#$resultStatus .= "SQL: " . $products[$i]['A'];
+								if ( $hashDB == $hashSQL ) {
+									$resultStatus = "Duplicate Entry - Skipping";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+								} else {
+									$resultStatus = "Product Updated";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+									
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+
+								}
+							} else {
+								$resultStatus = "Invalid Item";
+							}
+
+
+							$result = [];
+							array_push($result, $products[$i]['D']);
+							array_push($result, $resultStatus);
+							array_push($result, $i);
+							echo json_encode($result);
+
+							return;
+						}
+						break;
+					}
+					case 2 : {
+						$checkInternalID = $pdo->prepare("SELECT * FROM earrings WHERE `internal_id` = :intID");
+						$checkInternalID->execute(array(":intID" => $internalID));
+
+						if ( $checkInternalID->rowCount() > 0 ) {
+							$resultValues = $checkInternalID->fetch(PDO::FETCH_ASSOC);
+
+							$getItemMainValues = $pdo->prepare("SELECT * FROM items WHERE `unique_key` = :unique_key");
+							$getItemMainValues->execute(array(":unique_key" => $resultValues['unique_key']));
+
+							if ( $getItemMainValues->rowCount() > 0 ) {
+								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+
+								$hashDB = strtoupper(hash("md5", $valuesDB ));
+
+
+								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
+								
+								#for Rings (has column S T and U)
+								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
+
+								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
+								#$resultStatus .= "SQL: " . $products[$i]['A'];
+								if ( $hashDB == $hashSQL ) {
+									$resultStatus = "Duplicate Entry - Skipping";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+								} else {
+									$resultStatus = "Product Updated";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+									
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+
+								}
+							} else {
+								$resultStatus = "Invalid Item";
+							}
+
+
+							$result = [];
+							array_push($result, $products[$i]['D']);
+							array_push($result, $resultStatus);
+							array_push($result, $i);
+							echo json_encode($result);
+
+							return;
+						}
+						break;
+					}
+					case 3 : {
+						$checkInternalID = $pdo->prepare("SELECT * FROM pendants WHERE `internal_id` = :intID");
+						$checkInternalID->execute(array(":intID" => $internalID));
+
+						if ( $checkInternalID->rowCount() > 0 ) {
+							$resultValues = $checkInternalID->fetch(PDO::FETCH_ASSOC);
+
+							$getItemMainValues = $pdo->prepare("SELECT * FROM items WHERE `unique_key` = :unique_key");
+							$getItemMainValues->execute(array(":unique_key" => $resultValues['unique_key']));
+
+							if ( $getItemMainValues->rowCount() > 0 ) {
+								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+
+								$hashDB = strtoupper(hash("md5", $valuesDB ));
+
+
+								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
+								
+								#for Rings (has column S T and U)
+								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
+
+								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
+								#$resultStatus .= "SQL: " . $products[$i]['A'];
+								if ( $hashDB == $hashSQL ) {
+									$resultStatus = "Duplicate Entry - Skipping";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+								} else {
+									$resultStatus = "Product Updated";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+									
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+
+								}
+							} else {
+								$resultStatus = "Invalid Item";
+							}
+
+
+							$result = [];
+							array_push($result, $products[$i]['D']);
+							array_push($result, $resultStatus);
+							array_push($result, $i);
+							echo json_encode($result);
+
+							return;
+						}
+						break;
+					}
+					case 4 : {
+						$checkInternalID = $pdo->prepare("SELECT * FROM necklaces WHERE `internal_id` = :intID");
+						$checkInternalID->execute(array(":intID" => $internalID));
+
+						if ( $checkInternalID->rowCount() > 0 ) {
+							$resultValues = $checkInternalID->fetch(PDO::FETCH_ASSOC);
+
+							$getItemMainValues = $pdo->prepare("SELECT * FROM items WHERE `unique_key` = :unique_key");
+							$getItemMainValues->execute(array(":unique_key" => $resultValues['unique_key']));
+
+							if ( $getItemMainValues->rowCount() > 0 ) {
+								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+
+								$hashDB = strtoupper(hash("md5", $valuesDB ));
+
+
+								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
+								
+								#for Rings (has column S T and U)
+								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
+
+								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
+								#$resultStatus .= "SQL: " . $products[$i]['A'];
+								if ( $hashDB == $hashSQL ) {
+									$resultStatus = "Duplicate Entry - Skipping";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+								} else {
+									$resultStatus = "Product Updated";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+									
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+
+								}
+							} else {
+								$resultStatus = "Invalid Item";
+							}
+
+
+							$result = [];
+							array_push($result, $products[$i]['D']);
+							array_push($result, $resultStatus);
+							array_push($result, $i);
+							echo json_encode($result);
+
+							return;
+						}
+						break;
+					}
+					case 5 : {
+						$checkInternalID = $pdo->prepare("SELECT * FROM bracelets WHERE `internal_id` = :intID");
+						$checkInternalID->execute(array(":intID" => $internalID));
+
+						if ( $checkInternalID->rowCount() > 0 ) {
+							$resultValues = $checkInternalID->fetch(PDO::FETCH_ASSOC);
+
+							$getItemMainValues = $pdo->prepare("SELECT * FROM items WHERE `unique_key` = :unique_key");
+							$getItemMainValues->execute(array(":unique_key" => $resultValues['unique_key']));
+
+							if ( $getItemMainValues->rowCount() > 0 ) {
+								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+
+								$hashDB = strtoupper(hash("md5", $valuesDB ));
+
+
+								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
+								
+								#for Rings (has column S T and U)
+								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
+
+								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
+								#$resultStatus .= "SQL: " . $products[$i]['A'];
+								if ( $hashDB == $hashSQL ) {
+									$resultStatus = "Duplicate Entry - Skipping";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+								} else {
+									$resultStatus = "Product Updated";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+									
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+
+								}
+							} else {
+								$resultStatus = "Invalid Item";
+							}
+
+
+							$result = [];
+							array_push($result, $products[$i]['D']);
+							array_push($result, $resultStatus);
+							array_push($result, $i);
+							echo json_encode($result);
+
+							return;
+						}
+						break;
+					}
+				}
+
 					$company_id = "0";
 					if ( isset($_SESSION['import_company_id']) ) {
 						$company_id = $_SESSION['import_company_id'];
 					}
+
+					$company_id = getCompanyID($products[$i]['A'], $pdo);
+					
 					$uniqueKey = generateUniqueKey();
 					
 					while ( checkKey($uniqueKey, $pdo) ) {
@@ -165,13 +438,14 @@ if ( isset($_GET['importThis']) ) {
 						$products[$i]['V'] = "-";
 					}
 
-					$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, NOW())");
+					$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, images_delta, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, :images_delta, NOW())");
 						$addItem->execute(array(
 							":unique_key" => $uniqueKey,
 							":product_name" => $products[$i]['D'],
 							":product_price" => $products[$i]['E'],
 							":discount" => $products[$i]['F'],
-							":category" => $products[$i]['B']
+							":category" => $products[$i]['B'],
+							":images_delta" => $products[$i]['U']
 						));
 
 					switch ($products[$i]['B']) {
@@ -624,10 +898,283 @@ if ( isset($_GET['importThis']) ) {
 					return;
 				}
 
+				$internalID = $products[$i]['C'];
+				switch( $products[$i]['B'] ) {
+					case 1 : {
+						$checkInternalID = $pdo->prepare("SELECT * FROM rings WHERE `internal_id` = :intID");
+						$checkInternalID->execute(array(":intID" => $internalID));
+
+						if ( $checkInternalID->rowCount() > 0 ) {
+							$resultValues = $checkInternalID->fetch(PDO::FETCH_ASSOC);
+
+							$getItemMainValues = $pdo->prepare("SELECT * FROM items WHERE `unique_key` = :unique_key");
+							$getItemMainValues->execute(array(":unique_key" => $resultValues['unique_key']));
+
+							if ( $getItemMainValues->rowCount() > 0 ) {
+								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'] . $resultValues['ring_size'] . $resultValues['ring_subcategory'];
+
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'] . $products[$i]['T'] . $products[$i]['S'];
+
+								$hashDB = strtoupper(hash("md5", $valuesDB ));
+
+
+								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
+								
+								#for Rings (has column S T and U)
+								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
+
+								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
+								#$resultStatus .= "SQL: " . $products[$i]['A'];
+								if ( $hashDB == $hashSQL ) {
+									$resultStatus = "Duplicate Entry - Skipping";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+								} else {
+									$resultStatus = "Product Updated";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+									
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+
+								}
+							} else {
+								$resultStatus = "Invalid Item";
+							}
+
+
+							$result = [];
+							array_push($result, $products[$i]['D']);
+							array_push($result, $resultStatus);
+							array_push($result, $i);
+							echo json_encode($result);
+
+							return;
+						}
+						break;
+					}
+					case 2 : {
+						$checkInternalID = $pdo->prepare("SELECT * FROM earrings WHERE `internal_id` = :intID");
+						$checkInternalID->execute(array(":intID" => $internalID));
+
+						if ( $checkInternalID->rowCount() > 0 ) {
+							$resultValues = $checkInternalID->fetch(PDO::FETCH_ASSOC);
+
+							$getItemMainValues = $pdo->prepare("SELECT * FROM items WHERE `unique_key` = :unique_key");
+							$getItemMainValues->execute(array(":unique_key" => $resultValues['unique_key']));
+
+							if ( $getItemMainValues->rowCount() > 0 ) {
+								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+
+								$hashDB = strtoupper(hash("md5", $valuesDB ));
+
+
+								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
+								
+								#for Rings (has column S T and U)
+								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
+
+								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
+								#$resultStatus .= "SQL: " . $products[$i]['A'];
+								if ( $hashDB == $hashSQL ) {
+									$resultStatus = "Duplicate Entry - Skipping";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+								} else {
+									$resultStatus = "Product Updated";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+									
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+
+								}
+							} else {
+								$resultStatus = "Invalid Item";
+							}
+
+
+							$result = [];
+							array_push($result, $products[$i]['D']);
+							array_push($result, $resultStatus);
+							array_push($result, $i);
+							echo json_encode($result);
+
+							return;
+						}
+						break;
+					}
+					case 3 : {
+						$checkInternalID = $pdo->prepare("SELECT * FROM pendants WHERE `internal_id` = :intID");
+						$checkInternalID->execute(array(":intID" => $internalID));
+
+						if ( $checkInternalID->rowCount() > 0 ) {
+							$resultValues = $checkInternalID->fetch(PDO::FETCH_ASSOC);
+
+							$getItemMainValues = $pdo->prepare("SELECT * FROM items WHERE `unique_key` = :unique_key");
+							$getItemMainValues->execute(array(":unique_key" => $resultValues['unique_key']));
+
+							if ( $getItemMainValues->rowCount() > 0 ) {
+								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+
+								$hashDB = strtoupper(hash("md5", $valuesDB ));
+
+
+								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
+								
+								#for Rings (has column S T and U)
+								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
+
+								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
+								#$resultStatus .= "SQL: " . $products[$i]['A'];
+								if ( $hashDB == $hashSQL ) {
+									$resultStatus = "Duplicate Entry - Skipping";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+								} else {
+									$resultStatus = "Product Updated";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+									
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+
+								}
+							} else {
+								$resultStatus = "Invalid Item";
+							}
+
+
+							$result = [];
+							array_push($result, $products[$i]['D']);
+							array_push($result, $resultStatus);
+							array_push($result, $i);
+							echo json_encode($result);
+
+							return;
+						}
+						break;
+					}
+					case 4 : {
+						$checkInternalID = $pdo->prepare("SELECT * FROM necklaces WHERE `internal_id` = :intID");
+						$checkInternalID->execute(array(":intID" => $internalID));
+
+						if ( $checkInternalID->rowCount() > 0 ) {
+							$resultValues = $checkInternalID->fetch(PDO::FETCH_ASSOC);
+
+							$getItemMainValues = $pdo->prepare("SELECT * FROM items WHERE `unique_key` = :unique_key");
+							$getItemMainValues->execute(array(":unique_key" => $resultValues['unique_key']));
+
+							if ( $getItemMainValues->rowCount() > 0 ) {
+								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+
+								$hashDB = strtoupper(hash("md5", $valuesDB ));
+
+
+								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
+								
+								#for Rings (has column S T and U)
+								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
+
+								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
+								#$resultStatus .= "SQL: " . $products[$i]['A'];
+								if ( $hashDB == $hashSQL ) {
+									$resultStatus = "Duplicate Entry - Skipping";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+								} else {
+									$resultStatus = "Product Updated";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+									
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+
+								}
+							} else {
+								$resultStatus = "Invalid Item";
+							}
+
+
+							$result = [];
+							array_push($result, $products[$i]['D']);
+							array_push($result, $resultStatus);
+							array_push($result, $i);
+							echo json_encode($result);
+
+							return;
+						}
+						break;
+					}
+					case 5 : {
+						$checkInternalID = $pdo->prepare("SELECT * FROM bracelets WHERE `internal_id` = :intID");
+						$checkInternalID->execute(array(":intID" => $internalID));
+
+						if ( $checkInternalID->rowCount() > 0 ) {
+							$resultValues = $checkInternalID->fetch(PDO::FETCH_ASSOC);
+
+							$getItemMainValues = $pdo->prepare("SELECT * FROM items WHERE `unique_key` = :unique_key");
+							$getItemMainValues->execute(array(":unique_key" => $resultValues['unique_key']));
+
+							if ( $getItemMainValues->rowCount() > 0 ) {
+								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+
+								$hashDB = strtoupper(hash("md5", $valuesDB ));
+
+
+								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
+								
+								#for Rings (has column S T and U)
+								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
+
+								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
+								#$resultStatus .= "SQL: " . $products[$i]['A'];
+								if ( $hashDB == $hashSQL ) {
+									$resultStatus = "Duplicate Entry - Skipping";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+								} else {
+									$resultStatus = "Product Updated";
+									#$resultStatus .= json_encode($valuesDB);
+									#$resultStatus .= json_encode($valuesSQL);
+									
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+
+								}
+							} else {
+								$resultStatus = "Invalid Item";
+							}
+
+
+							$result = [];
+							array_push($result, $products[$i]['D']);
+							array_push($result, $resultStatus);
+							array_push($result, $i);
+							echo json_encode($result);
+
+							return;
+						}
+						break;
+					}
+				}
+				
+
 					$company_id = "0";
 					if ( isset($_SESSION['import_company_id_zip']) ) {
 						$company_id = $_SESSION['import_company_id_zip'];
 					}
+
+					$company_id = getCompanyID($products[$i]['A'], $pdo);
+
 					$uniqueKey = generateUniqueKey();
 					
 					while ( checkKey($uniqueKey, $pdo) ) {
@@ -639,13 +1186,14 @@ if ( isset($_GET['importThis']) ) {
 					}
 
 
-					$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, NOW())");
+					$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, images_delta, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, :images_delta, NOW())");
 						$addItem->execute(array(
 							":unique_key" => $uniqueKey,
 							":product_name" => $products[$i]['D'],
 							":product_price" => $products[$i]['E'],
 							":discount" => $products[$i]['F'],
-							":category" => $products[$i]['B']
+							":category" => $products[$i]['B'],
+							":images_delta" => $products[$i]['U']
 						));
 
 					switch ($products[$i]['B']) {
@@ -1074,7 +1622,7 @@ if ( isset($_GET['importThis']) ) {
 		}
 
 
-		$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompany($itemInfo['company_id'], $pdo));
+		$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompanyCode($itemInfo['company_id'], $pdo));
 		$outputExcel->getActiveSheet()->setCellValue('B' . $row , $item['category']);
 		$outputExcel->getActiveSheet()->setCellValue('C' . $row , $itemInfo['internal_id']);
 		$outputExcel->getActiveSheet()->setCellValue('D' . $row , $itemInfo['product_name']);
@@ -1237,7 +1785,7 @@ if ( isset($_GET['importThis']) ) {
 			}
 
 
-			$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompany($itemInfo['company_id'], $pdo));
+			$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompanyCode($itemInfo['company_id'], $pdo));
 			$outputExcel->getActiveSheet()->setCellValue('B' . $row , $item['category']);
 			$outputExcel->getActiveSheet()->setCellValue('C' . $row , $itemInfo['internal_id']);
 			$outputExcel->getActiveSheet()->setCellValue('D' . $row , $itemInfo['product_name']);
@@ -1398,7 +1946,7 @@ if ( isset($_GET['importThis']) ) {
 		}
 
 
-		$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompany($itemInfo['company_id'], $pdo));
+		$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompanyCode($itemInfo['company_id'], $pdo));
 		$outputExcel->getActiveSheet()->setCellValue('B' . $row , $item['category']);
 		$outputExcel->getActiveSheet()->setCellValue('C' . $row , $itemInfo['internal_id']);
 		$outputExcel->getActiveSheet()->setCellValue('D' . $row , $itemInfo['product_name']);
@@ -1575,7 +2123,7 @@ if ( isset($_GET['importThis']) ) {
 			}
 
 
-			$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompany($itemInfo['company_id'], $pdo));
+			$outputExcel->getActiveSheet()->setCellValue('A' . $row , getCompanyCode($itemInfo['company_id'], $pdo));
 			$outputExcel->getActiveSheet()->setCellValue('B' . $row , $item['category']);
 			$outputExcel->getActiveSheet()->setCellValue('C' . $row , $itemInfo['internal_id']);
 			$outputExcel->getActiveSheet()->setCellValue('D' . $row , $itemInfo['product_name']);
@@ -1883,6 +2431,17 @@ if ( isset($_GET['importThis']) ) {
 		}
 	}
 	
+} else if ( isset($_GET['verifyCompanyCode']) ) {
+	$code = $_GET['verifyCompanyCode'];
+
+	$q = $pdo->prepare("SELECT * FROM `company_id` WHERE `company_code` = :cc");
+	$q->execute(array(":cc" => $code));
+
+	if ( $q->rowCount() > 0 ) {
+		echo 0;
+	} else {
+		echo 1;
+	}
 } else {	echo "GET not SET";		}
 
 

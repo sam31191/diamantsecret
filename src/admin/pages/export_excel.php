@@ -52,7 +52,7 @@ if ( isset($_SESSION['modSession']) ) {
         	</div>
         	
         	<div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 300px; margin-left: -400px; margin-top: -150px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
-	        	<img src="../../images/gfx/cube_lg.gif">
+	        	<img src="./../images/gfx/cube_lg.gif">
 	        	<h5 style="    position: absolute; top: 0; font-style: italic;">Importing ...</h5>
         	</div>
         </div>
@@ -589,7 +589,7 @@ function exportSelected() {
 	    },
 	    beforeSend: function() {
 	    	$('#uploadDiv').show();
-	    	$('#resultDiv').html('<img src="../../images/gfx/cube_lg.gif"><h5 style="position: absolute; top: 0; font-style: italic;">Exporting ...</h5>');
+	    	$('#resultDiv').html('<img src="./../images/gfx/cube_lg.gif"><h5 style="position: absolute; top: 0; font-style: italic;">Exporting ...</h5>');
 	    	$('#uploadDivCloseIcon').hide();
 	    },
 	    complete: function() {
@@ -632,7 +632,7 @@ function exportAll(category = 0) {
 	    },
 	    beforeSend: function() {
 	    	$('#uploadDiv').show();
-	    	$('#resultDiv').html('<img src="../../images/gfx/cube_lg.gif"><h5 style="position: absolute; top: 0; font-style: italic;">Exporting ...</h5>');
+	    	$('#resultDiv').html('<img src="./../images/gfx/cube_lg.gif"><h5 style="position: absolute; top: 0; font-style: italic;">Exporting ...</h5>');
 	    	$('#uploadDivCloseIcon').hide();
 	    },
 	    complete: function() {

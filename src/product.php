@@ -222,7 +222,7 @@ pconsole($_POST);
 																echo '													
 																<li class="image">
 																	<a href="./images/images_md/'. $image .'" class="cloud-zoom-gallery active">
-																		<img src="./images/images_sm/'. $image .'" onClick="selectImage(\'./images/images/'. $image .'\')" alt="Donec condime fermentum">
+																		<img src="./images/images_sm/'. $image .'" onClick="selectImage(\'./images/images/'. $image .'\')" alt="">
 																	</a>
 																</li>	
 																';
@@ -234,7 +234,11 @@ pconsole($_POST);
 												</div>
 											</div>      
 											<div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp" style="max-height:570px; display: inline-block; text-align: center;" >
-												<?php echo '<img src="./images/images_md/'. $images[0] .'" alt="'. $itemInfo['product_name'] .'" data-zoom-image="./images/images/'. $images[0] .'"  data-imageIndex="0" id="mainImage">' ?>
+												<?php 
+												if ( !is_file( './images/images_md/'. $images[0] ) ) {
+													$images[0] = "0.png";
+												}
+												echo '<img src="./images/images_md/'. $images[0] .'" alt="'. $itemInfo['product_name'] .'" data-zoom-image="./images/images/'. $images[0] .'"  data-imageIndex="0" id="mainImage">' ?>
 											</div>
 											<div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
 												<ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
@@ -244,7 +248,7 @@ pconsole($_POST);
 																echo '													
 																<li class="image">
 																	<a href="./images/images_md/'. $image .'" class="cloud-zoom-gallery">
-																		<img src="./images/images_sm/'. $image .'" alt="Donec condime fermentum">
+																		<img src="./images/images_sm/'. $image .'" alt="">
 																	</a>
 																</li>	
 																';

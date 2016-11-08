@@ -90,7 +90,7 @@ if ( isset($_SESSION['modSession']) ) {
 	        		<table>
 	        			<tr>
 	        				<td>
-	        					<select class="select-style" name="company_id" title="Select the Client" required>
+	        					<select class="select-style" name="company_id" title="Select the Client" hidden>
 				        			<option value="">Select Company</option>';
 			                        $getCompanies = $pdo->prepare("SELECT * FROM `company_id`");
 			                        $getCompanies->execute();

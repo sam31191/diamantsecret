@@ -318,6 +318,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 														$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'" onClick="addToWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>';
 													}
 
+													if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
+														$wishlist = "";
+													}
+
+													if ( !is_file( './images/images_md/'. $images[0] ) ) {
+														$images[0] = "0.png";
+													}
+
 													echo '
 												<div class="element no_full_width bounceIn col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
 														<ul class="row-container list-unstyled clearfix">
@@ -469,6 +477,13 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 															$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'_FEAT" onClick="addToWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>';
 														}
 														
+														if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
+															$wishlist = "";
+														}
+
+														if ( !is_file( './images/images_md/'. $images[0] ) ) {
+															$images[0] = "0.png";
+														}
 
 														echo '   																						
 													<div class="element no_full_width bounceIn not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">

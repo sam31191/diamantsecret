@@ -396,6 +396,16 @@ pconsole($_POST);
 																	} else {
 																		$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="addToWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>';
 																	}
+
+
+																	if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
+																		$wishlist = "";
+																	}
+
+																	
+																	if ( !is_file( './images/images_md/'. $images[0] ) ) {
+																		$images[0] = "0.png";
+																	}
 																	
 																	echo '
 																	<div class="element full_width fadeInUp animated" data-animate="fadeInUp" data-delay="0">
@@ -641,6 +651,16 @@ pconsole($_POST);
 														} else {
 															$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="addToWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>';
 														}
+
+														if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
+															$wishlist = "";
+														}
+
+
+														if ( !is_file( './images/images_md/'. $images[0] ) ) {
+															$images[0] = "0.png";
+														}
+
 
 														$element = '<li class="element no_full_width" data-alpha="" data-price="20000">
 																<ul class="row-container list-unstyled clearfix">

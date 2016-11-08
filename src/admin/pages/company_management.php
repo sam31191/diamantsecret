@@ -19,21 +19,22 @@ if ( isset($_SESSION['modSession']) ) {
 include '../../conf/config.php';
 
 if ( isset($_POST['addItem']) ) {
-	$addCompany = $pdo->prepare("INSERT INTO `company_id` (`company_name`, `email`, `mobileno`, `address`) VALUES (:cn, :mail, :pno, :add)");
-	$addCompany->execute(array(":cn" => $_POST['company_name'], ":mail" => $_POST['company_mail'], ":pno" => $_POST['company_phone'], ":add" => $_POST['company_address']));
+	$addCompany = $pdo->prepare("INSERT INTO `company_id` (`company_name`, `company_code`, `email`, `mobileno`, `address`) VALUES (:cn, :cc, :mail, :pno, :add)");
+	$addCompany->execute(array(":cn" => $_POST['company_name'], ":mail" => $_POST['company_mail'], ":pno" => $_POST['company_phone'], ":add" => $_POST['company_address'], ":cc" => $_POST['company_code']));
 } else if ( isset($_POST['removeItem']) ) {
 	pconsole($_POST);
 	$addCompany = $pdo->prepare("DELETE FROM `company_id` WHERE `id` = :id");
 	$addCompany->execute(array(":id" => $_POST['removeItem']));
 } else if ( isset($_POST['editItem']) ) {
 	pconsole($_POST);
-	$addCompany = $pdo->prepare("UPDATE `company_id` SET `company_name` = :name, `email` = :mail, `mobileno` = :phone, `address` = :address WHERE `id` = :id");
+	$addCompany = $pdo->prepare("UPDATE `company_id` SET `company_name` = :name, `company_code` = :company_code, `email` = :mail, `mobileno` = :phone, `address` = :address WHERE `id` = :id");
 	$addCompany->execute(array(
       ":name" => $_POST['company_name'], 
       ":id" => $_POST['editItem'],
       ":mail" => $_POST['company_mail'],
       ":phone" => $_POST['company_phone'],
-      ":address" => $_POST['company_address']
+      ":address" => $_POST['company_address'],
+      ":company_code" => $_POST['company_code']
   ));
 } 
 ?>
@@ -103,6 +104,7 @@ if ( isset($_POST['addItem']) ) {
             		echo '
                 	<thead>
                         <th>ID</th>
+                        <th>Code</th>
                         <th>Action</th>
                         <th>Supplier Name</th>
                         <th>Email</th>
@@ -123,6 +125,7 @@ if ( isset($_POST['addItem']) ) {
                 			foreach ( $getUsers->fetchAll() as $company ) {
                 				echo '<tr>';
                                 echo '<td>'. $company['id'] .'</td>';
+                                echo '<td>'. $company['company_code'] .'</td>';
                         echo '<td>
                           <button class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete Client" onclick="$(\'#itemToRemove\').text(\''. $company['company_name'] .'\'); $(\'#removeModalActionButton\').val(\''. $company['id'] .'\'); $(\'#promptRemoveModal\').modal(\'toggle\');"><i class="fa fa-close"></i></button>
                           <button class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit Client" onclick="editSupplier(\''. $company['id'] .'\')"><i class="fa fa-pencil"></i></button>
@@ -206,6 +209,15 @@ if ( isset($_POST['addItem']) ) {
               <td>
                 <div class="table-item">
                   <input name="company_name" type="text" class="form-control" placeholder="Supplier Name (50 Characters)" required maxlength="50" pattern=".{0,50}" >
+                </div>
+              </td>
+            </tr>
+
+            <tr class="table-row">
+              <td class="table-item-label"><span class="table-item-label">Unique Code</span></td>
+              <td>
+                <div class="table-item">
+                  <input name="company_code" type="text" class="form-control" placeholder="Enter a Unique Code (Keep it short for ease of use)(min 3)" required maxlength="50" pattern=".{0,50}" onkeyup="validateCompanyCode(this)" >
                 </div>
               </td>
             </tr>
@@ -301,6 +313,15 @@ if ( isset($_POST['addItem']) ) {
             </tr>
 
             <tr class="table-row">
+              <td class="table-item-label"><span class="table-item-label">Unique Code</span></td>
+              <td>
+                <div class="table-item">
+                  <input id="edit_company_code" name="company_code" type="text" class="form-control" placeholder="Enter a Unique Code (Keep it short for ease of use)(min 3)" required maxlength="50" pattern=".{0,50}" onkeyup="validateCompanyCode(this)" >
+                </div>
+              </td>
+            </tr>
+
+            <tr class="table-row">
               <td class="table-item-label"><span class="table-item-label">Email</span></td>
               <td>
                 <div class="table-item">
@@ -349,6 +370,7 @@ if ( isset($_POST['addItem']) ) {
           result = JSON.parse(result);
           console.log(result);
           $("#edit_product_name").val(result['company_name']); 
+          $("#edit_company_code").val(result['company_code']); 
           $("#edit_company_mail").val(result['email']); 
           $("#edit_company_phone").val(result['mobileno']); 
           $("#edit_company_address").text(result['address']); 
@@ -356,5 +378,32 @@ if ( isset($_POST['addItem']) ) {
           $("#promptEditItem").modal("toggle");
         }
       });
+    }
+
+
+    function validateCompanyCode(element) {
+      code = $(element).val();
+      if ( code.length >= 4 ) {
+        $.ajax({
+          url: './ajax.php?verifyCompanyCode=' + code,
+          type: 'GET',
+          beforeSend: function() {
+            $(element)[0].setCustomValidity("Varifying");
+          },
+          success: function(result) {
+            if (result == 1 ) {
+              $(element)[0].setCustomValidity("");
+              $(element).prop("style", "background: transparent;");
+              
+            } else {
+              $(element)[0].setCustomValidity("Unique Code not available");
+              $(element).prop("style", "background: #ffab91;;");
+            }
+          }
+        });
+      } else {
+          $(element)[0].setCustomValidity("Unique Code not available");
+          $(element).prop("style", "background: #ffab91;;");
+      }
     }
   </script>

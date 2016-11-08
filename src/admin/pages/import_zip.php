@@ -97,7 +97,7 @@ if ( isset($_SESSION['modSession']) ) {
 	        		<table>
 	        			<tr>
 	        				<td>
-	        					<select class="select-style" name="company_id" title="Select the Client" required>
+	        					<select class="select-style" name="company_id" title="Select the Client" hidden>
 				        			<option value="">Select Company</option>';
 			                        $getCompanies = $pdo->prepare("SELECT * FROM `company_id`");
 			                        $getCompanies->execute();
@@ -136,7 +136,10 @@ if ( isset($_SESSION['modSession']) ) {
 	        	
 	        	<div  style="border:solid thin #ccc; padding:5px; margin:5px;">
 	        		<h4></h4>
-	        		<a class="btn btn-custom" href="javascript:void(0);" style="float: right; margin-top: -60px;" onclick="$('#guidelinesModal').modal('toggle');">Zip Guidelines</a><a style="display:none;"></a>
+	        		<div style="float: right; margin-top: -60px;">
+	        		<a class="btn btn-custom" href="javascript:void(0);" style="" onclick="$('#guidelinesModal').modal('toggle');">Zip Guidelines</a><a style="display:none;"></a>
+	        		<a class="btn btn-custom" href="./../assets/format.zip" style="" >Download Format</a><a style="display:none;"></a>
+	        		</div>
 	        		<?php
 	        			//echo var_dump($_FILES);
 	        			if ( isset($_POST['zip_file']) ) {
@@ -387,8 +390,9 @@ $(function () {
         url: url,
         dataType: 'json',
         singleFileUploads: true,
-        maxChunkSize: 1048576,
+        maxChunkSize: 1000000,
         done: function (e, data) {
+        	console.log(data);
         	var resultD = data.result['files'].length;
         	var fileName = '';
 
