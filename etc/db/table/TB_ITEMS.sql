@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `discount` float DEFAULT '0',
   `category` int(11) NOT NULL COMMENT '1 = Rings; 2 = Earrings; 3 = Pendants; 4 = Necklaces; 5 = Bracelets;',
   `featured` int(11) NOT NULL,
+  `images_delta` varchar(256),
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`unique_key`)
