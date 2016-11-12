@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS `company_id` (
   `email` varchar(128) NOT NULL,
   `mobileno` varchar(128) NOT NULL,
   `address` varchar(512) NOT NULL,
+  `company_code` varchar(10) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;

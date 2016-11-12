@@ -773,7 +773,7 @@ function finalizeImport() {
 	            	<li>Excel Sheet
 	            		<ul>
 	            			<li>Currently, the supported Excel format is the Excel2007 and above (xlsx) Format.</li>
-	            			<li>Your product sheed <strong>MUST</strong> be called <strong>products.xlsx</strong></li>
+	            			<li>Your product sheet <strong>MUST</strong> be called <strong>products.xlsx</strong></li>
 	            			<li>It must be located in the root of your Zip Archive (See Example below)</li>
 	            		</ul>
 	            	</li>

@@ -217,7 +217,7 @@ if ( isset($_POST['addItem']) ) {
               <td class="table-item-label"><span class="table-item-label">Unique Code</span></td>
               <td>
                 <div class="table-item">
-                  <input name="company_code" type="text" class="form-control" placeholder="Enter a Unique Code (Keep it short for ease of use)(min 3)" required maxlength="50" pattern=".{0,50}" onkeyup="validateCompanyCode(this)" >
+                  <input name="company_code" type="text" class="form-control" placeholder="Enter a Unique Code (Keep it short for ease of use)(min 3)" required maxlength="10" pattern=".{0,10}" onkeyup="validateCompanyCode(this)" >
                 </div>
               </td>
             </tr>
@@ -383,7 +383,7 @@ if ( isset($_POST['addItem']) ) {
 
     function validateCompanyCode(element) {
       code = $(element).val();
-      if ( code.length >= 4 ) {
+      if ( code.length >= 3 ) {
         $.ajax({
           url: './ajax.php?verifyCompanyCode=' + code,
           type: 'GET',
