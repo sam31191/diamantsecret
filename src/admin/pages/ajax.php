@@ -166,9 +166,9 @@ if ( isset($_GET['importThis']) ) {
 
 							if ( $getItemMainValues->rowCount() > 0 ) {
 								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
-								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'] . $resultValues['ring_size'] . $resultValues['ring_subcategory'];
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['images_delta'] . $resultValues['description'] . $resultValues['ring_size'] . $resultValues['ring_subcategory'];
 
-								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'] . $products[$i]['T'] . $products[$i]['S'];
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['U'] . $products[$i]['V'] . $products[$i]['T'] . $products[$i]['S'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -189,7 +189,7 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+									$resultStatus .= updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 0, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 
 								}
 							} else {
@@ -219,9 +219,9 @@ if ( isset($_GET['importThis']) ) {
 
 							if ( $getItemMainValues->rowCount() > 0 ) {
 								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
-								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['images_delta'] . $resultValues['description'];
 
-								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['U'] . $products[$i]['V'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -239,11 +239,10 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesSQL);
 								} else {
 									$resultStatus = "Product Updated";
+									$resultStatus .= updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 0, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
-
 								}
 							} else {
 								$resultStatus = "Invalid Item";
@@ -272,9 +271,9 @@ if ( isset($_GET['importThis']) ) {
 
 							if ( $getItemMainValues->rowCount() > 0 ) {
 								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
-								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['images_delta'] . $resultValues['description'];
 
-								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['U'] . $products[$i]['V'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -295,7 +294,7 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 0, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 
 								}
 							} else {
@@ -325,9 +324,9 @@ if ( isset($_GET['importThis']) ) {
 
 							if ( $getItemMainValues->rowCount() > 0 ) {
 								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
-								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['images_delta'] . $resultValues['description'];
 
-								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['U'] . $products[$i]['V'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -348,7 +347,7 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 0, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 
 								}
 							} else {
@@ -378,9 +377,9 @@ if ( isset($_GET['importThis']) ) {
 
 							if ( $getItemMainValues->rowCount() > 0 ) {
 								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
-								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['images_delta'] . $resultValues['description'];
 
-								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['U'] . $products[$i]['V'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -401,7 +400,7 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 0, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 
 								}
 							} else {
@@ -912,9 +911,9 @@ if ( isset($_GET['importThis']) ) {
 
 							if ( $getItemMainValues->rowCount() > 0 ) {
 								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
-								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'] . $resultValues['ring_size'] . $resultValues['ring_subcategory'];
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['images_delta'] . $resultValues['description'] . $resultValues['ring_size'] . $resultValues['ring_subcategory'];
 
-								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'] . $products[$i]['T'] . $products[$i]['S'];
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['U'] . $products[$i]['V'] . $products[$i]['T'] . $products[$i]['S'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -935,7 +934,7 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+									$resultStatus .= updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 
 								}
 							} else {
@@ -965,9 +964,9 @@ if ( isset($_GET['importThis']) ) {
 
 							if ( $getItemMainValues->rowCount() > 0 ) {
 								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
-								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['images_delta'] . $resultValues['description'];
 
-								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['U'] . $products[$i]['V'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -988,7 +987,7 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 
 								}
 							} else {
@@ -1018,9 +1017,9 @@ if ( isset($_GET['importThis']) ) {
 
 							if ( $getItemMainValues->rowCount() > 0 ) {
 								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
-								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['images_delta'] . $resultValues['description'];
 
-								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['U'] . $products[$i]['V'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -1041,7 +1040,7 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 
 								}
 							} else {
@@ -1071,9 +1070,9 @@ if ( isset($_GET['importThis']) ) {
 
 							if ( $getItemMainValues->rowCount() > 0 ) {
 								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
-								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['images_delta'] . $resultValues['description'];
 
-								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['U'] . $products[$i]['V'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -1094,7 +1093,7 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 
 								}
 							} else {
@@ -1124,9 +1123,9 @@ if ( isset($_GET['importThis']) ) {
 
 							if ( $getItemMainValues->rowCount() > 0 ) {
 								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
-								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['description'];
+								$valuesDB = getCompanyCode($resultValues['company_id'], $pdo) . $resultValues['category'] . $resultValues['internal_id'] . $resultValues['product_name'] . $resultValues['item_value'] . $resultValues['discount'] . $resultValues['pieces_in_stock'] . $resultValues['days_for_shipment'] . $resultValues['total_carat_weight'] . $resultValues['no_of_stones'] . $resultValues['diamond_shape'] . $resultValues['clarity'] . $resultValues['color'] . $resultValues['material'] . $resultValues['height'] . $resultValues['width'] . $resultValues['length'] . $resultValues['country_id'] . $resultValues['images_delta'] . $resultValues['description'];
 
-								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['V'];
+								$valuesSQL = $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['E'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['U'] . $products[$i]['V'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -1147,7 +1146,7 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i]);
+									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 
 								}
 							} else {

@@ -617,7 +617,7 @@ if ( isset($_POST['featuredAdd']) ) {
 			}
 	}
 
-	pconsole($images);
+	//pconsole($images);
 	$updateItemImages = $pdo->prepare("UPDATE `rings` SET `images` = :images WHERE `unique_key` = :unique_key");
 	$updateItemImages->execute(array(":images" => $images, ":unique_key" => $uniqueKey));
 

@@ -46,8 +46,17 @@
 		$pdo = new PDO("mysql:host=$host; dbname=$dbname", $user, $pass);
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+		if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
+			if ( !isset($_SESSION['_ref']) || $_SESSION['_ref'] !== "diamant_secret" ) {
+				unset($_SESSION);
+				session_destroy();
+			}	
+		} 
+
 		$checkVersion = $pdo->prepare("SELECT * FROM `version` WHERE `id` = 1");
 		$checkVersion->execute();
+
+
 
 		if ( $checkVersion->rowCount() > 0 ) {
 			$version = $checkVersion->fetch(PDO::FETCH_ASSOC);
@@ -205,7 +214,7 @@
 		}
 	}
 
-	function updateImportZipItem( $pdo, $uniqueKey, $values ) {
+	function updateImportZipItem( $pdo, $uniqueKey, $values, $zip, $timeToken, $domain, $imgRes ) {
 		//return json_encode($values);
 
 		$company_id = getCompanyID($values['A'], $pdo);
@@ -372,8 +381,167 @@
 				$itemImages = $item['images'];
 
 				break;
-			} 
+			} default : {
+				return "Invalid Item";
+			}
 		} 
+
+		$imageFolder = "../images/";
+
+		if ( is_dir($imageFolder) ) {
+
+		} else if ( is_dir("../" . $imageFolder) ) {
+			$imageFolder = "../" . $imageFolder;
+		} else if ( is_dir("../../" . $imageFolder) ) {
+			$imageFolder = "../../" . $imageFolder;
+		}  else if ( is_dir("../../../" . $imageFolder) ) {
+			$imageFolder = "../../../" . $imageFolder;
+		}  else if ( is_dir("../../../../" . $imageFolder) ) {
+			$imageFolder = "../../../../" . $imageFolder;
+		} 
+
+		switch ($values['B']) {
+			case 1: {
+				$imgName = "ring";
+				break;
+			} case 2: {
+				$imgName = "earring";
+				break;
+			} case 3: {
+				$imgName = "pendant";
+				break;
+			} case 4: {
+				$imgName = "necklace";
+				break;
+			} case 5: {
+				$imgName = "bracelet";
+				break;
+			} default: {
+				return "Invalid Item";
+			}
+		}
+
+		$intError = "";
+		$images = "";
+
+		#Deleting Old
+		foreach ( explode(",", $itemImages) as $image ) {
+			if ( !empty($image) ) {
+				if ( is_file($imageFolder . 'images/' . $image) ) {
+					unlink($imageFolder . 'images/' . $image);
+				}
+				if ( is_file($imageFolder . 'images_md/' . $image) ) {
+					unlink($imageFolder . 'images_md/' . $image);
+				}
+				if ( is_file($imageFolder . 'images_sm/' . $image) ) {
+					unlink($imageFolder . 'images_sm/' . $image);
+				}
+			}
+		}
+
+		#Adding Images
+		foreach ( explode(",", $values['U']) as $image ) {
+			if ( !empty($image) ) {
+					
+				if ( $zip == 1 ) {
+					$url = $domain . 'working/zip/import/'. $timeToken .'/images/' . trim($image);
+				} else {
+					$url = trim($image);
+				}
+
+				$ext = explode(".", $url);
+				$ext =  '.' . $ext[sizeof($ext)-1];
+				$count = 0;
+				$img = $imageFolder . 'images/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+				$img_md = $imageFolder . 'images_md/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+				$img_sm = $imageFolder . 'images_sm/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+				while ( file_exists($img) ) {
+					$count++;
+					$img = $imageFolder . 'images/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+					$img_md = $imageFolder . 'images_md/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+					$img_sm = $imageFolder . 'images_sm/'. $imgName . '_' . $itemID .'_' . $count . $ext;
+				}
+
+				if ( !is_dir($imageFolder . 'images/') ) {
+					mkdir($imageFolder . 'images/');
+				}
+				if ( !is_dir($imageFolder . 'images_md/') ) {
+					mkdir($imageFolder . 'images_md/');
+				}
+				if ( !is_dir($imageFolder . 'images_sm/') ) {
+					mkdir($imageFolder . 'images_sm/');
+				}
+				
+
+
+				$ch=curl_init();
+				$timeout=30;
+
+				curl_setopt($ch, CURLOPT_URL, $url);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+				$inputImg=curl_exec($ch);
+				$curlError = curl_error($ch);
+				$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+				curl_close($ch);
+
+				if ( empty($curlError) ) {
+					if ( strpos($contentType, "image/") === false ) {
+						$intError .= 'Invalid Image: ' . $url . '<br>';
+					} else {
+						file_put_contents($img, $inputImg);
+						create_thumb($img, $imgRes['LARGE'], $imgRes['LARGE'], $img);
+						create_thumb($img, $imgRes['MED'], $imgRes['MED'], $img_md);
+						create_thumb($img, $imgRes['SMALL'], $imgRes['SMALL'], $img_sm);
+						$images .= basename($img) . ",";
+					}
+				} else {
+					if ( strstr($curlError, "Connection timed out") ) {
+						$intError .= 'Image took too long to download: ' . $url . '<br>' ;
+					} else if ( strstr($curlError, "malformed" ) ) {
+						$intError .= "Invalid Image URL";
+					} else {
+						$intError .= $curlError . '<br>' ;
+					}
+				}
+			} else {
+				$intError .= "No Image Found";
+			}
+		}
+
+		switch ($values['B']) {
+			case 1: {
+				$updateImages = $pdo->prepare("UPDATE `rings` SET `images` = :images WHERE `unique_key` = :key");
+				break;
+			}
+			case 2:	{
+				$updateImages = $pdo->prepare("UPDATE `earrings` SET `images` = :images WHERE `unique_key` = :key");
+				break;
+			}
+			case 3: {
+				$updateImages = $pdo->prepare("UPDATE `pendants` SET `images` = :images WHERE `unique_key` = :key");
+				break;
+			}
+			case 4: {
+				$updateImages = $pdo->prepare("UPDATE `necklaces` SET `images` = :images WHERE `unique_key` = :key");
+				break;
+			}
+			case 5: {
+				$updateImages = $pdo->prepare("UPDATE `bracelets` SET `images` = :images WHERE `unique_key` = :key");
+				break;
+			} default: {
+				return "Invalid Item";
+			}
+		}
+		$updateImages->execute(array(":images" => $images, ":key" => $uniqueKey));
+
+		if ( empty($intError) ) {
+			$intError = "No Errors";
+		}
+
+		return " - ". $intError;
 
 	}
 

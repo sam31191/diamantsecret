@@ -61,6 +61,7 @@ if ( isset($_POST['login']['username']) ) {
 				$_SESSION['username'] = $result['username'];
 				$_SESSION['email'] = $result['email'];
 				$_SESSION['loggedIn'] = true;
+				$_SESSION['_ref'] = 'diamant_secret';
 
 				if ( $result['type'] > 0 ) {
 					$_SESSION['admin'] = $result['type'];
