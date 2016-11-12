@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `rings` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'int 11',
   `unique_key` varchar(11) NOT NULL,
   `company_id` int(11) NOT NULL COMMENT 'int 11',
-  `internal_id` varchar(11) NOT NULL COMMENT 'varchar 11',
+  `internal_id` varchar(11) NOT NULL COMMENT 'varchar 11' UNIQUE,
   `product_name` varchar(50) NOT NULL COMMENT 'varchat 50',
   `pieces_in_stock` int(11) NOT NULL COMMENT 'int 11',
   `days_for_shipment` int(11) NOT NULL COMMENT 'int 11',
