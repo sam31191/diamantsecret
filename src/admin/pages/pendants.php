@@ -539,94 +539,99 @@ if ( isset($_POST['featuredAdd']) ) {
 
 	pconsole($uniqueKey);
 
-	$addInfo = $pdo->prepare("INSERT INTO `pendants` 
-		(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`) 
-		VALUES 
-		(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description)");
-	$addInfo->execute(array(
-		":unique_key" => $uniqueKey,
-		":company_id" => $_POST['company_id'],
-		":internal_id" => $_POST['internal_id'],
-		":product_name" => $_POST['product_name'],
-		":pieces_in_stock" => $_POST['pieces_in_stock'],
-		":days_for_shipment" => $_POST['days_for_shipment'],
-		":total_carat_weight" => $_POST['total_carat_weight'],
-		":no_of_stones" => $_POST['no_of_stones'],
-		":diamond_shape" => $_POST['diamond_shape'],
-		":clarity" => $_POST['clarity'],
-		":color" => $_POST['color'],
-		":material" => $_POST['material'],
-		":height" => $_POST['height'],
-		":width" => $_POST['width'],
-		":length" => $_POST['length'],
-		":country_id" => $_POST['country_id'],
-		":images" => "",
-		":description" => $_POST['description']
-	));
+	$checkInternalID = $pdo->prepare("SELECT * FROM `bracelets` WHERE `internal_id` = :intID");
+	$checkInternalID->execute(array(":intID" => $_POST['internal_id']));
 
-	$images = "";
+	if ( $checkInternalID->rowCount() == 0 ) {
+		$addInfo = $pdo->prepare("INSERT INTO `pendants` 
+			(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`) 
+			VALUES 
+			(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description)");
+		$addInfo->execute(array(
+			":unique_key" => $uniqueKey,
+			":company_id" => $_POST['company_id'],
+			":internal_id" => $_POST['internal_id'],
+			":product_name" => $_POST['product_name'],
+			":pieces_in_stock" => $_POST['pieces_in_stock'],
+			":days_for_shipment" => $_POST['days_for_shipment'],
+			":total_carat_weight" => $_POST['total_carat_weight'],
+			":no_of_stones" => $_POST['no_of_stones'],
+			":diamond_shape" => $_POST['diamond_shape'],
+			":clarity" => $_POST['clarity'],
+			":color" => $_POST['color'],
+			":material" => $_POST['material'],
+			":height" => $_POST['height'],
+			":width" => $_POST['width'],
+			":length" => $_POST['length'],
+			":country_id" => $_POST['country_id'],
+			":images" => "",
+			":description" => $_POST['description']
+		));
+
+		$images = "";
 
 
-	$getitemID = $pdo->prepare("SELECT `id` FROM `pendants` WHERE `unique_key` = :unique_key");
-	$getitemID->execute(array(":unique_key" => $uniqueKey));
-	$itemID = $getitemID->fetch(PDO::FETCH_ASSOC);
-	$itemID = $itemID['id'];
-	
-	$numOfImages = sizeof($_FILES['itemImage']['name']);
-	for ( $count = 0; $count < $numOfImages; $count++ ) {
-		if ( $_FILES['itemImage']['error'][$count] == 0 ) {
-				$image_dir = "../../images/";
-				$image_ext = pathinfo($image_dir . basename($_FILES['itemImage']['name'][$count]), PATHINFO_EXTENSION);
-				$image_file = $image_dir . 'images/pendant_' . $itemID;
-				$image_md_file = $image_dir . "images_md/pendant_" . $itemID;
-				$image_sm_file = $image_dir . "images_sm/pendant_" . $itemID;
+		$getitemID = $pdo->prepare("SELECT `id` FROM `pendants` WHERE `unique_key` = :unique_key");
+		$getitemID->execute(array(":unique_key" => $uniqueKey));
+		$itemID = $getitemID->fetch(PDO::FETCH_ASSOC);
+		$itemID = $itemID['id'];
+		
+		$numOfImages = sizeof($_FILES['itemImage']['name']);
+		for ( $count = 0; $count < $numOfImages; $count++ ) {
+			if ( $_FILES['itemImage']['error'][$count] == 0 ) {
+					$image_dir = "../../images/";
+					$image_ext = pathinfo($image_dir . basename($_FILES['itemImage']['name'][$count]), PATHINFO_EXTENSION);
+					$image_file = $image_dir . 'images/pendant_' . $itemID;
+					$image_md_file = $image_dir . "images_md/pendant_" . $itemID;
+					$image_sm_file = $image_dir . "images_sm/pendant_" . $itemID;
 
-				if ( !is_dir($image_dir . 'images/') ) {
-					mkdir($image_dir . 'images/');
-				}
-				if ( !is_dir($image_dir . 'images_md/') ) {
-					mkdir($image_dir . 'images_md/');
-				}
-				if ( !is_dir($image_dir . 'images_sm/') ) {
-					mkdir($image_dir . 'images_sm/');
-				}
-				
-				$check = getimagesize($_FILES['itemImage']['tmp_name'][$count]);
-				if ( $check ) {
-					if ( file_exists($image_file . "." . $image_ext) ) {
-						$i = 1;
-						while ( file_exists($image_file . "_" . $i . "." . $image_ext) ) {
-							$i++;
+					if ( !is_dir($image_dir . 'images/') ) {
+						mkdir($image_dir . 'images/');
+					}
+					if ( !is_dir($image_dir . 'images_md/') ) {
+						mkdir($image_dir . 'images_md/');
+					}
+					if ( !is_dir($image_dir . 'images_sm/') ) {
+						mkdir($image_dir . 'images_sm/');
+					}
+					
+					$check = getimagesize($_FILES['itemImage']['tmp_name'][$count]);
+					if ( $check ) {
+						if ( file_exists($image_file . "." . $image_ext) ) {
+							$i = 1;
+							while ( file_exists($image_file . "_" . $i . "." . $image_ext) ) {
+								$i++;
+							}
+							$image_file .= "_" . $i;
+							$image_md_file .= "_" . $i; 
+							$image_sm_file .= "_" . $i; 
 						}
-						$image_file .= "_" . $i;
-						$image_md_file .= "_" . $i; 
-						$image_sm_file .= "_" . $i; 
+						if ( move_uploaded_file($_FILES['itemImage']['tmp_name'][$count], $image_file . "." . $image_ext) ) {
+							create_thumb($image_file . "." . $image_ext, $__IMPORT_IMAGE_RES__['LARGE'], $__IMPORT_IMAGE_RES__['LARGE'], $image_file . '.' . $image_ext);
+							create_thumb($image_file . "." . $image_ext, $__IMPORT_IMAGE_RES__['MED'], $__IMPORT_IMAGE_RES__['MED'], $image_md_file . '.' . $image_ext);
+							create_thumb($image_file . "." . $image_ext, $__IMPORT_IMAGE_RES__['SMALL'], $__IMPORT_IMAGE_RES__['SMALL'], $image_sm_file . '.' . $image_ext);
+						}
+					} else {
+						echo var_dump("Not Image");
 					}
-					if ( move_uploaded_file($_FILES['itemImage']['tmp_name'][$count], $image_file . "." . $image_ext) ) {
-						create_thumb($image_file . "." . $image_ext, $__IMPORT_IMAGE_RES__['LARGE'], $__IMPORT_IMAGE_RES__['LARGE'], $image_file . '.' . $image_ext);
-						create_thumb($image_file . "." . $image_ext, $__IMPORT_IMAGE_RES__['MED'], $__IMPORT_IMAGE_RES__['MED'], $image_md_file . '.' . $image_ext);
-						create_thumb($image_file . "." . $image_ext, $__IMPORT_IMAGE_RES__['SMALL'], $__IMPORT_IMAGE_RES__['SMALL'], $image_sm_file . '.' . $image_ext);
-					}
-				} else {
-					echo var_dump("Not Image");
+					
+					$images .= basename($image_file) . "." . $image_ext . ",";
 				}
-				
-				$images .= basename($image_file) . "." . $image_ext . ",";
-			}
+		}
+
+		pconsole($images);
+		$updateItemImages = $pdo->prepare("UPDATE `pendants` SET `images` = :images WHERE `unique_key` = :unique_key");
+		$updateItemImages->execute(array(":images" => $images, ":unique_key" => $uniqueKey));
+
+		$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, NOW())");
+		$addItem->execute(array(
+			":unique_key" => $uniqueKey,
+			":product_name" => $_POST['product_name'],
+			":product_price" => $_POST['product_price'],
+			":discount" => $discount,
+			":category" => 3
+		));
 	}
-
-	pconsole($images);
-	$updateItemImages = $pdo->prepare("UPDATE `pendants` SET `images` = :images WHERE `unique_key` = :unique_key");
-	$updateItemImages->execute(array(":images" => $images, ":unique_key" => $uniqueKey));
-
-	$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, NOW())");
-	$addItem->execute(array(
-		":unique_key" => $uniqueKey,
-		":product_name" => $_POST['product_name'],
-		":product_price" => $_POST['product_price'],
-		":discount" => $discount,
-		":category" => 3
-	));
 	
 	
 	//echo var_dump($uniqueKey);

@@ -151,6 +151,18 @@ if ( isset($_GET['importThis']) ) {
 					return;
 				}
 
+				$checkCompany = $pdo->prepare("SELECT * FROM `company_id` WHERE `company_code` = :cc");
+				$checkCompany->execute(array(":cc" => $products[$i]['A']));
+
+				if ( $checkCompany->rowCount() == 0 ) {
+					$result = [];
+					array_push($result, $products[$i]['D']);
+					array_push($result, "Invalid Company Code: " . $products[$i]['A']);
+					array_push($result, $i);
+					echo json_encode($result);
+					return;
+				}
+
 
 				$internalID = $products[$i]['C'];
 				switch( $products[$i]['B'] ) {
@@ -897,6 +909,18 @@ if ( isset($_GET['importThis']) ) {
 					return;
 				}
 
+				$checkCompany = $pdo->prepare("SELECT * FROM `company_id` WHERE `company_code` = :cc");
+				$checkCompany->execute(array(":cc" => $products[$i]['A']));
+
+				if ( $checkCompany->rowCount() == 0 ) {
+					$result = [];
+					array_push($result, $products[$i]['D']);
+					array_push($result, "Invalid Company Code: " . $products[$i]['A']);
+					array_push($result, $i);
+					echo json_encode($result);
+					return;
+				}
+
 				$internalID = $products[$i]['C'];
 				switch( $products[$i]['B'] ) {
 					case 1 : {
@@ -1445,11 +1469,15 @@ if ( isset($_GET['importThis']) ) {
 								if ( strpos($contentType, "image/") === false ) {
 									$intError .= 'Invalid Image: ' . $url . '<br>';
 								} else {
-									file_put_contents($img, $inputImg);
-									create_thumb($img, $__IMPORT_IMAGE_RES__['LARGE'], $__IMPORT_IMAGE_RES__['LARGE'], $img);
-									create_thumb($img, $__IMPORT_IMAGE_RES__['MED'], $__IMPORT_IMAGE_RES__['MED'], $img_md);
-									create_thumb($img, $__IMPORT_IMAGE_RES__['SMALL'], $__IMPORT_IMAGE_RES__['SMALL'], $img_sm);
-									$images .= basename($img) . ",";
+									try {
+										file_put_contents($img, $inputImg);
+										create_thumb($img, $__IMPORT_IMAGE_RES__['LARGE'], $__IMPORT_IMAGE_RES__['LARGE'], $img);
+										create_thumb($img, $__IMPORT_IMAGE_RES__['MED'], $__IMPORT_IMAGE_RES__['MED'], $img_md);
+										create_thumb($img, $__IMPORT_IMAGE_RES__['SMALL'], $__IMPORT_IMAGE_RES__['SMALL'], $img_sm);
+										$images .= basename($img) . ",";
+									} catch (Exception $e) {
+										$intError .= $e;
+									}
 								}
 							} else {
 								if ( strstr($curlError, "Connection timed out") ) {
@@ -2466,11 +2494,36 @@ if ( isset($_GET['importThis']) ) {
 				$newwidth = $w;
 			}
 		}
-		$src = imagecreatefromjpeg($file);
+		//$src = imagecreatefromfile($file);
+		$src = imagecreatefromstring(file_get_contents($file));
 		$dst = imagecreatetruecolor($newwidth, $newheight);
 		imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
 		
 		return imagejpeg($dst, $thumb_dir);
+	}
+
+	function imagecreatefromfile( $filename ) {
+	    if (!file_exists($filename)) {
+	        throw new InvalidArgumentException('File "'.$filename.'" not found.');
+	    }
+	    switch ( strtolower( pathinfo( $filename, PATHINFO_EXTENSION ))) {
+	        case 'jpeg':
+	        case 'jpg':
+	            return imagecreatefromjpeg($filename);
+	        break;
+
+	        case 'png':
+	            return imagecreatefrompng($filename);
+	        break;
+
+	        case 'gif':
+	            return imagecreatefromgif($filename);
+	        break;
+
+	        default:
+	            throw new InvalidArgumentException('File "'.$filename.'" is not valid jpg, png or gif image.');
+	        break;
+	    }
 	}
 		
 	function generateUniqueKey($length = 10) {

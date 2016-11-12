@@ -295,7 +295,13 @@ if ( isset($_SESSION['modSession']) ) {
 														echo '</thead>';
 														echo '<tbody>';
 														for ( $i = 2; $i <= sizeof($products); $i++ ) {
-															echo '<tr>';
+															$acceptedCategories = array(1, 2, 3, 4, 5);
+															$rowColor = "";
+
+															if ( !in_array($products[$i]['B'], $acceptedCategories) ) {
+																$rowColor = "background-color: #ef9a9a";
+															}
+															echo '<tr style="'. $rowColor .'">';
 																echo '<td><input class="select-checkbox" type="checkbox" form="bulkManage" id="row_'.$i.'" value="'. $i .'"></td>';
 															for ( $j = 'A'; $j <= 'V'; $j++ ) {
 																//pconsole($products[$i][$j]);

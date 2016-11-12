@@ -41,9 +41,9 @@
         </li>
         <li><a><i class="fa fa-table"></i> Import / Export <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
-            <li><a href="import_excel.php"><i class="fa fa-upload" style="font-size:14px;"></i>Import via Excel</a></li>
+            <!-- <li><a href="import_excel.php"><i class="fa fa-upload" style="font-size:14px;"></i>Import via Excel</a></li> -->
             <li><a href="import_zip.php"><i class="fa fa-file-archive-o" style="font-size:14px;"></i>Import via Zip</a></li>
-            <li><a href="export_excel.php"><i class="fa fa-download" style="font-size:14px;"></i>Export to Excel</a></li>
+            <!-- <li><a href="export_excel.php"><i class="fa fa-download" style="font-size:14px;"></i>Export to Excel</a></li> -->
             <li><a href="export_zip.php"><i class="fa fa-file-archive-o" style="font-size:14px;"></i>Export to Zip</a></li>
             <li><a href="excel_download.php"><i class="fa fa-table" style="font-size:14px;"></i>Files</a></li>
           </ul>
