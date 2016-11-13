@@ -43,7 +43,6 @@ if ( isset($_SESSION['modSession']) ) {
 	    <link rel="stylesheet" href="./file-upload/css/jquery.fileupload.css">
 
 
-		<script src="../../js/jquery-1.12.0.js"></script>
 	  </head>
 	  <body class="nav-md">
 
@@ -380,13 +379,15 @@ if ( isset($_SESSION['modSession']) ) {
 
 	    <!-- jQuery -->
 
-		<script src="../assets/custom.min.js"></script>
+		<script src="../../js/jquery-1.12.0.js"></script>
 		<script src="../../js/bootstrap.min.js"></script>
+    	<script src="../assets/nprogress.js"></script>
 		<script src="./file-upload/js/vendor/jquery.ui.widget.js"></script>
 		<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 		<script src="./file-upload/js/jquery.iframe-transport.js"></script>
 		<!-- The basic File Upload plugin -->
 		<script src="./file-upload/js/jquery.fileupload.js"></script>
+		<script src="../assets/custom.min.js"></script>
 <script>
 $(function () {
     'use strict';
@@ -398,7 +399,7 @@ $(function () {
         singleFileUploads: true,
         maxChunkSize: 1000000,
         done: function (e, data) {
-        	console.log(data);
+        	//console.log(data);
         	var resultD = data.result['files'].length;
         	var fileName = '';
 
@@ -422,6 +423,7 @@ $(function () {
             );
         },
         always: function (e, data) {
+        	console.log(data);
         }
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');
@@ -563,7 +565,7 @@ function importAjax (id, index, timeToken) {
 	    beforeSend: function() {
 	    	$('#uploadDiv').show();
 	    	$('#uploadDivCloseIcon').hide();
-	    	$('#resultTable').append('<tr><td>'+ (index+1) +'</td><td id="row_'+ id +'_result">Loading</td><td id="row_'+ id +'_error"><img style="width:24px" src="../../images/gfx/cube.gif"></td></tr>');
+	    	$('#resultTable').append('<tr id="row_'+ id +'"><td>'+ (index+1) +'</td><td id="row_'+ id +'_result">Loading</td><td id="row_'+ id +'_error"><img style="width:24px" src="../../images/gfx/cube.gif"></td></tr>');
     	
 	    },
 	    complete: function(result) {
@@ -594,8 +596,20 @@ function importAjax (id, index, timeToken) {
 				result = JSON.parse(result);
 				console.log(result);
 				$("#uploadDiv").show();
-				$("#row_"+ result[2] +"_result").html(result[0]);
-				$("#row_"+ result[2] +"_error").html(result[1]);
+				var rc = "";
+				if ( result[0] == 'success' ) {
+					rc = "background: #A5D6A7;";
+				} else if ( result[0] == 'failure' ) {
+					rc = "background: #EF9A9A;";
+				} else if ( result[0] == 'neutral' ) {
+					rc = "background: #90CAF9;";
+				} else if ( result[0] == 'warning' ) {
+					rc = "background: #FFF59D;";
+				}
+
+				$("#row_"+ result[3]).prop("style", rc);
+				$("#row_"+ result[3] +"_result").html(result[1]);
+				$("#row_"+ result[3] +"_error").html(result[2]);
 			} catch (e) {
 				$('#resultDiv').html(result);
 			}

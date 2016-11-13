@@ -491,11 +491,15 @@
 					if ( strpos($contentType, "image/") === false ) {
 						$intError .= 'Invalid Image: ' . $url . '<br>';
 					} else {
-						file_put_contents($img, $inputImg);
-						create_thumb($img, $imgRes['LARGE'], $imgRes['LARGE'], $img);
-						create_thumb($img, $imgRes['MED'], $imgRes['MED'], $img_md);
-						create_thumb($img, $imgRes['SMALL'], $imgRes['SMALL'], $img_sm);
-						$images .= basename($img) . ",";
+						try {
+							file_put_contents($img, $inputImg);
+							create_thumb($img, $imgRes['LARGE'], $imgRes['LARGE'], $img);
+							create_thumb($img, $imgRes['MED'], $imgRes['MED'], $img_md);
+							create_thumb($img, $imgRes['SMALL'], $imgRes['SMALL'], $img_sm);
+							$images .= basename($img) . ",";
+						} catch (Exception $e) {
+							$intError .= $e;
+						}
 					}
 				} else {
 					if ( strstr($curlError, "Connection timed out") ) {

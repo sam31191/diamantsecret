@@ -210,6 +210,7 @@ if ( isset($_GET['importThis']) ) {
 
 
 							$result = [];
+							array_push($result, $resultMessage);
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
@@ -262,6 +263,7 @@ if ( isset($_GET['importThis']) ) {
 
 
 							$result = [];
+							array_push($result, $resultMessage);
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
@@ -315,6 +317,7 @@ if ( isset($_GET['importThis']) ) {
 
 
 							$result = [];
+							array_push($result, $resultMessage);
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
@@ -368,6 +371,7 @@ if ( isset($_GET['importThis']) ) {
 
 
 							$result = [];
+							array_push($result, $resultMessage);
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
@@ -421,6 +425,7 @@ if ( isset($_GET['importThis']) ) {
 
 
 							$result = [];
+							array_push($result, $resultMessage);
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
@@ -649,6 +654,7 @@ if ( isset($_GET['importThis']) ) {
 						} default: {
 							$result = [];
 
+							array_push($result, 'failure');
 							array_push($result, $products[$i]['D']);
 							array_push($result, "Invalid Entry");
 							array_push($result, $i);
@@ -762,7 +768,11 @@ if ( isset($_GET['importThis']) ) {
 					unset($PHPExcel);
 
 					$result = [];
-
+					$resultColor = 'success';
+					if ( $intError !== 'None' ) {
+						$resultColor = 'warning';
+					}
+					array_push($result, $resultColor);
 					array_push($result, $products[$i]['D']);
 					array_push($result, $intError);
 					array_push($result, $i);
@@ -884,6 +894,7 @@ if ( isset($_GET['importThis']) ) {
 
 				if ( empty($products[$i]['D']) ) {
 					$result = [];
+					array_push($result, 'failure');
 					array_push($result, "N/A");
 					array_push($result, "Empty Data");
 					array_push($result, $i);
@@ -893,6 +904,7 @@ if ( isset($_GET['importThis']) ) {
 				$acceptedCategories = array(1,2,3,4,5);
 				if ( !in_array($products[$i]['B'], $acceptedCategories) ) {
 					$result = [];
+					array_push($result, 'failure');
 					array_push($result, $products[$i]['D']);
 					array_push($result, "Invalid Category: " . $products[$i]['B']);
 					array_push($result, $i);
@@ -902,6 +914,7 @@ if ( isset($_GET['importThis']) ) {
 				$acceptedClarity = array("FL", "IF", "VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "SI3", "I1");
 				if ( !in_array($products[$i]['L'], $acceptedClarity) ) {
 					$result = [];
+					array_push($result, 'failure');
 					array_push($result, $products[$i]['D']);
 					array_push($result, "Invalid Clarity: " . $products[$i]['J']);
 					array_push($result, $i);
@@ -914,6 +927,7 @@ if ( isset($_GET['importThis']) ) {
 
 				if ( $checkCompany->rowCount() == 0 ) {
 					$result = [];
+					array_push($result, 'failure');
 					array_push($result, $products[$i]['D']);
 					array_push($result, "Invalid Company Code: " . $products[$i]['A']);
 					array_push($result, $i);
@@ -950,10 +964,12 @@ if ( isset($_GET['importThis']) ) {
 								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
 								#$resultStatus .= "SQL: " . $products[$i]['A'];
 								if ( $hashDB == $hashSQL ) {
+									$resultMessage = "neutral";
 									$resultStatus = "Duplicate Entry - Skipping";
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 								} else {
+									$resultMessage = "success";
 									$resultStatus = "Product Updated";
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
@@ -962,11 +978,13 @@ if ( isset($_GET['importThis']) ) {
 
 								}
 							} else {
+								$resultMessage = "failure";
 								$resultStatus = "Invalid Item";
 							}
 
 
 							$result = [];
+							array_push($result, $resultMessage);
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
@@ -1003,23 +1021,27 @@ if ( isset($_GET['importThis']) ) {
 								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
 								#$resultStatus .= "SQL: " . $products[$i]['A'];
 								if ( $hashDB == $hashSQL ) {
+									$resultMessage = "neutral";
 									$resultStatus = "Duplicate Entry - Skipping";
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 								} else {
+									$resultMessage = "success";
 									$resultStatus = "Product Updated";
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+									$resultStatus .= updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 
 								}
 							} else {
+								$resultMessage = "failure";
 								$resultStatus = "Invalid Item";
 							}
 
 
 							$result = [];
+							array_push($result, $resultMessage);
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
@@ -1056,23 +1078,27 @@ if ( isset($_GET['importThis']) ) {
 								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
 								#$resultStatus .= "SQL: " . $products[$i]['A'];
 								if ( $hashDB == $hashSQL ) {
+									$resultMessage = "neutral";
 									$resultStatus = "Duplicate Entry - Skipping";
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 								} else {
+									$resultMessage = "success";
 									$resultStatus = "Product Updated";
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+									$resultStatus .= updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 
 								}
 							} else {
+								$resultMessage = "failure";
 								$resultStatus = "Invalid Item";
 							}
 
 
 							$result = [];
+							array_push($result, $resultMessage);
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
@@ -1109,23 +1135,27 @@ if ( isset($_GET['importThis']) ) {
 								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
 								#$resultStatus .= "SQL: " . $products[$i]['A'];
 								if ( $hashDB == $hashSQL ) {
+									$resultMessage = "neutral";
 									$resultStatus = "Duplicate Entry - Skipping";
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 								} else {
+									$resultMessage = "success";
 									$resultStatus = "Product Updated";
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+									$resultStatus .= updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 
 								}
 							} else {
+								$resultMessage = "failure";
 								$resultStatus = "Invalid Item";
 							}
 
 
 							$result = [];
+							array_push($result, $resultMessage);
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
@@ -1162,23 +1192,27 @@ if ( isset($_GET['importThis']) ) {
 								#$resultStatus = "DB: " . getCompanyCode($resultValues['company_id'], $pdo) . "<br>";
 								#$resultStatus .= "SQL: " . $products[$i]['A'];
 								if ( $hashDB == $hashSQL ) {
+									$resultMessage = "neutral";
 									$resultStatus = "Duplicate Entry - Skipping";
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 								} else {
+									$resultMessage = "success";
 									$resultStatus = "Product Updated";
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+									$resultStatus .= updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
 
 								}
 							} else {
+								$resultMessage = "failure";
 								$resultStatus = "Invalid Item";
 							}
 
 
 							$result = [];
+							array_push($result, $resultMessage);
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
@@ -1408,7 +1442,11 @@ if ( isset($_GET['importThis']) ) {
 							break;
 						} default: {
 							$result = [];
-
+							$resultColor = 'success';
+							if ( $intError !== 'None' ) {
+								$resultColor = 'warning';
+							}
+							array_push($result, $resultColor);
 							array_push($result, $products[$i]['D']);
 							array_push($result, "Invalid Entry");
 							array_push($result, $i);

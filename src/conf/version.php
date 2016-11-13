@@ -7,12 +7,12 @@ $__VERSION_PROGRAMNAME__ = "diamantsecret";
 
 $__VERSION_MAJOR__    = "1";
 $__VERSION_MINOR__    = "2";
-$__VERSION_REVISION__ = "1";
+$__VERSION_REVISION__ = "2";
 $__VERSION_DATE__     = "2016-10-11";
 
 
 //Compatible database version number, to be updated on every database change
-$__SQLVERSION__   = 'diamantsecretdb_1_1_0'; 
+$__SQLVERSION__   = 'diamantsecretdb_1_1_1'; 
 
 
 //Methods

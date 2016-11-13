@@ -19,5 +19,6 @@ CREATE TABLE IF NOT EXISTS `bracelets` (
   `images` varchar(1024) NOT NULL COMMENT 'varchar 1024',
   `description` varchar(300) NOT NULL COMMENT 'varchar 300',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_key` (`unique_key`)
+  UNIQUE KEY `unique_key` (`unique_key`),
+  UNIQUE KEY `internal_id` (`internal_id`)
 ) ENGINE=InnoDB;

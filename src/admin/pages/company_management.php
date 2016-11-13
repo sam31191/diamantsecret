@@ -12,32 +12,33 @@ if ( isset($_SESSION['modSession']) ) {
     die();
   }
 }
-?>
-<!DOCTYPE html>
-<html lang="en">
-<?php
+
 include '../../conf/config.php';
 
 if ( isset($_POST['addItem']) ) {
-	$addCompany = $pdo->prepare("INSERT INTO `company_id` (`company_name`, `company_code`, `email`, `mobileno`, `address`) VALUES (:cn, :cc, :mail, :pno, :add)");
-	$addCompany->execute(array(":cn" => $_POST['company_name'], ":mail" => $_POST['company_mail'], ":pno" => $_POST['company_phone'], ":add" => $_POST['company_address'], ":cc" => $_POST['company_code']));
+  $addCompany = $pdo->prepare("INSERT INTO `company_id` (`company_name`, `company_code`, `email`, `mobileno`, `address`) VALUES (:cn, :cc, :mail, :pno, :add)");
+  $addCompany->execute(array(":cn" => $_POST['company_name'], ":mail" => $_POST['company_mail'], ":pno" => $_POST['company_phone'], ":add" => $_POST['company_address'], ":cc" => $_POST['company_code']));
+  header("Location: ./company_management.php");
 } else if ( isset($_POST['removeItem']) ) {
-	pconsole($_POST);
-	$addCompany = $pdo->prepare("DELETE FROM `company_id` WHERE `id` = :id");
-	$addCompany->execute(array(":id" => $_POST['removeItem']));
+  pconsole($_POST);
+  $addCompany = $pdo->prepare("DELETE FROM `company_id` WHERE `id` = :id");
+  $addCompany->execute(array(":id" => $_POST['removeItem']));
+  header("Location: ./company_management.php");
 } else if ( isset($_POST['editItem']) ) {
-	pconsole($_POST);
-	$addCompany = $pdo->prepare("UPDATE `company_id` SET `company_name` = :name, `company_code` = :company_code, `email` = :mail, `mobileno` = :phone, `address` = :address WHERE `id` = :id");
-	$addCompany->execute(array(
+  pconsole($_POST);
+  $addCompany = $pdo->prepare("UPDATE `company_id` SET `company_name` = :name, `email` = :mail, `mobileno` = :phone, `address` = :address WHERE `id` = :id");
+  $addCompany->execute(array(
       ":name" => $_POST['company_name'], 
       ":id" => $_POST['editItem'],
       ":mail" => $_POST['company_mail'],
       ":phone" => $_POST['company_phone'],
-      ":address" => $_POST['company_address'],
-      ":company_code" => $_POST['company_code']
+      ":address" => $_POST['company_address']
   ));
+  header("Location: ./company_management.php");
 } 
 ?>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -316,7 +317,7 @@ if ( isset($_POST['addItem']) ) {
               <td class="table-item-label"><span class="table-item-label">Unique Code</span></td>
               <td>
                 <div class="table-item">
-                  <input id="edit_company_code" name="company_code" type="text" class="form-control" placeholder="Enter a Unique Code (Keep it short for ease of use)(min 3)" required maxlength="50" pattern=".{0,50}" onkeyup="validateCompanyCode(this)" >
+                  <input id="edit_company_code" name="company_code" type="text" class="form-control" placeholder="Enter a Unique Code (Keep it short for ease of use)(min 3)" required maxlength="50" pattern=".{0,50}" disabled >
                 </div>
               </td>
             </tr>

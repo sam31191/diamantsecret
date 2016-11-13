@@ -21,5 +21,6 @@ CREATE TABLE IF NOT EXISTS `rings` (
   `ring_subcategory` int(11) NOT NULL COMMENT 'int 11',
   `ring_size` varchar(128) NOT NULL COMMENT 'varchar 128',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_key` (`unique_key`)
+  UNIQUE KEY `unique_key` (`unique_key`),
+  UNIQUE KEY `internal_id` (`internal_id`)
 ) ENGINE=InnoDB;
