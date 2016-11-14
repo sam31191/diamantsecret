@@ -278,7 +278,7 @@ if ( isset($_POST['addItem']) ) {
             <h4>You are about to permanently delete Client: <strong id="itemToRemove">This</strong>
             <br>Are you sure you want to perform this action?</h4>
             <br>
-            <h5><div class="alert alert-error">Warning: It is advised to remove this Supplier's items before deleting it, otherwise it may cause instability. <br> This action can not be undone.</div></h5>
+            <h5><div class="alert alert-error">This action can not be undone.</div></h5>
         </div>
       </div>
       <div class="modal-footer">

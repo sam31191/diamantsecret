@@ -7,11 +7,14 @@ $__DB_VERSION_PROGRAMNAME__ = "diamantsecretdb";
 
 $__DB_VERSION_MAJOR__       = "1";
 $__DB_VERSION_MINOR__       = "1";
-$__DB_VERSION_REVISION__    = "0";
+$__DB_VERSION_REVISION__    = "1";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 /*
+** v1.1.1  (2016-09-20) by RYAN (product release diamantsecret_1_0_0)
+** [] Added UNIQUE to `internal_id`
+*
 ** v1.1.0  (2016-09-20) by RYAN (product release diamantsecret_1_0_0)
 ** [] Added Column `recover_hash`
 *
