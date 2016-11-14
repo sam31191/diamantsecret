@@ -491,6 +491,11 @@ var currentAjax = 0;
 var ajaxQ = [];
 var globalTimeToken = "";
 
+var successCount = 0;
+var failedCount = 0;
+var warningCount = 0;
+var skippedCount = 0;
+
 function importThis(timeToken){
 	globalTimeToken = timeToken;
 	
@@ -574,7 +579,7 @@ function importAjax (id, index, timeToken) {
 		    	$('#uploadDivCloseIcon').show();
 		    	$('#alertDiv').removeClass("alert-info");
 		    	$('#alertDiv').addClass("alert-success");
-		    	$('#alertDiv').html("Import Complete!");
+		    	$('#alertDiv').html("Import Complete! <label class='label label-primary'>Success: "+ successCount + "</label> <label class='label label-danger'>Failed: "+ failedCount + "</label> <label class='label label-warning'>Warning: " + warningCount +"</label> <label class='label label-info'>Skipped: "+ skippedCount +"</label>");
 		    	finalizeImport();
 		    }
 			console.log("Finished Query: " + index);
@@ -599,12 +604,16 @@ function importAjax (id, index, timeToken) {
 				var rc = "";
 				if ( result[0] == 'success' ) {
 					rc = "background: #A5D6A7;";
+					successCount++;
 				} else if ( result[0] == 'failure' ) {
 					rc = "background: #EF9A9A;";
+					failedCount++;
 				} else if ( result[0] == 'neutral' ) {
 					rc = "background: #90CAF9;";
+					skippedCount++;
 				} else if ( result[0] == 'warning' ) {
 					rc = "background: #FFF59D;";
+					warningCount++;
 				}
 
 				$("#row_"+ result[3]).prop("style", rc);

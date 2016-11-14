@@ -974,7 +974,13 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									$resultStatus .= updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+									$returnMessage = updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+
+									if ( $returnMessage !== " - No Errors" ) {
+										$resultMessage = "warning";
+									}
+
+									$resultStatus .= $returnMessage;
 
 								}
 							} else {
@@ -1031,7 +1037,13 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									$resultStatus .= updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+									$returnMessage = updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+
+									if ( $returnMessage !== " - No Errors" ) {
+										$resultMessage = "warning";
+									}
+
+									$resultStatus .= $returnMessage;
 
 								}
 							} else {
@@ -1088,7 +1100,13 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									$resultStatus .= updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+									$returnMessage = updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+
+									if ( $returnMessage !== " - No Errors" ) {
+										$resultMessage = "warning";
+									}
+
+									$resultStatus .= $returnMessage;
 
 								}
 							} else {
@@ -1145,7 +1163,13 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									$resultStatus .= updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+									$returnMessage = updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+
+									if ( $returnMessage !== " - No Errors" ) {
+										$resultMessage = "warning";
+									}
+
+									$resultStatus .= $returnMessage;
 
 								}
 							} else {
@@ -1202,7 +1226,13 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
-									$resultStatus .= updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+									$returnMessage = updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+
+									if ( $returnMessage !== " - No Errors" ) {
+										$resultMessage = "warning";
+									}
+
+									$resultStatus .= $returnMessage;
 
 								}
 							} else {
@@ -1505,7 +1535,7 @@ if ( isset($_GET['importThis']) ) {
 
 							if ( empty($curlError) ) {
 								if ( strpos($contentType, "image/") === false ) {
-									$intError .= 'Invalid Image: ' . $url . '<br>';
+									$intError .= 'Invalid Image: ' . pathinfo($url, PATHINFO_BASENAME) . '<br>';
 								} else {
 									try {
 										file_put_contents($img, $inputImg);

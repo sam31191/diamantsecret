@@ -489,7 +489,7 @@
 
 				if ( empty($curlError) ) {
 					if ( strpos($contentType, "image/") === false ) {
-						$intError .= 'Invalid Image: ' . $url . '<br>';
+						$intError .= 'Invalid Image: ' . pathinfo($url, PATHINFO_BASENAME) . '<br>';
 					} else {
 						try {
 							file_put_contents($img, $inputImg);
