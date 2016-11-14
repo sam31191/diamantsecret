@@ -2465,7 +2465,51 @@ if ( isset($_GET['importThis']) ) {
 	$getSupplier->execute(array(":id" => $_GET['getSupplierDetails']));
 
 	if  ( $getSupplier->rowCount() > 0 ) {
-		echo json_encode($getSupplier->fetch(PDO::FETCH_ASSOC));
+		$supplier = $getSupplier->fetch(PDO::FETCH_ASSOC);
+		
+		echo json_encode($supplier);
+	} else {
+		echo "Supplier Not Found";
+	}
+
+} else if ( isset($_GET['getSupplierItems']) ) {
+	$getSupplier = $pdo->prepare("SELECT * FROM `company_id` WHERE `id` = :id");
+	$getSupplier->execute(array(":id" => $_GET['getSupplierItems']));
+
+	if  ( $getSupplier->rowCount() > 0 ) {
+		$supplier = $getSupplier->fetch(PDO::FETCH_ASSOC);
+		$rings = $pdo->prepare("SELECT COUNT(id) AS supplierItems FROM `rings` WHERE `company_id` = :id");
+		$rings->execute(array(":id" => $supplier['id']));
+		$rings = $rings->fetch(PDO::FETCH_ASSOC);
+		$rings = $rings['supplierItems'];
+
+		$earrings = $pdo->prepare("SELECT COUNT(id) AS supplierItems FROM `earrings` WHERE `company_id` = :id");
+		$earrings->execute(array(":id" => $supplier['id']));
+		$earrings = $earrings->fetch(PDO::FETCH_ASSOC);
+		$earrings = $earrings['supplierItems'];
+
+		$pendants = $pdo->prepare("SELECT COUNT(id) AS supplierItems FROM `pendants` WHERE `company_id` = :id");
+		$pendants->execute(array(":id" => $supplier['id']));
+		$pendants = $pendants->fetch(PDO::FETCH_ASSOC);
+		$pendants = $pendants['supplierItems'];
+
+		$necklaces = $pdo->prepare("SELECT COUNT(id) AS supplierItems FROM `necklaces` WHERE `company_id` = :id");
+		$necklaces->execute(array(":id" => $supplier['id']));
+		$necklaces = $necklaces->fetch(PDO::FETCH_ASSOC);
+		$necklaces = $necklaces['supplierItems'];
+
+		$bracelets = $pdo->prepare("SELECT COUNT(id) AS supplierItems FROM `bracelets` WHERE `company_id` = :id");
+		$bracelets->execute(array(":id" => $supplier['id']));
+		$bracelets = $bracelets->fetch(PDO::FETCH_ASSOC);
+		$bracelets = $bracelets['supplierItems'];
+
+		$supplierItems = $rings + $earrings + $pendants + $necklaces + $bracelets;
+
+		if ( $supplierItems > 0 ) {
+			echo json_encode(array("result" => 1, "entries" => $supplierItems, "name" => $supplier['company_name']));
+		} else {
+			echo json_encode(array_merge(array("result" => 0), $supplier));
+		}
 	} else {
 		echo "Supplier Not Found";
 	}

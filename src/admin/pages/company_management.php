@@ -115,7 +115,7 @@ if ( isset($_POST['addItem']) ) {
                 	<tbody>';
 
                 		if ( isset($_GET['search']) ) {
-                			$getUsers = $pdo->prepare("SELECT * FROM `company_id` WHERE `company_name` LIKE :search");
+                			$getUsers = $pdo->prepare("SELECT * FROM `company_id` WHERE `company_name` LIKE :search OR `company_code` LIKE :search");
                 			$getUsers->execute(array(":search" => '%' . $_GET['search'] . '%'));
                 		} else {
                 			$getUsers = $pdo->prepare("SELECT * FROM `company_id` ". $show ." ORDER BY " . $filter . " " . $currentOrder);
@@ -128,7 +128,7 @@ if ( isset($_POST['addItem']) ) {
                                 echo '<td>'. $company['id'] .'</td>';
                                 echo '<td>'. $company['company_code'] .'</td>';
                         echo '<td>
-                          <button class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete Client" onclick="$(\'#itemToRemove\').text(\''. $company['company_name'] .'\'); $(\'#removeModalActionButton\').val(\''. $company['id'] .'\'); $(\'#promptRemoveModal\').modal(\'toggle\');"><i class="fa fa-close"></i></button>
+                          <button class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete Client" onclick="deleteSupplier(\''. $company['id'] .'\')"><i class="fa fa-close"></i></button>
                           <button class="btn btn-info btn-sm" data-toggle="tooltip" title="Edit Client" onclick="editSupplier(\''. $company['id'] .'\')"><i class="fa fa-pencil"></i></button>
                           </td>';
                         echo '<td>'. $company['company_name'] .'</td>';
@@ -290,6 +290,31 @@ if ( isset($_POST['addItem']) ) {
   </div>
 </div>
 
+<div id="promptRemoveErrorModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Caution</h4>
+      </div>
+      <form method="post">
+      <div class="modal-body">
+        <div class="container">
+            <h4>Unable to delete Client: <strong id="itemToRemoveError">This</strong>
+            <br>
+            <h5><div class="alert alert-warning">This client can not be deleted as they still have Products listed on the website, please delete them prior to removing the supplier</div></h5>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <div id="promptEditItem" class="modal fade" role="dialog">
 	  <div class="modal-dialog modal-lg">
 
@@ -368,8 +393,8 @@ if ( isset($_POST['addItem']) ) {
         url: './ajax.php?getSupplierDetails=' + key,
         type: 'GET',
         success: function(result) {
-          result = JSON.parse(result);
           console.log(result);
+          result = JSON.parse(result);
           $("#edit_product_name").val(result['company_name']); 
           $("#edit_company_code").val(result['company_code']); 
           $("#edit_company_mail").val(result['email']); 
@@ -377,6 +402,29 @@ if ( isset($_POST['addItem']) ) {
           $("#edit_company_address").text(result['address']); 
           $("#editItem").val(key); 
           $("#promptEditItem").modal("toggle");
+        }
+      });
+    }
+
+    function deleteSupplier(key) {
+      $.ajax({
+        url: './ajax.php?getSupplierItems=' + key,
+        type: 'GET',
+        success: function(result) {
+          console.log(result);
+          try {
+            result = JSON.parse(result);
+            if ( result['result'] == 1 ) {
+              $("#itemToRemoveError").text(result['name']);
+              $("#promptRemoveErrorModal").modal("toggle");
+            } else if ( result['result'] == 0 ) {
+              $("#removeModalActionButton").val(result['id']);
+              $("#itemToRemove").text(result['company_name']);
+              $("#promptRemoveModal").modal("toggle");
+            }
+          } catch (e) {
+
+          }
         }
       });
     }
