@@ -1564,7 +1564,11 @@ if ( isset($_GET['importThis']) ) {
 					unset($PHPExcel);
 
 					$result = [];
-
+					$resultColor = 'success';
+					if ( $intError !== 'None' ) {
+						$resultColor = 'warning';
+					}
+					array_push($result, $resultColor);
 					array_push($result, $products[$i]['D']);
 					array_push($result, $intError);
 					array_push($result, $i);
