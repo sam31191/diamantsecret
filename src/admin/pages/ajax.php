@@ -2690,6 +2690,45 @@ if ( isset($_GET['importThis']) ) {
 			#No Rows Found
 		}
 
+		#Country Sheet
+		$outputExcel->createSheet(5);
+		$outputExcel->setActiveSheetIndex(5);
+		$outputExcel->getActiveSheet()->setTitle('country_vat');
+		$outputExcel->getActiveSheet()->getStyle('A1:B1')->getFont()->setBold(true);
+		$outputExcel->getActiveSheet()->setCellValue('A1', 'id');
+		$outputExcel->getActiveSheet()->setCellValue('B1', 'country_name');
+
+		$getCategories = $pdo->prepare("SELECT * FROM `country_vat`");
+		$getCategories->execute();
+
+		if ( $getCategories->rowCount() > 0 ) {
+			$categories = $getCategories->fetchAll();
+
+			for($i = 0; $i < sizeof($categories); $i++ ) {
+				$outputExcel->getActiveSheet()->setCellValue('A' . intval($i+2), $categories[$i]['id']);
+				$outputExcel->getActiveSheet()->setCellValue('B' . intval($i+2), $categories[$i]['country_name']);
+			}
+		} else {
+			#No Rows Found
+		}
+
+		#Color Sheet
+		$outputExcel->createSheet(6);
+		$outputExcel->setActiveSheetIndex(6);
+		$outputExcel->getActiveSheet()->setTitle('color');
+		$outputExcel->getActiveSheet()->getStyle('A1:B1')->getFont()->setBold(true);
+		$outputExcel->getActiveSheet()->setCellValue('A1', 'id');
+		$outputExcel->getActiveSheet()->setCellValue('B1', 'color');
+
+		$getCategories = $pdo->prepare("SELECT * FROM `country_vat`");
+		$getCategories->execute();
+		
+		$outputExcel->getActiveSheet()->setCellValue('A2', "1");
+		$outputExcel->getActiveSheet()->setCellValue('B2', "White Stone");
+		
+		$outputExcel->getActiveSheet()->setCellValue('A3', "2");
+		$outputExcel->getActiveSheet()->setCellValue('B3', "Colored Stone");
+
 	}
 
 function rrmdir($dir) { 
