@@ -178,7 +178,7 @@ if ( isset($_SESSION['modSession']) ) {
 		        				$zip = new ZipArchive();
 		        				$openZip = $zip->open($relativePath);
 		        				$_SESSION['import_company_id_zip'] = $_POST['company_id'];
-		                        $timeToken = round(microtime(true) * 10000); //Declared here as the folder needs to be set here
+		                        $timeToken = time() . "_" . $_SESSION['username']; //Declared here as the folder needs to be set here
 		        				$importDir = "./../../working/zip/import/" . $timeToken . "/";
 
 		        				if ( $zip->getFromName("images/") !== false ) {
