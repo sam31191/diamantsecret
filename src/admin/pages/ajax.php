@@ -816,8 +816,8 @@ if ( isset($_GET['importThis']) ) {
 			$error = "";
 
 			if ( sizeof($products[1]) !== 22 ) {
-				echo '<h4><div class="alert alert-error">Invalid Excel Format</div></h4><p>Please download the defined Excel Format and use that to input entries.</p><br><br><br><br>
-				<a class="btn btn-custom"onclick="downloadFormat()">Download Format</a>';
+				echo '<h4><div class="alert alert-error">Invalid Zip Format</div></h4><p>Please download the defined Zip Format and use that to input entries.</p><br><br><br><br>
+				<a class="btn btn-custom" href="./../assets/format.zip">Download Format</a>';
 				return;
 			}
 

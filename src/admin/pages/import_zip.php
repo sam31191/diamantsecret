@@ -620,7 +620,7 @@ function importAjax (id, index, timeToken) {
 				$("#row_"+ result[3] +"_result").html(result[1]);
 				$("#row_"+ result[3] +"_error").html(result[2]);
 			} catch (e) {
-				$('#resultDiv').html(result);
+				$('#resultDiv').html("<h4>Import Failure</h4><br><h5>File you tried to import from has been tampered with. You either have another window open with the same task or the Session has expired, please reload the page to continue.</h5><a href=\"javascript:void(0);\" id=\"uploadDivCloseIcon\" class=\"btn btn-danger\" style=\"font-size: 20px; margin: 0px 16px;\" onclick=\"finalizeImport(); window.location = './import_zip.php';\" data-toggle=\"tooltip\" data-placement=\"bottom\">Reload Page</a>");
 			}
 		},
 		failure: function (error) {

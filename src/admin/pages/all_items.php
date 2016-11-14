@@ -1427,6 +1427,7 @@ if ( isset($_POST['featuredAdd']) ) {
 									</div>
 								</td>
 							</tr>
+							<div id="ringExclusiveEditDiv">
 							<tr>
 								<td> <span class="table-item-label">Ring Size</span></td>
 								<td>
@@ -1454,6 +1455,7 @@ if ( isset($_POST['featuredAdd']) ) {
 									</div>
 								</td>
 							</tr>
+							</div>
 							<tr>
 								<td>
 									<span class="table-item-label">Description</span>
@@ -1533,6 +1535,12 @@ if ( isset($_POST['featuredAdd']) ) {
 					$("#edit_country_id option[value='"+ result['country_id'] +"'").attr("selected", true);
 					$("#edit_company_id option[value='"+ result['company_id'] +"'").attr("selected", true);
 					$("#edit_diamond_shape option[value='"+ result['diamond_shape'] +"'").attr("selected", true);
+
+					if ( result['category'] !== "1" ) {
+						$("#ringExclusiveEditDiv").hide();
+					} else {
+						$("#ringExclusiveEditDiv").show();
+					}
 					
 					$("#promptEditItem").modal("toggle");
 				} catch ( e ) {
