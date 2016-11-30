@@ -12,7 +12,7 @@ $__VERSION_DATE__     = "2016-10-11";
 
 
 //Compatible database version number, to be updated on every database change
-$__SQLVERSION__   = 'diamantsecretdb_1_1_1'; 
+$__SQLVERSION__   = 'diamantsecretdb_1_2_0'; 
 
 
 //Methods
@@ -22,6 +22,12 @@ $__BUILDVERSION__ = "$__VERSION_PROGRAMNAME__.$__VERSION_MAJOR__.$__VERSION_MINO
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 /*
+** v1.3.0  (2016-10-11) by RYAN (product release - db: diamantsecretdb_1_2_0)
+** [] New Categories Added to Diamond Shapes
+** [] New Options added (Total Gold Weight, Color Stone Shape etc)
+** [] Above Changed applied everywhere
+** [] Minor fixes
+*
 ** v1.2.1  (2016-10-11) by PRINCE (product release - db: diamantsecretdb_1_1_0)
 ** [] Minor fixes
 *

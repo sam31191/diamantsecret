@@ -3,9 +3,9 @@
 
     /*  MySQL Configuration */
 	$host = "localhost";
-	$dbname = "PROD_DIAMANTSECRET";
-	$user = "diamants_prod";
-	$pass = "_diamants";
+	$dbname = "website";
+	$user = "root";
+	$pass = "";
 	
 
 	/* Mail Configuration */
@@ -16,15 +16,16 @@
 	$mailPassword = "contact@123";
 	$mailSenderEmail = "contact@diamantsecret.com";
 	$mailSenderName = "Diamant Secret";
-	$__ADMINMAIL__ = "contact@diamantsecret.com";
+	$__ADMINMAIL__ = "ryan.bhanwra@gmail.com";
 	$__ADMINNAME__ = "Admin";
-	$__MAINDOMAIN__ = "http://www.diamantsecret.com/";
+	$__MAINDOMAIN__ = "http://localhost/git/diamantsecret/src/";
+	#$__MAINDOMAIN__ = "http://www.diamantsecret.com/";
 	
 	
 	/* Test site options */
 	$testSite = false;
 	$__TESTSITEPREFIX__ = "[Test Site] ";
-	$__TESTSITEDOMAIN__ = "http://www.diamantsecret.com/testsite/";
+	$__TESTSITEDOMAIN__ = "http://localhost/git/diamweb/src/testsite/";
 
 	if ( $testSite ) {
 		$__MAINDOMAIN__ = $__TESTSITEDOMAIN__;
@@ -226,11 +227,11 @@
 			":product_price" => $values['E'],
 			":discount" => $values['F'],
 			":category" => $values['B'],
-			":images_delta" => $values['U']
+			":images_delta" => $values['Z']
 		));
 		switch ($values['B']) {
 			case 1: {
-				$updateInfo = $pdo->prepare("UPDATE `rings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size WHERE `unique_key` = :unique_key");
+				$updateInfo = $pdo->prepare("UPDATE `rings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
 				$updateInfo->execute(array(
 					":unique_key" => $uniqueKey,
 					":company_id" => $company_id,
@@ -238,19 +239,24 @@
 					":product_name" => $values['D'],
 					":pieces_in_stock" => $values['G'],
 					":days_for_shipment" => $values['H'],
-					":total_carat_weight" => $values['I'],
-					":no_of_stones" => $values['J'],
-					":diamond_shape" => $values['K'],
-					":clarity" => $values['L'],
-					":color" => $values['M'],
-					":material" => $values['N'],
-					":height" => $values['O'],
-					":width" => $values['P'],
-					":length" => $values['Q'],
-					":country_id" => $values['R'],
-					":description" => $values['V'],
-					":ring_subcategory" => $values['S'],
-					":ring_size" => $values['T']
+					":total_gold_weight" => $values['I'],
+					":total_carat_weight" => $values['J'],
+					":color_stone_carat" => $values['K'],
+					":no_of_stones" => $values['L'],
+					":no_of_color_stones" => $values['M'],
+					":diamond_shape" => $values['N'],
+					":color_stone_shape" => $values['O'],
+					":clarity" => $values['P'],
+					":color" => $values['Q'],
+					":material" => $values['R'],
+					":height" => $values['S'],
+					":width" => $values['T'],
+					":length" => $values['U'],
+					":ring_size" => $values['V'],
+					":country_id" => $values['W'],
+					":ring_subcategory" => $values['X'],
+					":lab_grown" => $values['Y'],
+					":description" => $values['AA']
 				));
 
 
@@ -262,7 +268,7 @@
 
 				break;
 			} case 2: {
-				$updateInfo = $pdo->prepare("UPDATE `earrings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description WHERE `unique_key` = :unique_key");
+				$updateInfo = $pdo->prepare("UPDATE `earrings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
 				$updateInfo->execute(array(
 					":unique_key" => $uniqueKey,
 					":company_id" => $company_id,
@@ -270,17 +276,25 @@
 					":product_name" => $values['D'],
 					":pieces_in_stock" => $values['G'],
 					":days_for_shipment" => $values['H'],
-					":total_carat_weight" => $values['I'],
-					":no_of_stones" => $values['J'],
-					":diamond_shape" => $values['K'],
-					":clarity" => $values['L'],
-					":color" => $values['M'],
-					":material" => $values['N'],
-					":height" => $values['O'],
-					":width" => $values['P'],
-					":length" => $values['Q'],
-					":country_id" => $values['R'],
-					":description" => $values['V']
+					":total_gold_weight" => $values['I'],
+					":total_carat_weight" => $values['J'],
+					":color_stone_carat" => $values['K'],
+					":no_of_stones" => $values['L'],
+					":no_of_color_stones" => $values['M'],
+					":diamond_shape" => $values['N'],
+					":color_stone_shape" => $values['O'],
+					":clarity" => $values['P'],
+					":color" => $values['Q'],
+					":material" => $values['R'],
+					":height" => $values['S'],
+					":width" => $values['T'],
+					":length" => $values['U'],
+					":ring_size" => $values['V'],
+					":country_id" => $values['W'],
+					":ring_subcategory" => $values['X'],
+					":lab_grown" => $values['Y'],
+					":description" => $values['AA']
+
 				));
 
 				
@@ -292,7 +306,7 @@
 
 				break;
 			} case 3: {
-				$updateInfo = $pdo->prepare("UPDATE `pendants` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description WHERE `unique_key` = :unique_key");
+				$updateInfo = $pdo->prepare("UPDATE `pendants` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
 				$updateInfo->execute(array(
 					":unique_key" => $uniqueKey,
 					":company_id" => $company_id,
@@ -300,17 +314,25 @@
 					":product_name" => $values['D'],
 					":pieces_in_stock" => $values['G'],
 					":days_for_shipment" => $values['H'],
-					":total_carat_weight" => $values['I'],
-					":no_of_stones" => $values['J'],
-					":diamond_shape" => $values['K'],
-					":clarity" => $values['L'],
-					":color" => $values['M'],
-					":material" => $values['N'],
-					":height" => $values['O'],
-					":width" => $values['P'],
-					":length" => $values['Q'],
-					":country_id" => $values['R'],
-					":description" => $values['V']
+					":total_gold_weight" => $values['I'],
+					":total_carat_weight" => $values['J'],
+					":color_stone_carat" => $values['K'],
+					":no_of_stones" => $values['L'],
+					":no_of_color_stones" => $values['M'],
+					":diamond_shape" => $values['N'],
+					":color_stone_shape" => $values['O'],
+					":clarity" => $values['P'],
+					":color" => $values['Q'],
+					":material" => $values['R'],
+					":height" => $values['S'],
+					":width" => $values['T'],
+					":length" => $values['U'],
+					":ring_size" => $values['V'],
+					":country_id" => $values['W'],
+					":ring_subcategory" => $values['X'],
+					":lab_grown" => $values['Y'],
+					":description" => $values['AA']
+
 				));
 
 				
@@ -322,7 +344,7 @@
 
 				break;
 			} case 4: {
-				$updateInfo = $pdo->prepare("UPDATE `necklaces` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description WHERE `unique_key` = :unique_key");
+				$updateInfo = $pdo->prepare("UPDATE `necklaces` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
 				$updateInfo->execute(array(
 					":unique_key" => $uniqueKey,
 					":company_id" => $company_id,
@@ -330,17 +352,25 @@
 					":product_name" => $values['D'],
 					":pieces_in_stock" => $values['G'],
 					":days_for_shipment" => $values['H'],
-					":total_carat_weight" => $values['I'],
-					":no_of_stones" => $values['J'],
-					":diamond_shape" => $values['K'],
-					":clarity" => $values['L'],
-					":color" => $values['M'],
-					":material" => $values['N'],
-					":height" => $values['O'],
-					":width" => $values['P'],
-					":length" => $values['Q'],
-					":country_id" => $values['R'],
-					":description" => $values['V']
+					":total_gold_weight" => $values['I'],
+					":total_carat_weight" => $values['J'],
+					":color_stone_carat" => $values['K'],
+					":no_of_stones" => $values['L'],
+					":no_of_color_stones" => $values['M'],
+					":diamond_shape" => $values['N'],
+					":color_stone_shape" => $values['O'],
+					":clarity" => $values['P'],
+					":color" => $values['Q'],
+					":material" => $values['R'],
+					":height" => $values['S'],
+					":width" => $values['T'],
+					":length" => $values['U'],
+					":ring_size" => $values['V'],
+					":country_id" => $values['W'],
+					":ring_subcategory" => $values['X'],
+					":lab_grown" => $values['Y'],
+					":description" => $values['AA']
+
 				));
 
 				
@@ -352,7 +382,7 @@
 
 				break;
 			} case 5: {
-				$updateInfo = $pdo->prepare("UPDATE `bracelets` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description WHERE `unique_key` = :unique_key");
+				$updateInfo = $pdo->prepare("UPDATE `bracelets` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
 				$updateInfo->execute(array(
 					":unique_key" => $uniqueKey,
 					":company_id" => $company_id,
@@ -360,17 +390,25 @@
 					":product_name" => $values['D'],
 					":pieces_in_stock" => $values['G'],
 					":days_for_shipment" => $values['H'],
-					":total_carat_weight" => $values['I'],
-					":no_of_stones" => $values['J'],
-					":diamond_shape" => $values['K'],
-					":clarity" => $values['L'],
-					":color" => $values['M'],
-					":material" => $values['N'],
-					":height" => $values['O'],
-					":width" => $values['P'],
-					":length" => $values['Q'],
-					":country_id" => $values['R'],
-					":description" => $values['V']
+					":total_gold_weight" => $values['I'],
+					":total_carat_weight" => $values['J'],
+					":color_stone_carat" => $values['K'],
+					":no_of_stones" => $values['L'],
+					":no_of_color_stones" => $values['M'],
+					":diamond_shape" => $values['N'],
+					":color_stone_shape" => $values['O'],
+					":clarity" => $values['P'],
+					":color" => $values['Q'],
+					":material" => $values['R'],
+					":height" => $values['S'],
+					":width" => $values['T'],
+					":length" => $values['U'],
+					":ring_size" => $values['V'],
+					":country_id" => $values['W'],
+					":ring_subcategory" => $values['X'],
+					":lab_grown" => $values['Y'],
+					":description" => $values['AA']
+
 				));
 
 				
@@ -440,7 +478,7 @@
 		}
 
 		#Adding Images
-		foreach ( explode(",", $values['U']) as $image ) {
+		foreach ( explode(",", $values['Z']) as $image ) {
 			if ( !empty($image) ) {
 					
 				if ( $zip == 1 ) {

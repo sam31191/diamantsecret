@@ -163,9 +163,9 @@ pconsole($_POST);
 									} else {
 										$clarityTag = "";
 									}
-									if ( isset($_GET['ring_category']) ) {
-										$ringTag = $_GET['ring_category'];
-										#echo '<label class="label label-info">'. $_GET['ring_category'] .'</label>';
+									if ( isset($_GET['_sc']) ) {
+										$ringTag = $_GET['_sc'];
+										#echo '<label class="label label-info">'. $_GET['_sc'] .'</label>';
 									} else {
 										$ringTag = "";
 									}
@@ -238,6 +238,8 @@ pconsole($_POST);
 															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pink Gold" value="3" onclick="filterMaterial(this.value)">PG</button></li>
 															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Silver" value="4" onclick="filterMaterial(this.value)">SI</button></li>
 															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Platinum" value="5" onclick="filterMaterial(this.value)">PL</button></li>
+															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Bi Colour with Gold" value="6" onclick="filterMaterial(this.value)">Bi-G</button></li>
+															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tri Colour with Gold" value="7" onclick="filterMaterial(this.value)">Tri-G</button></li>
 														</ul>
 													</div>
 
@@ -273,7 +275,7 @@ pconsole($_POST);
 															Ring
 														</p>
 														<ul>
-														<select form="filterForm" name="ring_category">
+														<select form="filterForm" name="_sc">
 															<option value="">Ring Category</option>
 								                            <option value="1">Diamond Ring</option>
 								                            <option value="2">Half Eternity Diamond Ring</option>
@@ -284,6 +286,33 @@ pconsole($_POST);
 														</select>
 														</ul>
 													</div>-->
+													<div class="tag-group" id="coll-filter-2-ring">
+														<p class="title">
+															Subcategory
+														</p>
+														<ul>
+														<select form="filterForm" name="_sc">
+															<option value="">Select</option>
+								                            <?php 
+								                            $query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE category_id = 2");
+								                            $query->execute();
+								                            if ( $query->rowCount() > 0 ) {
+								                            	$query = $query->fetchAll();
+								                            	foreach ( $query as $option ) {
+								                            		echo '<option value="'. $option['id'] .'">'. $option['category'] .'</option>';
+								                            	}
+								                            }
+								                            ?>
+														</select>
+														</ul>
+													</div>
+													<?php
+
+													if ( !empty($ringTag) ) {
+														echo "<script>$('#coll-filter-2-ring ul select option[value=$ringTag]').attr('selected', 'true');</script>";
+													}
+
+													?>
 
 													<?php
 
@@ -518,11 +547,11 @@ pconsole($_POST);
 																	}
 																}
 																
-																echo '<option value="?filter=featured&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&price_range='. $priceTag .'" '. $select1 .'>Featured</option>';
-																echo '<option value="?filter=item_value&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&price_range='. $priceTag .'" '. $select2 .'>Price: High to Low</option>';
-																echo '<option value="?filter=item_value&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&price_range='. $priceTag .'" '. $select3 .'>Price: Low to High</option>';
-																echo '<option value="?filter=item_name&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&price_range='. $priceTag .'" '. $select4 .'>A - Z</option>';
-																echo '<option value="?filter=item_name&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&price_range='. $priceTag .'" '. $select5 .'>Z - A</option>';
+																echo '<option value="?filter=featured&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select1 .'>Featured</option>';
+																echo '<option value="?filter=item_value&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select2 .'>Price: High to Low</option>';
+																echo '<option value="?filter=item_value&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select3 .'>Price: Low to High</option>';
+																echo '<option value="?filter=item_name&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select4 .'>A - Z</option>';
+																echo '<option value="?filter=item_name&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select5 .'>Z - A</option>';
 															?>
 														</select>
 													</div>
@@ -723,7 +752,7 @@ pconsole($_POST);
 																</ul>
 															</li>';
 
-														if ( isset($_GET['material']) || isset($_GET['ring_category'])) {
+														if ( isset($_GET['material']) || isset($_GET['_sc'])) {
 															if ( empty($_GET['material'])) {
 																$materialFilter = false;
 															} else {
@@ -739,7 +768,7 @@ pconsole($_POST);
 															} else {
 																$clarityFilter = true;
 															}
-															if ( empty($_GET['ring_category']) ) {
+															if ( empty($_GET['_sc']) ) {
 																$ringFilter = false;
 															} else {
 																$ringFilter = true;
@@ -777,7 +806,7 @@ pconsole($_POST);
 															}
 
 															if ( $ringFilter ) {
-																if ( $_GET['ring_category'] == $itemInfo['ring_subcategory'] ) {
+																if ( $_GET['_sc'] == $itemInfo['ring_subcategory'] ) {
 																	$filterCheck++;
 																} else {
 
@@ -803,7 +832,7 @@ pconsole($_POST);
 											  <?php 
 											  	for ( $i = 0; $i < $pages; $i++ ) {
 											  		if ( $i == 0 ) {
-											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&price_range='. $priceTag .'">first</a></li>';
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">first</a></li>';
 											  		}
 
 											  		if ( $i > $currentPage - 3 && $i < $currentPage + 3 ) {
@@ -811,13 +840,13 @@ pconsole($_POST);
 											  			if ( $i == $currentPage ) {
 											  				$class = "active";
 											  			}
-											  			echo '<li class="'. $class .'"><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&price_range='. $priceTag .'">'. intval($i+1) .'</a></li>';
+											  			echo '<li class="'. $class .'"><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">'. intval($i+1) .'</a></li>';
 											  		}else if ( $i > $currentPage - 4 && $i < $currentPage + 4 ) {
 											  			echo '<li><a href="javascript:void(0);">.</a></li>';
 											  		}
 
 											  		if ( $i == intval($pages) ){
-											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&price_range='. $priceTag .'">last</a></li>';
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">last</a></li>';
 											  		}
 											  	}
 											  ?>

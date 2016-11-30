@@ -147,7 +147,7 @@ if ( isset($_POST['featuredAdd']) ) {
 	if ( $checkInfo->rowCount() > 0 ) {
 		switch ($_POST['category']) {
 			case 1: {
-				$addInfo = $pdo->prepare("UPDATE `rings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `rings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -165,6 +165,11 @@ if ( isset($_POST['featuredAdd']) ) {
 					":width" => $_POST['width'],
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
+					":total_gold_weight" => $_POST['total_gold_weight'],
+					":color_stone_carat" => $_POST['color_stone_carat'],
+					":no_of_color_stones" => $_POST['no_of_color_stones'],
+					":color_stone_shape" => $_POST['color_stone_shape'],
+					":lab_grown" => $_POST['lab_grown'],
 					":description" => $_POST['description'],
 					":ring_subcategory" => $_POST['ring_subcategory'],
 					":ring_size" => $_POST['ring_size']));
@@ -172,7 +177,7 @@ if ( isset($_POST['featuredAdd']) ) {
 				break;
 			}
 			case 2:	{
-				$addInfo = $pdo->prepare("UPDATE `earrings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `earrings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -190,11 +195,16 @@ if ( isset($_POST['featuredAdd']) ) {
 					":width" => $_POST['width'],
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
+					":total_gold_weight" => $_POST['total_gold_weight'],
+					":color_stone_carat" => $_POST['color_stone_carat'],
+					":no_of_color_stones" => $_POST['no_of_color_stones'],
+					":color_stone_shape" => $_POST['color_stone_shape'],
+					":lab_grown" => $_POST['lab_grown'],
 					":description" => $_POST['description']));
 				break;
 			}
 			case 3: {
-				$addInfo = $pdo->prepare("UPDATE `pendants` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `pendants` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -212,11 +222,16 @@ if ( isset($_POST['featuredAdd']) ) {
 					":width" => $_POST['width'],
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
+					":total_gold_weight" => $_POST['total_gold_weight'],
+					":color_stone_carat" => $_POST['color_stone_carat'],
+					":no_of_color_stones" => $_POST['no_of_color_stones'],
+					":color_stone_shape" => $_POST['color_stone_shape'],
+					":lab_grown" => $_POST['lab_grown'],
 					":description" => $_POST['description']));
 				break;
 			}
 			case 4: {
-				$addInfo = $pdo->prepare("UPDATE `necklaces` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `necklaces` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -234,11 +249,16 @@ if ( isset($_POST['featuredAdd']) ) {
 					":width" => $_POST['width'],
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
+					":total_gold_weight" => $_POST['total_gold_weight'],
+					":color_stone_carat" => $_POST['color_stone_carat'],
+					":no_of_color_stones" => $_POST['no_of_color_stones'],
+					":color_stone_shape" => $_POST['color_stone_shape'],
+					":lab_grown" => $_POST['lab_grown'],
 					":description" => $_POST['description']));
 				break;
 			}
 			case 5: {
-				$addInfo = $pdo->prepare("UPDATE `bracelets` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `bracelets` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -256,7 +276,13 @@ if ( isset($_POST['featuredAdd']) ) {
 					":width" => $_POST['width'],
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
-					":description" => $_POST['description']));
+					":total_gold_weight" => $_POST['total_gold_weight'],
+					":color_stone_carat" => $_POST['color_stone_carat'],
+					":no_of_color_stones" => $_POST['no_of_color_stones'],
+					":color_stone_shape" => $_POST['color_stone_shape'],
+					":lab_grown" => $_POST['lab_grown'],
+					":description" => $_POST['description'],
+					":ring_subcategory" => $_POST['ring_subcategory']));
 				break;
 			}
 		}
@@ -544,9 +570,9 @@ if ( isset($_POST['featuredAdd']) ) {
 
 	if ( $checkInternalID->rowCount() == 0 ) {
 		$addInfo = $pdo->prepare("INSERT INTO `bracelets` 
-			(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`) 
+			(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_gold_weight`, `total_carat_weight`, `color_stone_carat`, `no_of_stones`, `no_of_color_stones`, `diamond_shape`, `color_stone_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `lab_grown`, `images`, `description`, `ring_subcategory`) 
 			VALUES 
-			(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description)");
+			(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_gold_weight, :total_carat_weight, :color_stone_carat, :no_of_stones, :no_of_color_stones, :diamond_shape, :color_stone_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :lab_grown, :images, :description, :ring_subcategory)");
 		$addInfo->execute(array(
 			":unique_key" => $uniqueKey,
 			":company_id" => $_POST['company_id'],
@@ -565,7 +591,13 @@ if ( isset($_POST['featuredAdd']) ) {
 			":length" => $_POST['length'],
 			":country_id" => $_POST['country_id'],
 			":images" => "",
-			":description" => $_POST['description']
+			":description" => $_POST['description'],
+			":total_gold_weight" => $_POST['total_gold_weight'], 
+			":color_stone_carat" => $_POST['color_stone_carat'], 
+			":no_of_color_stones" => $_POST['no_of_color_stones'], 
+			":color_stone_shape" => $_POST['color_stone_shape'], 
+			":lab_grown" => $_POST['lab_grown'],
+			":ring_subcategory" => $_POST['ring_subcategory']
 		));
 
 		$images = "";
@@ -1022,6 +1054,36 @@ function checkKey($key, $pdo) {
             			} case 'date_added DESC': {
             				$dateAddedCaret = '<i class="fa fa-sort-amount-desc"></i>';
             				break;
+            			} case 'total_gold_weight ASC': {
+            				$dateAddedCaret = '<i class="fa fa-sort-amount-asc"></i>';
+            				break;
+            			} case 'total_gold_weight DESC': {
+            				$dateAddedCaret = '<i class="fa fa-sort-amount-desc"></i>';
+            				break;
+            			} case 'color_stone_carat ASC': {
+            				$dateAddedCaret = '<i class="fa fa-sort-amount-asc"></i>';
+            				break;
+            			} case 'color_stone_carat DESC': {
+            				$dateAddedCaret = '<i class="fa fa-sort-amount-desc"></i>';
+            				break;
+            			} case 'no_of_color_stones ASC': {
+            				$dateAddedCaret = '<i class="fa fa-sort-amount-asc"></i>';
+            				break;
+            			} case 'no_of_color_stones DESC': {
+            				$dateAddedCaret = '<i class="fa fa-sort-amount-desc"></i>';
+            				break;
+            			} case 'color_stone_shape ASC': {
+            				$dateAddedCaret = '<i class="fa fa-sort-amount-asc"></i>';
+            				break;
+            			} case 'color_stone_shape DESC': {
+            				$dateAddedCaret = '<i class="fa fa-sort-amount-desc"></i>';
+            				break;
+            			} case 'lab_grown ASC': {
+            				$dateAddedCaret = '<i class="fa fa-sort-amount-asc"></i>';
+            				break;
+            			} case 'lab_grown DESC': {
+            				$dateAddedCaret = '<i class="fa fa-sort-amount-desc"></i>';
+            				break;
             			} default: {
 
             				break;
@@ -1041,8 +1103,11 @@ function checkKey($key, $pdo) {
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=discount&order='. $order .'">Discount'. $discountCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=pieces_in_stock&order='. $order .'">Stock'. $stockCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=days_for_shipment&order='. $order .'">Shipment Days'. $shipmentCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=total_gold_weight&order='. $order .'">Gold Weight'. $shipmentCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=total_carat_weight&order='. $order .'">Carat Weight'. $caratWeightCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=color_stone_carat&order='. $order .'">Color Stone Carat'. $caratWeightCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=no_of_stones&order='. $order .'"># of Stones'. $numOfStonesCaret .'</a>'; ?></th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=no_of_color_stones&order='. $order .'"># of Colored Stones'. $numOfStonesCaret .'</a>'; ?></th>
                 	<th><?php 
                 		echo '<a href="?page='. $currentPage .'&filter=diamond_shape&order='. $order .'">Diamond Shape'. $diamondShapeCaret .'</a>';
                 		$fetchDiamondShapes = $pdo->prepare("SELECT * FROM `diamond_shape`");
@@ -1077,6 +1142,7 @@ function checkKey($key, $pdo) {
                 		}
 						?>
 					</th>
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=color_stone_shape&order='. $order .'">Colored Stone Shape'. $numOfStonesCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=clarity&order='. $order .'">Clarity'. $clarityCaret .'</a>'; 
                 		echo '<div class="btn-group">
 							  <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0px 5px; border-radius: 10px; margin-left: 5px;">
@@ -1169,8 +1235,7 @@ function checkKey($key, $pdo) {
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=width&order='. $order .'">Width '. $widthCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=length&order='. $order .'">Length '. $lengthCaret .'</a>'; ?></th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=country_id&order='. $order .'">Country '. $countryCaret .'</a>'; ?></th>
-                	<!--<th><?php echo '<a href="?page='. $currentPage .'&filter=ring_size&order='. $order .'">Ring Size '. $ringSizeCaret .'</a>'; ?></th>
-                	<th><?php echo '<a href="?page='. $currentPage .'&filter=ring_subcategory&order='. $order .'">Ring Category '. $ringCategoryCaret .'</a>'; ?></th>-->
+                	<th><?php echo '<a href="?page='. $currentPage .'&filter=lab_grown&order='. $order .'">Lab Grown '. $ringCategoryCaret .'</a>'; ?></th>
                 	<th>Images</th>
                 	<th>Description</th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=date_added&order='. $order .'">Added On '. $dateAddedCaret .'</a>'; ?></th>
@@ -1257,7 +1322,7 @@ function checkKey($key, $pdo) {
 					echo '<script>document.getElementById("filtersApplied").innerHTML = "'. $filtersApplied .'";</script>';
 
 		        	$query = $pdo->prepare("SELECT * FROM `items` INNER JOIN `bracelets` ON items.unique_key = bracelets.unique_key WHERE `category` = 5 ". $filterDiamondShape . $filterMaterial . $filterColor . $filterClarity ." ORDER BY ". $filter . " " . $currentOrder . " LIMIT ". $offset .", ". $perPage ." ");
-		        	$queryCount = $pdo->prepare("SELECT COUNT(items.id) AS itemCount FROM `items` INNER JOIN `bracelets` ON items.unique_key = bracelets.unique_key WHERE `category` = 5 ". $filterDiamondShape . $filterMaterial . $filterColor . $filterClarity ." ORDER BY ". $filter . " " . $currentOrder . " LIMIT ". $offset .", ". $perPage ." ");
+		        	$queryCount = $pdo->prepare("SELECT COUNT(items.id) AS itemCount FROM `items` INNER JOIN `bracelets` ON items.unique_key = bracelets.unique_key WHERE `category` = 1 ". $filterDiamondShape . $filterMaterial . $filterColor . $filterClarity ." ORDER BY ". $filter . " " . $currentOrder . " LIMIT ". $offset .", ". $perPage ." ");
 		        	pconsole($query);
 					$query->execute(array(":first" => 10));
 					$queryCount->execute(array(":first" => 10));
@@ -1326,9 +1391,13 @@ function checkKey($key, $pdo) {
 								echo '<td>'. $entry['discount'] .'%</td>';
 								echo '<td>'. $info['pieces_in_stock'] .'</td>';
 								echo '<td>'. $info['days_for_shipment'] .'</td>';
+								echo '<td>'. $info['total_gold_weight'] .'</td>';
 								echo '<td>'. $info['total_carat_weight'] .'</td>';
+								echo '<td>'. $info['color_stone_carat'] .'</td>';
 								echo '<td>'. $info['no_of_stones'] .'</td>';
+								echo '<td>'. $info['no_of_color_stones'] .'</td>';
 								echo '<td>'. getDiamondShape($info['diamond_shape'], $pdo) .'</td>';
+								echo '<td>'. getDiamondShape($info['color_stone_shape'], $pdo) .'</td>';
 								echo '<td>'. $info['clarity'] .'</td>';
 								echo '<td>'. $color .'</td>';
 								echo '<td>'. getMaterial($info['material'], $pdo) .'</td>';
@@ -1336,8 +1405,11 @@ function checkKey($key, $pdo) {
 								echo '<td>'. $info['width'] .'</td>';
 								echo '<td>'. $info['length'] .'</td>';
 								echo '<td>'. getCountry($info['country_id'], $pdo) .'</td>';
-								#echo '<td>'. $info['ring_size'] .'</td>';
-								#echo '<td>'. getRingCategory($info['ring_subcategory'], $pdo) .'</td>';
+								$labGrown = "<i class='fa fa-times' style='color:crimson'></i>";
+								if ( $info['lab_grown'] == 1 ) {
+									$labGrown = "<i class='fa fa-check' style='color:green'></i>";
+								} 
+								echo '<td>'. $labGrown .'</td>';
 								echo '<td><button class="btn btn-custom btn-sm" onClick="manageImages(\''. $info['unique_key'] .'\')">'. intval(sizeof(explode(",", $info['images'])) - 1) .' image(s)</button></td>';
 								echo '<td>'. $info['description'] .'</td>';
 								echo '<td>'. $entry['date_added'] .'</td>';
@@ -1632,10 +1704,26 @@ function checkKey($key, $pdo) {
 								</td>
 							</tr>
 							<tr>
+								<td><span class="table-item-label">Total Gold Weight</span></td>
+								<td>
+									<div class="table-item">
+										<input id="edit_total_gold_weight" name="total_gold_weight" type="text" class="form-control" placeholder="Total Gold Weight (Decimal Number)">
+									</div>
+								</td>
+							</tr>
+							<tr>
 								<td><span class="table-item-label">Total Carat Weight</span></td>
 								<td>
 									<div class="table-item">
 										<input id="edit_total_carat_weight" name="total_carat_weight" type="text" class="form-control" placeholder="Total Carat (Decimal Number)">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><span class="table-item-label">Color Stone Carat Weight</span></td>
+								<td>
+									<div class="table-item">
+										<input id="edit_color_stone_carat" name="color_stone_carat" type="text" class="form-control" placeholder="Color Stone Carat (Decimal Number)">
 									</div>
 								</td>
 							</tr>
@@ -1648,23 +1736,47 @@ function checkKey($key, $pdo) {
 								</td>
 							</tr>
 							<tr>
+								<td><span class="table-item-label">Number of Colored Stones</span></td>
+								<td>
+									<div class="table-item">
+										<input id="edit_no_of_color_stones" name="no_of_color_stones" type="text" class="form-control" placeholder="Color Stones (Number)">
+									</div>
+								</td>
+							</tr>
+							<tr>
 								<td><span class="table-item-label">Diamond Shape</span></td>
 								<td>
 									<div class="table-item">
 										<select id="edit_diamond_shape" name="diamond_shape" class="select-style" required>
 				                            <option value="">Select</option>
-				                            <option value="1">Round</option>
-				                            <option value="2">Marquise</option>
-				                            <option value="3">Princess</option>
-				                            <option value="4">Pear</option>
-				                            <option value="5">Emerald</option>
-				                            <option value="6">Heart</option>
-				                            <option value="7">Oval</option>
-				                            <option value="8">Cushion</option>
-				                            <option value="9">Radiant</option>
-				                            <option value="10">Cus. Brilliant</option>
-				                            <option value="11">LRadiant</option>
-				                            <option value="12">SQEmerald</option>
+				                            <?php 
+				                            $diamShapes = $pdo->prepare("SELECT * FROM `diamond_shape`");
+				                            $diamShapes->execute();
+				                            if ( $diamShapes->rowCount() > 0 ) {
+				                            	foreach ( $diamShapes->fetchAll() as $option ) {
+				                            		echo '<option value="'. $option['id'] .'">'. $option['category'] .'</option>';
+				                            	}
+				                            }
+				                            ?>
+				                        </select>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><span class="table-item-label">Color Stone Shape</span></td>
+								<td>
+									<div class="table-item">
+										<select id="edit_color_stone_shape" name="color_stone_shape" class="select-style" required>
+				                            <option value="">Select</option>
+				                            <?php 
+				                            $diamShapes = $pdo->prepare("SELECT * FROM `diamond_shape`");
+				                            $diamShapes->execute();
+				                            if ( $diamShapes->rowCount() > 0 ) {
+				                            	foreach ( $diamShapes->fetchAll() as $option ) {
+				                            		echo '<option value="'. $option['id'] .'">'. $option['category'] .'</option>';
+				                            	}
+				                            }
+				                            ?>
 				                        </select>
 									</div>
 								</td>
@@ -1707,11 +1819,16 @@ function checkKey($key, $pdo) {
 									<div class="table-item">
 										<select id="edit_material" name="material" class="select-style" required>
 				                            <option value="">Select</option>..
-				                            <option value="1">Yellow Gold</option>
-				                            <option value="2">White Gold</option>
-				                            <option value="3">Pink Gold</option>
-				                            <option value="4">Silver</option>
-				                            <option value="5">Platinum</option>
+				                            <?php 
+				                            $query = $pdo->prepare("SELECT * FROM `materials`");
+				                            $query->execute();
+				                            if ( $query->rowCount() > 0 ) {
+				                            	$query = $query->fetchAll();
+				                            	foreach ( $query as $entry ) {
+				                            		echo '<option value="'. $entry['id'] .'">'. $entry['category'] .'</option>';
+				                            	}
+				                            }
+				                            ?>
 				                        </select>
 									</div>
 								</td>
@@ -1808,33 +1925,36 @@ function checkKey($key, $pdo) {
 									</div>
 								</td>
 							</tr>
-							<!--<tr>
-								<td> <span class="table-item-label">Ring Size</span></td>
+							<tr>
+								<td> <span class="table-item-label">Subcategory</span> </td>
 								<td>
 									<div class="table-item">
-										<input id="edit_ring_size" name="ring_size" type="text" class="form-control" placeholder="Ring Size, Numbers separator (,) 50,51,52, / Range, separator (-) 55-60" required>
+										
+										<select id="ring_subcategory" name="ring_subcategory" class="select-style" required>
+				                            <option value="">Select</option>
+											<?php 
+											$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 5");
+											$query->execute();
+											if ( $query->rowCount() > 0 ) {
+												$query = $query->fetchAll();
+												foreach ( $query as $option ) {
+													echo '<option value="'. $option['id'] .'">'. $option['category'] .'</option>';
+												}
+											}
+											?>
+				                        </select>
 									</div>
 								</td>
 							</tr>
 							<tr>
-								<td> <span class="table-item-label">Ring Subcategory</span> </td>
+								<td> <span class="table-item-label">Lab Grown Diamond</span> </td>
 								<td>
 									<div class="table-item">
-										
-										<select id="edit_ring_subcategory" name="ring_subcategory" class="select-style" required>
-				                            <option value="">Select</option>
-											<option value="1">Diamond Ring</option>
-											<option value="2">Gems Ring</option>
-											<option value="3">Beads Ring</option>
-											<option value="4">White Gold Ring</option>
-											<option value="5">Yellow Gold Ring</option>
-											<option value="6">Pink Gold Ring</option>
-											<option value="7">Platinum</option>
-											<option value="8">Silver Ring</option>
-				                        </select>
+										<input type="radio" name="lab_grown" id="edit_lab_grown" value="1">Yes<br>
+										<input type="radio" name="lab_grown" id="edit_lab_grown" value="0">No
 									</div>
 								</td>
-							</tr>-->
+							</tr>
 							<tr>
 								<td>
 									<span class="table-item-label">Description</span>
@@ -1859,25 +1979,42 @@ function checkKey($key, $pdo) {
 		  </div>
 		</div>
 
-		<div id="promptAddItem" class="modal fade" role="dialog">
+
+        <div id="promptAddItem" class="modal fade" role="dialog">
 		  <div class="modal-dialog modal-lg">
 
 		    <!-- Modal content-->
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		        <h4 class="modal-title">Add New</h4>
+		        <h4 class="modal-title">Add New</span></h4>
 		      </div>
 		      <form method="post" enctype="multipart/form-data" id="addItemForm">
 		      <div class="modal-body">
 		        <div class="container">
 		            <div class="col-sm-12">
 						<tbody>
+
+							<tr>
+								<td><span class="table-item-label" style="display:none;">Category</span></td>
+								<td>
+									<div class="table-item">
+										<select id="category" name="category" class="select-style" hidden>
+				                            <option value="">Category</option>
+				                            <option value="1">Ring</option>
+				                            <option value="2">Earring</option>
+				                            <option value="3">Pendant</option>
+				                            <option value="4">Necklace</option>
+				                            <option value="5">Bracelet</option>
+				                        </select>
+									</div>
+								</td>
+							</tr>
 							<tr class="table-row">
 								<td class="table-item-label"><span class="table-item-label">Name</span></td>
 								<td>
 									<div class="table-item">
-										<input name="product_name" type="text" class="form-control" placeholder="Product Name (50 Characters)" required maxlength="50" pattern=".{0,50}" >
+										<input id="product_name" name="product_name" type="text" class="form-control" placeholder="Product Name (50 Characters)" required maxlength="50" pattern=".{0,50}" >
 									</div>
 								</td>
 							</tr>
@@ -1885,7 +2022,7 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Price</span></td>
 								<td>
 									<div class="table-item">
-										<input name="product_price" type="text" class="form-control" placeholder="Product Price € (Decimal Number)" required pattern="[0-9]{1,}[.,]{1}[0-9]{2,2}" title="Format: 100.00">
+										<input id="product_price" name="product_price" type="text" class="form-control" placeholder="Product Price € (Decimal Number)" required pattern="[0-9]{1,}[.,]{1}[0-9]{2,2}" title="Format: 100.00">
 									</div>
 								</td>
 							</tr>
@@ -1893,7 +2030,7 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Discount</span></td>
 								<td>
 									<div class="table-item">
-										<input name="discount" type="text" class="form-control" placeholder="Discount % (Number)" pattern="[0-9]{1,2}" title="0 - 99%">
+										<input id="discount" name="discount" type="text" class="form-control" placeholder="Discount % (Number)" pattern="[0-9]{1,2}" title="0 - 99%">
 									</div>
 								</td>
 							</tr>
@@ -1901,7 +2038,7 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Pieces in Stock</span></td>
 								<td>
 									<div class="table-item">
-										<input name="pieces_in_stock" type="text" class="form-control" placeholder="Stock (Number)" required>
+										<input id="pieces_in_stock" name="pieces_in_stock" type="text" class="form-control" placeholder="Stock (Number)" required>
 									</div>
 								</td>
 							</tr>
@@ -1909,7 +2046,15 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Days for Shipment</span></td>
 								<td>
 									<div class="table-item">
-										<input name="days_for_shipment" type="text" class="form-control" placeholder="Shipment (Number)" required>
+										<input id="days_for_shipment" name="days_for_shipment" type="text" class="form-control" placeholder="Shipment (Number)" required>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><span class="table-item-label">Total Gold Weight</span></td>
+								<td>
+									<div class="table-item">
+										<input id="total_gold_weight" name="total_gold_weight" type="text" class="form-control" placeholder="Total Gold Weight (Decimal Number)">
 									</div>
 								</td>
 							</tr>
@@ -1917,7 +2062,15 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Total Carat Weight</span></td>
 								<td>
 									<div class="table-item">
-										<input name="total_carat_weight" type="text" class="form-control" placeholder="Total Carat (Decimal Number)">
+										<input id="total_carat_weight" name="total_carat_weight" type="text" class="form-control" placeholder="Total Carat (Decimal Number)">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><span class="table-item-label">Color Stone Carat Weight</span></td>
+								<td>
+									<div class="table-item">
+										<input id="color_stone_carat" name="color_stone_carat" type="text" class="form-control" placeholder="Color Stone Carat (Decimal Number)">
 									</div>
 								</td>
 							</tr>
@@ -1925,7 +2078,15 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Number of Stones</span></td>
 								<td>
 									<div class="table-item">
-										<input name="no_of_stones" type="text" class="form-control" placeholder="Stones (Number)">
+										<input id="no_of_stones" name="no_of_stones" type="text" class="form-control" placeholder="Stones (Number)">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><span class="table-item-label">Number of Colored Stones</span></td>
+								<td>
+									<div class="table-item">
+										<input id="no_of_stones" name="no_of_color_stones" type="text" class="form-control" placeholder="Color Stones (Number)">
 									</div>
 								</td>
 							</tr>
@@ -1933,20 +2094,36 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Diamond Shape</span></td>
 								<td>
 									<div class="table-item">
-										<select name="diamond_shape" class="select-style" required>
+										<select id="diamond_shape" name="diamond_shape" class="select-style" required>
 				                            <option value="">Select</option>
-				                            <option value="1">Round</option>
-				                            <option value="2">Marquise</option>
-				                            <option value="3">Princess</option>
-				                            <option value="4">Pear</option>
-				                            <option value="5">Emerald</option>
-				                            <option value="6">Heart</option>
-				                            <option value="7">Oval</option>
-				                            <option value="8">Cushion</option>
-				                            <option value="9">Radiant</option>
-				                            <option value="10">Cus. Brilliant</option>
-				                            <option value="11">LRadiant</option>
-				                            <option value="12">SQEmerald</option>
+				                            <?php 
+				                            $diamShapes = $pdo->prepare("SELECT * FROM `diamond_shape`");
+				                            $diamShapes->execute();
+				                            if ( $diamShapes->rowCount() > 0 ) {
+				                            	foreach ( $diamShapes->fetchAll() as $option ) {
+				                            		echo '<option value="'. $option['id'] .'">'. $option['category'] .'</option>';
+				                            	}
+				                            }
+				                            ?>
+				                        </select>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td><span class="table-item-label">Color Stone Shape</span></td>
+								<td>
+									<div class="table-item">
+										<select id="color_stone_shape" name="color_stone_shape" class="select-style" required>
+				                            <option value="">Select</option>
+				                            <?php 
+				                            $diamShapes = $pdo->prepare("SELECT * FROM `diamond_shape`");
+				                            $diamShapes->execute();
+				                            if ( $diamShapes->rowCount() > 0 ) {
+				                            	foreach ( $diamShapes->fetchAll() as $option ) {
+				                            		echo '<option value="'. $option['id'] .'">'. $option['category'] .'</option>';
+				                            	}
+				                            }
+				                            ?>
 				                        </select>
 									</div>
 								</td>
@@ -1955,7 +2132,7 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Clarity</span></td>
 								<td>
 									<div class="table-item">
-										<select name="clarity" class="select-style" required>
+										<select id="clarity" name="clarity" class="select-style" required>
 				                            <option value="">Select</option>
 				                            <option value="FL">FL</option>
 				                            <option value="IF">IF</option>
@@ -1975,7 +2152,7 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Color</span></td>
 								<td>
 									<div class="table-item">
-										<select name="color" class="select-style" required>
+										<select id="color" name="color" class="select-style" required>
 				                            <option value="">Select</option>
 				                            <option value="1">White Stone</option>
 				                            <option value="2">Colored Stone</option>
@@ -1987,13 +2164,18 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Material</span></td>
 								<td>
 									<div class="table-item">
-										<select name="material" class="select-style" required>
-				                            <option value="">Select</option>
-				                            <option value="1">Yellow Gold</option>
-				                            <option value="2">White Gold</option>
-				                            <option value="3">Pink Gold</option>
-				                            <option value="4">Silver</option>
-				                            <option value="5">Platinum</option>
+										<select id="material" name="material" class="select-style" required>
+				                            <option value="">Select</option>..
+				                            <?php 
+				                            $query = $pdo->prepare("SELECT * FROM `materials`");
+				                            $query->execute();
+				                            if ( $query->rowCount() > 0 ) {
+				                            	$query = $query->fetchAll();
+				                            	foreach ( $query as $entry ) {
+				                            		echo '<option value="'. $entry['id'] .'">'. $entry['category'] .'</option>';
+				                            	}
+				                            }
+				                            ?>
 				                        </select>
 									</div>
 								</td>
@@ -2002,7 +2184,7 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Height</span></td>
 								<td>
 									<div class="table-item">
-										<input name="height" type="text" class="form-control" placeholder="Height (Number)">
+										<input id="height" name="height" type="text" class="form-control" placeholder="Height (Number)">
 									</div>
 								</td>
 							</tr>
@@ -2010,7 +2192,7 @@ function checkKey($key, $pdo) {
 								<td><span class="table-item-label">Width</span></td>
 								<td>
 									<div class="table-item">
-										<input name="width" type="text" class="form-control" placeholder="Width (Number)">
+										<input id="width" name="width" type="text" class="form-control" placeholder="Width (Number)">
 									</div>
 								</td>
 							</tr>
@@ -2018,7 +2200,7 @@ function checkKey($key, $pdo) {
 								<td> <span class="table-item-label">Length</span></td>
 								<td>
 									<div class="table-item">
-										<input name="length" type="text" class="form-control" placeholder="Length (Number)">
+										<input id="length" name="length" type="text" class="form-control" placeholder="Length (Number)">
 									</div>
 								</td>
 							</tr>
@@ -2026,7 +2208,7 @@ function checkKey($key, $pdo) {
 								<td> <span class="table-item-label">Country</span></td>
 								<td>
 									<div class="table-item">
-										<select name="country_id" class="select-style" required>
+										<select id="country_id" name="country_id" class="select-style" required>
 				                            <option value="">Select</option>
 											<option value="1">Austria</option>
 											<option value="2">Belgium</option>
@@ -2064,7 +2246,7 @@ function checkKey($key, $pdo) {
 								Company
 								<td>
 									<div class="table-item">
-										<select name="company_id" class="select-style" required>
+										<select id="company_id" name="company_id" class="select-style" required>
 				                            <option value="">Select</option>
 											<?php 
 				                            $getCompanies = $pdo->prepare("SELECT * FROM `company_id`");
@@ -2086,37 +2268,40 @@ function checkKey($key, $pdo) {
 								<td> <span class="table-item-label">Internal ID</span></td>
 								<td>
 									<div class="table-item">
-										<input name="internal_id" type="text" class="form-control" placeholder="Internal ID (Mixed Characters)" required>
-									</div>
-								</td>
-							</tr>
-							<!--<tr>
-								<td> <span class="table-item-label">Ring Size</span></td>
-								<td>
-									<div class="table-item">
-										<input name="ring_size" type="text" class="form-control" placeholder="Ring Size, Numbers separator (,) 50,51,52, / Range, separator (-) 55-60" required>
+										<input id="internal_id" name="internal_id" type="text" class="form-control" placeholder="Internal ID (Mixed Characters)" required>
 									</div>
 								</td>
 							</tr>
 							<tr>
-								<td> <span class="table-item-label">Ring Subcategory</span> </td>
+								<td> <span class="table-item-label">Subcategory</span> </td>
 								<td>
 									<div class="table-item">
 										
-										<select name="ring_subcategory" class="select-style" required>
+										<select id="ring_subcategory" name="ring_subcategory" class="select-style" required>
 				                            <option value="">Select</option>
-											<option value="1">Diamond Ring</option>
-											<option value="2">Gems Ring</option>
-											<option value="3">Beads Ring</option>
-											<option value="4">White Gold Ring</option>
-											<option value="5">Yellow Gold Ring</option>
-											<option value="6">Pink Gold Ring</option>
-											<option value="7">Platinum</option>
-											<option value="8">Silver Ring</option>
+											<?php 
+											$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 5");
+											$query->execute();
+											if ( $query->rowCount() > 0 ) {
+												$query = $query->fetchAll();
+												foreach ( $query as $option ) {
+													echo '<option value="'. $option['id'] .'">'. $option['category'] .'</option>';
+												}
+											}
+											?>
 				                        </select>
 									</div>
 								</td>
-							</tr>-->
+							</tr>
+							<tr>
+								<td> <span class="table-item-label">Lab Grown Diamond</span> </td>
+								<td>
+									<div class="table-item">
+										<input type="radio" name="lab_grown" id="lab_grown" value="1">Yes<br>
+										<input type="radio" name="lab_grown" id="lab_grown" value="0">No
+									</div>
+								</td>
+							</tr>
 							<tr>
 								<td><span class="table-item-label">Images</span></td>
 								<td>
@@ -2125,14 +2310,13 @@ function checkKey($key, $pdo) {
 									</div>
 								</td>
 							</tr>
-
 							<tr>
 								<td>
 									<span class="table-item-label">Description</span>
 								</td>
 								<td>
 									<div class="table-item">
-										<textarea form="addItemForm" class="form-control" style="width:100%" placeholder="Description Goes Here (250 Characters)" name="description" maxlength="250"></textarea>
+										<textarea id="description" name="description" class="form-control" style="width:100%" placeholder="Description Goes Here (250 Characters)"  maxlength="250"></textarea>
 									</div>
 								</td>
 							</tr>
@@ -2141,7 +2325,8 @@ function checkKey($key, $pdo) {
 		        </div>
 		      </div>
 		      <div class="modal-footer">
-		        <button type="submit" class="btn btn-custom" name="addItem" >Submit</button>
+		      	<input id="unique_key" name="unique_key" hidden/>
+		        <button type="submit" class="btn btn-custom" name="addItem" id="addItem" >Submit</button>
 		        <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
 		      </div>
 		      </form>
@@ -2194,17 +2379,22 @@ function checkKey($key, $pdo) {
 					$("#edit_days_for_shipment").val(result['days_for_shipment']);
 					$("#edit_width").val(result['width']);
 					$("#edit_internal_id").val(result['internal_id']);
-					$("#edit_ring_size").val(result['ring_size']);
 					$("#edit_description").val(result['description']);
+					$("#edit_color_stone_carat").val(result['color_stone_carat']);
+					$("#edit_total_gold_weight").val(result['total_gold_weight']);
+					$("#edit_no_of_color_stones").val(result['no_of_color_stones']);
 
 
 					$("#edit_material option[value='"+ result['material'] +"'").attr("selected", true);
 					$("#edit_category option[value='"+ result['category'] +"'").attr("selected", true);
 					$("#edit_clarity option[value='"+ result['clarity'] +"'").attr("selected", true);
-					$("#edit_ring_subcategory option[value='"+ result['ring_subcategory'] +"'").attr("selected", true);
 					$("#edit_country_id option[value='"+ result['country_id'] +"'").attr("selected", true);
 					$("#edit_company_id option[value='"+ result['company_id'] +"'").attr("selected", true);
 					$("#edit_diamond_shape option[value='"+ result['diamond_shape'] +"'").attr("selected", true);
+					$("#edit_color_stone_shape option[value='"+ result['color_stone_shape'] +"'").attr("selected", true);
+					$("#edit_ring_subcategory option[value='"+ result['ring_subcategory'] +"'").attr("selected", true);
+
+					$("#edit_lab_grown[value='"+ result['lab_grown'] +"'").attr("checked", true);
 					
 					$("#promptEditItem").modal("toggle");
 				} catch ( e ) {

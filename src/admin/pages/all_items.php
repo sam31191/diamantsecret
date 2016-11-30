@@ -863,9 +863,13 @@ if ( isset($_POST['featuredAdd']) ) {
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=discount&order='. $order .'">Discount '. $discountCaret .'</a>'; ?></th>
                 	<th>Stock</th>
                 	<th>Shipment Days</th>
-                	<th>Carat Weigt</th>
+                	<th>Gold Weight</th>
+                	<th>Carat Weight</th>
+                	<th>Color Stone Weight</th>
                 	<th># of Stones</th>
+                	<th># of Color Stones</th>
                 	<th>Diamond Shape</th>
+                	<th>Color Stone Shape</th>
                 	<th>Clarity</th>
                 	<th>Color</th>
                 	<th>Material</th>
@@ -873,6 +877,9 @@ if ( isset($_POST['featuredAdd']) ) {
                 	<th>Weight</th>
                 	<th>Length</th>
                 	<th>Country</th>
+                	<th>Ring Size</th>
+                	<th>Ring Subcategory</th>
+                	<th>Lab Grown</th>
                 	<th>Images</th>
                 	<th>Description</th>
                 	<th><?php echo '<a href="?page='. $currentPage .'&filter=date_added&order='. $order .'">Added On '. $dateAddedCaret .'</a>'; ?></th>
@@ -927,9 +934,9 @@ if ( isset($_POST['featuredAdd']) ) {
 								echo '<td>'. $entry['id'] .'</td>';
 
 								if ( $entry['featured'] == 1 ) {
-									$featured = '<form method="post"><button class="glyphicon glyphicon-star glyphicon-custom" name="featuredRemove" value="'. $entry['id'] .'" data-toggle="tooltip" title="Remove from Featured"></button></form>';
+									$featured = '<form method="post"><button class="glyphicon glyphicon-star glyphicon-custom" name="featuredRemove" value="'. $entry['unique_key'] .'" data-toggle="tooltip" title="Remove from Featured"></button></form>';
 								} else {
-									$featured = '<form method="post"><button class="glyphicon glyphicon-star-empty glyphicon-custom" name="featuredAdd" value="'. $entry['id'] .'" data-toggle="tooltip" title="Add to Featured"></button></form>';
+									$featured = '<form method="post"><button class="glyphicon glyphicon-star-empty glyphicon-custom" name="featuredAdd" value="'. $entry['unique_key'] .'" data-toggle="tooltip" title="Add to Featured"></button></form>';
 								}
 								echo '<td style="text-align:center;">'. $featured .'</td>';
 
@@ -946,9 +953,13 @@ if ( isset($_POST['featuredAdd']) ) {
 								echo '<td>'. $entry['discount'] .'%</td>';
 								echo '<td>'. $info['pieces_in_stock'] .'</td>';
 								echo '<td>'. $info['days_for_shipment'] .'</td>';
+								echo '<td>'. $info['total_gold_weight'] .'</td>';
 								echo '<td>'. $info['total_carat_weight'] .'</td>';
+								echo '<td>'. $info['color_stone_carat'] .'</td>';
 								echo '<td>'. $info['no_of_stones'] .'</td>';
+								echo '<td>'. $info['no_of_color_stones'] .'</td>';
 								echo '<td>'. getDiamondShape($info['diamond_shape'], $pdo) .'</td>';
+								echo '<td>'. getDiamondShape($info['color_stone_shape'], $pdo) .'</td>';
 								echo '<td>'. $info['clarity'] .'</td>';
 								echo '<td>'. $color .'</td>';
 								echo '<td>'. getMaterial($info['material'], $pdo) .'</td>';
@@ -956,6 +967,13 @@ if ( isset($_POST['featuredAdd']) ) {
 								echo '<td>'. $info['width'] .'</td>';
 								echo '<td>'. $info['length'] .'</td>';
 								echo '<td>'. getCountry($info['country_id'], $pdo) .'</td>';
+								echo '<td>'. $info['ring_size'] .'</td>';
+								echo '<td>'. getRingCategory($info['ring_subcategory'], $pdo) .'</td>';
+								$labGrown = "<i class='fa fa-times' style='color:crimson'></i>";
+								if ( $info['lab_grown'] == 1 ) {
+									$labGrown = "<i class='fa fa-check' style='color:green'></i>";
+								} 
+								echo '<td>'. $labGrown .'</td>';
 								echo '<td><button class="btn btn-custom btn-sm" onClick="manageImages(\''. $info['unique_key'] .'\')">'. intval(sizeof(explode(",", $info['images'])) - 1) .' image(s)</button></td>';
 								echo '<td>'. $info['description'] .'</td>';
 								echo '<td>'. $entry['date_added'] .'</td>';

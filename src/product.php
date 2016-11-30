@@ -192,9 +192,13 @@ pconsole($_POST);
 										$itemInfo['no_of_stones'] = "";
 										$itemInfo['total_carat_weight'] = "";
 										$itemInfo['diamond_shape'] = "";
+										$itemInfo['color_stone_shape'] = "";
+										$itemInfo['no_of_color_stones'] = "";
+										$itemInfo['color_stone_carat'] = "";
 										$price = "";
 										$itemInfo['pieces_in_stock'] = "";
 										$wishlist = "";
+										$itemInfo['lab_grown'] = "";
 									}
 								?>
 							</div>
@@ -427,6 +431,14 @@ pconsole($_POST);
 																</div>
 																<div class="swatch color clearfix" data-option-index="0">
 																	<div class="header">
+																		Colored Stones
+																	</div>
+																	<?php
+																	echo '<div class="header"><small>'. $itemInfo['no_of_color_stones'] .' - '. $itemInfo['color_stone_carat'] .'ct.</small></div>';
+																	?>																	
+																</div>
+																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="header">
 																		Clarity
 																	</div>
 																	<?php
@@ -439,6 +451,26 @@ pconsole($_POST);
 																	</div>
 																	<?php
 																	echo '<div class="header"><small>'. getDiamondShape($itemInfo['diamond_shape'], $pdo) .'</small></div>';
+																	?>																	
+																</div>
+																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="header">
+																		Colored Stone Shape
+																	</div>
+																	<?php
+																	echo '<div class="header"><small>'. getDiamondShape($itemInfo['color_stone_shape'], $pdo) .'</small></div>';
+																	?>																	
+																</div>
+																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="header">
+																		Lab Grown Diamond
+																	</div>
+																	<?php
+																	$labGrown = "<i class='fa fa-times' style='color:crimson'></i>";
+																	if ( $itemInfo['lab_grown'] == 1 ) {
+																		$labGrown = "<i class='fa fa-check' style='color:green'></i>";
+																	} 
+																	echo '<div class="header"><small>'. $labGrown .'</small></div>';
 																	?>																	
 																</div>
 																<div class="quantity-wrapper clearfix">

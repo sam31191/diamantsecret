@@ -217,52 +217,86 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                         <div class="collection-link-list">
                           <ul>
                             <li><a class="collection-link-title" href="./collection_rings.php">Rings</a></li>
-                            <li><a class="collection-link" href="./collection_rings.php?ring_category=1">Diamond</a></li>
-                            <li><a class="collection-link" href="./collection_rings.php?ring_category=2">Half Eternity Diamond</a></li>
-                            <li><a class="collection-link" href="./collection_rings.php?ring_category=3">Full Eternity Diamond</a></li>
-                            <li><a class="collection-link" href="./collection_rings.php?ring_category=4">Solitaire Diamond</a></li>
-                            <li><a class="collection-link" href="./collection_rings.php?ring_category=5">Gems</a></li>
-                            <li><a class="collection-link" href="./collection_rings.php?ring_category=6">Pearls</a></li>
+                            <?php 
+                            $query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 1");
+                            $query->execute();
+                            if ( $query->rowCount() > 0 ) {
+                              $query = $query->fetchAll();
+                              foreach ( $query as $option ) {
+                                $tag = $option['category'];
+                                $tag = str_replace("Ring", " ", $tag);
+                                echo '<li><a class="collection-link" href="./collection_rings.php?_sc='. $option['id'] .'">'. $tag .'</a></li>';
+                              }
+                            }
+                            ?>
                           </ul>
                         </div>
                         <div class="collection-link-list">
                           <ul>
                             <li><a class="collection-link-title" href="./collection_earrings.php">Earrings</a></li>
-                            <li><a class="collection-link" href="./collection_earrings.php?material=1">Yellow Gold</a></li>
-                            <li><a class="collection-link" href="./collection_earrings.php?material=2">White Gold</a></li>
-                            <li><a class="collection-link" href="./collection_earrings.php?material=3">Pink Gold</a></li>
-                            <li><a class="collection-link" href="./collection_earrings.php?material=4">Silver</a></li>
-                            <li><a class="collection-link" href="./collection_earrings.php?material=5">Platinum</a></li>
+                            <?php 
+                            $query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 2");
+                            $query->execute();
+                            if ( $query->rowCount() > 0 ) {
+                              $query = $query->fetchAll();
+                              foreach ( $query as $option ) {
+                                $tag = $option['category'];
+                                $tag = str_replace("Earrings", " ", $tag);
+                                echo '<li><a class="collection-link" href="./collection_earrings.php?_sc='. $option['id'] .'">'. $tag .'</a></li>';
+                              }
+                            }
+                            ?>
                           </ul>
                         </div>
                         <div class="collection-link-list">
                           <ul>
                             <li><a class="collection-link-title" href="./collection_pendants.php">Pendants</a></li>
-                            <li><a class="collection-link" href="./collection_pendants.php?material=1">Yellow Gold</a></li>
-                            <li><a class="collection-link" href="./collection_pendants.php?material=2">White Gold</a></li>
-                            <li><a class="collection-link" href="./collection_pendants.php?material=3">Pink Gold</a></li>
-                            <li><a class="collection-link" href="./collection_pendants.php?material=4">Silver</a></li>
-                            <li><a class="collection-link" href="./collection_pendants.php?material=5">Platinum</a></li>
+                            <?php 
+                            $query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 3");
+                            $query->execute();
+                            if ( $query->rowCount() > 0 ) {
+                              $query = $query->fetchAll();
+                              foreach ( $query as $option ) {
+                                $tag = $option['category'];
+                                $tag = str_replace("Pendant", " ", $tag);
+                                echo '<li><a class="collection-link" href="./collection_pendants.php?_sc='. $option['id'] .'">'. $tag .'</a></li>';
+                              }
+                            }
+                            ?>
                           </ul>
                         </div>
                         <div class="collection-link-list">
                           <ul>
                             <li><a class="collection-link-title" href="./collection_necklaces.php">Necklaces</a></li>
-                            <li><a class="collection-link" href="./collection_necklaces.php?material=1">Yellow Gold</a></li>
-                            <li><a class="collection-link" href="./collection_necklaces.php?material=2">White Gold</a></li>
-                            <li><a class="collection-link" href="./collection_necklaces.php?material=3">Pink Gold</a></li>
-                            <li><a class="collection-link" href="./collection_necklaces.php?material=4">Silver</a></li>
-                            <li><a class="collection-link" href="./collection_necklaces.php?material=5">Platinum</a></li>
+                            <?php 
+                            $query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 4");
+                            $query->execute();
+                            if ( $query->rowCount() > 0 ) {
+                              $query = $query->fetchAll();
+                              foreach ( $query as $option ) {
+                                $tag = $option['category'];
+                                $tag = str_replace("Necklace", " ", $tag);
+                                echo '<li><a class="collection-link" href="./collection_necklaces.php?_sc='. $option['id'] .'">'. $tag .'</a></li>';
+                              }
+                            }
+                            ?>
                           </ul>
                         </div>
                         <div class="collection-link-list">
                           <ul>
                             <li><a class="collection-link-title" href="./collection_bracelets.php">Bracelets</a></li>
-                            <li><a class="collection-link" href="./collection_bracelets.php?material=1">Yellow Gold</a></li>
-                            <li><a class="collection-link" href="./collection_bracelets.php?material=2">White Gold</a></li>
-                            <li><a class="collection-link" href="./collection_bracelets.php?material=3">Pink Gold</a></li>
-                            <li><a class="collection-link" href="./collection_bracelets.php?material=4">Silver</a></li>
-                            <li><a class="collection-link" href="./collection_bracelets.php?material=5">Platinum</a></li>
+                            <?php 
+                            $query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 5");
+                            $query->execute();
+                            if ( $query->rowCount() > 0 ) {
+                              $query = $query->fetchAll();
+                              foreach ( $query as $option ) {
+                                $tag = $option['category'];
+                                $tag = str_replace("Bracelet", " ", $tag);
+                                echo '<li><a class="collection-link" href="./collection_bracelets.php?_sc='. $option['id'] .'">'. $tag .'</a></li>';
+                              }
+                            }
+                            ?>
                           </ul>
                         </div>
                       </ul>
