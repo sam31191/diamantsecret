@@ -173,7 +173,7 @@ if ( isset($_POST['featuredAdd']) ) {
 				break;
 			}
 			case 2:	{
-				$addInfo = $pdo->prepare("UPDATE `earrings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `earrings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -191,11 +191,12 @@ if ( isset($_POST['featuredAdd']) ) {
 					":width" => $_POST['width'],
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
-					":description" => $_POST['description']));
+					":description" => $_POST['description'],
+					":ring_subcategory" => $_POST['ring_subcategory']));
 				break;
 			}
 			case 3: {
-				$addInfo = $pdo->prepare("UPDATE `pendants` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `pendants` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -213,11 +214,12 @@ if ( isset($_POST['featuredAdd']) ) {
 					":width" => $_POST['width'],
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
-					":description" => $_POST['description']));
+					":description" => $_POST['description'],
+					":ring_subcategory" => $_POST['ring_subcategory']));
 				break;
 			}
 			case 4: {
-				$addInfo = $pdo->prepare("UPDATE `necklaces` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `necklaces` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -235,11 +237,12 @@ if ( isset($_POST['featuredAdd']) ) {
 					":width" => $_POST['width'],
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
-					":description" => $_POST['description']));
+					":description" => $_POST['description'],
+					":ring_subcategory" => $_POST['ring_subcategory']));
 				break;
 			}
 			case 5: {
-				$addInfo = $pdo->prepare("UPDATE `bracelets` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `bracelets` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -257,7 +260,8 @@ if ( isset($_POST['featuredAdd']) ) {
 					":width" => $_POST['width'],
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
-					":description" => $_POST['description']));
+					":description" => $_POST['description'],
+					":ring_subcategory" => $_POST['ring_subcategory']));
 				break;
 			}
 		}
@@ -1334,6 +1338,7 @@ if ( isset($_POST['featuredAdd']) ) {
 				                            <option value="">Select</option>
 				                            <option value="1">White Stone</option>
 				                            <option value="2">Colored Stone</option>
+				                            <option value="3">White & Colored Stone</option>
 				                        </select>
 									</div>
 								</td>
@@ -1454,26 +1459,17 @@ if ( isset($_POST['featuredAdd']) ) {
 									</div>
 								</td>
 							</tr>
+							</div>
 							<tr>
 								<td> <span class="table-item-label">Ring Subcategory</span> </td>
 								<td>
 									<div class="table-item">
 										
 										<select id="edit_ring_subcategory" name="ring_subcategory" class="select-style">
-				                            <option value="">Ring Subcategory</option>
-											<option value="1">Diamond Ring</option>
-											<option value="2">Gems Ring</option>
-											<option value="3">Beads Ring</option>
-											<option value="4">White Gold Ring</option>
-											<option value="5">Yellow Gold Ring</option>
-											<option value="6">Pink Gold Ring</option>
-											<option value="7">Platinum</option>
-											<option value="8">Silver Ring</option>
 				                        </select>
 									</div>
 								</td>
 							</tr>
-							</div>
 							<tr>
 								<td>
 									<span class="table-item-label">Description</span>
@@ -1549,7 +1545,7 @@ if ( isset($_POST['featuredAdd']) ) {
 					$("#edit_material option[value='"+ result['material'] +"'").attr("selected", true);
 					$("#edit_category option[value='"+ result['category'] +"'").attr("selected", true);
 					$("#edit_clarity option[value='"+ result['clarity'] +"'").attr("selected", true);
-					$("#edit_ring_subcategory option[value='"+ result['ring_subcategory'] +"'").attr("selected", true);
+					//$("#edit_ring_subcategory option[value='"+ result['ring_subcategory'] +"'").attr("selected", true);
 					$("#edit_country_id option[value='"+ result['country_id'] +"'").attr("selected", true);
 					$("#edit_company_id option[value='"+ result['company_id'] +"'").attr("selected", true);
 					$("#edit_diamond_shape option[value='"+ result['diamond_shape'] +"'").attr("selected", true);
@@ -1559,7 +1555,19 @@ if ( isset($_POST['featuredAdd']) ) {
 					} else {
 						$("#ringExclusiveEditDiv").show();
 					}
+
+					$.ajax({
+						url : "./ajax.php?getSubcategories=" + result['category'],
+						type : "GET",
+						success: function(result) {
+							$("#edit_ring_subcategory").html(result);
+						},
+						complete : function () {
+							$("#edit_ring_subcategory option[value='"+ result['ring_subcategory'] +"'").attr("selected", true);
+						}
+					});
 					
+					$("#edit_ring_subcategory option[value='"+ result['ring_subcategory'] +"'").attr("selected", true);
 					$("#promptEditItem").modal("toggle");
 				} catch ( e ) {
 					console.log(result);

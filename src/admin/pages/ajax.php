@@ -3267,6 +3267,17 @@ if ( isset($_GET['importThis']) ) {
 	} else {
 		echo 1;
 	}
+} else if ( isset($_GET['getSubcategories']) ) {
+	$id = $_GET['getSubcategories'];
+	$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = :id");
+	$query->execute(array(":id" => $id));
+
+	if ( $query->rowCount() > 0 ) {
+			echo '<option value="">Ring Subcategory</option>';
+		foreach ( $query->fetchAll() as $option ) {
+			echo '<option value ="'. $option['id'] .'">'. $option['category'] .'</option>';
+		}
+	}
 } else {	echo "GET not SET";		}
 
 
@@ -3525,5 +3536,5 @@ function rrmdir($dir) {
      reset($objects); 
      rmdir($dir); 
    } 
- } 
+ }
 ?>

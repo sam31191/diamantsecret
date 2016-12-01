@@ -299,6 +299,11 @@ pconsole($_POST);
 																		Colored Stone<span>,</span>
 																		</a>';
 																	break;
+																} case 3: {
+																	$color = '<a href="./collection_'. $category .'.php?color='. $itemInfo['color'] .'">
+																		White & Colored Stone<span>,</span>
+																		</a>';
+																	break;
 																}
 															}
 															echo $color;

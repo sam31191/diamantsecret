@@ -259,6 +259,7 @@ pconsole($_POST);
 														<ul>
 															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="White Stone" value="1" onclick="filterStone(this.value)">White</button></li>
 															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Colored Stone" value="2" onclick="filterStone(this.value)">Colored</button></li>
+															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="White & Colored Stone" value="3" onclick="filterStone(this.value)">W&C</button></li>
 														</ul>
 													</div>
 													<?php

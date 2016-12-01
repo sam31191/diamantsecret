@@ -1811,6 +1811,7 @@ function checkKey($key, $pdo) {
 				                            <option value="">Select</option>
 				                            <option value="1">White Stone</option>
 				                            <option value="2">Colored Stone</option>
+				                            <option value="3">White & Colored Stone</option>
 				                        </select>
 									</div>
 								</td>
@@ -2158,6 +2159,7 @@ function checkKey($key, $pdo) {
 				                            <option value="">Select</option>
 				                            <option value="1">White Stone</option>
 				                            <option value="2">Colored Stone</option>
+				                            <option value="3">White & Colored Stone</option>
 				                        </select>
 									</div>
 								</td>
