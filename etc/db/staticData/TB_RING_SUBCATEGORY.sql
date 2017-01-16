@@ -32,3 +32,8 @@ INSERT INTO `ring_subcategory` (`id`, `category_id`, `category`) VALUES
 (31, 3, 'Pearl and Colored Stone Pendant'),
 (32, 4, 'Pearl and Colored Stone Necklace'),
 (33, 5, 'Pearl and Colored Stone Bracelet');
+(34, 1, 'Pieces in gold without any stone');
+(35, 2, 'Pieces in gold without any stone');
+(36, 3, 'Pieces in gold without any stone');
+(37, 4, 'Pieces in gold without any stone');
+(38, 5, 'Pieces in gold without any stone');
