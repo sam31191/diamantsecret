@@ -107,32 +107,38 @@ if ( isset($_GET['importThis']) ) {
 			if ( !isset($products[1]['R']) || $products[1]['R'] !== "Material" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['R'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['S']) || $products[1]['S'] !== "Height" ){
+			if ( !isset($products[1]['S']) || $products[1]['S'] !== "Gold Quality" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['S'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['T']) || $products[1]['T'] !== "Width" ){
+			if ( !isset($products[1]['T']) || $products[1]['T'] !== "Color Stone Type" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['T'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['U']) || $products[1]['U'] !== "Length" ){
+			if ( !isset($products[1]['U']) || $products[1]['U'] !== "Height" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['U'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['V']) || $products[1]['V'] !== "Ring size" ){
+			if ( !isset($products[1]['V']) || $products[1]['V'] !== "Width" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['V'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['W']) || $products[1]['W'] !== "Country Id" ){
+			if ( !isset($products[1]['W']) || $products[1]['W'] !== "Length" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['W'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['X']) || $products[1]['X'] !== "Subcategory" ){
+			if ( !isset($products[1]['X']) || $products[1]['X'] !== "Ring size" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['X'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['Y']) || $products[1]['Y'] !== "Lab Grown Diamond" ){
+			if ( !isset($products[1]['Y']) || $products[1]['Y'] !== "Country Id" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['Y'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['Z']) || $products[1]['Z'] !== "Images (comma \",\" separated)" ){
+			if ( !isset($products[1]['Z']) || $products[1]['Z'] !== "Subcategory" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['Z'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['AA']) || $products[1]['AA'] !== "Description" ) {
+			if ( !isset($products[1]['AA']) || $products[1]['AA'] !== "Lab Grown Diamond" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['AA'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['AB']) || $products[1]['AB'] !== "Images (comma \",\" separated)" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['AB'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['AC']) || $products[1]['AC'] !== "Description" ) {
+				$error .= "Invalid Column: <strong>" . $products[1]['AC'] . "</strong><br>";
 			}
 
 			if ( empty($error) ) {
@@ -211,7 +217,9 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['color_stone_shape'] . 
 										$resultValues['clarity'] . 
 										$resultValues['color'] . 
-										$resultValues['material'] . 
+										$resultValues['material'] .
+										$resultValues['gold_quality'] .
+										$resultValues['color_stone_type'] .
 										$resultValues['height'] . 
 										$resultValues['width'] . 
 										$resultValues['length'] . 
@@ -249,7 +257,9 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['X'] . 
 										$products[$i]['Y'] . 
 										$products[$i]['Z'] . 
-										$products[$i]['AA'];
+										$products[$i]['AA'] .
+										$products[$i]['AB'] .
+										$products[$i]['AC'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -319,7 +329,9 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['color_stone_shape'] . 
 										$resultValues['clarity'] . 
 										$resultValues['color'] . 
-										$resultValues['material'] . 
+										$resultValues['material'] .
+										$resultValues['gold_quality'] .
+										$resultValues['color_stone_type'] .
 										$resultValues['height'] . 
 										$resultValues['width'] . 
 										$resultValues['length'] . 
@@ -357,7 +369,9 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['X'] . 
 										$products[$i]['Y'] . 
 										$products[$i]['Z'] . 
-										$products[$i]['AA'];
+										$products[$i]['AA'] .
+										$products[$i]['AB'] .
+										$products[$i]['AC'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -426,7 +440,9 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['color_stone_shape'] . 
 										$resultValues['clarity'] . 
 										$resultValues['color'] . 
-										$resultValues['material'] . 
+										$resultValues['material'] .
+										$resultValues['gold_quality'] .
+										$resultValues['color_stone_type'] .
 										$resultValues['height'] . 
 										$resultValues['width'] . 
 										$resultValues['length'] . 
@@ -464,7 +480,9 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['X'] . 
 										$products[$i]['Y'] . 
 										$products[$i]['Z'] . 
-										$products[$i]['AA'];
+										$products[$i]['AA'] .
+										$products[$i]['AB'] .
+										$products[$i]['AC'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -534,7 +552,9 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['color_stone_shape'] . 
 										$resultValues['clarity'] . 
 										$resultValues['color'] . 
-										$resultValues['material'] . 
+										$resultValues['material'] .
+										$resultValues['gold_quality'] .
+										$resultValues['color_stone_type'] .
 										$resultValues['height'] . 
 										$resultValues['width'] . 
 										$resultValues['length'] . 
@@ -572,7 +592,9 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['X'] . 
 										$products[$i]['Y'] . 
 										$products[$i]['Z'] . 
-										$products[$i]['AA'];
+										$products[$i]['AA'] .
+										$products[$i]['AB'] .
+										$products[$i]['AC'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -642,7 +664,9 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['color_stone_shape'] . 
 										$resultValues['clarity'] . 
 										$resultValues['color'] . 
-										$resultValues['material'] . 
+										$resultValues['material'] .
+										$resultValues['gold_quality'] .
+										$resultValues['color_stone_type'] .
 										$resultValues['height'] . 
 										$resultValues['width'] . 
 										$resultValues['length'] . 
@@ -680,7 +704,9 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['X'] . 
 										$products[$i]['Y'] . 
 										$products[$i]['Z'] . 
-										$products[$i]['AA'];
+										$products[$i]['AA'] .
+										$products[$i]['AB'] .
+										$products[$i]['AC'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -746,15 +772,15 @@ if ( isset($_GET['importThis']) ) {
 							":product_price" => $products[$i]['E'],
 							":discount" => $products[$i]['F'],
 							":category" => $products[$i]['B'],
-							":images_delta" => $products[$i]['Z']
+							":images_delta" => $products[$i]['AB']
 						));
 
 					switch ($products[$i]['B']) {
 						case 1: {
 							$addInfo = $pdo->prepare("INSERT INTO `rings` 
-								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`) 
+								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`, `gold_quality`, `color_stone_type`) 
 								VALUES 
-								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size)");
+								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size, :gold_quality, :color_stone_type)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
 								":company_id" => $company_id,
@@ -772,15 +798,17 @@ if ( isset($_GET['importThis']) ) {
 								":clarity" => $products[$i]['P'],
 								":color" => $products[$i]['Q'],
 								":material" => $products[$i]['R'],
-								":height" => $products[$i]['S'],
-								":width" => $products[$i]['T'],
-								":length" => $products[$i]['U'],
-								":ring_size" => $products[$i]['V'],
-								":country_id" => $products[$i]['W'],
-								":ring_subcategory" => $products[$i]['X'],
-								":lab_grown" => $products[$i]['Y'],
+								":gold_quality" => $products[$i]['S'],
+								":color_stone_type" => $products[$i]['T'],
+								":height" => $products[$i]['U'],
+								":width" => $products[$i]['V'],
+								":length" => $products[$i]['W'],
+								":ring_size" => $products[$i]['X'],
+								":country_id" => $products[$i]['Y'],
+								":ring_subcategory" => $products[$i]['Z'],
+								":lab_grown" => $products[$i]['AA'],
 								":images" => "",
-								":description" => $products[$i]['AA']
+								":description" => $products[$i]['AC']
 							));
 
 
@@ -792,9 +820,9 @@ if ( isset($_GET['importThis']) ) {
 							break;
 						} case 2: {
 							$addInfo = $pdo->prepare("INSERT INTO `earrings` 
-								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`) 
+								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`, `gold_quality`, `color_stone_type`) 
 								VALUES 
-								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size)");
+								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size, :gold_quality, :color_stone_type)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
 								":company_id" => $company_id,
@@ -812,15 +840,17 @@ if ( isset($_GET['importThis']) ) {
 								":clarity" => $products[$i]['P'],
 								":color" => $products[$i]['Q'],
 								":material" => $products[$i]['R'],
-								":height" => $products[$i]['S'],
-								":width" => $products[$i]['T'],
-								":length" => $products[$i]['U'],
-								":ring_size" => $products[$i]['V'],
-								":country_id" => $products[$i]['W'],
-								":ring_subcategory" => $products[$i]['X'],
-								":lab_grown" => $products[$i]['Y'],
+								":gold_quality" => $products[$i]['S'],
+								":color_stone_type" => $products[$i]['T'],
+								":height" => $products[$i]['U'],
+								":width" => $products[$i]['V'],
+								":length" => $products[$i]['W'],
+								":ring_size" => $products[$i]['X'],
+								":country_id" => $products[$i]['Y'],
+								":ring_subcategory" => $products[$i]['Z'],
+								":lab_grown" => $products[$i]['AA'],
 								":images" => "",
-								":description" => $products[$i]['AA']
+								":description" => $products[$i]['AC']
 							));
 
 							
@@ -832,9 +862,9 @@ if ( isset($_GET['importThis']) ) {
 							break;
 						} case 3: {
 							$addInfo = $pdo->prepare("INSERT INTO `pendants` 
-								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`) 
+								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`, `gold_quality`, `color_stone_type`) 
 								VALUES 
-								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size)");
+								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size, :gold_quality, :color_stone_type)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
 								":company_id" => $company_id,
@@ -852,15 +882,17 @@ if ( isset($_GET['importThis']) ) {
 								":clarity" => $products[$i]['P'],
 								":color" => $products[$i]['Q'],
 								":material" => $products[$i]['R'],
-								":height" => $products[$i]['S'],
-								":width" => $products[$i]['T'],
-								":length" => $products[$i]['U'],
-								":ring_size" => $products[$i]['V'],
-								":country_id" => $products[$i]['W'],
-								":ring_subcategory" => $products[$i]['X'],
-								":lab_grown" => $products[$i]['Y'],
+								":gold_quality" => $products[$i]['S'],
+								":color_stone_type" => $products[$i]['T'],
+								":height" => $products[$i]['U'],
+								":width" => $products[$i]['V'],
+								":length" => $products[$i]['W'],
+								":ring_size" => $products[$i]['X'],
+								":country_id" => $products[$i]['Y'],
+								":ring_subcategory" => $products[$i]['Z'],
+								":lab_grown" => $products[$i]['AA'],
 								":images" => "",
-								":description" => $products[$i]['AA']
+								":description" => $products[$i]['AC']
 							));
 
 							
@@ -872,9 +904,9 @@ if ( isset($_GET['importThis']) ) {
 							break;
 						} case 4: {
 							$addInfo = $pdo->prepare("INSERT INTO `necklaces` 
-								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`) 
+								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`, `gold_quality`, `color_stone_type`) 
 								VALUES 
-								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size)");
+								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size, :gold_quality, :color_stone_type)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
 								":company_id" => $company_id,
@@ -892,15 +924,17 @@ if ( isset($_GET['importThis']) ) {
 								":clarity" => $products[$i]['P'],
 								":color" => $products[$i]['Q'],
 								":material" => $products[$i]['R'],
-								":height" => $products[$i]['S'],
-								":width" => $products[$i]['T'],
-								":length" => $products[$i]['U'],
-								":ring_size" => $products[$i]['V'],
-								":country_id" => $products[$i]['W'],
-								":ring_subcategory" => $products[$i]['X'],
-								":lab_grown" => $products[$i]['Y'],
+								":gold_quality" => $products[$i]['S'],
+								":color_stone_type" => $products[$i]['T'],
+								":height" => $products[$i]['U'],
+								":width" => $products[$i]['V'],
+								":length" => $products[$i]['W'],
+								":ring_size" => $products[$i]['X'],
+								":country_id" => $products[$i]['Y'],
+								":ring_subcategory" => $products[$i]['Z'],
+								":lab_grown" => $products[$i]['AA'],
 								":images" => "",
-								":description" => $products[$i]['AA']
+								":description" => $products[$i]['AC']
 							));
 
 							
@@ -912,9 +946,9 @@ if ( isset($_GET['importThis']) ) {
 							break;
 						} case 5: {
 							$addInfo = $pdo->prepare("INSERT INTO `bracelets` 
-								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`) 
+								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`, `gold_quality`, `color_stone_type`) 
 								VALUES 
-								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size)");
+								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size, :gold_quality, :color_stone_type)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
 								":company_id" => $company_id,
@@ -932,15 +966,17 @@ if ( isset($_GET['importThis']) ) {
 								":clarity" => $products[$i]['P'],
 								":color" => $products[$i]['Q'],
 								":material" => $products[$i]['R'],
-								":height" => $products[$i]['S'],
-								":width" => $products[$i]['T'],
-								":length" => $products[$i]['U'],
-								":ring_size" => $products[$i]['V'],
-								":country_id" => $products[$i]['W'],
-								":ring_subcategory" => $products[$i]['X'],
-								":lab_grown" => $products[$i]['Y'],
+								":gold_quality" => $products[$i]['S'],
+								":color_stone_type" => $products[$i]['T'],
+								":height" => $products[$i]['U'],
+								":width" => $products[$i]['V'],
+								":length" => $products[$i]['W'],
+								":ring_size" => $products[$i]['X'],
+								":country_id" => $products[$i]['Y'],
+								":ring_subcategory" => $products[$i]['Z'],
+								":lab_grown" => $products[$i]['AA'],
 								":images" => "",
-								":description" => $products[$i]['AA']
+								":description" => $products[$i]['AC']
 							));
 
 							
@@ -983,7 +1019,7 @@ if ( isset($_GET['importThis']) ) {
 
 					$intError = "";
 					$images = "";
-					$imageArray = explode(",", 	$products[$i]['Z']);
+					$imageArray = explode(",", 	$products[$i]['AB']);
 
 					if ( !empty($products[$i]['Z']) ) {
 						for ( $j = 0; $j < sizeof($imageArray); $j++ ) {
@@ -1133,7 +1169,7 @@ if ( isset($_GET['importThis']) ) {
 
 			$error = "";
 
-			if ( sizeof($products[1]) !== 27 ) {
+			if ( sizeof($products[1]) < 29 ) {
 				echo '<h4><div class="alert alert-error">Invalid Zip Format</div></h4><p>Please download the defined Zip Format and use that to input entries.</p><br><br><br><br>
 				<a class="btn btn-custom" href="./../assets/format.zip">Download Format</a>';
 				return;
@@ -1193,32 +1229,38 @@ if ( isset($_GET['importThis']) ) {
 			if ( !isset($products[1]['R']) || $products[1]['R'] !== "Material" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['R'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['S']) || $products[1]['S'] !== "Height" ){
+			if ( !isset($products[1]['S']) || $products[1]['S'] !== "Gold Quality" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['S'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['T']) || $products[1]['T'] !== "Width" ){
+			if ( !isset($products[1]['T']) || $products[1]['T'] !== "Color Stone Type" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['T'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['U']) || $products[1]['U'] !== "Length" ){
+			if ( !isset($products[1]['U']) || $products[1]['U'] !== "Height" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['U'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['V']) || $products[1]['V'] !== "Ring size" ){
+			if ( !isset($products[1]['V']) || $products[1]['V'] !== "Width" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['V'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['W']) || $products[1]['W'] !== "Country Id" ){
+			if ( !isset($products[1]['W']) || $products[1]['W'] !== "Length" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['W'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['X']) || $products[1]['X'] !== "Subcategory" ){
+			if ( !isset($products[1]['X']) || $products[1]['X'] !== "Ring size" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['X'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['Y']) || $products[1]['Y'] !== "Lab Grown Diamond" ){
+			if ( !isset($products[1]['Y']) || $products[1]['Y'] !== "Country Id" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['Y'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['Z']) || $products[1]['Z'] !== "Images (comma \",\" separated)" ){
+			if ( !isset($products[1]['Z']) || $products[1]['Z'] !== "Subcategory" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['Z'] . "</strong><br>";
 			}
-			if ( !isset($products[1]['AA']) || $products[1]['AA'] !== "Description" ) {
+			if ( !isset($products[1]['AA']) || $products[1]['AA'] !== "Lab Grown Diamond" ){
 				$error .= "Invalid Column: <strong>" . $products[1]['AA'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['AB']) || $products[1]['AB'] !== "Images (comma \",\" separated)" ){
+				$error .= "Invalid Column: <strong>" . $products[1]['AB'] . "</strong><br>";
+			}
+			if ( !isset($products[1]['AC']) || $products[1]['AC'] !== "Description" ) {
+				$error .= "Invalid Column: <strong>" . $products[1]['AC'] . "</strong><br>";
 			}
 
 			if ( empty($error) ) {
@@ -1300,7 +1342,9 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['color_stone_shape'] . 
 										$resultValues['clarity'] . 
 										$resultValues['color'] . 
-										$resultValues['material'] . 
+										$resultValues['material'] .
+										$resultValues['gold_quality'] .
+										$resultValues['color_stone_type'] .
 										$resultValues['height'] . 
 										$resultValues['width'] . 
 										$resultValues['length'] . 
@@ -1338,7 +1382,9 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['X'] . 
 										$products[$i]['Y'] . 
 										$products[$i]['Z'] . 
-										$products[$i]['AA'];
+										$products[$i]['AA'] .
+										$products[$i]['AB'] .
+										$products[$i]['AC'];
 
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
@@ -1418,7 +1464,9 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['color_stone_shape'] . 
 										$resultValues['clarity'] . 
 										$resultValues['color'] . 
-										$resultValues['material'] . 
+										$resultValues['material'] .
+										$resultValues['gold_quality'] .
+										$resultValues['color_stone_type'] .
 										$resultValues['height'] . 
 										$resultValues['width'] . 
 										$resultValues['length'] . 
@@ -1456,7 +1504,9 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['X'] . 
 										$products[$i]['Y'] . 
 										$products[$i]['Z'] . 
-										$products[$i]['AA'];
+										$products[$i]['AA'] .
+										$products[$i]['AB'] .
+										$products[$i]['AC'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -1535,7 +1585,9 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['color_stone_shape'] . 
 										$resultValues['clarity'] . 
 										$resultValues['color'] . 
-										$resultValues['material'] . 
+										$resultValues['material'] .
+										$resultValues['gold_quality'] .
+										$resultValues['color_stone_type'] .
 										$resultValues['height'] . 
 										$resultValues['width'] . 
 										$resultValues['length'] . 
@@ -1573,7 +1625,9 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['X'] . 
 										$products[$i]['Y'] . 
 										$products[$i]['Z'] . 
-										$products[$i]['AA'];
+										$products[$i]['AA'] .
+										$products[$i]['AB'] .
+										$products[$i]['AC'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -1652,7 +1706,9 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['color_stone_shape'] . 
 										$resultValues['clarity'] . 
 										$resultValues['color'] . 
-										$resultValues['material'] . 
+										$resultValues['material'] .
+										$resultValues['gold_quality'] .
+										$resultValues['color_stone_type'] .
 										$resultValues['height'] . 
 										$resultValues['width'] . 
 										$resultValues['length'] . 
@@ -1690,7 +1746,9 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['X'] . 
 										$products[$i]['Y'] . 
 										$products[$i]['Z'] . 
-										$products[$i]['AA'];
+										$products[$i]['AA'] .
+										$products[$i]['AB'] .
+										$products[$i]['AC'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -1769,7 +1827,9 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['color_stone_shape'] . 
 										$resultValues['clarity'] . 
 										$resultValues['color'] . 
-										$resultValues['material'] . 
+										$resultValues['material'] .
+										$resultValues['gold_quality'] .
+										$resultValues['color_stone_type'] .
 										$resultValues['height'] . 
 										$resultValues['width'] . 
 										$resultValues['length'] . 
@@ -1807,7 +1867,9 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['X'] . 
 										$products[$i]['Y'] . 
 										$products[$i]['Z'] . 
-										$products[$i]['AA'];
+										$products[$i]['AA'] .
+										$products[$i]['AB'] .
+										$products[$i]['AC'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -1876,6 +1938,40 @@ if ( isset($_GET['importThis']) ) {
 						$products[$i]['AA'] = "-";
 					}
 
+					/* VAR TYPE CHECK */
+					if ( !is_integer($products[$i]['G']) ) {
+						$products[$i]['G'] = intval($products[$i]['G']);
+					}
+					if ( !is_integer($products[$i]['H']) ) {
+						$products[$i]['H'] = intval($products[$i]['H']);
+					}
+					if ( !is_integer($products[$i]['L']) ) {
+						$products[$i]['L'] = intval($products[$i]['L']);
+					}
+					if ( !is_integer($products[$i]['M']) ) {
+						$products[$i]['M'] = intval($products[$i]['M']);
+					}
+					if ( !is_integer($products[$i]['N']) ) {
+						$products[$i]['N'] = intval($products[$i]['N']);
+					}
+					if ( !is_integer($products[$i]['O']) ) {
+						$products[$i]['O'] = intval($products[$i]['O']);
+					}
+					if ( !is_integer($products[$i]['Q']) ) {
+						$products[$i]['Q'] = intval($products[$i]['Q']);
+					}
+					if ( !is_integer($products[$i]['R']) ) {
+						$products[$i]['R'] = intval($products[$i]['R']);
+					}
+					if ( !is_integer($products[$i]['W']) ) {
+						$products[$i]['W'] = intval($products[$i]['W']);
+					}
+					if ( !is_integer($products[$i]['X']) ) {
+						$products[$i]['X'] = intval($products[$i]['X']);
+					}
+					if ( !is_integer($products[$i]['Y']) ) {
+						$products[$i]['Y'] = intval($products[$i]['Y']);
+					}
 
 					$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, images_delta, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, :images_delta, NOW())");
 						$addItem->execute(array(
@@ -1884,15 +1980,15 @@ if ( isset($_GET['importThis']) ) {
 							":product_price" => $products[$i]['E'],
 							":discount" => $products[$i]['F'],
 							":category" => $products[$i]['B'],
-							":images_delta" => $products[$i]['Z']
+							":images_delta" => $products[$i]['AB']
 						));
 
 					switch ($products[$i]['B']) {
 						case 1: {
 							$addInfo = $pdo->prepare("INSERT INTO `rings` 
-								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`) 
+								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`, `gold_quality`, `color_stone_type`) 
 								VALUES 
-								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size)");
+								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size, :gold_quality, :color_stone_type)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
 								":company_id" => $company_id,
@@ -1910,15 +2006,17 @@ if ( isset($_GET['importThis']) ) {
 								":clarity" => $products[$i]['P'],
 								":color" => $products[$i]['Q'],
 								":material" => $products[$i]['R'],
-								":height" => $products[$i]['S'],
-								":width" => $products[$i]['T'],
-								":length" => $products[$i]['U'],
-								":ring_size" => $products[$i]['V'],
-								":country_id" => $products[$i]['W'],
-								":ring_subcategory" => $products[$i]['X'],
-								":lab_grown" => $products[$i]['Y'],
+								":gold_quality" => $products[$i]['S'],
+								":color_stone_type" => $products[$i]['T'],
+								":height" => $products[$i]['U'],
+								":width" => $products[$i]['V'],
+								":length" => $products[$i]['W'],
+								":ring_size" => $products[$i]['X'],
+								":country_id" => $products[$i]['Y'],
+								":ring_subcategory" => $products[$i]['Z'],
+								":lab_grown" => $products[$i]['AA'],
 								":images" => "",
-								":description" => $products[$i]['AA']
+								":description" => $products[$i]['AC']
 							));
 
 
@@ -1930,9 +2028,9 @@ if ( isset($_GET['importThis']) ) {
 							break;
 						} case 2: {
 							$addInfo = $pdo->prepare("INSERT INTO `earrings` 
-								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`) 
+								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`, `gold_quality`, `color_stone_type`) 
 								VALUES 
-								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size)");
+								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size, :gold_quality, :color_stone_type)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
 								":company_id" => $company_id,
@@ -1950,15 +2048,17 @@ if ( isset($_GET['importThis']) ) {
 								":clarity" => $products[$i]['P'],
 								":color" => $products[$i]['Q'],
 								":material" => $products[$i]['R'],
-								":height" => $products[$i]['S'],
-								":width" => $products[$i]['T'],
-								":length" => $products[$i]['U'],
-								":ring_size" => $products[$i]['V'],
-								":country_id" => $products[$i]['W'],
-								":ring_subcategory" => $products[$i]['X'],
-								":lab_grown" => $products[$i]['Y'],
+								":gold_quality" => $products[$i]['S'],
+								":color_stone_type" => $products[$i]['T'],
+								":height" => $products[$i]['U'],
+								":width" => $products[$i]['V'],
+								":length" => $products[$i]['W'],
+								":ring_size" => $products[$i]['X'],
+								":country_id" => $products[$i]['Y'],
+								":ring_subcategory" => $products[$i]['Z'],
+								":lab_grown" => $products[$i]['AA'],
 								":images" => "",
-								":description" => $products[$i]['AA']
+								":description" => $products[$i]['AC']
 							));
 
 							
@@ -1970,9 +2070,9 @@ if ( isset($_GET['importThis']) ) {
 							break;
 						} case 3: {
 							$addInfo = $pdo->prepare("INSERT INTO `pendants` 
-								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`) 
+								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`, `gold_quality`, `color_stone_type`) 
 								VALUES 
-								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size)");
+								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size, :gold_quality, :color_stone_type)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
 								":company_id" => $company_id,
@@ -1990,15 +2090,17 @@ if ( isset($_GET['importThis']) ) {
 								":clarity" => $products[$i]['P'],
 								":color" => $products[$i]['Q'],
 								":material" => $products[$i]['R'],
-								":height" => $products[$i]['S'],
-								":width" => $products[$i]['T'],
-								":length" => $products[$i]['U'],
-								":ring_size" => $products[$i]['V'],
-								":country_id" => $products[$i]['W'],
-								":ring_subcategory" => $products[$i]['X'],
-								":lab_grown" => $products[$i]['Y'],
+								":gold_quality" => $products[$i]['S'],
+								":color_stone_type" => $products[$i]['T'],
+								":height" => $products[$i]['U'],
+								":width" => $products[$i]['V'],
+								":length" => $products[$i]['W'],
+								":ring_size" => $products[$i]['X'],
+								":country_id" => $products[$i]['Y'],
+								":ring_subcategory" => $products[$i]['Z'],
+								":lab_grown" => $products[$i]['AA'],
 								":images" => "",
-								":description" => $products[$i]['AA']
+								":description" => $products[$i]['AC']
 							));
 
 							
@@ -2010,9 +2112,9 @@ if ( isset($_GET['importThis']) ) {
 							break;
 						} case 4: {
 							$addInfo = $pdo->prepare("INSERT INTO `necklaces` 
-								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`) 
+								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`, `gold_quality`, `color_stone_type`) 
 								VALUES 
-								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size)");
+								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size, :gold_quality, :color_stone_type)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
 								":company_id" => $company_id,
@@ -2030,15 +2132,17 @@ if ( isset($_GET['importThis']) ) {
 								":clarity" => $products[$i]['P'],
 								":color" => $products[$i]['Q'],
 								":material" => $products[$i]['R'],
-								":height" => $products[$i]['S'],
-								":width" => $products[$i]['T'],
-								":length" => $products[$i]['U'],
-								":ring_size" => $products[$i]['V'],
-								":country_id" => $products[$i]['W'],
-								":ring_subcategory" => $products[$i]['X'],
-								":lab_grown" => $products[$i]['Y'],
+								":gold_quality" => $products[$i]['S'],
+								":color_stone_type" => $products[$i]['T'],
+								":height" => $products[$i]['U'],
+								":width" => $products[$i]['V'],
+								":length" => $products[$i]['W'],
+								":ring_size" => $products[$i]['X'],
+								":country_id" => $products[$i]['Y'],
+								":ring_subcategory" => $products[$i]['Z'],
+								":lab_grown" => $products[$i]['AA'],
 								":images" => "",
-								":description" => $products[$i]['AA']
+								":description" => $products[$i]['AC']
 							));
 
 							
@@ -2050,9 +2154,9 @@ if ( isset($_GET['importThis']) ) {
 							break;
 						} case 5: {
 							$addInfo = $pdo->prepare("INSERT INTO `bracelets` 
-								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`) 
+								(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_carat_weight`, `no_of_stones`, `diamond_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `images`, `description`, `total_gold_weight`, `color_stone_carat`, `no_of_color_stones`, `color_stone_shape`, `lab_grown`, `ring_subcategory`, `ring_size`, `gold_quality`, `color_stone_type`) 
 								VALUES 
-								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size)");
+								(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_carat_weight, :no_of_stones, :diamond_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :images, :description, :total_gold_weight, :color_stone_carat, :no_of_color_stones, :color_stone_shape, :lab_grown, :ring_subcategory, :ring_size, :gold_quality, :color_stone_type)");
 							$addInfo->execute(array(
 								":unique_key" => $uniqueKey,
 								":company_id" => $company_id,
@@ -2070,15 +2174,17 @@ if ( isset($_GET['importThis']) ) {
 								":clarity" => $products[$i]['P'],
 								":color" => $products[$i]['Q'],
 								":material" => $products[$i]['R'],
-								":height" => $products[$i]['S'],
-								":width" => $products[$i]['T'],
-								":length" => $products[$i]['U'],
-								":ring_size" => $products[$i]['V'],
-								":country_id" => $products[$i]['W'],
-								":ring_subcategory" => $products[$i]['X'],
-								":lab_grown" => $products[$i]['Y'],
+								":gold_quality" => $products[$i]['S'],
+								":color_stone_type" => $products[$i]['T'],
+								":height" => $products[$i]['U'],
+								":width" => $products[$i]['V'],
+								":length" => $products[$i]['W'],
+								":ring_size" => $products[$i]['X'],
+								":country_id" => $products[$i]['Y'],
+								":ring_subcategory" => $products[$i]['Z'],
+								":lab_grown" => $products[$i]['AA'],
 								":images" => "",
-								":description" => $products[$i]['AA']
+								":description" => $products[$i]['AC']
 							));
 
 							
@@ -2124,7 +2230,7 @@ if ( isset($_GET['importThis']) ) {
 
 					$intError = "";
 					$images = "";
-					$imageArray = explode(",", 	$products[$i]['Z']);
+					$imageArray = explode(",", 	trim($products[$i]['AB'], "\"") );
 
 					if ( !empty($products[$i]['Z']) ) {
 						for ( $j = 0; $j < sizeof($imageArray); $j++ ) {
@@ -2269,8 +2375,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->setActiveSheetIndex(0);
 	$outputExcel->getActiveSheet()->setTitle('products');
 
-	#Adding Columns
-	$outputExcel->getActiveSheet()->getStyle('A1:AA1')->getFont()->setBold(true);
+	$outputExcel->getActiveSheet()->getStyle('A1:AC1')->getFont()->setBold(true);
 	$outputExcel->getActiveSheet()->setCellValue('A1', "Company Id" );
 	$outputExcel->getActiveSheet()->setCellValue('B1', "Category Id" );
 	$outputExcel->getActiveSheet()->setCellValue('C1', "Internal Id" );
@@ -2289,15 +2394,17 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->getActiveSheet()->setCellValue('P1', "Clarity" );
 	$outputExcel->getActiveSheet()->setCellValue('Q1', "Color" );
 	$outputExcel->getActiveSheet()->setCellValue('R1', "Material" );
-	$outputExcel->getActiveSheet()->setCellValue('S1', "Height" );
-	$outputExcel->getActiveSheet()->setCellValue('T1', "Width" );
-	$outputExcel->getActiveSheet()->setCellValue('U1', "Length" );
-	$outputExcel->getActiveSheet()->setCellValue('V1', "Ring size" );
-	$outputExcel->getActiveSheet()->setCellValue('W1', "Country Id" );
-	$outputExcel->getActiveSheet()->setCellValue('X1', "Subcategory" );
-	$outputExcel->getActiveSheet()->setCellValue('Y1', "Lab Grown Diamond" );
-	$outputExcel->getActiveSheet()->setCellValue('Z1', "Images (comma \",\" separated)" );
-	$outputExcel->getActiveSheet()->setCellValue('AA1', "Description" ) ;
+	$outputExcel->getActiveSheet()->setCellValue('S1', "Gold Quality" );
+	$outputExcel->getActiveSheet()->setCellValue('T1', "Color Stone Type" );
+	$outputExcel->getActiveSheet()->setCellValue('U1', "Height" );
+	$outputExcel->getActiveSheet()->setCellValue('V1', "Width" );
+	$outputExcel->getActiveSheet()->setCellValue('W1', "Length" );
+	$outputExcel->getActiveSheet()->setCellValue('X1', "Ring size" );
+	$outputExcel->getActiveSheet()->setCellValue('Y1', "Country Id" );
+	$outputExcel->getActiveSheet()->setCellValue('Z1', "Subcategory" );
+	$outputExcel->getActiveSheet()->setCellValue('AA1', "Lab Grown Diamond" );
+	$outputExcel->getActiveSheet()->setCellValue('AB1', "Images (comma \",\" separated)" );
+	$outputExcel->getActiveSheet()->setCellValue('AC1', "Description" ) ;
 
 	#$outputExcel->getActiveSheet()->getStyle('V1:V'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
 	#$outputExcel->getActiveSheet()->getStyle('U1:U'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
@@ -2381,15 +2488,17 @@ if ( isset($_GET['importThis']) ) {
 		$outputExcel->getActiveSheet()->setCellValue('P' . $row, $itemInfo['clarity'] );
 		$outputExcel->getActiveSheet()->setCellValue('Q' . $row, $itemInfo['color'] );
 		$outputExcel->getActiveSheet()->setCellValue('R' . $row, $itemInfo['material'] );
-		$outputExcel->getActiveSheet()->setCellValue('S' . $row, $itemInfo['height'] );
-		$outputExcel->getActiveSheet()->setCellValue('T' . $row, $itemInfo['width'] );
-		$outputExcel->getActiveSheet()->setCellValue('U' . $row, $itemInfo['length'] );
-		$outputExcel->getActiveSheet()->setCellValue('V' . $row, $itemInfo['ring_size'] );
-		$outputExcel->getActiveSheet()->setCellValue('W' . $row, $itemInfo['country_id'] );
-		$outputExcel->getActiveSheet()->setCellValue('X' . $row, $itemInfo['ring_subcategory'] );
-		$outputExcel->getActiveSheet()->setCellValue('Y' . $row, $itemInfo['lab_grown'] );
-		$outputExcel->getActiveSheet()->setCellValue('Z' . $row, trim($itemInfo['images'], ",") );
-		$outputExcel->getActiveSheet()->setCellValue('AA' . $row, $itemInfo['description'] ) ;
+		$outputExcel->getActiveSheet()->setCellValue('S' . $row, $itemInfo['gold_quality']);
+		$outputExcel->getActiveSheet()->setCellValue('T' . $row, $itemInfo['color_stone_type']);
+		$outputExcel->getActiveSheet()->setCellValue('U' . $row, $itemInfo['height'] );
+		$outputExcel->getActiveSheet()->setCellValue('V' . $row, $itemInfo['width'] );
+		$outputExcel->getActiveSheet()->setCellValue('W' . $row, $itemInfo['length'] );
+		$outputExcel->getActiveSheet()->setCellValue('X' . $row, $itemInfo['ring_size'] );
+		$outputExcel->getActiveSheet()->setCellValue('Y' . $row, $itemInfo['country_id'] );
+		$outputExcel->getActiveSheet()->setCellValue('Z' . $row, $itemInfo['ring_subcategory'] );
+		$outputExcel->getActiveSheet()->setCellValue('AA' . $row, $itemInfo['lab_grown'] );
+		$outputExcel->getActiveSheet()->setCellValue('AB' . $row, trim($itemInfo['images'], ",") );
+		$outputExcel->getActiveSheet()->setCellValue('AC' . $row, $itemInfo['description'] ) ;
 
 
 		$row++;
@@ -2425,8 +2534,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->setActiveSheetIndex(0);
 	$outputExcel->getActiveSheet()->setTitle('products');
 
-	#Adding Columns
-	$outputExcel->getActiveSheet()->getStyle('A1:AA1')->getFont()->setBold(true);
+	$outputExcel->getActiveSheet()->getStyle('A1:AC1')->getFont()->setBold(true);
 	$outputExcel->getActiveSheet()->setCellValue('A1', "Company Id" );
 	$outputExcel->getActiveSheet()->setCellValue('B1', "Category Id" );
 	$outputExcel->getActiveSheet()->setCellValue('C1', "Internal Id" );
@@ -2445,15 +2553,17 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->getActiveSheet()->setCellValue('P1', "Clarity" );
 	$outputExcel->getActiveSheet()->setCellValue('Q1', "Color" );
 	$outputExcel->getActiveSheet()->setCellValue('R1', "Material" );
-	$outputExcel->getActiveSheet()->setCellValue('S1', "Height" );
-	$outputExcel->getActiveSheet()->setCellValue('T1', "Width" );
-	$outputExcel->getActiveSheet()->setCellValue('U1', "Length" );
-	$outputExcel->getActiveSheet()->setCellValue('V1', "Ring size" );
-	$outputExcel->getActiveSheet()->setCellValue('W1', "Country Id" );
-	$outputExcel->getActiveSheet()->setCellValue('X1', "Subcategory" );
-	$outputExcel->getActiveSheet()->setCellValue('Y1', "Lab Grown Diamond" );
-	$outputExcel->getActiveSheet()->setCellValue('Z1', "Images (comma \",\" separated)" );
-	$outputExcel->getActiveSheet()->setCellValue('AA1', "Description" ) ;
+	$outputExcel->getActiveSheet()->setCellValue('S1', "Gold Quality" );
+	$outputExcel->getActiveSheet()->setCellValue('T1', "Color Stone Type" );
+	$outputExcel->getActiveSheet()->setCellValue('U1', "Height" );
+	$outputExcel->getActiveSheet()->setCellValue('V1', "Width" );
+	$outputExcel->getActiveSheet()->setCellValue('W1', "Length" );
+	$outputExcel->getActiveSheet()->setCellValue('X1', "Ring size" );
+	$outputExcel->getActiveSheet()->setCellValue('Y1', "Country Id" );
+	$outputExcel->getActiveSheet()->setCellValue('Z1', "Subcategory" );
+	$outputExcel->getActiveSheet()->setCellValue('AA1', "Lab Grown Diamond" );
+	$outputExcel->getActiveSheet()->setCellValue('AB1', "Images (comma \",\" separated)" );
+	$outputExcel->getActiveSheet()->setCellValue('AC1', "Description" ) ;
 
 	#$outputExcel->getActiveSheet()->getStyle('V1:V'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
 	#$outputExcel->getActiveSheet()->getStyle('U1:U'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
@@ -2537,32 +2647,34 @@ if ( isset($_GET['importThis']) ) {
 			}
 
 			$outputExcel->getActiveSheet()->setCellValue('A' . $row, getCompanyCode($itemInfo['company_id'], $pdo) );
-			$outputExcel->getActiveSheet()->setCellValue('B' . $row, $item['category'] );
-			$outputExcel->getActiveSheet()->setCellValue('C' . $row, $itemInfo['internal_id'] );
-			$outputExcel->getActiveSheet()->setCellValue('D' . $row, $itemInfo['product_name']);
-			$outputExcel->getActiveSheet()->setCellValue('E' . $row, $item['item_value'] );
-			$outputExcel->getActiveSheet()->setCellValue('F' . $row, $item['discount'] );
-			$outputExcel->getActiveSheet()->setCellValue('G' . $row, $itemInfo['pieces_in_stock'] );
-			$outputExcel->getActiveSheet()->setCellValue('H' . $row, $itemInfo['days_for_shipment'] );
-			$outputExcel->getActiveSheet()->setCellValue('I' . $row, $itemInfo['total_gold_weight'] );
-			$outputExcel->getActiveSheet()->setCellValue('J' . $row, $itemInfo['total_carat_weight'] );
-			$outputExcel->getActiveSheet()->setCellValue('K' . $row, $itemInfo['color_stone_carat'] );
-			$outputExcel->getActiveSheet()->setCellValue('L' . $row, $itemInfo['no_of_stones'] );
-			$outputExcel->getActiveSheet()->setCellValue('M' . $row, $itemInfo['no_of_color_stones'] );
-			$outputExcel->getActiveSheet()->setCellValue('N' . $row, $itemInfo['diamond_shape'] );
-			$outputExcel->getActiveSheet()->setCellValue('O' . $row, $itemInfo['color_stone_shape'] );
-			$outputExcel->getActiveSheet()->setCellValue('P' . $row, $itemInfo['clarity'] );
-			$outputExcel->getActiveSheet()->setCellValue('Q' . $row, $itemInfo['color'] );
-			$outputExcel->getActiveSheet()->setCellValue('R' . $row, $itemInfo['material'] );
-			$outputExcel->getActiveSheet()->setCellValue('S' . $row, $itemInfo['height'] );
-			$outputExcel->getActiveSheet()->setCellValue('T' . $row, $itemInfo['width'] );
-			$outputExcel->getActiveSheet()->setCellValue('U' . $row, $itemInfo['length'] );
-			$outputExcel->getActiveSheet()->setCellValue('V' . $row, $itemInfo['ring_size'] );
-			$outputExcel->getActiveSheet()->setCellValue('W' . $row, $itemInfo['country_id'] );
-			$outputExcel->getActiveSheet()->setCellValue('X' . $row, $itemInfo['ring_subcategory'] );
-			$outputExcel->getActiveSheet()->setCellValue('Y' . $row, $itemInfo['lab_grown'] );
-			$outputExcel->getActiveSheet()->setCellValue('Z' . $row, trim($itemInfo['images'], ",") );
-			$outputExcel->getActiveSheet()->setCellValue('AA' . $row, $itemInfo['description'] ) ;
+		$outputExcel->getActiveSheet()->setCellValue('B' . $row, $item['category'] );
+		$outputExcel->getActiveSheet()->setCellValue('C' . $row, $itemInfo['internal_id'] );
+		$outputExcel->getActiveSheet()->setCellValue('D' . $row, $itemInfo['product_name']);
+		$outputExcel->getActiveSheet()->setCellValue('E' . $row, $item['item_value'] );
+		$outputExcel->getActiveSheet()->setCellValue('F' . $row, $item['discount'] );
+		$outputExcel->getActiveSheet()->setCellValue('G' . $row, $itemInfo['pieces_in_stock'] );
+		$outputExcel->getActiveSheet()->setCellValue('H' . $row, $itemInfo['days_for_shipment'] );
+		$outputExcel->getActiveSheet()->setCellValue('I' . $row, $itemInfo['total_gold_weight'] );
+		$outputExcel->getActiveSheet()->setCellValue('J' . $row, $itemInfo['total_carat_weight'] );
+		$outputExcel->getActiveSheet()->setCellValue('K' . $row, $itemInfo['color_stone_carat'] );
+		$outputExcel->getActiveSheet()->setCellValue('L' . $row, $itemInfo['no_of_stones'] );
+		$outputExcel->getActiveSheet()->setCellValue('M' . $row, $itemInfo['no_of_color_stones'] );
+		$outputExcel->getActiveSheet()->setCellValue('N' . $row, $itemInfo['diamond_shape'] );
+		$outputExcel->getActiveSheet()->setCellValue('O' . $row, $itemInfo['color_stone_shape'] );
+		$outputExcel->getActiveSheet()->setCellValue('P' . $row, $itemInfo['clarity'] );
+		$outputExcel->getActiveSheet()->setCellValue('Q' . $row, $itemInfo['color'] );
+		$outputExcel->getActiveSheet()->setCellValue('R' . $row, $itemInfo['material'] );
+		$outputExcel->getActiveSheet()->setCellValue('S' . $row, $itemInfo['gold_quality']);
+		$outputExcel->getActiveSheet()->setCellValue('T' . $row, $itemInfo['color_stone_type']);
+		$outputExcel->getActiveSheet()->setCellValue('U' . $row, $itemInfo['height'] );
+		$outputExcel->getActiveSheet()->setCellValue('V' . $row, $itemInfo['width'] );
+		$outputExcel->getActiveSheet()->setCellValue('W' . $row, $itemInfo['length'] );
+		$outputExcel->getActiveSheet()->setCellValue('X' . $row, $itemInfo['ring_size'] );
+		$outputExcel->getActiveSheet()->setCellValue('Y' . $row, $itemInfo['country_id'] );
+		$outputExcel->getActiveSheet()->setCellValue('Z' . $row, $itemInfo['ring_subcategory'] );
+		$outputExcel->getActiveSheet()->setCellValue('AA' . $row, $itemInfo['lab_grown'] );
+		$outputExcel->getActiveSheet()->setCellValue('AB' . $row, trim($itemInfo['images'], ",") );
+		$outputExcel->getActiveSheet()->setCellValue('AC' . $row, $itemInfo['description'] ) ;
 
 
 			$row++;
@@ -2603,8 +2715,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->setActiveSheetIndex(0);
 	$outputExcel->getActiveSheet()->setTitle('products');
 
-	#Adding Columns
-	$outputExcel->getActiveSheet()->getStyle('A1:AA1')->getFont()->setBold(true);
+	$outputExcel->getActiveSheet()->getStyle('A1:AC1')->getFont()->setBold(true);
 	$outputExcel->getActiveSheet()->setCellValue('A1', "Company Id" );
 	$outputExcel->getActiveSheet()->setCellValue('B1', "Category Id" );
 	$outputExcel->getActiveSheet()->setCellValue('C1', "Internal Id" );
@@ -2623,15 +2734,17 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->getActiveSheet()->setCellValue('P1', "Clarity" );
 	$outputExcel->getActiveSheet()->setCellValue('Q1', "Color" );
 	$outputExcel->getActiveSheet()->setCellValue('R1', "Material" );
-	$outputExcel->getActiveSheet()->setCellValue('S1', "Height" );
-	$outputExcel->getActiveSheet()->setCellValue('T1', "Width" );
-	$outputExcel->getActiveSheet()->setCellValue('U1', "Length" );
-	$outputExcel->getActiveSheet()->setCellValue('V1', "Ring size" );
-	$outputExcel->getActiveSheet()->setCellValue('W1', "Country Id" );
-	$outputExcel->getActiveSheet()->setCellValue('X1', "Subcategory" );
-	$outputExcel->getActiveSheet()->setCellValue('Y1', "Lab Grown Diamond" );
-	$outputExcel->getActiveSheet()->setCellValue('Z1', "Images (comma \",\" separated)" );
-	$outputExcel->getActiveSheet()->setCellValue('AA1', "Description" ) ;
+	$outputExcel->getActiveSheet()->setCellValue('S1', "Gold Quality" );
+	$outputExcel->getActiveSheet()->setCellValue('T1', "Color Stone Type" );
+	$outputExcel->getActiveSheet()->setCellValue('U1', "Height" );
+	$outputExcel->getActiveSheet()->setCellValue('V1', "Width" );
+	$outputExcel->getActiveSheet()->setCellValue('W1', "Length" );
+	$outputExcel->getActiveSheet()->setCellValue('X1', "Ring size" );
+	$outputExcel->getActiveSheet()->setCellValue('Y1', "Country Id" );
+	$outputExcel->getActiveSheet()->setCellValue('Z1', "Subcategory" );
+	$outputExcel->getActiveSheet()->setCellValue('AA1', "Lab Grown Diamond" );
+	$outputExcel->getActiveSheet()->setCellValue('AB1', "Images (comma \",\" separated)" );
+	$outputExcel->getActiveSheet()->setCellValue('AC1', "Description" ) ;
 
 	#$outputExcel->getActiveSheet()->getStyle('V1:V'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
 	#$outputExcel->getActiveSheet()->getStyle('U1:U'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
@@ -2725,15 +2838,17 @@ if ( isset($_GET['importThis']) ) {
 		$outputExcel->getActiveSheet()->setCellValue('P' . $row, $itemInfo['clarity'] );
 		$outputExcel->getActiveSheet()->setCellValue('Q' . $row, $itemInfo['color'] );
 		$outputExcel->getActiveSheet()->setCellValue('R' . $row, $itemInfo['material'] );
-		$outputExcel->getActiveSheet()->setCellValue('S' . $row, $itemInfo['height'] );
-		$outputExcel->getActiveSheet()->setCellValue('T' . $row, $itemInfo['width'] );
-		$outputExcel->getActiveSheet()->setCellValue('U' . $row, $itemInfo['length'] );
-		$outputExcel->getActiveSheet()->setCellValue('V' . $row, $itemInfo['ring_size'] );
-		$outputExcel->getActiveSheet()->setCellValue('W' . $row, $itemInfo['country_id'] );
-		$outputExcel->getActiveSheet()->setCellValue('X' . $row, $itemInfo['ring_subcategory'] );
-		$outputExcel->getActiveSheet()->setCellValue('Y' . $row, $itemInfo['lab_grown'] );
-		$outputExcel->getActiveSheet()->setCellValue('Z' . $row, trim($itemInfo['images'], ",") );
-		$outputExcel->getActiveSheet()->setCellValue('AA' . $row, $itemInfo['description'] ) ;
+		$outputExcel->getActiveSheet()->setCellValue('S' . $row, $itemInfo['gold_quality']);
+		$outputExcel->getActiveSheet()->setCellValue('T' . $row, $itemInfo['color_stone_type']);
+		$outputExcel->getActiveSheet()->setCellValue('U' . $row, $itemInfo['height'] );
+		$outputExcel->getActiveSheet()->setCellValue('V' . $row, $itemInfo['width'] );
+		$outputExcel->getActiveSheet()->setCellValue('W' . $row, $itemInfo['length'] );
+		$outputExcel->getActiveSheet()->setCellValue('X' . $row, $itemInfo['ring_size'] );
+		$outputExcel->getActiveSheet()->setCellValue('Y' . $row, $itemInfo['country_id'] );
+		$outputExcel->getActiveSheet()->setCellValue('Z' . $row, $itemInfo['ring_subcategory'] );
+		$outputExcel->getActiveSheet()->setCellValue('AA' . $row, $itemInfo['lab_grown'] );
+		$outputExcel->getActiveSheet()->setCellValue('AB' . $row, trim($itemInfo['images'], ",") );
+		$outputExcel->getActiveSheet()->setCellValue('AC' . $row, $itemInfo['description'] ) ;
 
 
 		$row++;
@@ -2770,7 +2885,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->getActiveSheet()->setTitle('products');
 
 	#Adding Columns
-	$outputExcel->getActiveSheet()->getStyle('A1:AA1')->getFont()->setBold(true);
+	$outputExcel->getActiveSheet()->getStyle('A1:AC1')->getFont()->setBold(true);
 	$outputExcel->getActiveSheet()->setCellValue('A1', "Company Id" );
 	$outputExcel->getActiveSheet()->setCellValue('B1', "Category Id" );
 	$outputExcel->getActiveSheet()->setCellValue('C1', "Internal Id" );
@@ -2789,15 +2904,17 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->getActiveSheet()->setCellValue('P1', "Clarity" );
 	$outputExcel->getActiveSheet()->setCellValue('Q1', "Color" );
 	$outputExcel->getActiveSheet()->setCellValue('R1', "Material" );
-	$outputExcel->getActiveSheet()->setCellValue('S1', "Height" );
-	$outputExcel->getActiveSheet()->setCellValue('T1', "Width" );
-	$outputExcel->getActiveSheet()->setCellValue('U1', "Length" );
-	$outputExcel->getActiveSheet()->setCellValue('V1', "Ring size" );
-	$outputExcel->getActiveSheet()->setCellValue('W1', "Country Id" );
-	$outputExcel->getActiveSheet()->setCellValue('X1', "Subcategory" );
-	$outputExcel->getActiveSheet()->setCellValue('Y1', "Lab Grown Diamond" );
-	$outputExcel->getActiveSheet()->setCellValue('Z1', "Images (comma \",\" separated)" );
-	$outputExcel->getActiveSheet()->setCellValue('AA1', "Description" ) ;
+	$outputExcel->getActiveSheet()->setCellValue('S1', "Gold Quality" );
+	$outputExcel->getActiveSheet()->setCellValue('T1', "Color Stone Type" );
+	$outputExcel->getActiveSheet()->setCellValue('U1', "Height" );
+	$outputExcel->getActiveSheet()->setCellValue('V1', "Width" );
+	$outputExcel->getActiveSheet()->setCellValue('W1', "Length" );
+	$outputExcel->getActiveSheet()->setCellValue('X1', "Ring size" );
+	$outputExcel->getActiveSheet()->setCellValue('Y1', "Country Id" );
+	$outputExcel->getActiveSheet()->setCellValue('Z1', "Subcategory" );
+	$outputExcel->getActiveSheet()->setCellValue('AA1', "Lab Grown Diamond" );
+	$outputExcel->getActiveSheet()->setCellValue('AB1', "Images (comma \",\" separated)" );
+	$outputExcel->getActiveSheet()->setCellValue('AC1', "Description" ) ;
 
 	#$outputExcel->getActiveSheet()->getStyle('V1:V'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
 	#$outputExcel->getActiveSheet()->getStyle('U1:U'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
@@ -2895,32 +3012,34 @@ if ( isset($_GET['importThis']) ) {
 
 
 			$outputExcel->getActiveSheet()->setCellValue('A' . $row, getCompanyCode($itemInfo['company_id'], $pdo) );
-			$outputExcel->getActiveSheet()->setCellValue('B' . $row, $item['category'] );
-			$outputExcel->getActiveSheet()->setCellValue('C' . $row, $itemInfo['internal_id'] );
-			$outputExcel->getActiveSheet()->setCellValue('D' . $row, $itemInfo['product_name']);
-			$outputExcel->getActiveSheet()->setCellValue('E' . $row, $item['item_value'] );
-			$outputExcel->getActiveSheet()->setCellValue('F' . $row, $item['discount'] );
-			$outputExcel->getActiveSheet()->setCellValue('G' . $row, $itemInfo['pieces_in_stock'] );
-			$outputExcel->getActiveSheet()->setCellValue('H' . $row, $itemInfo['days_for_shipment'] );
-			$outputExcel->getActiveSheet()->setCellValue('I' . $row, $itemInfo['total_gold_weight'] );
-			$outputExcel->getActiveSheet()->setCellValue('J' . $row, $itemInfo['total_carat_weight'] );
-			$outputExcel->getActiveSheet()->setCellValue('K' . $row, $itemInfo['color_stone_carat'] );
-			$outputExcel->getActiveSheet()->setCellValue('L' . $row, $itemInfo['no_of_stones'] );
-			$outputExcel->getActiveSheet()->setCellValue('M' . $row, $itemInfo['no_of_color_stones'] );
-			$outputExcel->getActiveSheet()->setCellValue('N' . $row, $itemInfo['diamond_shape'] );
-			$outputExcel->getActiveSheet()->setCellValue('O' . $row, $itemInfo['color_stone_shape'] );
-			$outputExcel->getActiveSheet()->setCellValue('P' . $row, $itemInfo['clarity'] );
-			$outputExcel->getActiveSheet()->setCellValue('Q' . $row, $itemInfo['color'] );
-			$outputExcel->getActiveSheet()->setCellValue('R' . $row, $itemInfo['material'] );
-			$outputExcel->getActiveSheet()->setCellValue('S' . $row, $itemInfo['height'] );
-			$outputExcel->getActiveSheet()->setCellValue('T' . $row, $itemInfo['width'] );
-			$outputExcel->getActiveSheet()->setCellValue('U' . $row, $itemInfo['length'] );
-			$outputExcel->getActiveSheet()->setCellValue('V' . $row, $itemInfo['ring_size'] );
-			$outputExcel->getActiveSheet()->setCellValue('W' . $row, $itemInfo['country_id'] );
-			$outputExcel->getActiveSheet()->setCellValue('X' . $row, $itemInfo['ring_subcategory'] );
-			$outputExcel->getActiveSheet()->setCellValue('Y' . $row, $itemInfo['lab_grown'] );
-			$outputExcel->getActiveSheet()->setCellValue('Z' . $row, trim($itemInfo['images'], ",") );
-			$outputExcel->getActiveSheet()->setCellValue('AA' . $row, $itemInfo['description'] ) ;
+		$outputExcel->getActiveSheet()->setCellValue('B' . $row, $item['category'] );
+		$outputExcel->getActiveSheet()->setCellValue('C' . $row, $itemInfo['internal_id'] );
+		$outputExcel->getActiveSheet()->setCellValue('D' . $row, $itemInfo['product_name']);
+		$outputExcel->getActiveSheet()->setCellValue('E' . $row, $item['item_value'] );
+		$outputExcel->getActiveSheet()->setCellValue('F' . $row, $item['discount'] );
+		$outputExcel->getActiveSheet()->setCellValue('G' . $row, $itemInfo['pieces_in_stock'] );
+		$outputExcel->getActiveSheet()->setCellValue('H' . $row, $itemInfo['days_for_shipment'] );
+		$outputExcel->getActiveSheet()->setCellValue('I' . $row, $itemInfo['total_gold_weight'] );
+		$outputExcel->getActiveSheet()->setCellValue('J' . $row, $itemInfo['total_carat_weight'] );
+		$outputExcel->getActiveSheet()->setCellValue('K' . $row, $itemInfo['color_stone_carat'] );
+		$outputExcel->getActiveSheet()->setCellValue('L' . $row, $itemInfo['no_of_stones'] );
+		$outputExcel->getActiveSheet()->setCellValue('M' . $row, $itemInfo['no_of_color_stones'] );
+		$outputExcel->getActiveSheet()->setCellValue('N' . $row, $itemInfo['diamond_shape'] );
+		$outputExcel->getActiveSheet()->setCellValue('O' . $row, $itemInfo['color_stone_shape'] );
+		$outputExcel->getActiveSheet()->setCellValue('P' . $row, $itemInfo['clarity'] );
+		$outputExcel->getActiveSheet()->setCellValue('Q' . $row, $itemInfo['color'] );
+		$outputExcel->getActiveSheet()->setCellValue('R' . $row, $itemInfo['material'] );
+		$outputExcel->getActiveSheet()->setCellValue('S' . $row, $itemInfo['gold_quality']);
+		$outputExcel->getActiveSheet()->setCellValue('T' . $row, $itemInfo['color_stone_type']);
+		$outputExcel->getActiveSheet()->setCellValue('U' . $row, $itemInfo['height'] );
+		$outputExcel->getActiveSheet()->setCellValue('V' . $row, $itemInfo['width'] );
+		$outputExcel->getActiveSheet()->setCellValue('W' . $row, $itemInfo['length'] );
+		$outputExcel->getActiveSheet()->setCellValue('X' . $row, $itemInfo['ring_size'] );
+		$outputExcel->getActiveSheet()->setCellValue('Y' . $row, $itemInfo['country_id'] );
+		$outputExcel->getActiveSheet()->setCellValue('Z' . $row, $itemInfo['ring_subcategory'] );
+		$outputExcel->getActiveSheet()->setCellValue('AA' . $row, $itemInfo['lab_grown'] );
+		$outputExcel->getActiveSheet()->setCellValue('AB' . $row, trim($itemInfo['images'], ",") );
+		$outputExcel->getActiveSheet()->setCellValue('AC' . $row, $itemInfo['description'] ) ;
 
 
 			$row++;
@@ -3043,8 +3162,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->setActiveSheetIndex(0);
 	$outputExcel->getActiveSheet()->setTitle('products');
 
-	#Adding Columns
-	$outputExcel->getActiveSheet()->getStyle('A1:AA1')->getFont()->setBold(true);
+	$outputExcel->getActiveSheet()->getStyle('A1:AC1')->getFont()->setBold(true);
 	$outputExcel->getActiveSheet()->setCellValue('A1', "Company Id" );
 	$outputExcel->getActiveSheet()->setCellValue('B1', "Category Id" );
 	$outputExcel->getActiveSheet()->setCellValue('C1', "Internal Id" );
@@ -3063,15 +3181,17 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->getActiveSheet()->setCellValue('P1', "Clarity" );
 	$outputExcel->getActiveSheet()->setCellValue('Q1', "Color" );
 	$outputExcel->getActiveSheet()->setCellValue('R1', "Material" );
-	$outputExcel->getActiveSheet()->setCellValue('S1', "Height" );
-	$outputExcel->getActiveSheet()->setCellValue('T1', "Width" );
-	$outputExcel->getActiveSheet()->setCellValue('U1', "Length" );
-	$outputExcel->getActiveSheet()->setCellValue('V1', "Ring size" );
-	$outputExcel->getActiveSheet()->setCellValue('W1', "Country Id" );
-	$outputExcel->getActiveSheet()->setCellValue('X1', "Subcategory" );
-	$outputExcel->getActiveSheet()->setCellValue('Y1', "Lab Grown Diamond" );
-	$outputExcel->getActiveSheet()->setCellValue('Z1', "Images (comma \",\" separated)" );
-	$outputExcel->getActiveSheet()->setCellValue('AA1', "Description" ) ;
+	$outputExcel->getActiveSheet()->setCellValue('S1', "Gold Quality" );
+	$outputExcel->getActiveSheet()->setCellValue('T1', "Color Stone Type" );
+	$outputExcel->getActiveSheet()->setCellValue('U1', "Height" );
+	$outputExcel->getActiveSheet()->setCellValue('V1', "Width" );
+	$outputExcel->getActiveSheet()->setCellValue('W1', "Length" );
+	$outputExcel->getActiveSheet()->setCellValue('X1', "Ring size" );
+	$outputExcel->getActiveSheet()->setCellValue('Y1', "Country Id" );
+	$outputExcel->getActiveSheet()->setCellValue('Z1', "Subcategory" );
+	$outputExcel->getActiveSheet()->setCellValue('AA1', "Lab Grown Diamond" );
+	$outputExcel->getActiveSheet()->setCellValue('AB1', "Images (comma \",\" separated)" );
+	$outputExcel->getActiveSheet()->setCellValue('AC1', "Description" ) ;
 
 	#$outputExcel->getActiveSheet()->getStyle('V1:V'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
 	#$outputExcel->getActiveSheet()->getStyle('U1:U'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);

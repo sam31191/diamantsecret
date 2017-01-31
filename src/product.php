@@ -192,6 +192,8 @@ pconsole($_POST);
 										$itemInfo['no_of_stones'] = "";
 										$itemInfo['total_carat_weight'] = "";
 										$itemInfo['diamond_shape'] = "";
+										$itemInfo['gold_quality'] = "";
+										$itemInfo['color_stone_type'] = "";
 										$itemInfo['color_stone_shape'] = "";
 										$itemInfo['no_of_color_stones'] = "";
 										$itemInfo['color_stone_carat'] = "";
@@ -424,6 +426,22 @@ pconsole($_POST);
 																	</div>
 																	<?php
 																	echo '<div class="header"><small>'. getMaterial($itemInfo['material'], $pdo) .'</small></div>';
+																	?>																	
+																</div>
+																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="header">
+																		Gold Quality
+																	</div>
+																	<?php
+																	echo '<div class="header"><small>'. getMaterial($itemInfo['gold_quality'], $pdo) .'</small></div>';
+																	?>																	
+																</div>
+																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="header">
+																		Color Stone Type
+																	</div>
+																	<?php
+																	echo '<div class="header"><small>'. getMaterial($itemInfo['color_stone_type'], $pdo) .'</small></div>';
 																	?>																	
 																</div>
 																<div class="swatch color clearfix" data-option-index="0">

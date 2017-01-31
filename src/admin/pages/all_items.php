@@ -148,7 +148,7 @@ if ( isset($_POST['featuredAdd']) ) {
 	if ( $checkInfo->rowCount() > 0 ) {
 		switch ($_POST['category']) {
 			case 1: {
-				$addInfo = $pdo->prepare("UPDATE `rings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `rings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -167,13 +167,15 @@ if ( isset($_POST['featuredAdd']) ) {
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
 					":description" => $_POST['description'],
+					":gold_quality" => $_POST['gold_quality'],
+					":color_stone_type" => $_POST['color_stone_type'],
 					":ring_subcategory" => $_POST['ring_subcategory'],
 					":ring_size" => $_POST['ring_size']));
 				
 				break;
 			}
 			case 2:	{
-				$addInfo = $pdo->prepare("UPDATE `earrings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `earrings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -192,11 +194,13 @@ if ( isset($_POST['featuredAdd']) ) {
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
 					":description" => $_POST['description'],
+					":gold_quality" => $_POST['gold_quality'],
+					":color_stone_type" => $_POST['color_stone_type'],
 					":ring_subcategory" => $_POST['ring_subcategory']));
 				break;
 			}
 			case 3: {
-				$addInfo = $pdo->prepare("UPDATE `pendants` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `pendants` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -215,11 +219,13 @@ if ( isset($_POST['featuredAdd']) ) {
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
 					":description" => $_POST['description'],
+					":gold_quality" => $_POST['gold_quality'],
+					":color_stone_type" => $_POST['color_stone_type'],
 					":ring_subcategory" => $_POST['ring_subcategory']));
 				break;
 			}
 			case 4: {
-				$addInfo = $pdo->prepare("UPDATE `necklaces` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `necklaces` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -238,11 +244,13 @@ if ( isset($_POST['featuredAdd']) ) {
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
 					":description" => $_POST['description'],
+					":gold_quality" => $_POST['gold_quality'],
+					":color_stone_type" => $_POST['color_stone_type'],
 					":ring_subcategory" => $_POST['ring_subcategory']));
 				break;
 			}
 			case 5: {
-				$addInfo = $pdo->prepare("UPDATE `bracelets` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `bracelets` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -261,6 +269,8 @@ if ( isset($_POST['featuredAdd']) ) {
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
 					":description" => $_POST['description'],
+					":gold_quality" => $_POST['gold_quality'],
+					":color_stone_type" => $_POST['color_stone_type'],
 					":ring_subcategory" => $_POST['ring_subcategory']));
 				break;
 			}
@@ -877,6 +887,8 @@ if ( isset($_POST['featuredAdd']) ) {
                 	<th>Clarity</th>
                 	<th>Color</th>
                 	<th>Material</th>
+                	<th>Gold Quality</th>
+                	<th>Color Stone Type</th>
                 	<th>Height</th>
                 	<th>Weight</th>
                 	<th>Length</th>
@@ -967,6 +979,8 @@ if ( isset($_POST['featuredAdd']) ) {
 								echo '<td>'. $info['clarity'] .'</td>';
 								echo '<td>'. $color .'</td>';
 								echo '<td>'. getMaterial($info['material'], $pdo) .'</td>';
+								echo '<td>'. $info['gold_quality'] .'</td>';
+								echo '<td>'. $info['color_stone_type'] .'</td>';
 								echo '<td>'. $info['height'] .'</td>';
 								echo '<td>'. $info['width'] .'</td>';
 								echo '<td>'. $info['length'] .'</td>';
