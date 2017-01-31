@@ -3,4 +3,6 @@ INSERT INTO `materials` (`id`, `category`) VALUES
 (2, 'White Gold'),
 (3, 'Pink Gold'),
 (4, 'Silver'),
-(5, 'Platinum');
+(5, 'Platinum'),
+(6, 'Bi Colour with Gold'),
+(7, 'Three Colour with Gold');
