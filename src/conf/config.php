@@ -267,7 +267,7 @@
 
         switch ($values['B']) {
             case 1: {
-                $updateInfo = $pdo->prepare("UPDATE `rings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type WHERE `unique_key` = :unique_key");
+                $updateInfo = $pdo->prepare("UPDATE `rings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `description_french` = :description_french, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type WHERE `unique_key` = :unique_key");
                 $updateInfo->execute(array(
                     ":unique_key" => $uniqueKey,
                     ":company_id" => $company_id,
@@ -294,7 +294,8 @@
                     ":country_id" => $values['Y'],
                     ":ring_subcategory" => $values['Z'],
                     ":lab_grown" => $values['AA'],
-                    ":description" => $values['AC']
+                    ":description" => $values['AC'],
+                    ":description_french" => $values['AD']
                 ));
 
 
@@ -306,7 +307,7 @@
 
                 break;
             } case 2: {
-                $updateInfo = $pdo->prepare("UPDATE `earrings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type WHERE `unique_key` = :unique_key");
+                $updateInfo = $pdo->prepare("UPDATE `earrings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `description_french` = :description_french, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type WHERE `unique_key` = :unique_key");
                 $updateInfo->execute(array(
                     ":unique_key" => $uniqueKey,
                     ":company_id" => $company_id,
@@ -333,7 +334,8 @@
                     ":country_id" => $values['Y'],
                     ":ring_subcategory" => $values['Z'],
                     ":lab_grown" => $values['AA'],
-                    ":description" => $values['AC']
+                    ":description" => $values['AC'],
+                    ":description_french" => $values['AD']
 
                 ));
 
@@ -346,7 +348,7 @@
 
                 break;
             } case 3: {
-                $updateInfo = $pdo->prepare("UPDATE `pendants` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type WHERE `unique_key` = :unique_key");
+                $updateInfo = $pdo->prepare("UPDATE `pendants` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `description_french` = :description_french, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type WHERE `unique_key` = :unique_key");
                 $updateInfo->execute(array(
                     ":unique_key" => $uniqueKey,
                     ":company_id" => $company_id,
@@ -373,7 +375,8 @@
                     ":country_id" => $values['Y'],
                     ":ring_subcategory" => $values['Z'],
                     ":lab_grown" => $values['AA'],
-                    ":description" => $values['AC']
+                    ":description" => $values['AC'],
+                    ":description_french" => $values['AD']
 
                 ));
 
@@ -386,7 +389,7 @@
 
                 break;
             } case 4: {
-                $updateInfo = $pdo->prepare("UPDATE `necklaces` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type WHERE `unique_key` = :unique_key");
+                $updateInfo = $pdo->prepare("UPDATE `necklaces` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `description_french` = :description_french, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type WHERE `unique_key` = :unique_key");
                 $updateInfo->execute(array(
                     ":unique_key" => $uniqueKey,
                     ":company_id" => $company_id,
@@ -413,7 +416,8 @@
                     ":country_id" => $values['Y'],
                     ":ring_subcategory" => $values['Z'],
                     ":lab_grown" => $values['AA'],
-                    ":description" => $values['AC']
+                    ":description" => $values['AC'],
+                    ":description_french" => $values['AD']
 
                 ));
 
@@ -426,7 +430,7 @@
 
                 break;
             } case 5: {
-                $updateInfo = $pdo->prepare("UPDATE `bracelets` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type WHERE `unique_key` = :unique_key");
+                $updateInfo = $pdo->prepare("UPDATE `bracelets` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `description_french` = :description_french, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown, `gold_quality` = :gold_quality, `color_stone_type` = :color_stone_type WHERE `unique_key` = :unique_key");
                 $updateInfo->execute(array(
                     ":unique_key" => $uniqueKey,
                     ":company_id" => $company_id,
@@ -453,7 +457,8 @@
                     ":country_id" => $values['Y'],
                     ":ring_subcategory" => $values['Z'],
                     ":lab_grown" => $values['AA'],
-                    ":description" => $values['AC']
+                    ":description" => $values['AC'],
+                    ":description_french" => $values['AD']
 
                 ));
 
@@ -631,6 +636,35 @@
 
         return " - ". $intError;
 
+    }
+
+    function getPriceRange($id) {
+        switch ($id) {
+            case 1: {
+                return array(0, 99.9);
+                break;
+            }
+            case 2: {
+                return array(100.0, 299.99);
+                break;
+            }
+            case 3: {
+                return array(300.0, 599.9);
+                break;
+            }
+            case 4: {
+                return array(600.0, 999.9);
+                break;
+            }
+            case 5: {
+                return array(1000.0, 1000000.0);
+                break;
+            }
+            default: {
+                return null;
+                break;
+            }
+        }
     }
 
 ?>

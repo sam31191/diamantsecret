@@ -30,6 +30,8 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	<link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
 	<link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
   	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+  	<link href="./assets/stylesheets/ion.rangeSlider.skinFlat.css" rel="stylesheet" type="text/css" media="all">
+  	<link href="./assets/stylesheets/ion.rangeSlider.css" rel="stylesheet" type="text/css" media="all">
   	<link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
 	
 	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
@@ -47,6 +49,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	<script src="./assets/javascripts/jquery.fancybox-buttons.js" type="text/javascript"></script>
 	<script src="./assets/javascripts/jquery.zoom.js" type="text/javascript"></script>	
 	<script src="./assets/javascripts/cs.script.js" type="text/javascript"></script>
+	<script src="./assets/javascripts/ion.rangeSlider.min.js" type="text/javascript"></script>
 </head>
 
 <?php
@@ -199,11 +202,11 @@ pconsole($_POST);
 														<input id="filterMaterial" name="material" hidden />
 														<input id="filterStone" name="stone" hidden />
 													</form>
-													<h6 class="sb-title">Filter <a href="./collection_rings.php" style="font-size:12px">clear</a><button class="btn" form="filterForm" type="submit" style="float:right;">Apply</button></h6>
+													<h6 class="sb-title">Filter <a href="./collection_rings.php" style="font-size:12px">clear selection</a><button class="btn" form="filterForm" type="submit" style="float:right;">Apply</button></h6>
 													<!-- tags groupd 1 -->
 													<div class="tag-group" id="coll-filter-1">
 														<p class="title">
-															Clarity
+															Diamond Clarity
 														</p>
 														<select form="filterForm" name="clarity" id="clarityFilter">
 															<option value="">Clarity</option>
@@ -230,16 +233,19 @@ pconsole($_POST);
 													<!-- tags groupd 2 -->
 													<div class="tag-group" id="coll-filter-2">
 														<p class="title">
-															Material
+															Metal
 														</p>
 														<ul>
-															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Yellow Gold" value="1" onclick="filterMaterial(this.value)">YG</button></li>
-															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="White Gold" value="2" onclick="filterMaterial(this.value)">WG</button></li>
-															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pink Gold" value="3" onclick="filterMaterial(this.value)">PG</button></li>
-															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Silver" value="4" onclick="filterMaterial(this.value)">SI</button></li>
-															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Platinum" value="5" onclick="filterMaterial(this.value)">PL</button></li>
-															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Bi Colour with Gold" value="6" onclick="filterMaterial(this.value)">Bi-G</button></li>
-															<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tri Colour with Gold" value="7" onclick="filterMaterial(this.value)">Tri-G</button></li>
+															<?php 
+															$fetchAvailableMaterials = $pdo->prepare("SELECT * FROM `materials`");
+															$fetchAvailableMaterials->execute();
+
+															if ( $fetchAvailableMaterials->rowCount() > 0 ) {
+																foreach ( $fetchAvailableMaterials->fetchAll() as $materialOption ) {
+																	echo '<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. $materialOption["category"] .'" value="'. $materialOption["id"] .'" onclick="filterMaterial(this.value)">'. $materialOption["category"] .'</button></li>';
+																}
+															}
+															?>
 														</ul>
 													</div>
 
@@ -254,12 +260,12 @@ pconsole($_POST);
 													<!-- tags groupd 3 -->
 													<div class="tag-group" id="coll-filter-2-color">
 														<p class="title">
-															Stone
+															Stone Type
 														</p>
 														<ul>
-															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="White Stone" value="1" onclick="filterStone(this.value)">White</button></li>
-															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Colored Stone" value="2" onclick="filterStone(this.value)">Colored</button></li>
-															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="White & Colored Stone" value="3" onclick="filterStone(this.value)">W&C</button></li>
+															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="White Stone" value="1" onclick="filterStone(this.value)">Diamonds</button></li>
+															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Colored Stone" value="2" onclick="filterStone(this.value)">Color Stones</button></li>
+															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="White & Colored Stone" value="3" onclick="filterStone(this.value)">Diamonds &amp; Color Stones</button></li>
 														</ul>
 													</div>
 													<?php
@@ -328,16 +334,11 @@ pconsole($_POST);
 														<p class="title">
 															Price Range
 														</p>
+														<input id="rangeSliderPrice" name="price_range" type="text" form="filterForm" />
 														<ul>
-														<select form="filterForm" name="price_range" style="width:200px">
-															<option value="">Select</option>
-								                            <option value="1"> below €100.00  </option>
-								                            <option value="2">€100.00 - €299.99  </option>
-								                            <option value="3">€300.00 - €599.99  </option>
-								                            <option value="4">€600.00 - €999.99  </option>
-								                            <option value="5"> above €1000.00 </option>
-														</select>
 														</ul>
+
+														<h6 class="sb-title">Filter <a href="./collection_earrings.php" style="font-size:12px">clear selection</a><button class="btn" form="filterForm" type="submit" style="float:right;">Apply</button></h6>
 													</div>
 
 													<?php
@@ -628,6 +629,12 @@ pconsole($_POST);
 
 													if ( !empty($ringTag) ) {
 														$filterX .= " AND `ring_subcategory` = '" . $ringTag . "' ";
+													}
+
+													if ( !empty($priceTag) ) {
+														//$priceRange = getPriceRange($priceTag);
+														$priceRange = explode(";", urldecode($priceTag));
+														$filterX .= " AND `item_value` >= ". $priceRange[0]. " AND `item_value` <= ". $priceRange[1] ." ";
 													}
 
 													if ( !empty($priceTag) ) {
@@ -1193,4 +1200,24 @@ function orderView(e) {
 		}
 	});
 }
+
+$("#rangeSliderPrice").ionRangeSlider({
+    type: "double",
+    grid: true,
+    min: 0,
+    max: 10000,
+    from: 200,
+    to: 800,
+    prefix: "&euro;"
+});
 </script>
+
+<?php 
+if ( isset($priceTag) && !empty($priceTag) ) {
+	echo '<script>
+	var rangeSliderInstance = $("#rangeSliderPrice").data("ionRangeSlider");
+	rangeSliderInstance.update({from: '. $priceRange[0] .', to: '. $priceRange[1] .'});
+
+	</script>';
+}
+?>

@@ -279,3 +279,7 @@
 #password:focus + #password_span, #email:focus + #email_span, #username:focus + #username_span, #password_confirm:focus + #password_confirm_span {
     border-color: #818080 !important;
 }
+
+.swatch {
+    border-bottom: solid thin #ddd;
+}

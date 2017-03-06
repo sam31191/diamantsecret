@@ -426,10 +426,10 @@ if ( isset($_POST['removeItem']) ) {
 													Price
 												</th>
 												<th>
-													Qty
+													Discount
 												</th>
 												<th>
-													Stock
+													Qty
 												</th>
 												<th>
 													<small>Total</small> VAT 
@@ -495,13 +495,13 @@ if ( isset($_POST['removeItem']) ) {
 															} else {
 																$adjustedQuantity = "";
 															}
-															$sale = "";
+															$sale = "-";
 															$price = '<span class="">€'. $result['item_value'] .'</span>';
 															$value = $result['item_value'];
 															if ( $result['discount'] > 0 ) {
 																
 																$value = $result['item_value'] -  (($result['discount'] / 100 ) * $result['item_value']);
-																$sale = '<span class="label label-success">'. $result['discount'] .'% OFF</span>';
+																$sale = '<span class="label label-success" style="font-size: 18px; font-weight: bold;">'. $result['discount'] .'% OFF</span>';
 																$price = '<span>€'. number_format($value, 2, ".", "") .'</span> <del style="font-size:14px;">€'. $result['item_value'] .'</del>';
 																$youSave += ($result['item_value'] - $value) * $itemVal[2];
 															}
@@ -557,13 +557,11 @@ if ( isset($_POST['removeItem']) ) {
 																		</ul>
 																	</td>
 																	<td class="title-1">
-																		'. $price . '<br>' . $sale .'
+																		'. $price . '
 																	</td>
+																	<td>'. $sale .'</td>
 																	<td>
 																		<input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="'. $itemVal[2] .'" disabled> '. $adjustedQuantity .'
-																	</td>
-																	<td>
-																		<input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="'. $itemInfo['pieces_in_stock'] .'" disabled>
 																	</td>
 																	<td class="total title-1">
 																		<span data-toggle="tooltip" title="'. $vat['vat'] .'%">€'. number_format(($vatValue), 2, ".", "") .'</span>

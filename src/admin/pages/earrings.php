@@ -117,7 +117,7 @@ if ( isset($_POST['featuredAdd']) ) {
 		":key" => $_POST['unique_key'],
 		":name" => $_POST['product_name'],
 		":value" => $_POST['product_price'],
-		":discount" => $_POST['discount'],
+		":discount" => floatval($_POST['discount']),
 		":category" => $_POST['category']
 	));
 
@@ -147,7 +147,7 @@ if ( isset($_POST['featuredAdd']) ) {
 	if ( $checkInfo->rowCount() > 0 ) {
 		switch ($_POST['category']) {
 			case 1: {
-				$addInfo = $pdo->prepare("UPDATE `rings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `rings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `description_french` = :description_french, `ring_subcategory` = :ring_subcategory, `ring_size` = :ring_size, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -166,18 +166,18 @@ if ( isset($_POST['featuredAdd']) ) {
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
 					":total_gold_weight" => $_POST['total_gold_weight'],
-					":color_stone_carat" => $_POST['color_stone_carat'],
+					":color_stone_carat" => floatval($_POST['color_stone_carat']),
 					":no_of_color_stones" => $_POST['no_of_color_stones'],
-					":color_stone_shape" => $_POST['color_stone_shape'],
+					":color_stone_shape" => intval($_POST['color_stone_shape']),
 					":lab_grown" => $_POST['lab_grown'],
-					":description" => $_POST['description'],
+					":description" => $_POST['description'], ":description_french" => $_POST["description_french"] ,
 					":ring_subcategory" => $_POST['ring_subcategory'],
 					":ring_size" => $_POST['ring_size']));
 				
 				break;
 			}
 			case 2:	{
-				$addInfo = $pdo->prepare("UPDATE `earrings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `earrings` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `description_french` = :description_french, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -196,15 +196,15 @@ if ( isset($_POST['featuredAdd']) ) {
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
 					":total_gold_weight" => $_POST['total_gold_weight'],
-					":color_stone_carat" => $_POST['color_stone_carat'],
+					":color_stone_carat" => floatval($_POST['color_stone_carat']),
 					":no_of_color_stones" => $_POST['no_of_color_stones'],
-					":color_stone_shape" => $_POST['color_stone_shape'],
+					":color_stone_shape" => intval($_POST['color_stone_shape']),
 					":lab_grown" => $_POST['lab_grown'],
-					":description" => $_POST['description']));
+					":description" => $_POST['description'], ":description_french" => $_POST["description_french"] ));
 				break;
 			}
 			case 3: {
-				$addInfo = $pdo->prepare("UPDATE `pendants` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `pendants` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `description_french` = :description_french, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -223,15 +223,15 @@ if ( isset($_POST['featuredAdd']) ) {
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
 					":total_gold_weight" => $_POST['total_gold_weight'],
-					":color_stone_carat" => $_POST['color_stone_carat'],
+					":color_stone_carat" => floatval($_POST['color_stone_carat']),
 					":no_of_color_stones" => $_POST['no_of_color_stones'],
-					":color_stone_shape" => $_POST['color_stone_shape'],
+					":color_stone_shape" => intval($_POST['color_stone_shape']),
 					":lab_grown" => $_POST['lab_grown'],
-					":description" => $_POST['description']));
+					":description" => $_POST['description'], ":description_french" => $_POST["description_french"] ));
 				break;
 			}
 			case 4: {
-				$addInfo = $pdo->prepare("UPDATE `necklaces` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `necklaces` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `description_french` = :description_french, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -250,15 +250,15 @@ if ( isset($_POST['featuredAdd']) ) {
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
 					":total_gold_weight" => $_POST['total_gold_weight'],
-					":color_stone_carat" => $_POST['color_stone_carat'],
+					":color_stone_carat" => floatval($_POST['color_stone_carat']),
 					":no_of_color_stones" => $_POST['no_of_color_stones'],
-					":color_stone_shape" => $_POST['color_stone_shape'],
+					":color_stone_shape" => intval($_POST['color_stone_shape']),
 					":lab_grown" => $_POST['lab_grown'],
-					":description" => $_POST['description']));
+					":description" => $_POST['description'], ":description_french" => $_POST["description_french"] ));
 				break;
 			}
 			case 5: {
-				$addInfo = $pdo->prepare("UPDATE `bracelets` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
+				$addInfo = $pdo->prepare("UPDATE `bracelets` SET `company_id` = :company_id, `internal_id` = :internal_id, `product_name` = :product_name, `pieces_in_stock` = :pieces_in_stock, `days_for_shipment` = :days_for_shipment, `total_carat_weight` = :total_carat_weight, `no_of_stones` = :no_of_stones, `diamond_shape` = :diamond_shape, `clarity` = :clarity, `color` = :color, `material` = :material, `height` = :height, `width` = :width, `length` = :length, `country_id` = :country_id, `description` = :description, `description_french` = :description_french, `total_gold_weight` = :total_gold_weight, `color_stone_carat` = :color_stone_carat, `no_of_color_stones` = :no_of_color_stones, `color_stone_shape` = :color_stone_shape, `lab_grown` = :lab_grown, `ring_subcategory` = :ring_subcategory WHERE `unique_key` = :unique_key");
 				$addInfo->execute(array(
 					":unique_key" => $_POST['unique_key'],
 					":company_id" => $_POST['company_id'],
@@ -277,11 +277,11 @@ if ( isset($_POST['featuredAdd']) ) {
 					":length" => $_POST['length'],
 					":country_id" => $_POST['country_id'],
 					":total_gold_weight" => $_POST['total_gold_weight'],
-					":color_stone_carat" => $_POST['color_stone_carat'],
+					":color_stone_carat" => floatval($_POST['color_stone_carat']),
 					":no_of_color_stones" => $_POST['no_of_color_stones'],
-					":color_stone_shape" => $_POST['color_stone_shape'],
+					":color_stone_shape" => intval($_POST['color_stone_shape']),
 					":lab_grown" => $_POST['lab_grown'],
-					":description" => $_POST['description'],
+					":description" => $_POST['description'], ":description_french" => $_POST["description_french"] ,
 					":ring_subcategory" => $_POST['ring_subcategory']));
 				break;
 			}
@@ -571,9 +571,9 @@ if ( isset($_POST['featuredAdd']) ) {
 	if ( $checkInternalID->rowCount() == 0 ) {
 
 		$addInfo = $pdo->prepare("INSERT INTO `earrings` 
-			(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_gold_weight`, `total_carat_weight`, `color_stone_carat`, `no_of_stones`, `no_of_color_stones`, `diamond_shape`, `color_stone_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `lab_grown`, `images`, `description`, `ring_subcategory`, `gold_quality`, `color_stone_type`) 
+			(`unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_gold_weight`, `total_carat_weight`, `color_stone_carat`, `no_of_stones`, `no_of_color_stones`, `diamond_shape`, `color_stone_shape`, `clarity`, `color`, `material`, `height`, `width`, `length`, `country_id`, `lab_grown`, `images`, `description`, `description_french`, `ring_subcategory`, `gold_quality`, `color_stone_type`) 
 			VALUES 
-			(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_gold_weight, :total_carat_weight, :color_stone_carat, :no_of_stones, :no_of_color_stones, :diamond_shape, :color_stone_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :lab_grown, :images, :description, :ring_subcategory, :gold_quality, :color_stone_type)");
+			(:unique_key, :company_id, :internal_id, :product_name, :pieces_in_stock, :days_for_shipment, :total_gold_weight, :total_carat_weight, :color_stone_carat, :no_of_stones, :no_of_color_stones, :diamond_shape, :color_stone_shape, :clarity, :color, :material, :height, :width, :length, :country_id, :lab_grown, :images, :description, :description_french, :ring_subcategory, :gold_quality, :color_stone_type)");
 		$addInfo->execute(array(
 			":unique_key" => $uniqueKey,
 			":company_id" => $_POST['company_id'],
@@ -592,11 +592,11 @@ if ( isset($_POST['featuredAdd']) ) {
 			":length" => $_POST['length'],
 			":country_id" => $_POST['country_id'],
 			":images" => "",
-			":description" => $_POST['description'],
+			":description" => $_POST['description'], ":description_french" => $_POST["description_french"] ,
 			":total_gold_weight" => $_POST['total_gold_weight'], 
-			":color_stone_carat" => $_POST['color_stone_carat'], 
+			":color_stone_carat" => floatval($_POST['color_stone_carat']), 
 			":no_of_color_stones" => $_POST['no_of_color_stones'], 
-			":color_stone_shape" => $_POST['color_stone_shape'], 
+			":color_stone_shape" => intval($_POST['color_stone_shape']), 
 			":lab_grown" => $_POST['lab_grown'],
 			":gold_quality" => $_POST['gold_quality'],
 			":color_stone_type" => $_POST['color_stone_type'],
@@ -1812,9 +1812,15 @@ function checkKey($key, $pdo) {
 									<div class="table-item">
 										<select id="edit_color" name="color" class="select-style" required>
 				                            <option value="">Select</option>
-				                            <option value="1">White Stone</option>
-				                            <option value="2">Colored Stone</option>
-				                            <option value="3">White & Colored Stone</option>
+				                            <?php 
+				                            $fetchAvailableColors = $pdo->prepare("SELECT * FROM color");
+				                            $fetchAvailableColors->execute();
+				                            if ( $fetchAvailableColors->rowCount() > 0) {
+				                            	foreach ( $fetchAvailableColors->fetchAll() as $availableColors ) {
+				                            		echo '<option value="'. $availableColors["id"] .'">'. $availableColors["color"] .'</option>';
+				                            	}
+				                            }
+				                            ?>
 				                        </select>
 									</div>
 								</td>
@@ -1984,6 +1990,16 @@ function checkKey($key, $pdo) {
 								<td>
 									<div class="table-item">
 										<textarea id="edit_description" name="description" class="form-control" style="width:100%" placeholder="Description Goes Here (250 Characters)"  maxlength="250"></textarea>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="table-item-label">Description (French)</span>
+								</td>
+								<td>
+									<div class="table-item">
+										<textarea id="edit_description_french" name="description_french" class="form-control" style="width:100%" placeholder="Description Goes Here (250 Characters)"  maxlength="250"></textarea>
 									</div>
 								</td>
 							</tr>
@@ -2176,9 +2192,15 @@ function checkKey($key, $pdo) {
 									<div class="table-item">
 										<select id="color" name="color" class="select-style" required>
 				                            <option value="">Select</option>
-				                            <option value="1">White Stone</option>
-				                            <option value="2">Colored Stone</option>
-				                            <option value="3">White & Colored Stone</option>
+				                            <?php 
+				                            $fetchAvailableColors = $pdo->prepare("SELECT * FROM color");
+				                            $fetchAvailableColors->execute();
+				                            if ( $fetchAvailableColors->rowCount() > 0) {
+				                            	foreach ( $fetchAvailableColors->fetchAll() as $availableColors ) {
+				                            		echo '<option value="'. $availableColors["id"] .'">'. $availableColors["color"] .'</option>';
+				                            	}
+				                            }
+				                            ?>
 				                        </select>
 									</div>
 								</td>
@@ -2359,6 +2381,16 @@ function checkKey($key, $pdo) {
 									</div>
 								</td>
 							</tr>
+							<tr>
+								<td>
+									<span class="table-item-label">Description (French)</span>
+								</td>
+								<td>
+									<div class="table-item">
+										<textarea id="description_french" name="description_french" class="form-control" style="width:100%" placeholder="Description Goes Here (250 Characters)"  maxlength="250"></textarea>
+									</div>
+								</td>
+							</tr>
 						</tbody>
 		            </div>  
 		        </div>
@@ -2419,6 +2451,7 @@ function checkKey($key, $pdo) {
 					$("#edit_width").val(result['width']);
 					$("#edit_internal_id").val(result['internal_id']);
 					$("#edit_description").val(result['description']);
+					$("#edit_description_french").val(result['description_french']);
 					$("#edit_color_stone_carat").val(result['color_stone_carat']);
 					$("#edit_total_gold_weight").val(result['total_gold_weight']);
 					$("#edit_no_of_color_stones").val(result['no_of_color_stones']);

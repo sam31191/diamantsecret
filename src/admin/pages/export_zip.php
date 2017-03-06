@@ -376,6 +376,7 @@ if ( isset($_SESSION['modSession']) ) {
 		                	<th>Country</th>
 		                	<th>Images</th>
 		                	<th style="max-width:150px;">Description</th>
+		                	<th style="max-width:150px;">Description (French)</th>
 		                </thead>
 		                <tbody>
 		                	<?php
@@ -445,6 +446,7 @@ if ( isset($_SESSION['modSession']) ) {
 									echo '<td>'. intval(sizeof(explode(",", $info['images'])) - 1) .' image(s)</td>';
 									$desc = $info['description'];
 									echo '<td>'. $desc .'</td>';
+									echo '<td>'. $info['description_french'] .'</td>';
 
 								echo '</tr>';
 							}

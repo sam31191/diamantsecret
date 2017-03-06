@@ -217,7 +217,7 @@ pconsole($_POST);
 										<h1 id="page-title" class="text-center">
 											<span itemprop="name"><?php echo $itemInfo['product_name']; ?></span>
 										</h1>
-										<div id="product-image" class="product-image row ">     
+										<div id="product-image" class="product-image row ">  
 											<div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated" data-animate="fadeInRight">
 												<div id="gallery_main" class="product-image-thumb thumbs full_width ">
 													<ul class="slide-product-image">
@@ -268,10 +268,18 @@ pconsole($_POST);
 											<div id="product-header" class="clearfix">
 												<div id="product-info-left">
 													<div class="description">
-														<span>Product Descriptions</span>
-														<p><?php
-														echo $itemInfo['description'];
-														?></p>
+														<fieldset>
+															<legend>Description</legend>
+															<p><?php
+															echo $itemInfo['description'];
+															?></p>
+														</fieldset>
+														<fieldset>
+															<legend>La description</legend>
+															<p><?php
+															echo $itemInfo['description_french'];
+															?></p>
+														</fieldset>
 													</div>
 													<div class="relative">
 														<ul class="list-unstyled">
@@ -290,24 +298,12 @@ pconsole($_POST);
 															';
 
 															$itemInfo['color'];
-															switch ($itemInfo['color']) {
-																case 1:{
-																	$color = '<a href="./collection_'. $category .'.php?color='. $itemInfo['color'] .'">
-																		White Stone<span>,</span>
+															$getColor = $pdo->prepare("SELECT * FROM color WHERE id = :id");
+															$getColor->execute(array(":id" => $itemInfo["color"]));
+															$getColor = $getColor->fetch(PDO::FETCH_ASSOC);
+
+															$color = '<a href="./collection_'. $category .'.php?color='. $getColor['id'] .'">'. $getColor["color"] .'<span>,</span>
 																		</a>';
-																	break;
-																} case 2: {
-																	$color = '<a href="./collection_'. $category .'.php?color='. $itemInfo['color'] .'">
-																		Colored Stone<span>,</span>
-																		</a>';
-																	break;
-																} case 3: {
-																	$color = '<a href="./collection_'. $category .'.php?color='. $itemInfo['color'] .'">
-																		White & Colored Stone<span>,</span>
-																		</a>';
-																	break;
-																}
-															}
 															echo $color;
 
 															echo '<a href="./collection_'. $category .'.php?clarity='. $itemInfo['clarity'] .'">
@@ -334,12 +330,16 @@ pconsole($_POST);
 																		Color
 																	</div>
 																	<?php
+																	$getColorName = $pdo->prepare("SELECT * FROM color WHERE id = :id");
+																	$getColorName->execute(array(":id" => $itemInfo['color']));
+
+																	$colorName = $getColorName->fetch(PDO::FETCH_ASSOC);
 																	echo '
 																	<div data-value="blue" class="swatch-element color blue available">
 																		<div class="tooltip">
-																			'. $material .'
+																			'. $colorName["color"] .'
 																		</div>
-																		<a class="btn material-badge" name="'. $itemInfo['material'] .'">'. $material .'</a>
+																		<a class="btn material-badge" name="'. $colorName["color"] .'">'. $colorName["color"] .'</a>
 																		</label>
 																	</div>';
 																	?>																	
@@ -417,12 +417,20 @@ pconsole($_POST);
 																		Measurement
 																	</div>
 																	<?php
-																	echo '<div class="header"><small>'. $itemInfo['length'] .'x'. $itemInfo['width'] .'x'. $itemInfo['height'] .'mm</small></div>';
+																	if ( empty($itemInfo['height']) || $itemInfo['height'] == 0 || empty($itemInfo['width']) || $itemInfo['width'] == 0 || empty($itemInfo['length']) || $itemInfo['length'] == 0 ) {
+																		$measurement = "-";
+																	} else {
+																		$measurement = $itemInfo['height'] . " x ";
+																		$measurement .= $itemInfo['width'] . " x ";
+																		$measurement .= $itemInfo['length'] . " mm";
+																	}
+
+																	echo '<div class="header"><small>'. $measurement .'</small></div>';
 																	?>																	
 																</div>
 																<div class="swatch color clearfix" data-option-index="0">
 																	<div class="header">
-																		Material
+																		Metal
 																	</div>
 																	<?php
 																	echo '<div class="header"><small>'. getMaterial($itemInfo['material'], $pdo) .'</small></div>';
@@ -446,18 +454,22 @@ pconsole($_POST);
 																</div>
 																<div class="swatch color clearfix" data-option-index="0">
 																	<div class="header">
-																		Stones
+																		Diamond Weight
 																	</div>
 																	<?php
-																	echo '<div class="header"><small>'. $itemInfo['no_of_stones'] .' - '. $itemInfo['total_carat_weight'] .'ct.</small></div>';
+																	echo '<div class="header"><small>'. $itemInfo['no_of_stones'] .' - '. number_format($itemInfo['total_carat_weight'], 2) .' ct.</small></div>';
 																	?>																	
 																</div>
 																<div class="swatch color clearfix" data-option-index="0">
 																	<div class="header">
-																		Colored Stones
+																		Color Stones
 																	</div>
 																	<?php
-																	echo '<div class="header"><small>'. $itemInfo['no_of_color_stones'] .' - '. $itemInfo['color_stone_carat'] .'ct.</small></div>';
+																	$numColorStoneTag = "-";
+																	if ( isset($itemInfo['no_of_stones']) && !empty($itemInfo['no_of_color_stones']) ) {
+																		$numColorStoneTag = $itemInfo['no_of_color_stones'] .' - '. $itemInfo['color_stone_carat'] .'ct.';
+																	}
+																	echo '<div class="header"><small>'. $numColorStoneTag .'</small></div>';
 																	?>																	
 																</div>
 																<div class="swatch color clearfix" data-option-index="0">
@@ -470,7 +482,7 @@ pconsole($_POST);
 																</div>
 																<div class="swatch color clearfix" data-option-index="0">
 																	<div class="header">
-																		Diamond
+																		Diamond Shape
 																	</div>
 																	<?php
 																	echo '<div class="header"><small>'. getDiamondShape($itemInfo['diamond_shape'], $pdo) .'</small></div>';
@@ -478,7 +490,7 @@ pconsole($_POST);
 																</div>
 																<div class="swatch color clearfix" data-option-index="0">
 																	<div class="header">
-																		Colored Stone Shape
+																		Color Stone Shape
 																	</div>
 																	<?php
 																	echo '<div class="header"><small>'. getDiamondShape($itemInfo['color_stone_shape'], $pdo) .'</small></div>';
@@ -514,7 +526,15 @@ pconsole($_POST);
 																</div>
 																<div id="purchase-1293235843">
 																	<div class="detail-price" itemprop="price">
-																		<span class="price"><?php echo $price; ?></span>
+																		<span class="price">
+																			<?php
+																				if ( $item["discount"] > 0 ) {
+																					$sale = '<span style="font-size: 18px;" class="label label-success">'. $item['discount'] .'% OFF</span>'; 
+																				} else {
+																					$sale = "";
+																				}
+																				echo $price . $sale; 
+																			?></span>
 																	</div>
 																</div>
 																<?php
