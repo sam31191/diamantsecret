@@ -245,7 +245,7 @@ pconsole($_POST);
 
 															if ( $fetchAvailableMaterials->rowCount() > 0 ) {
 																foreach ( $fetchAvailableMaterials->fetchAll() as $materialOption ) {
-																	echo '<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. $materialOption["category"] .'" value="'. $materialOption["id"] .'" onclick="filterMaterial(this.value)">'. $materialOption["category"] .'</button></li>';
+																	echo '<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. $materialOption["category"] .'" value="'. $materialOption["id"] .'" onclick="filterMaterial(this, this.value)">'. $materialOption["category"] .'</button></li>';
 																}
 															}
 															?>
@@ -256,8 +256,10 @@ pconsole($_POST);
 													<?php
 
 													if ( !empty($materialTag) ) {
-														echo "<script>$('#coll-filter-2 ul li button[value=$materialTag]').addClass('material-tag-active');
-															$('#filterMaterial').val($materialTag);</script>";
+														echo '<script>$("#filterMaterial").val("'. $materialTag .'");</script>';
+														foreach ( explode(";", urldecode($materialTag)) as $selectedMaterial ) {
+															echo '<script>$(".material-tag[value=\''. $selectedMaterial .'\']").addClass("material-tag-active");</script>';
+														}
 													}
 
 													?>
@@ -267,16 +269,25 @@ pconsole($_POST);
 															Stone Type
 														</p>
 														<ul>
-															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="White Stone" value="1" onclick="filterStone(this.value)">Diamonds</button></li>
-															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Colored Stone" value="2" onclick="filterStone(this.value)">Color Stones</button></li>
-															<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="White & Colored Stone" value="3" onclick="filterStone(this.value)">Diamonds &amp; Color Stones</button></li>
+															<?php 
+															$fetchAvailableStoneTypes = $pdo->prepare("SELECT * FROM `color`");
+															$fetchAvailableStoneTypes->execute();
+
+															if ( $fetchAvailableStoneTypes->rowCount() > 0 ) {
+																foreach ( $fetchAvailableStoneTypes->fetchAll() as $materialOption ) {
+																	echo '<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. $materialOption["color"] .'" value="'. $materialOption["id"] .'" onclick="filterStone(this, this.value)">'. $materialOption["color"] .'</button></li>';
+																}
+															}
+															?>
 														</ul>
 													</div>
 													<?php
 
 													if ( !empty($stoneTag) ) {
-														echo "<script>$('#coll-filter-2-color ul li button[value=$stoneTag]').addClass('stone-tag-active'); 
-															$('#filterStone').val($stoneTag)</script>";
+														echo '<script>$("#filterStone").val("'. $stoneTag .'");</script>';
+														foreach ( explode(";", urldecode($stoneTag)) as $selectedMaterial ) {
+															echo '<script>$(".stone-tag[value=\''. $selectedMaterial .'\']").addClass("stone-tag-active");</script>';
+														}
 													}
 
 													?>
@@ -595,7 +606,22 @@ pconsole($_POST);
 													$filterX = "";
 
 													if ( !empty($materialTag) ) {
-														$filterX .= " AND `material` = '" . $materialTag . "' ";
+														$filterX .= " AND ( ";
+														$materialSelections = explode(";", urldecode($materialTag));
+
+														pconsole($materialSelections);
+														
+														for ( $i = 0; $i < sizeof($materialSelections); $i++ ) {
+															if ( isset($materialSelections[$i]) && !empty($materialSelections[$i]) ) {
+																if ( $i == 0 ) {
+																	$filterX .= " `material` = ". $materialSelections[$i];
+																} else {
+																	$filterX .= " OR `material` = ". $materialSelections[$i];
+																}
+															}
+														}
+
+														$filterX .= " ) ";
 													}
 
 													if ( !empty($clarityTag) ) {
@@ -615,6 +641,7 @@ pconsole($_POST);
 														$priceRange = explode(";", urldecode($priceTag));
 														$filterX .= " AND `item_value` >= ". $priceRange[0]. " AND `item_value` <= ". $priceRange[1] ." ";
 													}
+
 
 													$count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items` INNER JOIN `rings` ON items.unique_key = rings.unique_key WHERE `category` = 1" . $filterX);
 													$count->execute();
@@ -639,7 +666,9 @@ pconsole($_POST);
 
 													$filter = "ORDER BY ". $filterTag ." ". $orderTag .", `date_added` DESC LIMIT ". $offset . ", " . $perPage;
 													$getAll = $pdo->prepare("SELECT * FROM `items` INNER JOIN `rings` ON items.unique_key = rings.unique_key WHERE `category` = 1 " . $filterX . $filter );
+													
 													$getAll->execute();
+													pconsole("Found:". $getAll->rowCount());
 													$allItems = $getAll->fetchAll();
 
 													foreach ( $allItems as $item) {
@@ -716,77 +745,7 @@ pconsole($_POST);
 																</ul>
 															</li>';
 
-														if ( isset($_GET['material']) || isset($_GET['_sc'])) {
-															if ( empty($_GET['material'])) {
-																$materialFilter = false;
-															} else {
-																$materialFilter = true;
-															}
-															if ( empty($_GET['stone'])) {
-																$stoneFilter = false;
-															} else {
-																$stoneFilter = true;
-															}
-															if ( empty($_GET['clarity']) ) {
-																$clarityFilter = false;
-															} else {
-																$clarityFilter = true;
-															}
-															if ( empty($_GET['_sc']) ) {
-																$ringFilter = false;
-															} else {
-																$ringFilter = true;
-															}
-
-															$filterCheck = 0;
-															if ( $materialFilter ) {
-																if ( $_GET['material'] == $itemInfo['material'] ) {
-																	$filterCheck++;
-																} else {
-
-																}
-															} else {
-																$filterCheck++;
-															}
-
-															if ( $stoneFilter ) {
-																if ( $_GET['stone'] == $itemInfo['color'] ) {
-																	$filterCheck++;
-																} else {
-
-																}
-															} else {
-																$filterCheck++;
-															}
-
-															if ( $clarityFilter ) {
-																if ( $_GET['clarity'] == $itemInfo['clarity'] ) {
-																	$filterCheck++;
-																} else {
-
-																}
-															} else {
-																$filterCheck++;
-															}
-
-															if ( $ringFilter ) {
-																if ( $_GET['_sc'] == $itemInfo['ring_subcategory'] ) {
-																	$filterCheck++;
-																} else {
-
-																}
-															} else {
-																$filterCheck++;
-															}
-															
-															pconsole($filterCheck);
-
-															if ( $filterCheck == 4 ) {
-																echo $element;
-															}
-														} else {
-															echo $element;
-														}
+														echo $element;
 													}
 
 												?>
@@ -890,11 +849,16 @@ pconsole($_POST);
                                     <label class="label-quick-shop">Material <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label>
                                     <input id="quick-shop-material-value" name="material" hidden />
                                     <div class="input-group" id="quick-shop-material">
-                                    	<a class="btn material-badge" name="1">Yellow Gold</a>
-                                    	<a class="btn material-badge" name="2">White Gold</a>
-                                    	<a class="btn material-badge" name="3">Pink Gold</a>
-                                    	<a class="btn material-badge" name="4">Silver</a>
-                                    	<a class="btn material-badge" name="5">Platinum</a>
+                                    	<?php 
+										$fetchAvailableMaterials = $pdo->prepare("SELECT * FROM `materials`");
+										$fetchAvailableMaterials->execute();
+
+										if ( $fetchAvailableMaterials->rowCount() > 0 ) {
+											foreach ( $fetchAvailableMaterials->fetchAll() as $materialOption ) {
+												echo '<a class="btn material-badge" name="'. $materialOption['id'] .'">'. $materialOption['category'] .'</a>';
+											}
+										}
+										?>
                                     </div>
                                     <div id="quick-shop-size">
 	                                    <label class="label-quick-shop">Size <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label> 
@@ -1120,29 +1084,42 @@ function removeFromWishlist(key) {
   xmlhttp.send();
 }
 
-function filterMaterial(val) {
-	$(".material-tag").each(function(index, element) {
+function filterMaterial(elem, val) {
+	if ( $(elem).hasClass("material-tag-active") ) {
+		/* DESELECT FILTER */
+		var currentSelections = $("#filterMaterial").val().replace(val +";", "");
+		$("#filterMaterial").val(currentSelections);
+		$(elem).removeClass("material-tag-active");
+	} else {
+		/* SELECT FILTER */
+		var currentSelections = $("#filterMaterial").val() + val + ";";
+		$("#filterMaterial").val(currentSelections);
+		$(elem).addClass("material-tag-active");
+	}
+	
+	/*$(".material-tag").each(function(index, element) {
         if ( $(element).val() == val ) {
 			$(element).addClass("material-tag-active");
-			$("#filterMaterial").val(val);
+			$("#filterMaterial").val(val + ";");
 			
 			console.log("Value: " + $("#filterMaterial").val());
 		} else {
 			$(element).removeClass("material-tag-active");
 		}
-    });
+    });*/
 }
-function filterStone(val) {
-	$(".stone-tag").each(function(index, element) {
-        if ( $(element).val() == val ) {
-			$(element).addClass("stone-tag-active");
-			$("#filterStone").val(val);
-			
-			console.log("Value: " + $("#filterStone").val());
-		} else {
-			$(element).removeClass("stone-tag-active");
-		}
-    });
+function filterStone(elem, val) {
+	if ( $(elem).hasClass("stone-tag-active") ) {
+		/* DESELECT FILTER */
+		var currentSelections = $("#filterMaterial").val().replace(val +";", "");
+		$("#filterStone").val(currentSelections);
+		$(elem).removeClass("stone-tag-active");
+	} else {
+		/* SELECT FILTER */
+		var currentSelections = $("#filterStone").val() + val + ";";
+		$("#filterStone").val(currentSelections);
+		$(elem).addClass("stone-tag-active");
+	}
 }
 
 function orderView(e) {
@@ -1162,8 +1139,8 @@ $("#rangeSliderPrice").ionRangeSlider({
     grid: true,
     min: 0,
     max: 10000,
-    from: 200,
-    to: 800,
+    from: 0,
+    to: 10000,
     prefix: "&euro;"
 });
 

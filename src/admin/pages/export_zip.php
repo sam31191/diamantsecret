@@ -369,6 +369,7 @@ if ( isset($_SESSION['modSession']) ) {
 		                	<th>Diamond Shape</th>
 		                	<th>Clarity</th>
 		                	<th>Color</th>
+		                	<th>Diamond Color</th>
 		                	<th>Material</th>
 		                	<th>Height</th>
 		                	<th>Weight</th>
@@ -438,6 +439,7 @@ if ( isset($_SESSION['modSession']) ) {
 									echo '<td>'. $info['diamond_shape'] .'</td>';
 									echo '<td>'. $info['clarity'] .'</td>';
 									echo '<td>'. $info['color'] .'</td>';
+									echo '<td>'. $info['diamond_color'] .'</td>';
 									echo '<td>'. $info['material'] .'</td>';
 									echo '<td>'. $info['height'] .'</td>';
 									echo '<td>'. $info['width'] .'</td>';

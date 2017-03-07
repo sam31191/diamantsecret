@@ -327,7 +327,7 @@ pconsole($_POST);
 																</style>																
 																<div class="swatch color clearfix" data-option-index="0">
 																	<div class="header">
-																		Color
+																		Stone
 																	</div>
 																	<?php
 																	$getColorName = $pdo->prepare("SELECT * FROM color WHERE id = :id");
@@ -345,6 +345,31 @@ pconsole($_POST);
 																	?>																	
 																</div>
 																<?php
+
+																if ( ($itemInfo['color'] == 1 || $itemInfo['color'] == 3) && isset($itemInfo['diamond_color']) && !empty($itemInfo['diamond_color']) ) {
+																	?>
+																	<div class="swatch color clearfix" data-option-index="0">
+																		<div class="header">
+																			Diamond Color
+																		</div>
+																		<?php
+																		$getColorName = $pdo->prepare("SELECT * FROM diamond_color WHERE id = :id");
+																		$getColorName->execute(array(":id" => $itemInfo['diamond_color']));
+
+																		$colorName = $getColorName->fetch(PDO::FETCH_ASSOC);
+																		echo '
+																		<div data-value="blue" class="swatch-element color blue available">
+																			<div class="tooltip">
+																				'. $colorName["diamond_color"] .'
+																			</div>
+																			<a class="btn material-badge" name="'. $colorName["diamond_color"] .'">'. $colorName["diamond_color"] .'</a>
+																			</label>
+																		</div>';
+																		?>																	
+																	</div>
+																	<?php
+																}
+
 																echo '<input id="product-size-value" name="size" value="0" hidden />
 																	<input name="unique_key" value="'. $item['unique_key'] .'" hidden/>';
 
