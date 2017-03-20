@@ -19,6 +19,7 @@
     $__ADMINMAIL__ = "ryan.bhanwra@gmail.com";
     $__ADMINNAME__ = "Admin";
     $__MAINDOMAIN__ = "http://localhost/git/diamantsecret/src/";
+    $__SITE = "diamant_secret";
     #$__MAINDOMAIN__ = "http://www.diamantsecret.com/";
     
     
@@ -48,7 +49,7 @@
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
-            if ( !isset($_SESSION['_ref']) || $_SESSION['_ref'] !== "diamant_secret" ) {
+            if ( !isset($_SESSION['_ref']) || $_SESSION['_ref'] !== $__SITE ) {
                 unset($_SESSION);
                 session_destroy();
             }   

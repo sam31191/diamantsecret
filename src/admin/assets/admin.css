@@ -431,22 +431,22 @@ input[type=file] {
     overflow-y: scroll;
     overflow-x: scroll;
     white-space: nowrap;
-    height: 65vh;
+    height: 60vh;
 }
 .table-custom > thead > tr > th {
 	border: none;
 	text-align: center;
 }
 .table-custom > tbody > tr > td > img {
-	width: 128px;
+	width: 80px;
     display: block;
     margin: auto;
 }
 .table-custom > thead > tr > th:nth-child(odd) {
-	background-color: #cfd8dc;
+	background-color: #eee;
 }
 .table-custom > tbody > tr > td:nth-child(odd) {
-	background-color: rgba(207,216,220,0.5);
+	background-color: #eee;
 }
 .select-checkbox {
 	border: solid thin;
@@ -511,4 +511,29 @@ input[type=file] {
 }
 .label-success {
     background-color: #26b99a;
+}
+
+.dataTables_length label select[name="itemsTable_length"] {
+    background-color: transparent;
+}
+
+.dataTables_filter label input.form-control.input-sm {
+    background-color: transparent;
+}
+
+#bulkManage:before {
+    content: "Bulk Manage";
+    opacity: 0;
+    font-size: 12px;
+    position: absolute;
+    transition: 0.5s all;
+    z-index: -1;    
+    font-weight: bold;
+    color: #333;
+}
+
+#bulkManage:hover:before {
+    opacity: 1;
+    margin-top: -15px;
+    z-index: 0;
 }

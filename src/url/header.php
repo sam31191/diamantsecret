@@ -307,8 +307,16 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                     <span>Contact</span>
                     </a>
                     </li>
-                    </li>
                     <?php 
+                      if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
+                        echo '
+                          <li class="nav-item">
+                          <a href="./diamond_search.php">
+                          <span>Diamond Search</span>
+                          </a>
+                          </li>
+                        ';
+                      }
                       if ( isset($_SESSION['admin']) && $_SESSION['admin'] > 0 ) {
                         echo '
                           <li class="nav-item">
