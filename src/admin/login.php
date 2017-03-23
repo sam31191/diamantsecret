@@ -13,7 +13,7 @@ if ( !isset($_SESSION['admin']) ) {
 include '../conf/config.php';
 $message = "";
 if ( isset($_POST['Password']) ) {
-  $authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :username AND `password` = :pass");
+  $authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :username AND `password` = :pass AND `site_id` = 1");
   $authenticate->execute(array(":username" => $_SESSION['username'], ":pass" => $_POST['Password']));
   
   if ( $authenticate->rowCount() > 0 ) {

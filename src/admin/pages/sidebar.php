@@ -24,11 +24,11 @@
         <li><a><i class="fa fa-home"></i> Items <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
             <li><a href="all_items.php">All</a></li>
-            <li><a href="rings.php">Rings</a></li>
-            <li><a href="earrings.php">Earrings</a></li>
-            <li><a href="pendants.php">Pendants</a></li>
-            <li><a href="necklaces.php">Necklaces</a></li>
-            <li><a href="bracelets.php">Bracelets</a></li>
+            <li><a href="all_items.php?site=all&category=1">Rings</a></li>
+            <li><a href="all_items.php?site=all&category=2">Earrings</a></li>
+            <li><a href="all_items.php?site=all&category=3">Pendants</a></li>
+            <li><a href="all_items.php?site=all&category=4">Necklaces</a></li>
+            <li><a href="all_items.php?site=all&category=5">Bracelets</a></li>
           </ul>
         </li>
         <li><a><i class="fa fa-cogs"></i> Management <span class="fa fa-chevron-down"></span></a>

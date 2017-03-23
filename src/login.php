@@ -4,14 +4,14 @@ if ( session_status() == PHP_SESSION_NONE ) {
 }
 include 'conf/config.php';
 if ( isset($_POST['login']['username']) ) {
-	$checkUser = $pdo->prepare("SELECT `username`, `activated` FROM `accounts` WHERE `username` = :user");
+	$checkUser = $pdo->prepare("SELECT `username`, `activated` FROM `accounts` WHERE `username` = :user AND `site_id` = 1");
 	$checkUser->execute(array(":user" => $_POST['login']['username']));
 
 	if ( $checkUser->rowCount() > 0 ) {
 		//echo var_dump("User Exist");
 		$userData = $checkUser->fetch(PDO::FETCH_ASSOC);
 		if ( $userData['activated'] == 1 ) {
-			$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND BINARY `password` = :pass");
+			$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND BINARY `password` = :pass AND `site_id` = 1");
 			$authenticate->execute (
 				array(
 					":user" => $_POST['login']['username'],
@@ -42,14 +42,14 @@ if ( isset($_POST['login']['username']) ) {
 		$error = "No User Found";
 	}
 } else if ( isset($_POST['form_type']) ) {
-	$checkUser = $pdo->prepare("SELECT `username`, `activated` FROM `accounts` WHERE `username` = :user");
+	$checkUser = $pdo->prepare("SELECT `username`, `activated` FROM `accounts` WHERE `username` = :user AND `site_id` = 1");
 	$checkUser->execute(array(":user" => $_POST['customer']['username']));
 
 	if ( $checkUser->rowCount() > 0 ) {
 		//echo var_dump("User Exist");
 		$userData = $checkUser->fetch(PDO::FETCH_ASSOC);
 		if ( $userData['activated'] == 1 ) {
-			$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND BINARY `password` = :pass");
+			$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND BINARY `password` = :pass AND `site_id` = 1");
 			$authenticate->execute (
 				array(
 					":user" => $_POST['customer']['username'],
@@ -119,10 +119,10 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 if ( isset($_GET['unsub']) ) {
 	//echo var_dump($_GET);
 
-	$checkSub = $pdo->prepare("SELECT * FROM `subscribers` WHERE `hash` = :hash");
+	$checkSub = $pdo->prepare("SELECT * FROM `subscribers` WHERE `hash` = :hash AND `site_id` = 1");
 	$checkSub->execute(array(":hash" => $_GET['unsub']));
 	if ( $checkSub->rowCount() > 0 ) {
-		$unsub = $pdo->prepare("DELETE FROM `subscribers` WHERE `hash` = :hash");
+		$unsub = $pdo->prepare("DELETE FROM `subscribers` WHERE `hash` = :hash AND `site_id` = 1");
 		$unsub->execute(array(":hash" => $_GET['unsub']));
 
 		$error = "You have unsubscribed from our newsletter";
@@ -130,7 +130,7 @@ if ( isset($_GET['unsub']) ) {
 }
 
 if ( isset($_POST['recover']) ) {
-	$checkUser = $pdo->prepare("SELECT * FROM `accounts` WHERE `email` = :email");
+	$checkUser = $pdo->prepare("SELECT * FROM `accounts` WHERE `email` = :email AND `site_id` = 1");
 	$checkUser->execute(array(":email" => trim($_POST['recover']['email'])));
 
 	if ( $checkUser->rowCount() > 0 ) {
@@ -174,7 +174,7 @@ if ( isset($_POST['recover']) ) {
 			$error = 'Invalid Email Address';
 
 		} else {
-			$createHash = $pdo->prepare("UPDATE `accounts` SET `recover_hash` = :pass WHERE `email` = :email");
+			$createHash = $pdo->prepare("UPDATE `accounts` SET `recover_hash` = :pass WHERE `email` = :email AND `site_id` = 1");
 
 			$createHash->execute(array(
 				":pass" => $recoverHash,
@@ -231,7 +231,7 @@ if ( isset($_GET['recoverHash']) && !empty($_GET['recoverHash']) ) {
 		if ( !$mail->send() ) {
 			$error = 'Invalid Email Address';
 		} else {
-			$createHash = $pdo->prepare("UPDATE `accounts` SET `password` = :pass, `recover_hash` = :emptyHash WHERE `email` = :email");
+			$createHash = $pdo->prepare("UPDATE `accounts` SET `password` = :pass, `recover_hash` = :emptyHash WHERE `email` = :email AND `site_id` = 1");
 
 			$createHash->execute(array(
 				":pass" => $newPass,

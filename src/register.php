@@ -10,16 +10,16 @@ if ( isset($_GET['verifyLogin']) ) {
 	$incomingUsername = ( isset($_POST['customer']['username']) ) ? $_POST['customer']['username'] : "";
 	$hash = $_GET['verifyLogin'];
 
-	$checkHash = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :hash");
+	$checkHash = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :hash AND `site_id` = 1");
 	$checkHash->execute(array(":hash" => $hash));
 
 	if ( $checkHash->rowCount() > 0 ) {
 		$accountToActivate = $checkHash->fetch(PDO::FETCH_ASSOC);
-		$checkPass = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :hash AND `password` = :pass");
+		$checkPass = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :hash AND `password` = :pass AND `site_id` = 1");
 		$checkPass->execute(array(":hash" => $hash, ":pass" => $incomingPassword));
 
 		if ( $checkPass->rowCount() > 0 ) {
-			$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email");
+			$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email AND `site_id` = 1");
 			$activate->execute(array(":emptyHash" => "", ":email" => $accountToActivate['email']));
 
 			$_SESSION['username'] = $accountToActivate['username'];
@@ -29,14 +29,14 @@ if ( isset($_GET['verifyLogin']) ) {
 			header("Location: ./index.php");
 			exit();
 		} else {
-			$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email");
+			$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email AND `site_id` = 1");
 			$activate->execute(array(":emptyHash" => "", ":email" => $accountToActivate['email']));
 			$alert = "Account has been verified";
 			$alert2 = "Invalid Login Credentials </li></li> Click here to <a style='color:#607D8B' href='./login.php'>Login</a>";
 		}
 
 	} else {
-		$checkAuth = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `password` = :pass AND `activated` = 1");
+		$checkAuth = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `password` = :pass AND `activated` = 1 AND `site_id` = 1");
 		$checkAuth->execute(array(":user" => $incomingUsername, ":pass" => $incomingPassword));
 
 		if ( $checkAuth->rowCount() > 0 ) {
@@ -110,7 +110,7 @@ if ( isset($_GET['verify']) ) {
 	if ( $verify->rowCount() > 0 ) {
 		$accountToActivate = $verify->fetch(PDO::FETCH_ASSOC);
 
-		$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email");
+		$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email AND `site_id` = 1");
 		$activate->execute(array(":emptyHash" => "", ":email" => $accountToActivate['email']));
 
 		//echo var_dump($activate);

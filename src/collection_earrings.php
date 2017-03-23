@@ -59,7 +59,7 @@ include 'conf/config.php';
 pconsole($_GET);
 if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
-	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
+	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user AND site_id = 1");
 	$fetchCurrentCart->execute(array(":user" => $_USERNAME));
 
 	$currentCart = $fetchCurrentCart->fetch(PDO::FETCH_ASSOC);
@@ -92,10 +92,10 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 		$currentCart .= $cartElement . $_POST['quantity'] . ",";
 	}
 
-	$updateCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user");
+	$updateCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user AND site_id = 1");
 	$updateCart->execute(array(":cart" => $currentCart, ":user" => $_USERNAME));
 } else if ( isset($_POST['removeFromCart']) && $_SESSION['loggedIn']  ) {
-	$getCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
+	$getCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user AND site_id = 1");
 	$getCart->execute(array(
 		":user" => $_USERNAME
 	));
@@ -104,7 +104,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 		
 	$cart = str_replace($_POST['unique_key'] . '|' . $_POST['size'] . '|' . $_POST['quantity'] . ',', "", $cart);
 	
-	$addToCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user");
+	$addToCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user AND site_id = 1");
 	$addToCart->execute(array(
 		":cart" => $cart,
 		":user" => $_USERNAME
@@ -370,7 +370,7 @@ pconsole($_POST);
 															<div class="home_deal_fp_wrapper sb-content">
 																<div id="home_deal_fp">
 																<?php
-																$getItem = $pdo->prepare("SELECT * FROM `items` WHERE `featured` = 1 AND `category` = 2 ORDER BY `date_added` DESC LIMIT 5");
+																$getItem = $pdo->prepare("SELECT * FROM `items` WHERE `featured` = 1 AND `category` = 2 AND site_0 = 1 AND disabled = 0 ORDER BY `date_added` DESC LIMIT 5");
 																$getItem->execute();
 																$allItems = $getItem->fetchAll();
 																foreach ( $allItems as $item) {
@@ -643,7 +643,7 @@ pconsole($_POST);
 													}
 
 
-													$count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items` INNER JOIN `earrings` ON items.unique_key = earrings.unique_key WHERE `category` = 2" . $filterX);
+													$count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items` INNER JOIN `earrings` ON items.unique_key = earrings.unique_key WHERE `category` = 2 AND site_0 = 1 AND disabled = 0" . $filterX);
 													$count->execute();
 													$totalRows = $count->fetch(PDO::FETCH_ASSOC);
 													$totalRows = $totalRows['totalRows'];
@@ -665,7 +665,7 @@ pconsole($_POST);
 													}
 
 													$filter = "ORDER BY ". $filterTag ." ". $orderTag .", `date_added` DESC LIMIT ". $offset . ", " . $perPage;
-													$getAll = $pdo->prepare("SELECT * FROM `items` INNER JOIN `earrings` ON items.unique_key = earrings.unique_key WHERE `category` = 2 " . $filterX . $filter );
+													$getAll = $pdo->prepare("SELECT * FROM `items` INNER JOIN `earrings` ON items.unique_key = earrings.unique_key WHERE `category` = 2 AND site_0 = 1 AND disabled = 0 " . $filterX . $filter );
 													
 													$getAll->execute();
 													pconsole("Found:". $getAll->rowCount());

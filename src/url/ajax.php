@@ -8,7 +8,7 @@ if ( isset($_GET['addtoFav'])) {
 	if ( !$_SESSION['loggedIn'] ) {
 		die();
 	}
-	$getcurrentFavs = $pdo->prepare("SELECT `favorites` FROM `accounts` WHERE `username` = :username");
+	$getcurrentFavs = $pdo->prepare("SELECT `favorites` FROM `accounts` WHERE `username` = :username AND `site_id` = 1");
 	$getcurrentFavs->execute(array(":username" => $_USERNAME));
 
 	$result = $getcurrentFavs->fetch(PDO::FETCH_ASSOC);
@@ -18,7 +18,7 @@ if ( isset($_GET['addtoFav'])) {
 
 	echo $currentFav;
 
-	$updateFav = $pdo->prepare("UPDATE `accounts` SET `favorites` = :favs WHERE `username` = :username");
+	$updateFav = $pdo->prepare("UPDATE `accounts` SET `favorites` = :favs WHERE `username` = :username AND `site_id` = 1");
 	$updateFav->execute ( array (":favs" => $currentFav, ":username" => $_USERNAME) );
 }
 
@@ -26,7 +26,7 @@ if ( isset($_GET['removeFromFav'])) {
 	if ( !$_SESSION['loggedIn'] ) {
 		die();
 	}
-	$getcurrentFavs = $pdo->prepare("SELECT `favorites` FROM `accounts` WHERE `username` = :username");
+	$getcurrentFavs = $pdo->prepare("SELECT `favorites` FROM `accounts` WHERE `username` = :username AND `site_id` = 1");
 	$getcurrentFavs->execute(array(":username" => $_USERNAME));
 
 	$result = $getcurrentFavs->fetch(PDO::FETCH_ASSOC);
@@ -36,21 +36,21 @@ if ( isset($_GET['removeFromFav'])) {
 
 	echo $currentFav;
 
-	$updateFav = $pdo->prepare("UPDATE `accounts` SET `favorites` = :favs WHERE `username` = :username");
+	$updateFav = $pdo->prepare("UPDATE `accounts` SET `favorites` = :favs WHERE `username` = :username AND `site_id` = 1");
 	$updateFav->execute ( array (":favs" => $currentFav, ":username" => $_USERNAME) );
 }
 
 if ( isset($_GET['subscribe']) ) {
 	$email = trim($_GET['subscribe']);
 
-	$checkSub = $pdo->prepare("SELECT * FROM `subscribers` WHERE `email` = :email");
+	$checkSub = $pdo->prepare("SELECT * FROM `subscribers` WHERE `email` = :email AND `site_id` = 1");
 	$checkSub->execute(array(":email" => $email));
 
 	if ( $checkSub->rowCount() > 0 ) {
 		echo "You are already subscribed";
 	} else {
     	$hash = strtoupper((hash("MD5", $email . "RAND123HASH")));
-		$addSub = $pdo->prepare("INSERT INTO `subscribers` (`email`, `hash`) VALUES (:email, :hash)");
+		$addSub = $pdo->prepare("INSERT INTO `subscribers` (`email`, `hash`, `site_id`) VALUES (:email, :hash, 1)");
 		$addSub->execute(array(":email" => $email, ":hash" => $hash));
 
 		require './PHPMailerAutoload.php';
@@ -98,7 +98,7 @@ if ( isset($_GET['subscribe']) ) {
 }
 
 if ( isset($_GET['verifyUsername']) ) {
-	$verifyUsername = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user");
+	$verifyUsername = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `site_id` = 1");
 	$verifyUsername->execute(array(":user" => $_GET['verifyUsername']));
 
 	if ( $verifyUsername->rowCount() > 0 ) {
@@ -109,7 +109,7 @@ if ( isset($_GET['verifyUsername']) ) {
 }
 
 if ( isset($_GET['verifyEmail']) ) {
-	$verifyUsername = $pdo->prepare("SELECT * FROM `accounts` WHERE `email` = :user");
+	$verifyUsername = $pdo->prepare("SELECT * FROM `accounts` WHERE `email` = :user AND `site_id` = 1");
 	$verifyUsername->execute(array(":user" => $_GET['verifyEmail']));
 
 	if ( $verifyUsername->rowCount() > 0 ) {
@@ -124,10 +124,10 @@ if ( isset($_GET['register']) ) {
 	//echo json_encode($_POST);
 	$alert = "";
 
-	$checkUsername = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user");
+	$checkUsername = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND `site_id` = 1");
 	$checkUsername->execute(array(":user" => $_POST['customer']['username']));
 	
-	$checkEmail = $pdo->prepare("SELECT * FROM `accounts` WHERE `email` = :user");
+	$checkEmail = $pdo->prepare("SELECT * FROM `accounts` WHERE `email` = :user AND `site_id` = 1");
 	$checkEmail->execute(array(":user" => $_POST['customer']['email']));
 
 
@@ -193,7 +193,7 @@ if ( isset($_GET['register']) ) {
 		if ( !$mail->send() ) {
 			$alert = "Invalid Email";
 		} else {
-			$createUser = $pdo->prepare("INSERT INTO `accounts` (`username`, `email`, `password`, `first_name`, `last_name`, `mobileno`, `address`, `type`, `activated`, `verification_hash`) VALUES (:user, :email, :password, :first_name, :last_name, :phone_number, :address, 0, 0, :hash)");
+			$createUser = $pdo->prepare("INSERT INTO `accounts` (`username`, `email`, `password`, `first_name`, `last_name`, `mobileno`, `address`, `type`, `activated`, `verification_hash`, `site_id`) VALUES (:user, :email, :password, :first_name, :last_name, :phone_number, :address, 0, 0, :hash, 1)");
 
 			$createUser->execute(array(
 				":user" => trim($_POST['customer']['username']),

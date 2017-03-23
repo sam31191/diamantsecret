@@ -55,7 +55,7 @@ include 'conf/config.php';
 
 if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
-	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
+	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user AND site_id = 1");
 	$fetchCurrentCart->execute(array(":user" => $_USERNAME));
 
 	$currentCart = $fetchCurrentCart->fetch(PDO::FETCH_ASSOC);
@@ -88,10 +88,10 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 		$currentCart .= $cartElement . $_POST['quantity'] . ",";
 	}
 
-	$updateCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user");
+	$updateCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user AND site_id = 1");
 	$updateCart->execute(array(":cart" => $currentCart, ":user" => $_USERNAME));
 } else if ( isset($_POST['removeFromCart']) && $_SESSION['loggedIn'] ) {
-	$getCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
+	$getCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user AND site_id = 1");
 	$getCart->execute(array(
 		":user" => $_USERNAME
 	));
@@ -100,7 +100,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 		
 	$cart = str_replace($_POST['unique_key'] . '|' . $_POST['size'] . '|' . $_POST['quantity'] . ',', "", $cart);
 	
-	$addToCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user");
+	$addToCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user AND site_id = 1");
 	$addToCart->execute(array(
 		":cart" => $cart,
 		":user" => $_USERNAME
@@ -265,7 +265,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 											<div class="home_products_wrapper">
 												<div id="home_products">
                                                 <?php
-												$fetchNew = $pdo->prepare("SELECT * FROM `items` ORDER BY `date_added` DESC LIMIT 6");
+												$fetchNew = $pdo->prepare("SELECT * FROM `items` WHERE site_0 = 1 AND disabled = 0 ORDER BY `date_added` DESC LIMIT 6");
 												$fetchNew->execute();
 												
 												$newProducts = $fetchNew->fetchAll();
@@ -421,7 +421,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 											<div class="home_fp_wrapper">
 												<div id="home_fp">
 													<?php
-													$fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `featured` = 1 LIMIT 20");
+													$fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `featured` = 1 AND site_0 = 1 AND disabled = 0 LIMIT 20");
 													$fetchFeatured->execute();
 
 													$featuredItems = $fetchFeatured->fetchAll();

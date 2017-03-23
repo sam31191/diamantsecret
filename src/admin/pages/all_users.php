@@ -20,15 +20,15 @@ include './../../conf/config.php';
 
 pconsole($_SESSION);
 if ( isset($_POST['user']) ) {
-	pconsole($_POST['user']);
-	if ( isset($_POST['user']['activate']) ) {
-		$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1 WHERE `id` = :id");
-		$activate->execute(array(":id" => $_POST['user']['activate']));
-	} else if ( isset($_POST['user']['make_admin']) ) {
+    pconsole($_POST['user']);
+    if ( isset($_POST['user']['activate']) ) {
+        $activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1 WHERE `id` = :id");
+        $activate->execute(array(":id" => $_POST['user']['activate']));
+    } else if ( isset($_POST['user']['make_admin']) ) {
     pconsole("TESTTETS");
-		$makeAdmin = $pdo->prepare("UPDATE `accounts` SET `type` = 1 WHERE `id` = :id");
-		$makeAdmin->execute(array(":id" => $_POST['user']['make_admin']));
-	} else if ( isset($_POST['user']['remove_admin']) ) {
+        $makeAdmin = $pdo->prepare("UPDATE `accounts` SET `type` = 1 WHERE `id` = :id");
+        $makeAdmin->execute(array(":id" => $_POST['user']['make_admin']));
+    } else if ( isset($_POST['user']['remove_admin']) ) {
         $makeAdmin = $pdo->prepare("UPDATE `accounts` SET `type` = 0 WHERE `id` = :id");
         $makeAdmin->execute(array(":id" => $_POST['user']['remove_admin']));
     } else if ( isset($_POST['user']['delete']) ) {
@@ -61,6 +61,12 @@ if ( isset($_POST['user']) ) {
     <!-- Bootstrap -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
+    <!-- Datatables -->
+    <link href="../assets/datatables/javascripts/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/datatables/javascripts/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/datatables/javascripts/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/datatables/javascripts/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/datatables/javascripts/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="../assets/custom.min.css" rel="stylesheet">
     <link href="../assets/font-awesome.min.css" rel="stylesheet">
@@ -70,11 +76,11 @@ if ( isset($_POST['user']) ) {
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
-      	<!-- sidebar -->
+        <!-- sidebar -->
         <div class="col-md-3 left_col">
           <?php include 'sidebar.php'; ?>
         </div>
-		<!-- /sidebar -->
+        <!-- /sidebar -->
         <!-- top navigation -->
         <div class="top_nav">
           <?php include 'navbar.php'; ?>
@@ -85,99 +91,89 @@ if ( isset($_POST['user']) ) {
         <div class="right_col" role="main">
         <h3>Users
             
-        	<div class="btn-group">
+            <div class="btn-group">
             <?php 
-                if ( isset($_GET['show']) ){
-                    switch($_GET['show']) {
-                        case 0: {
-                            $show = 'Users';
-                            break;
-                        } case 1: {
-                            $show = 'Admins';
-                            break;
-                        } case 2: {
-                            $show = 'Super Admins';
-                            break;
-                        } default: {
-                            $show = "All";
-                            break;
-                        }
+            /* PREREQ FILTER VARIABLES */
+            $selectedSiteFilter = "";
+            $selectedSiteHref = "all";
+
+
+            /* FIRST FILTER (Domains) */
+            $fetchAllSites = $pdo->prepare("SELECT * FROM tb_websites");
+            $fetchAllSites->execute();
+
+            $allSites = "";
+
+            if ( $fetchAllSites->rowCount() > 0 ) {
+
+                $allSiteOptions = $fetchAllSites->fetchAll();
+
+                foreach ( $allSiteOptions as $siteOption ) {
+                    $allSites .= '<li><a href="?site='. $siteOption['name'] .'">'. $siteOption['label'] .'</a></li>';
+                }
+
+                if ( isset($_GET['site']) ) {
+                    $checkSiteOption = $pdo->prepare("SELECT * FROM tb_websites WHERE name = :name");
+                    $checkSiteOption->execute(array(":name" => $_GET['site']));
+
+                    if ( $checkSiteOption->rowCount() > 0 ) {
+                        $selectedSiteOption = $checkSiteOption->fetch(PDO::FETCH_ASSOC);
+                        $selectedSiteLabel = $selectedSiteOption['label'];
+                        $selectedSiteFilter = " WHERE site_id = ". $selectedSiteOption['id'];
+                        $selectedSiteHref = $selectedSiteOption['name'];
+                    } else {
+                        $selectedSiteLabel = "All Sites";
                     }
                 } else {
-                    $show = 'All'; 
+                    $selectedSiteLabel = "All Sites";
                 }
-        		echo '<button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        			'. $show .' <span class="fa fa-caret-down"></span>
-        		</button>';
-	    		$filter = "id";
-	    		$currentOrder = "ASC";
-	    		if ( isset($_GET['filter']) && isset($_GET['order']) ) {
-	    			$filter = $_GET['filter'];
-	    			$currentOrder = $_GET['order'];
-	    		}
-	    		if ( $currentOrder == "ASC" ) {
-	    			$nextOrder = "DESC";
-	    		} else {
-	    			$nextOrder = "ASC";
-	    		}
-	    		if ( isset($_GET['show']) ) {
-	    			$show = " WHERE `type` = " . $_GET['show'];
-	    		} else {
-	    			$show = "";
-	    		}
-        		echo'
-				  <ul class="dropdown-menu">
-				    <li><a href="?filter='. $filter .'&order='. $currentOrder .'">All</a></li>
-				    <li><a href="?filter='. $filter .'&order='. $currentOrder .'&show=0">Users</a></li>
-				    <li><a href="?filter='. $filter .'&order='. $currentOrder .'&show=1">Admins</a></li>
-				  </ul>
-				  ';
-			?>
-			</div>
-			<form method="get" style="float:right; width:200px;"><input type="text" style="background: transparent;" class="form-control" placeholder="Search..." name="search"></form>
+            }
+            /* FIRST FILTER END */
+            
+            echo '<button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                '. $selectedSiteLabel .' <span class="fa fa-caret-down"></span>
+            </button>';
+            echo'
+              <ul class="dropdown-menu">
+                <li><a href="?site=all">All</a></li>
+                '. $allSites .'
+              </ul>
+              ';
+            ?>
+            </div>
             <form method="post" target="_blank" action="./login_as.php" id="loginAsForm"></form>
-		</h3>
+        </h3>
             <div class="container" style="overflow:auto">
-                <table class="table table-condensed table-custom table-custom-items" style="white-space: nowrap;">
-            		<?php
-            		if ( isset($_GET['order']) && isset($_GET['filter']) ) {
-                		echo '<small>Sorted: <span style="text-transform: capitalize;">'. str_replace("_", " ", $_GET['filter']) .' - '; 
-                		echo ($_GET['order'] == "ASC") ? "Ascending" : "Descending";
-                		echo '</span></small>';
-                	}
-            		echo '
-                	<thead>
+                <table id="itemsTable" class="table table-striped table-bordered bulk_action table-custom table-custom-items">
+                    <thead>
                         <th>Admin</th>
                         <th></th>
-                		<th><a href="?filter=username&order='. $nextOrder .'">Username</a></th>
-                        <th><a href="?filter=email&order='. $nextOrder .'">Email</a></th>
-                        <th style="min-width: 200px;"><a href="">Password</a></th>
-                		<th><a href="?filter=first_name&order='. $nextOrder .'">First Name</a></th>
-                		<th><a href="?filter=last_name&order='. $nextOrder .'">Last Name</a></th>
-                		<th><a href="?filter=mobileno&order='. $nextOrder .'">Phone Number</a></th>
-                		<th><a href="?filter=address&order='. $nextOrder .'">Address</a></th>
-                	</thead>
-                	<tbody>';
+                        <th>Website</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th><span style="width: 100px !important;">Password &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Phone Number</th>
+                        <th>Address</th>
+                    </thead>
+                    <tbody>
+                        <?php 
 
-                		if ( isset($_GET['search']) ) {
-                			$getUsers = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` LIKE :search");
-                			$getUsers->execute(array(":search" => '%' . $_GET['search'] . '%'));
-                		} else {
-                			$getUsers = $pdo->prepare("SELECT * FROM `accounts` ". $show ." ORDER BY " . $filter . " " . $currentOrder);
-                			$getUsers->execute();
-                		}
+                        $getUsers = $pdo->prepare("SELECT * FROM accounts". $selectedSiteFilter);
+                        $getUsers->execute();
 
-                		if ( $getUsers->rowCount() > 0 ) {
-                			foreach ( $getUsers->fetchAll() as $user ) {
-                				if ( $user['type'] == 1 && $user['username'] !== $_SESSION['username'] ) {
-                					$admin = '<button class="btn btn-sm btn-danger" name="user[remove_admin]" onclick="$(\'#adminToRemove\').text(\''. $user['username'] .'\'); $(\'#removeAdminUsername\').val(\''. $user['id'] .'\'); $(\'#promptRemoveAdminModal\').modal(\'toggle\');" value="'. $user['id'] .'" data-toggle="tooltip" title="Remove Admin"><i class="fa fa-check" aria-hidden="true"></i></button>';
-                				} else if ( $user['type'] == 2 ){
-                					$admin = '<button class="btn btn-sm btn-warning" data-toggle="tooltip" title="Can not remove a Super Admin" disabled><i class="fa fa-check" aria-hidden="true"></i></button>';
-                				} else if ( $user['username'] == $_SESSION['username'] ) {
-                					$admin = '<button class="btn btn-sm btn-danger" value="'. $user['id'] .'" disabled data-toggle="tooltip" title="Can not remove yourself"><i class="fa fa-check" aria-hidden="true"></i></button>';
-                				} else {
-                					$admin = '<button class="btn btn-sm btn-custom" name="user[make_admin]" onclick="$(\'#adminToMake\').text(\''. $user['username'] .'\'); $(\'#makeAdminUsername\').val(\''. $user['id'] .'\'); $(\'#promptMakeAdminModal\').modal(\'toggle\');" value="'. $user['id'] .'" data-toggle="tooltip" title="Make Admin"><i class="fa fa-check" aria-hidden="true" ></i></button>';
-                				}
+                        if ( $getUsers->rowCount() > 0 ) {
+                            foreach ( $getUsers->fetchAll() as $user ) {
+                                if ( $user['type'] == 1 && $user['username'] !== $_SESSION['username'] ) {
+                                    $admin = '<button class="btn btn-sm btn-danger" name="user[remove_admin]" onclick="$(\'#adminToRemove\').text(\''. $user['username'] .'\'); $(\'#removeAdminUsername\').val(\''. $user['id'] .'\'); $(\'#promptRemoveAdminModal\').modal(\'toggle\');" value="'. $user['id'] .'" data-toggle="tooltip" title="Remove Admin"><i class="fa fa-check" aria-hidden="true"></i></button>';
+                                } else if ( $user['type'] == 2 ){
+                                    $admin = '<button class="btn btn-sm btn-warning" data-toggle="tooltip" title="Can not remove a Super Admin" disabled><i class="fa fa-check" aria-hidden="true"></i></button>';
+                                } else if ( $user['username'] == $_SESSION['username'] ) {
+                                    $admin = '<button class="btn btn-sm btn-danger" value="'. $user['id'] .'" disabled data-toggle="tooltip" title="Can not remove yourself"><i class="fa fa-check" aria-hidden="true"></i></button>';
+                                } else {
+                                    $admin = '<button class="btn btn-sm btn-custom" name="user[make_admin]" onclick="$(\'#adminToMake\').text(\''. $user['username'] .'\'); $(\'#makeAdminUsername\').val(\''. $user['id'] .'\'); $(\'#promptMakeAdminModal\').modal(\'toggle\');" value="'. $user['id'] .'" data-toggle="tooltip" title="Make Admin"><i class="fa fa-check" aria-hidden="true" ></i></button>';
+                                }
                                 if ( $user['activated'] > 0 ) {
                                     $activate = '<button class="btn btn-sm btn-success btn-custom" disabled>Activated</button>';
                                 } else {
@@ -200,29 +196,35 @@ if ( isset($_POST['user']) ) {
                                   <span class="input-group-addon" id="basic-addon" style="border-radius: 0px; border: solid thin #ddd; border-left: none;"><a href="javascript:void(0);" onmousedown="$(\'#password_'. $user['id'] .'\').attr(\'type\', \'text\');" onmouseup="$(\'#password_'. $user['id'] .'\').attr(\'type\', \'password\');"><i class="fa fa-eye"></i></a></span>
                                 </div>';
 
-                				echo '<tr>';
+                                $websiteName = $pdo->prepare("SELECT label FROM tb_websites WHERE id = :id");
+                                $websiteName->execute(array(":id" => $user['site_id']));
+
+                                if ( $websiteName->rowCount() > 0 ) {
+                                    $websiteName = $websiteName->fetch(PDO::FETCH_ASSOC)['label'];
+                                } else {
+                                    $websiteName = "Invalid";
+                                }
+
+                                echo '<tr>';
                                 echo '<td>'. $admin .'</td>';
-                				echo '<td><form method="post" id="userManage" style="text-align:left">'. $activate . $loginAs . $deleteUser .'</form></td>';
-                				echo '<td>'. $user['username'] .'</a></td>';
+                                echo '<td><form method="post" id="userManage" style="text-align:left">'. $activate . $loginAs . $deleteUser .'</form></td>';
+                                echo '<td>'. $websiteName .'</a></td>';
+                                echo '<td>'. $user['username'] .'</a></td>';
                                 echo '<td>'. $user['email'] .'</a></td>';
                                 echo '<td>'. $pass .'</td>';
-                				echo '<td>'. $user['first_name'] .'</a></td>';
-                				echo '<td>'. $user['last_name'] .'</a></td>';
-                				echo '<td>'. $user['mobileno'] .'</a></td>';
-                				echo '<td>'. $user['address'] .'</a></td>';
-                				echo '</tr>';
-                			}
-                		} else {
-                			echo "<tr><br>None Found</tr>";
-                		}
-                		?>
-                	</tbody>
+                                echo '<td>'. $user['first_name'] .'</a></td>';
+                                echo '<td>'. $user['last_name'] .'</a></td>';
+                                echo '<td>'. $user['mobileno'] .'</a></td>';
+                                echo '<td>'. $user['address'] .'</a></td>';
+                                echo '</tr>';
+                            }
+                        } else {
+                            echo "<tr><br>None Found</tr>";
+                        }
+                        ?>
+                    </tbody>
                 </table>
             </div>
-            <fieldset>
-                <button class="btn btn-danger" data-toggle="tooltip" title="Remove Admin"><i class="fa fa-check" aria-hidden="true"></i></button> = Remove Admin 
-                <button class="btn btn-custom" data-toggle="tooltip" title="Make Admin"><i class="fa fa-check" aria-hidden="true" ></i></button> = Make Admin
-            </fieldset>
         </div>
         <!-- /page content -->
 
@@ -236,14 +238,36 @@ if ( isset($_POST['user']) ) {
 
     <!-- jQuery -->
     
-	<script src="../../js/jquery-1.12.0.js"></script>
+    <script src="../../js/jquery-1.12.0.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../assets/custom.min.js"></script>
+    <!-- Datatables -->
+    <script src="../assets/datatables/javascripts/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/datatables/javascripts/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="../assets/datatables/javascripts/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../assets/datatables/javascripts/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="../assets/datatables/javascripts/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../assets/datatables/javascripts/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="../assets/datatables/javascripts/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../assets/datatables/javascripts/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="../assets/datatables/javascripts/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="../assets/datatables/javascripts/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../assets/datatables/javascripts/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="../assets/datatables/javascripts/datatables.net-scroller/js/datatables.scroller.min.js"></script>
     <script>
-	$(document).ready(function(){
-		$('[data-toggle="tooltip"]').tooltip(); 
-	});
-	</script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip(); 
+    });
+
+    var $datatable = $('#itemsTable');
+
+    $datatable.dataTable({
+      'order': [[ 3, 'desc' ]],
+      'columnDefs': [
+        { orderable: false, targets: [0] }
+      ]
+    });
+    </script>
   </body>
 </html>
 
@@ -335,18 +359,18 @@ if ( isset($_POST['user']) ) {
     font-variant: small-caps;
 }
 .table-item-label {
-	width: 20%;
+    width: 20%;
 }
 .table-item {
-	margin: 5px 10px 15px;
+    margin: 5px 10px 15px;
 }
 .table-row {
-	margin: 10px;
+    margin: 10px;
 }
 .form-control:invalid {
-	background-color: #FFCDD2;
+    background-color: #FFCDD2;
 }
 .form-control:valid {
-	background-color: #DCEDC8;
+    background-color: #DCEDC8;
 }
 </style>

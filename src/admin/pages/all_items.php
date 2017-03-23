@@ -523,6 +523,18 @@ if ( isset($_POST['featuredAdd']) ) {
         <h3>
         <?php
 
+            /* PREREQ FILTER VARIABLES */
+            $selectedSiteFilter = "";
+            $selectedSiteHref = "all";
+            $selectedCategoryFilter = "";
+            $selectedCategoryHref = "all";
+
+            if ( isset($_GET['category']) && is_numeric($_GET['category']) ) {
+                $selectedCategoryHref = $_GET['category'];
+            }
+
+
+            /* FIRST FILTER (Domains) */
             $fetchAllSites = $pdo->prepare("SELECT * FROM tb_websites");
             $fetchAllSites->execute();
 
@@ -530,69 +542,97 @@ if ( isset($_POST['featuredAdd']) ) {
 
             if ( $fetchAllSites->rowCount() > 0 ) {
 
-                foreach ( $fetchAllSites->fetchAll() as $siteOption ) {
-                    $allSites = "";
+                $allSiteOptions = $fetchAllSites->fetchAll();
+
+                foreach ( $allSiteOptions as $siteOption ) {
+                    $allSites .= '<li><a href="?site='. $siteOption['name'] .'&category='. $selectedCategoryHref .'">'. $siteOption['label'] .'</a></li>';
+                }
+
+                if ( isset($_GET['site']) ) {
+                    $checkSiteOption = $pdo->prepare("SELECT * FROM tb_websites WHERE name = :name");
+                    $checkSiteOption->execute(array(":name" => $_GET['site']));
+
+                    if ( $checkSiteOption->rowCount() > 0 ) {
+                        $selectedSiteOption = $checkSiteOption->fetch(PDO::FETCH_ASSOC);
+                        $selectedSiteLabel = $selectedSiteOption['label'];
+                        $selectedSiteFilter = " WHERE ". $selectedSiteOption['token'] ." = 1";
+                        $selectedSiteHref = $selectedSiteOption['name'];
+                    } else {
+                        $selectedSiteLabel = "All Sites";
+                    }
+                } else {
+                    $selectedSiteLabel = "All Sites";
+                }
+            }
+            /* FIRST FILTER END */
+
+            /* SECOND FILTER (Category)*/
+            $selectedCategoryLabel = "All Products";
+            if ( isset($_GET['category']) && is_numeric($_GET['category']) ) {
+                if ( empty($selectedSiteFilter) ) {
+                    $selectedCategoryFilter = " WHERE `category` = ". $_GET['category'];
+                } else {
+                    $selectedCategoryFilter = " AND `category` = ". $_GET['category'];
+                }
+
+                switch ($_GET['category']) {
+                    case 1: {
+                        $selectedCategoryLabel = "Rings";
+                        break;
+                    } case 2: {
+                        $selectedCategoryLabel = "Earrings";
+                        break;
+                    } case 3: {
+                        $selectedCategoryLabel = "Pendants";
+                        break;
+                    } case 4: {
+                        $selectedCategoryLabel = "Necklaces";
+                        break;
+                    } case 5: {
+                        $selectedCategoryLabel = "Bracelets";
+                        break;
+                    } default: {
+                        $selectedCategoryLabel = "All Products";
+                    }
                 }
             }
 
+            /* SECOND FILTER END */
+
+
             echo '<div class="btn-group">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    All Products <span class="caret"></span>
+                    '. $selectedCategoryLabel .' <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a href="./all_items.php">All Products</a></li>
+                    <li><a href="?site='. $selectedSiteHref .'&category=all">All Products</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="./rings.php">Rings</a></li>
-                    <li><a href="./earrings.php">Earrings</a></li>
-                    <li><a href="./pendants.php">Pendants</a></li>
-                    <li><a href="./necklaces.php">Necklaces</a></li>
-                    <li><a href="./bracelets.php">Braclets</a></li>
+                    <li><a href="?site='. $selectedSiteHref .'&category=1">Rings</a></li>
+                    <li><a href="?site='. $selectedSiteHref .'&category=2">Earrings</a></li>
+                    <li><a href="?site='. $selectedSiteHref .'&category=3">Pendants</a></li>
+                    <li><a href="?site='. $selectedSiteHref .'&category=4">Necklaces</a></li>
+                    <li><a href="?site='. $selectedSiteHref .'&category=5">Bracelets</a></li>
                   </ul>
                 </div> <span style="font-size: 11px;">for</span> 
                 <div class="btn-group">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    All Sites <span class="caret"></span>
+                    '. $selectedSiteLabel .' <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a href="?site=all">All Sites</a></li>
-                    
+                    <li><a href="?site=all&category='. $selectedCategoryHref .'">All Sites</a></li>
+                    '. $allSites .'
                   </ul>
-                </div>';
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default" data-toggle="modal" data-target="#promptAddItem">Add New</button>
+                </div>
+                ';
 
-            $count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items`");
+            $count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items`". $selectedSiteFilter . $selectedCategoryFilter);
             $count->execute();
             $totalRows = $count->fetch(PDO::FETCH_ASSOC);
             $totalRows = $totalRows['totalRows'];
-            pconsole($totalRows);
-            $perPage = 25;
-            $pages = $totalRows/$perPage;
-            if ( isset($_GET['page']) ) {
-                $currentPage = $_GET['page'];
-            } else {
-                $currentPage = 0;
-            }
-
-            if ( isset($_GET['filter']) && isset($_GET['order']) ) {
-                $filter = $_GET['filter'];
-                $currentOrder = $_GET['order'];
-                if ( $_GET['order'] == "DESC" ) {
-                    $order = "ASC";
-                } else {
-                    $order = "DESC";
-                }
-
-            } else {
-                $filter = "id";
-                $order = "ASC";
-                $currentOrder = "DESC";
-            }
-            if ( isset($_GET['page']) ) {
-                $offset = $_GET['page'] * $perPage;
-            } else {
-                $offset = 0;
-            }
-
-            pconsole($offset);
+            
 
             $allowedFeatured = 20;
 
@@ -671,15 +711,15 @@ if ( isset($_POST['featuredAdd']) ) {
                             <th>Weight</th>
                             <th>Length</th>
                             <th>Country</th>
-                            <th>Ring Size</th>
-                            <th>Ring Subcategory</th>
+                            <th>Ring Size <i class="fa fa-info-circle" data-toggle="tooltip" title="Applies only to rings"></i></th>
+                            <th>Subcategory</th>
                             <th>Lab Grown</th>
                             <th>Description</th>
                             <th>Added On</th>
                         </thead>
                         <tbody>
                             <?php 
-                                $query = $pdo->prepare("SELECT * FROM `items` ORDER BY ". $filter . " " . $currentOrder);
+                                $query = $pdo->prepare("SELECT * FROM `items`". $selectedSiteFilter . $selectedCategoryFilter);
                                 $query->execute(array(":first" => 10));
 
                                 if ( $query->rowCount() > 0 ) {
@@ -811,6 +851,10 @@ if ( isset($_POST['featuredAdd']) ) {
         </footer>
         <!-- /footer content -->
 
+        <?php 
+        include_once('common/modal.php');
+        ?>
+
 <style type="text/css">
     .form-label {
         text-align: right;
@@ -833,625 +877,6 @@ if ( isset($_POST['featuredAdd']) ) {
         background-color: #DCEDC8;
     }
     </style>
-
-
-        <!-- Modal -->
-        <div id="promptManageImages" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-        
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Manage Images</h4>
-              </div>
-              <div class="modal-body">
-                <div id="manageImageDiv" class="container">
-                    
-                </div>
-                <!--<div class="container">
-                    <fieldset>
-                        <legend>Add New Images</legend>
-                        <form method="post" enctype="multipart/form-data">
-                            <input type="file" name="addImageTo">
-                            <input type="text" class="form-control" name="addURLTo" style="margin:5px;" placeholder="Place image URL here (Seperate with comma (,) )">
-                            <button class="btn btn-custom" style="float:right;" id="addNewImagesID" name="addNewImages" >Add Image</button>
-                        </form>
-                    </fieldset>
-                </div>-->
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <!-- Modal -->
-        <div id="promptDeleteImage" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-        
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Caution</h4>
-              </div>
-              <form method="post" enctype="multipart/form-data">
-              <input id="deleteImagekey" name="unique_key" hidden>
-              <div class="modal-body">
-                <div class="container" style="text-align:center;">
-                    <img id="imageToDelete" src="" style="max-height:35vh;" />
-                    <h4>You are about to permanently delete this image
-                    <br>Are you sure you want to perform this action?</h4>
-                    <br>
-                    <h5><div class="alert alert-error">Warning: This action can not be undone.</div></h5>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button id="imageToDeleteID" type="submit" class="btn btn-custom" name="deleteImage" value="">Delete</button>
-                <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
-              </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal -->
-        <div id="promptRemoveModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-        
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Caution</h4>
-              </div>
-              <form method="post" enctype="multipart/form-data">
-              <input id="remove_category" name="category" hidden>
-              <div class="modal-body">
-                <div class="container">
-                    <h4>You are about to permanently delete <strong id="itemToRemove">This</strong>
-                    <br>Are you sure you want to perform this action?</h4>
-                    <br>
-                    <h5><div class="alert alert-error">Warning: This action can not be undone.</div></h5>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button id="removeModalActionButton" type="submit" class="btn btn-custom" name="removeItem" value="">Remove</button>
-                <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
-              </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <div id="promptBulkRemoveModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-        
-            <!-- Modal content-->
-            <div class="modal-content"> <!-- Bulk Delete Modal -->
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button> <!-- Bulk Delete Modal -->
-                <h4 class="modal-title">Caution</h4> <!-- Bulk Delete Modal -->
-              </div>
-              <input id="remove_category" name="category" hidden>
-              <div class="modal-body"> <!-- Bulk Delete Modal -->
-                <div class="container">
-                    <h4>You are about to permanently delete <strong id="itemsToRemove">This</strong>
-                    <br>Are you sure you want to perform this action?</h4> <!-- Bulk Delete Modal -->
-                    <br>
-                    <h5><div class="alert alert-error">Warning: This action can not be undone.</div></h5> <!-- Bulk Delete Modal -->
-                </div>
-              </div> <!-- Bulk Delete Modal -->
-              <div class="modal-footer">
-                <input id="removeModalActionButton" type="submit" class="btn btn-custom" name="bulkManage" value="delete" form="bulkManage" />
-                <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div id="promptRemoveAll" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-        
-            <!-- Modal content-->
-            <div class="modal-content"> <!-- Bulk Delete Modal -->
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button> <!-- Bulk Delete Modal -->
-                <h4 class="modal-title">Caution</h4> <!-- Bulk Delete Modal -->
-              </div>
-              <input id="remove_category" name="category" hidden>
-              <div class="modal-body"> <!-- Bulk Delete Modal -->
-                <div class="container">
-                    <h4>You are about to permanently delete <strong id="categoryToRemove" style="text-transform:capitalize;">This</strong>
-                    <br>Are you sure you want to perform this action?</h4> <!-- Bulk Delete Modal -->
-                    <br>
-                    <h5><div class="alert alert-error">Warning: This action can not be undone.</div></h5> <!-- Bulk Delete Modal -->
-                </div>
-              </div> <!-- Bulk Delete Modal -->
-              <form method="post">
-              <div class="modal-footer">
-                <input id="removeAll" name="removeAll" value="" hidden="" />
-                <input type="submit" class="btn btn-custom"  />
-                <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
-              </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-
-        <div id="promptEditItem" class="modal fade" role="dialog">
-          <div class="modal-dialog modal-lg">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><span id="item_to_edit">Edit</span></h4>
-              </div>
-              <form method="post">
-              <div class="modal-body">
-                <div class="container">
-                    <div class="col-sm-12">
-                        <tbody>
-
-                            <tr>
-                                <td><span class="table-item-label" style="display:none;">Category</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <select id="edit_category" name="category" class="select-style" hidden>
-                                            <option value="">Category</option>
-                                            <option value="1">Ring</option>
-                                            <option value="2">Earring</option>
-                                            <option value="3">Pendant</option>
-                                            <option value="4">Necklace</option>
-                                            <option value="5">Bracelet</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="table-row">
-                                <td class="table-item-label"><span class="table-item-label">Name</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_product_name" name="product_name" type="text" class="form-control" placeholder="Product Name (50 Characters)" required maxlength="50" pattern=".{0,50}" >
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Price</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_product_price" name="product_price" type="text" class="form-control" placeholder="Product Price € (Decimal Number)" required pattern="[0-9]{1,}[.,]{1}[0-9]{2,2}" title="Format: 100.00">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Discount</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_discount" name="discount" type="text" class="form-control" placeholder="Discount % (Number)" pattern="[0-9]{1,2}" title="0 - 99%">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Pieces in Stock</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_pieces_in_stock" name="pieces_in_stock" type="text" class="form-control" placeholder="Stock (Number)" required>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Days for Shipment</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_days_for_shipment" name="days_for_shipment" type="text" class="form-control" placeholder="Shipment (Number)" required>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Total Carat Weight</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_total_carat_weight" name="total_carat_weight" type="text" class="form-control" placeholder="Total Carat (Decimal Number)">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Number of Stones</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_no_of_stones" name="no_of_stones" type="text" class="form-control" placeholder="Stones (Number)">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Diamond Shape</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <select id="edit_diamond_shape" name="diamond_shape" class="select-style" required>
-                                            <option value="">Select</option>
-                                            <option value="1">Round</option>
-                                            <option value="2">Marquise</option>
-                                            <option value="3">Princess</option>
-                                            <option value="4">Pear</option>
-                                            <option value="5">Emerald</option>
-                                            <option value="6">Heart</option>
-                                            <option value="7">Oval</option>
-                                            <option value="8">Cushion</option>
-                                            <option value="9">Radiant</option>
-                                            <option value="10">Cus. Brilliant</option>
-                                            <option value="11">LRadiant</option>
-                                            <option value="12">SQEmerald</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Clarity</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <select id="edit_clarity" name="clarity" class="select-style" required>
-                                            <option value="">Select</option>
-                                            <option value="FL">FL</option>
-                                            <option value="IF">IF</option>
-                                            <option value="VVS1">VVS1</option>
-                                            <option value="VVS2">VVS2</option>
-                                            <option value="VS1">VS1</option>
-                                            <option value="VS2">VS2</option>
-                                            <option value="SI1">SI1</option>
-                                            <option value="SI2">SI2</option>
-                                            <option value="SI3">SI3</option>
-                                            <option value="I1">I1</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Color</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <select id="edit_color" name="color" class="select-style" required>
-                                            <option value="">Select</option>
-                                            <?php 
-                                            $fetchAvailableColors = $pdo->prepare("SELECT * FROM color");
-                                            $fetchAvailableColors->execute();
-                                            if ( $fetchAvailableColors->rowCount() > 0) {
-                                                foreach ( $fetchAvailableColors->fetchAll() as $availableColors ) {
-                                                    echo '<option value="'. $availableColors["id"] .'">'. $availableColors["color"] .'</option>';
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Material</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <select id="edit_material" name="material" class="select-style" required>
-                                            <option value="">Select</option>..
-                                            <option value="1">Yellow Gold</option>
-                                            <option value="2">White Gold</option>
-                                            <option value="3">Pink Gold</option>
-                                            <option value="4">Silver</option>
-                                            <option value="5">Platinum</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Gold Quality</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_gold_quality" name="gold_quality" type="text" class="form-control" placeholder="Gold Quality">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Color Stone Type</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_color_stone_type" name="color_stone_type" type="text" class="form-control" placeholder="Color Stone Type">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Height</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_height" name="height" type="text" class="form-control" placeholder="Height (Number)">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="table-item-label">Width</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_width" name="width" type="text" class="form-control" placeholder="Width (Number)">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> <span class="table-item-label">Length</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_length" name="length" type="text" class="form-control" placeholder="Length (Number)">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> <span class="table-item-label">Country</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <select id="edit_country_id" name="country_id" class="select-style" required>
-                                            <option value="">Select</option>
-                                            <option value="1">Austria</option>
-                                            <option value="2">Belgium</option>
-                                            <option value="3">Bulgaria</option>
-                                            <option value="4">Croatia</option>
-                                            <option value="5">Cyprus</option>
-                                            <option value="6">Czech Republic</option>
-                                            <option value="7">Denmark</option>
-                                            <option value="8">Estonia</option>
-                                            <option value="9">Finland</option>
-                                            <option value="10">France</option>
-                                            <option value="11">Germany</option>
-                                            <option value="12">Greece</option>
-                                            <option value="13">Hungary</option>
-                                            <option value="14">Ireland</option>
-                                            <option value="15">Italy</option>
-                                            <option value="16">Latvia</option>
-                                            <option value="17">Lithuania</option>
-                                            <option value="18">Luxembourg</option>
-                                            <option value="19">Malta</option>
-                                            <option value="20">Netherlands</option>
-                                            <option value="21">Poland</option>
-                                            <option value="22">Portugal</option>
-                                            <option value="23">Romania</option>
-                                            <option value="24">Slovakia</option>
-                                            <option value="25">Slovenia</option>
-                                            <option value="26">Spain</option>
-                                            <option value="27">Sweden</option>
-                                            <option value="28">UK</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                Company
-                                <td>
-                                    <div class="table-item">
-                                        <select id="edit_company_id" name="company_id" class="select-style" required>
-                                            <option value="">Select</option>
-                                            <?php 
-                                            $getCompanies = $pdo->prepare("SELECT * FROM `company_id`");
-                                            $getCompanies->execute();
-
-                                            if ( $getCompanies->rowCount() > 0 ) {
-                                                foreach ( $getCompanies as $company ) {
-                                                    echo '<option value="'. $company['id'] .'" >'. $company['company_name'] .'</option>';
-                                                }
-                                            } else {
-                                                echo '<option value="0">N/A</option>';
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> <span class="table-item-label">Internal ID</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_internal_id" name="internal_id" type="text" class="form-control" placeholder="Internal ID (Mixed Characters)" required>
-                                    </div>
-                                </td>
-                            </tr>
-                            <div id="ringExclusiveEditDiv">
-                            <tr>
-                                <td> <span class="table-item-label">Ring Size</span></td>
-                                <td>
-                                    <div class="table-item">
-                                        <input id="edit_ring_size" name="ring_size" type="text" class="form-control" placeholder="Ring Size (Number)">
-                                    </div>
-                                </td>
-                            </tr>
-                            </div>
-                            <tr>
-                                <td> <span class="table-item-label">Ring Subcategory</span> </td>
-                                <td>
-                                    <div class="table-item">
-                                        
-                                        <select id="edit_ring_subcategory" name="ring_subcategory" class="select-style">
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> <span class="table-item-label">Lab Grown Diamond</span> </td>
-                                <td>
-                                    <div class="table-item">
-                                        <input type="radio" name="lab_grown" required id="edit_lab_grown" value="1">Yes<br>
-                                        <input type="radio" name="lab_grown" required id="edit_lab_grown" value="0">No
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="table-item-label">Description</span>
-                                </td>
-                                <td>
-                                    <div class="table-item">
-                                        <textarea id="edit_description" name="description" class="form-control" style="width:100%" placeholder="Description Goes Here (250 Characters)"  maxlength="250"></textarea>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="table-item-label">Description (French)</span>
-                                </td>
-                                <td>
-                                    <div class="table-item">
-                                        <textarea id="edit_description_french" name="description_french" class="form-control" style="width:100%" placeholder="Description Goes Here (250 Characters)"  maxlength="250"></textarea>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </div>  
-                </div>
-              </div>
-              <div class="modal-footer">
-                <input id="unique_key" name="unique_key" hidden/>
-                <button type="submit" class="btn btn-custom" name="editItem" id="editItem" >Submit</button>
-                <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
-              </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <div id="promptSiteManagement" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-        
-            <!-- Modal content-->
-            <div class="modal-content"> <!-- Bulk Delete Modal -->
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button> <!-- Bulk Delete Modal -->
-                <h4 class="modal-title">Manage Access</h4> <!-- Bulk Delete Modal -->
-              </div>
-              <input id="remove_category" name="category" hidden>
-              <div class="modal-body"> <!-- Bulk Delete Modal -->
-                <div class="container">
-                    <h4 style="border-bottom: solid thin #ddd; padding-bottom: 10px; margin: 10px 5%;"><span id="manageAccessItem"></span> </h4>
-                    <form id="manageAccessForm" action="post.php" method="post">
-                        <input name="unique_key" value="" hidden />
-                        <table class="table table-condensed table-custom">
-                            <thead>
-                                <th>Domain Name</th>
-                                <th>Access</th>
-                            </thead>
-                            <tbody>
-                                <?php 
-                                $getSites = $pdo->prepare("SELECT * FROM tb_websites");
-                                $getSites->execute();
-
-                                if ( $getSites->rowCount() > 0 ) {
-                                    foreach ( $getSites->fetchAll() as $website ) {
-                                        echo '<tr><td>'. $website['label'] .'</td><td><input id="'. $website['token'] .'" name="'. $website['token'] .'" type="checkbox" /></td></tr>';
-                                    } 
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </form>
-                </div>
-              </div> <!-- Bulk Delete Modal -->
-              <div class="modal-footer">
-                <input type="submit" class="btn btn-custom" name="manageSiteAccess" form="manageAccessForm" />
-                <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div id="promptBulkDisable" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-        
-            <!-- Modal content-->
-            <div class="modal-content"> <!-- Bulk Delete Modal -->
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button> <!-- Bulk Delete Modal -->
-                <h4 class="modal-title">Caution</h4> <!-- Bulk Delete Modal -->
-              </div>
-              <input id="remove_category" name="category" hidden>
-              <div class="modal-body"> <!-- Bulk Delete Modal -->
-                <div class="container">
-                    <h4>You are about to disable <strong id="itemsToDisable">This</strong>
-                    <br>Note: Disabled items do not appear in the front-end of <strong>any</strong> site, are you sure you want to perform this action?</h4> <!-- Bulk Delete Modal -->
-                </div>
-              </div> <!-- Bulk Delete Modal -->
-              <div class="modal-footer">
-                <input type="submit" class="btn btn-custom" name="bulkManage" value="disable" form="bulkManage" />
-                <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div id="promptBulkEnable" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-        
-            <!-- Modal content-->
-            <div class="modal-content"> <!-- Bulk Delete Modal -->
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button> <!-- Bulk Delete Modal -->
-                <h4 class="modal-title">Caution</h4> <!-- Bulk Delete Modal -->
-              </div>
-              <input id="remove_category" name="category" hidden>
-              <div class="modal-body"> <!-- Bulk Delete Modal -->
-                <div class="container">
-                    <h4>You are about to disable <strong id="itemsToEnable">This</strong>
-                    <br>Note: Enabled items would appear in the front-end of <strong>any</strong> site they are allowed in, are you sure you want to perform this action?</h4> <!-- Bulk Delete Modal -->
-                </div>
-              </div> <!-- Bulk Delete Modal -->
-              <div class="modal-footer">
-                <input type="submit" class="btn btn-custom" name="bulkManage" value="enable" form="bulkManage" />
-                <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div id="promptBulkAccessManagement" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-        
-            <!-- Modal content-->
-            <div class="modal-content"> <!-- Bulk Delete Modal -->
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button> <!-- Bulk Delete Modal -->
-                <h4 class="modal-title">Note: This changes access for every items selected</h4> <!-- Bulk Delete Modal -->
-              </div>
-              <input id="remove_category" name="category" hidden>
-              <div class="modal-body"> <!-- Bulk Delete Modal -->
-                <div class="container">
-                    <h4 style="border-bottom: solid thin #ddd; padding-bottom: 10px; margin: 10px 5%;"><span id="bulkManageAccessItem"></span> </h4>
-                    <table class="table table-condensed table-custom">
-                        <thead>
-                            <th>Domain Name</th>
-                            <th>Access</th>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            $getSites = $pdo->prepare("SELECT * FROM tb_websites");
-                            $getSites->execute();
-
-                            if ( $getSites->rowCount() > 0 ) {
-                                foreach ( $getSites->fetchAll() as $website ) {
-                                    echo '<tr><td>'. $website['label'] .'</td><td><input form="bulkManage" id="'. $website['token'] .'" name="site['. $website['token'] .']" type="checkbox" /></td></tr>';
-                                } 
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-              </div> <!-- Bulk Delete Modal -->
-              <div class="modal-footer">
-                <input type="submit" class="btn btn-custom" name="bulkManage" value="access" form="bulkManage" />
-                <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
 
       </div>
     </div>
@@ -1498,12 +923,14 @@ if ( isset($_POST['featuredAdd']) ) {
                     result = JSON.parse(result);
                     console.log(result);
 
+
                     $("#item_to_edit").html(result['product_name']);
                     $("#unique_key").val(result['unique_key']);
                     $("#edit_product_name").val(result['product_name']);
                     $("#edit_product_price").val(parseFloat(result['item_value']).toFixed(2));
                     $("#edit_discount").val(result['discount']);
                     $("#edit_color").val(result['color']);
+                    $("#edit_diamond_color").val(result['diamond_color']);
                     $("#edit_total_carat_weight").val(result['total_carat_weight']);
                     $("#edit_no_of_stones").val(result['no_of_stones']);
                     $("#edit_height").val(result['height']);
@@ -1515,15 +942,16 @@ if ( isset($_POST['featuredAdd']) ) {
                     $("#edit_ring_size").val(result['ring_size']);
                     $("#edit_description").val(result['description']);
                     $("#edit_description_french").val(result['description_french']);
+                    $("#edit_color_stone_carat").val(result['color_stone_carat']);
+                    $("#edit_total_gold_weight").val(result['total_gold_weight']);
+                    $("#edit_no_of_color_stones").val(result['no_of_color_stones']);
+                    $("#edit_gold_quality").val(result['gold_quality']);
+                    $("#edit_color_stone_type").val(result['color_stone_type']);
 
 
                     $("#edit_material option[value='"+ result['material'] +"'").attr("selected", true);
                     $("#edit_category option[value='"+ result['category'] +"'").attr("selected", true);
                     $("#edit_clarity option[value='"+ result['clarity'] +"'").attr("selected", true);
-                    //$("#edit_ring_subcategory option[value='"+ result['ring_subcategory'] +"'").attr("selected", true);
-                    $("#edit_country_id option[value='"+ result['country_id'] +"'").attr("selected", true);
-                    $("#edit_company_id option[value='"+ result['company_id'] +"'").attr("selected", true);
-                    $("#edit_diamond_shape option[value='"+ result['diamond_shape'] +"'").attr("selected", true);
 
                     if ( result['category'] !== "1" ) {
                         $("#ringExclusiveEditDiv").hide();
@@ -1543,8 +971,15 @@ if ( isset($_POST['featuredAdd']) ) {
                     });
                     
                     $("#edit_ring_subcategory option[value='"+ result['ring_subcategory'] +"'").attr("selected", true);
+                    $("#edit_country_id option[value='"+ result['country_id'] +"'").attr("selected", true);
+                    $("#edit_company_id option[value='"+ result['company_id'] +"'").attr("selected", true);
+                    $("#edit_diamond_shape option[value='"+ result['diamond_shape'] +"'").attr("selected", true);
+                    $("#edit_color_stone_shape option[value='"+ result['color_stone_shape'] +"'").attr("selected", true);
+
                     $("#edit_lab_grown[value='"+ result['lab_grown'] +"'").attr("checked", true);
+                    
                     $("#promptEditItem").modal("toggle");
+
                 } catch ( e ) {
                     console.log(result);
                 }
@@ -1716,6 +1151,21 @@ if ( isset($_POST['featuredAdd']) ) {
     function bulkAccessManagement() {
         $("#bulkManageAccessItem").text($(".selected-num").first().text() + " Item(s)");
         $("#promptBulkAccessManagement").modal("toggle");
+    }
+
+    function selectCategory(id) {
+        $.ajax({
+            url: "./ajax.php?selectCategory="+ id,
+            type: "GET",
+            beforeSend: function() {
+                $("#ring_subcategory").html('<option value="">Select Category First</option>');
+                $("#ring_subcategory").attr("disabled", true);
+            }, success: function(result) {
+                console.log(result);
+                $("#ring_subcategory").html(result);
+                $("#ring_subcategory").attr("disabled", false);
+            }
+        }); 
     }
     
     </script>

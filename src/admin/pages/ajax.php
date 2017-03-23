@@ -3195,7 +3195,14 @@ if ( isset($_GET['importThis']) ) {
 	}
 
 } else if ( isset($_GET['getSubs']) ) {
-	$getSubs = $pdo->prepare("SELECT * FROM `subscribers`");
+
+	if ( is_numeric($_GET['getSubs']) ) {
+		$filter = " WHERE site_id = 1";
+	} else {
+		$filter = "";
+	}
+
+	$getSubs = $pdo->prepare("SELECT * FROM `subscribers`". $filter );
 	$getSubs->execute();
 
 	$subs = [];
@@ -3238,7 +3245,7 @@ if ( isset($_GET['importThis']) ) {
 		);
 		$mail->Subject = 'Newsletter';
 		//$mail->Body = "Greetings, " . urldecode($_POST['content'] . "<hr /><div style='text-align:center;'>If you wish to unsubscribe to our Newsletter, please <a rel='noindex, nofollow' target='_blank' href='". $__MAINDOMAIN__. "login.php?unsub=".$getMail['hash']."'>click here</a></div>");
-		$mail->Body = file_get_contents('./newsletter/sample.html');
+		$mail->Body = urldecode($_POST['content']);
 		if ( !$mail->send() ) {
 			echo 'Failed';
 		} else {
@@ -3491,6 +3498,19 @@ if ( isset($_GET['importThis']) ) {
 			echo '<option value ="'. $option['id'] .'">'. $option['category'] .'</option>';
 		}
 	}
+} else if ( isset($_GET['selectCategory']) ) {
+	$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = :category");
+    $query->execute(array(":category" => $_GET['selectCategory']));
+
+    $returnValue = "";
+    if ( $query->rowCount() > 0 ) {
+        $returnValue .= '<option value="">Select</option>';
+        $query = $query->fetchAll();
+        foreach ( $query as $option ) {
+            $returnValue .= '<option value="'. $option['id'] .'">'. $option['category'] .'</option>';
+        }
+    }
+    echo $returnValue;
 } else {	echo "GET not SET";		}
 
 

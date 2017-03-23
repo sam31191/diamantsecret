@@ -60,7 +60,7 @@ if ( !isset($_GET['view']) || empty($_GET['view']) ) {
 include 'conf/config.php';
 if ( isset($_POST['addToCart']) ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
-	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
+	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user AND site_id = 1");
 	$fetchCurrentCart->execute(array(":user" => $_SESSION['username']));
 
 	$currentCart = $fetchCurrentCart->fetch(PDO::FETCH_ASSOC);
@@ -93,10 +93,10 @@ if ( isset($_POST['addToCart']) ) {
 		$currentCart .= $cartElement . $_POST['quantity'] . ",";
 	}
 
-	$updateCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user");
+	$updateCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user AND site_id = 1");
 	$updateCart->execute(array(":cart" => $currentCart, ":user" => $_SESSION['username']));
 } else if ( isset($_POST['removeFromCart']) ) {
-	$getCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
+	$getCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user AND site_id = 1");
 	$getCart->execute(array(
 		":user" => $_SESSION['username']
 	));
@@ -105,7 +105,7 @@ if ( isset($_POST['addToCart']) ) {
 		
 	$cart = str_replace($_POST['unique_key'] . '|' . $_POST['size'] . '|' . $_POST['quantity'] . ',', "", $cart);
 	
-	$addToCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user");
+	$addToCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user AND site_id = 1");
 	$addToCart->execute(array(
 		":cart" => $cart,
 		":user" => $_SESSION['username']
@@ -135,7 +135,7 @@ pconsole($_POST);
 								<span>/</span>
 								<?php
 									$_GET['view'];
-									$getItem = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :unique_key");
+									$getItem = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :unique_key AND site_0 = 1 AND disabled = 0");
 									$getItem->execute(array(":unique_key" => $_GET['view']));
 									if ( $getItem->rowCount() > 0 ) {
 										$item = $getItem->fetch(PDO::FETCH_ASSOC);
@@ -595,7 +595,7 @@ pconsole($_POST);
 										<div class="prod-related clearfix">
 										
 													<?php
-													$fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat LIMIT 10");
+													$fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat AND site_0 = 1 AND disabled = 0 LIMIT 10");
 													$fetchFeatured->execute(array(":cat" => $item['category']));
 
 													$featuredItems = $fetchFeatured->fetchAll();

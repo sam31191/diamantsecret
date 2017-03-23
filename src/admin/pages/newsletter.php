@@ -80,10 +80,62 @@ include '../../conf/config.php';
         <!-- page content -->
         <div class="right_col" role="main">
             <div>
-            <h3>Newsletter</h3>
+            <h3>Newsletter 
+                <div class="btn-group">
+                <?php 
+                $selectedSiteFilter = "";
+                $selectedSiteHref = "all";
+                $selectedSiteID = "all";
+
+                /* FIRST FILTER (Domains) */
+                $fetchAllSites = $pdo->prepare("SELECT * FROM tb_websites");
+                $fetchAllSites->execute();
+
+                $allSites = "";
+
+                if ( $fetchAllSites->rowCount() > 0 ) {
+
+                    $allSiteOptions = $fetchAllSites->fetchAll();
+
+                    foreach ( $allSiteOptions as $siteOption ) {
+                        $allSites .= '<li><a href="?site='. $siteOption['name'] .'">'. $siteOption['label'] .'</a></li>';
+                    }
+
+                    if ( isset($_GET['site']) ) {
+                        $checkSiteOption = $pdo->prepare("SELECT * FROM tb_websites WHERE name = :name");
+                        $checkSiteOption->execute(array(":name" => $_GET['site']));
+
+                        if ( $checkSiteOption->rowCount() > 0 ) {
+                            $selectedSiteOption = $checkSiteOption->fetch(PDO::FETCH_ASSOC);
+                            $selectedSiteLabel = $selectedSiteOption['label'];
+                            $selectedSiteFilter = " WHERE site_id = ". $selectedSiteOption['id'];
+                            $selectedSiteHref = $selectedSiteOption['name'];
+                            $selectedSiteID = $selectedSiteOption['id'];
+                        } else {
+                            $selectedSiteLabel = "All Sites";
+                        }
+                    } else {
+                        $selectedSiteLabel = "All Sites";
+                    }
+                }
+                /* FIRST FILTER END */
+
+                echo '<button type="button" class="btn btn-custom dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    '. $selectedSiteLabel .' <span class="fa fa-caret-down"></span>
+                </button>';
+                echo'
+                  <ul class="dropdown-menu">
+                    <li><a href="?site=all">All</a></li>
+                    '. $allSites .'
+                  </ul>
+                  ';
+                ?>
+                </div>
+            </h3>
                 <div>
                 <?php
-                $subs = $pdo->prepare("SELECT * FROM `subscribers`");
+
+                $subs = $pdo->prepare("SELECT * FROM `subscribers`". $selectedSiteFilter);
                 $subs->execute();
                 $subs = $subs->fetchAll();
 
@@ -101,7 +153,7 @@ include '../../conf/config.php';
                      <textarea id="tiny_mce"></textarea>
                      <?php
                      if ( sizeof($subs) > 0 ) {
-                        echo '<button  class="btn btn-custom" onclick="sendNewsletter()" style="margin: 10px; float: right; width: 100px;">Send</button>';
+                        echo '<button  class="btn btn-custom" onclick="sendNewsletter(\''. $selectedSiteID .'\')" style="margin: 10px; float: right; width: 100px;">Send</button>';
                      }
                      ?>
             </div>
@@ -129,10 +181,10 @@ include '../../conf/config.php';
     var currentMail = 0;
     var mailQ = [];
 
-    function sendNewsletter(){
+    function sendNewsletter(id){
         
         $.ajax({
-            url: './ajax.php?getSubs=all',
+            url: './ajax.php?getSubs='+ id,
             method: 'GET',
             success: function(result) {
                 console.log(result);
