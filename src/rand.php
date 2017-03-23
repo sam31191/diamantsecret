@@ -54,27 +54,27 @@ if ( isset($_POST['addItem']) ) {
             case 1: {
                 $table = "rings";
                 $imageName = "ring";
-                $images = "63714R003A.jpg,63714R003A-1.jpg,63714R003A-2.jpg";
+                $images = "ring_14.jpg,ring_14_1.jpg,ring_14_2.jpg";
                 break;
             } case 2: {
                 $table = "earrings";
                 $imageName = "earring";
-                $images = "64811E001A.jpg,64811E001A-1.jpg,64811E001A-2.jpg";
+                $images = "earring_26.jpg,earring_26_1.jpg,earring_26_2.jpg";
                 break;
             } case 3: {
                 $table = "pendants";
                 $imageName = "pendant";
-                $images = "41451P052A.jpg,41451P052A-1.jpg,41451P052A-2.jpg";
+                $images = "pendant_17.jpg,pendant_17_1.jpg,pendant_17_2.jpg";
                 break;
             } case 4: {
                 $table = "necklaces";
                 $imageName = "necklace";
-                $images = "04155N004A.jpg,04155N004A-1.jpg,04155N004A-2.jpg";
+                $images = "necklace_23.jpg,necklace_23_1.jpg,necklace_23_2.jpg";
                 break;
             } case 5: {
                 $table = "bracelets";
                 $imageName = "bracelet";
-                $images = "36082R049A.jpg,36082R049A-.jpg,36082R049A-2.jpg";
+                $images = "bracelet_20.jpg,bracelet_20_1.jpg,bracelet_20_2.jpg";
                 break;
             } default: {
                 $table = "na";

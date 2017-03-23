@@ -143,7 +143,7 @@ if ( isset($_POST['user']) ) {
             </div>
             <form method="post" target="_blank" action="./login_as.php" id="loginAsForm"></form>
         </h3>
-            <div class="container" style="overflow:auto">
+            <div class="container">
                 <table id="itemsTable" class="table table-striped table-bordered bulk_action table-custom table-custom-items">
                     <thead>
                         <th>Admin</th>

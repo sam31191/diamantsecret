@@ -168,11 +168,13 @@ if ( isset($_POST['bulkManage']) ) {
                     $disableForNow->execute(array(":key" => $key));
                 }
 
-                
-                foreach ( $_POST['site'] as $site => $siteValue ) {
-                    $query = $pdo->prepare("UPDATE `items` SET `". $site ."` = 1 WHERE `unique_key` = :unique_key");
-                    $query->execute(array(":unique_key" => $key));
+                if ( isset($_POST['site']) ) {
+                    foreach ( $_POST['site'] as $site => $siteValue ) {
+                        $query = $pdo->prepare("UPDATE `items` SET `". $site ."` = 1 WHERE `unique_key` = :unique_key");
+                        $query->execute(array(":unique_key" => $key));
+                    }
                 }
+                
             }
 
         }
