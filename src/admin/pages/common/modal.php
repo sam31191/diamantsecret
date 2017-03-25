@@ -977,6 +977,7 @@
       <div class="modal-body"> <!-- Bulk Delete Modal -->
         <div class="container">
             <h4 style="border-bottom: solid thin #ddd; padding-bottom: 10px; margin: 10px 5%;"><span id="manageAccessItem"></span> </h4>
+            <div style="text-align: right; padding: 5px 25px;"><a class="label label-success" onclick="selectAllSites()">Select All</a> <a class="label label-danger" onclick="deselectAllSites()">Deselect All</a></div>
             <form id="manageAccessForm" action="post.php" method="post">
                 <input name="unique_key" value="" hidden />
                 <table class="table table-condensed table-custom">
@@ -991,7 +992,7 @@
 
                         if ( $getSites->rowCount() > 0 ) {
                             foreach ( $getSites->fetchAll() as $website ) {
-                                echo '<tr><td>'. $website['label'] .'</td><td><input id="'. $website['token'] .'" name="'. $website['token'] .'" type="checkbox" /></td></tr>';
+                                echo '<tr><td>'. $website['label'] .'</td><td><input class="manageAccessCheckbox" id="'. $website['token'] .'" name="'. $website['token'] .'" type="checkbox" /></td></tr>';
                             } 
                         }
                         ?>
@@ -1072,6 +1073,7 @@
       <div class="modal-body"> <!-- Bulk Delete Modal -->
         <div class="container">
             <h4 style="border-bottom: solid thin #ddd; padding-bottom: 10px; margin: 10px 5%;"><span id="bulkManageAccessItem"></span> </h4>
+            <div style="text-align: right; padding: 5px 25px;"><a class="label label-success" onclick="selectAllSites()">Select All</a> <a class="label label-danger" onclick="deselectAllSites()">Deselect All</a></div>
             <table class="table table-condensed table-custom">
                 <thead>
                     <th>Domain Name</th>
@@ -1084,7 +1086,7 @@
 
                     if ( $getSites->rowCount() > 0 ) {
                         foreach ( $getSites->fetchAll() as $website ) {
-                            echo '<tr><td>'. $website['label'] .'</td><td><input form="bulkManage" id="'. $website['token'] .'" name="site['. $website['token'] .']" type="checkbox" /></td></tr>';
+                            echo '<tr><td>'. $website['label'] .'</td><td><input class="manageAccessCheckbox" form="bulkManage" id="'. $website['token'] .'" name="site['. $website['token'] .']" type="checkbox" /></td></tr>';
                         } 
                     }
                     ?>

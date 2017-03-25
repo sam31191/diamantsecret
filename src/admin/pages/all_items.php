@@ -1167,6 +1167,21 @@ if ( isset($_POST['featuredAdd']) ) {
             }
         }); 
     }
+
+    function selectAllSites() {
+        $(".manageAccessCheckbox").each(function(index, element) {
+            if ( $(element).is(":checkbox") ) {
+                $(element).prop("checked", true);
+            }
+        });
+    }
+    function deselectAllSites() {
+        $(".manageAccessCheckbox").each(function(index, element) {
+            if ( $(element).is(":checkbox") ) {
+                $(element).prop("checked", false);
+            }
+        });
+    }
     
     </script>
   </body>
