@@ -3740,9 +3740,31 @@ if ( isset($_GET['importThis']) ) {
 			#No Rows Found
 		}
 
-		#Other Sheet
+		#Diamond Color Sheet
 		$outputExcel->createSheet(7);
 		$outputExcel->setActiveSheetIndex(7);
+		$outputExcel->getActiveSheet()->setTitle('diamond_color');
+		$outputExcel->getActiveSheet()->getStyle('A1:B1')->getFont()->setBold(true);
+		$outputExcel->getActiveSheet()->setCellValue('A1', 'id');
+		$outputExcel->getActiveSheet()->setCellValue('B1', 'diamond color');
+
+		$getCategories = $pdo->prepare("SELECT * FROM `diamond_color`");
+		$getCategories->execute();
+
+		if ( $getCategories->rowCount() > 0 ) {
+			$categories = $getCategories->fetchAll();
+
+			for($i = 0; $i < sizeof($categories); $i++ ) {
+				$outputExcel->getActiveSheet()->setCellValue('A' . intval($i+2), $categories[$i]['id']);
+				$outputExcel->getActiveSheet()->setCellValue('B' . intval($i+2), $categories[$i]['diamond_color']);
+			}
+		} else {
+			#No Rows Found
+		}
+
+		#Other Sheet
+		$outputExcel->createSheet(8);
+		$outputExcel->setActiveSheetIndex(8);
 		$outputExcel->getActiveSheet()->setTitle('Other options');
 		$outputExcel->getActiveSheet()->setCellValue('A2', 'Possible options for other columns:');
 		$outputExcel->getActiveSheet()->setCellValue('A4', 'Column Name');
