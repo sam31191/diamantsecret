@@ -52,13 +52,13 @@ include 'conf/config.php';
                     </div>
                 </div>               
                 <section class="content">    
-                    <form target="arhaan_iframe" action="http://localhost/git/arhaandiam_complete/coding/labgrown-diamonds" method="post" id="myForm">
-                    <input type="hidden" name="api_key" value="77c8d140-05b7-11e7-8867-a725f2ce6e82" />
-                    <input type="hidden" name="your_client_unique_identity" value="3" />
+                    <form target="dsframe" action="http://localhost/git/arhaandiam/coding/diamond-search" method="post" id="myForm">
+                    <input type="hidden" name="api_key" value="4344f950-05b7-11e7-824b-67e464a09c82" />
+                    <input type="hidden" name="unique_identifier" value="3" />
                     <input type="hidden" name="style" value="gold" />
                     </form>
 
-                    <iframe name="arhaan_iframe" width="100%" height="700" src="" frameborder="0" scrolling="no" onload="this.style.height=this.contentDocument.body.scrollHeight +'px';"></iframe>
+                    <iframe name="dsframe" width="100%" height="700" src="" frameborder="0" scrolling="no" onload="this.style.height=this.contentDocument.body.scrollHeight +'px';"></iframe>
                 </section>        
             </div>
         </div>
