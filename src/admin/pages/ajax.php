@@ -2574,7 +2574,7 @@ if ( isset($_GET['importThis']) ) {
 		$outputExcel->getActiveSheet()->setCellValue('Y' . $row, $itemInfo['country_id'] );
 		$outputExcel->getActiveSheet()->setCellValue('Z' . $row, $itemInfo['ring_subcategory'] );
 		$outputExcel->getActiveSheet()->setCellValue('AA' . $row, $itemInfo['lab_grown'] );
-		$outputExcel->getActiveSheet()->setCellValue('AB' . $row, trim($itemInfo['images'], ",") );
+		$outputExcel->getActiveSheet()->setCellValue('AB' . $row, $numImg );
 		$outputExcel->getActiveSheet()->setCellValue('AC' . $row, $itemInfo['description'] ) ;
 		$outputExcel->getActiveSheet()->setCellValue('AD' . $row, $itemInfo['description_french']);
 		$outputExcel->getActiveSheet()->setCellValue('AE' . $row, $itemInfo['diamond_color']);
@@ -2932,7 +2932,7 @@ if ( isset($_GET['importThis']) ) {
 		$outputExcel->getActiveSheet()->setCellValue('Y' . $row, $itemInfo['country_id'] );
 		$outputExcel->getActiveSheet()->setCellValue('Z' . $row, $itemInfo['ring_subcategory'] );
 		$outputExcel->getActiveSheet()->setCellValue('AA' . $row, $itemInfo['lab_grown'] );
-		$outputExcel->getActiveSheet()->setCellValue('AB' . $row, trim($itemInfo['images'], ",") );
+		$outputExcel->getActiveSheet()->setCellValue('AB' . $row, $numImg );
 		$outputExcel->getActiveSheet()->setCellValue('AC' . $row, $itemInfo['description'] ) ;
 		$outputExcel->getActiveSheet()->setCellValue('AD' . $row, $itemInfo['description_french']);
 		$outputExcel->getActiveSheet()->setCellValue('AE' . $row, $itemInfo['diamond_color']);
