@@ -219,6 +219,7 @@
     display: inline-block !important;
     vertical-align: middle;
     max-height: 279px;
+    min-height: 279px;
 }
 #quick-shop-modal .modal-header .close {
     background: #DA0101;
