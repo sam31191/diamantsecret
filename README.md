@@ -31,6 +31,8 @@
 
 * Owner: Prince Bhanwra (princebhanwra@gmail.com)
 
+# Commands
+* sudo usermod -a -G groupname username
 
 -----
 [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
