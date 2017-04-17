@@ -31,7 +31,7 @@
 
 * Owner: Prince Bhanwra (princebhanwra@gmail.com)
 
-# Commands
+### Commands
 * sudo usermod -a -G groupname username
 
 -----
