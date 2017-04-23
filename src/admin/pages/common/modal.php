@@ -174,16 +174,16 @@
                             <div class="table-item">
                                 <select id="edit_clarity" name="clarity" class="select-style" required>
                                     <option value="">Select</option>
-                                    <option value="FL">FL</option>
-                                    <option value="IF">IF</option>
-                                    <option value="VVS1">VVS1</option>
-                                    <option value="VVS2">VVS2</option>
-                                    <option value="VS1">VS1</option>
-                                    <option value="VS2">VS2</option>
-                                    <option value="SI1">SI1</option>
-                                    <option value="SI2">SI2</option>
-                                    <option value="SI3">SI3</option>
-                                    <option value="I1">I1</option>
+                                    <?php 
+                                    $fetchAvailableClarity = $pdo->prepare("SELECT * FROM `clarity`");
+                                    $fetchAvailableClarity->execute();
+
+                                    if ( $fetchAvailableClarity->rowCount() > 0 ) {
+                                        foreach ( $fetchAvailableClarity->fetchAll() as $clarity ) {
+                                            echo '<option value="'. $clarity['clarity'] .'">'. $clarity['clarity'] .'</option>';
+                                        }
+                                    }
+                                    ?>
                                 </select>
                             </div>
                         </td>
@@ -250,7 +250,18 @@
                         <td><span class="table-item-label">Gold Quality</span></td>
                         <td>
                             <div class="table-item">
-                                <input id="edit_gold_quality" name="gold_quality" type="text" class="form-control" placeholder="Gold Quality">
+                                <select id="edit_gold_quality" name="gold_quality" class="select-style" required>
+                                    <?php 
+                                    $query = $pdo->prepare("SELECT * FROM `gold_quality`");
+                                    $query->execute();
+                                    if ( $query->rowCount() > 0 ) {
+                                        $query = $query->fetchAll();
+                                        foreach ( $query as $entry ) {
+                                            echo '<option value="'. $entry['id'] .'">'. $entry['gold_quality'] .'</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </td>
                     </tr>
@@ -574,16 +585,16 @@
                             <div class="table-item">
                                 <select id="clarity" name="clarity" class="select-style" required>
                                     <option value="">Select</option>
-                                    <option value="FL">FL</option>
-                                    <option value="IF">IF</option>
-                                    <option value="VVS1">VVS1</option>
-                                    <option value="VVS2">VVS2</option>
-                                    <option value="VS1">VS1</option>
-                                    <option value="VS2">VS2</option>
-                                    <option value="SI1">SI1</option>
-                                    <option value="SI2">SI2</option>
-                                    <option value="SI3">SI3</option>
-                                    <option value="I1">I1</option>
+                                    <?php 
+                                    $fetchAvailableClarity = $pdo->prepare("SELECT * FROM `clarity`");
+                                    $fetchAvailableClarity->execute();
+
+                                    if ( $fetchAvailableClarity->rowCount() > 0 ) {
+                                        foreach ( $fetchAvailableClarity->fetchAll() as $clarity ) {
+                                            echo '<option value="'. $clarity['clarity'] .'">'. $clarity['clarity'] .'</option>';
+                                        }
+                                    }
+                                    ?>
                                 </select>
                             </div>
                         </td>
@@ -651,7 +662,19 @@
                         <td><span class="table-item-label">Gold Quality</span></td>
                         <td>
                             <div class="table-item">
-                                <input id="gold_quality" name="gold_quality" type="text" class="form-control" placeholder="Gold Quality">
+                                <select id="gold_quality" name="gold_quality" class="select-style" required>
+                                    <option value="">Select</option>
+                                    <?php 
+                                    $query = $pdo->prepare("SELECT * FROM `gold_quality`");
+                                    $query->execute();
+                                    if ( $query->rowCount() > 0 ) {
+                                        $query = $query->fetchAll();
+                                        foreach ( $query as $entry ) {
+                                            echo '<option value="'. $entry['id'] .'">'. $entry['gold_quality'] .'</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </td>
                     </tr>

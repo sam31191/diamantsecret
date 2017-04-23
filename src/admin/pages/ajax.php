@@ -40,6 +40,8 @@ if ( isset($_GET['importThis']) ) {
 			//$toAdd = explode("_", $_GET['importThis']);
 
 			$error = "";
+			$updated = 0;
+			$duplicate = 0;
 
 			if ( strpos($xlFile, $_GET['timeToken']) !== false ) {
 				
@@ -303,6 +305,8 @@ if ( isset($_GET['importThis']) ) {
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
+							array_push($result, $updated);
+							array_push($result, $duplicate);
 							echo json_encode($result);
 
 							return;
@@ -418,6 +422,8 @@ if ( isset($_GET['importThis']) ) {
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
+							array_push($result, $updated);
+							array_push($result, $duplicate);
 							echo json_encode($result);
 
 							return;
@@ -534,6 +540,8 @@ if ( isset($_GET['importThis']) ) {
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
+							array_push($result, $updated);
+							array_push($result, $duplicate);
 							echo json_encode($result);
 
 							return;
@@ -650,6 +658,8 @@ if ( isset($_GET['importThis']) ) {
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
+							array_push($result, $updated);
+							array_push($result, $duplicate);
 							echo json_encode($result);
 
 							return;
@@ -766,6 +776,8 @@ if ( isset($_GET['importThis']) ) {
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
+							array_push($result, $updated);
+							array_push($result, $duplicate);
 							echo json_encode($result);
 
 							return;
@@ -1204,6 +1216,8 @@ if ( isset($_GET['importThis']) ) {
 			//$toAdd = explode("_", $_GET['importThis']);
 
 			$error = "";
+			$updated = 0;
+			$duplicate = 0;
 
 			if ( sizeof($products[1]) < 30 ) {
 				echo '<h4><div class="alert alert-error">Invalid Zip Format</div></h4><p>Please download the defined Zip Format and use that to input entries.</p><br><br><br><br>
@@ -1446,11 +1460,13 @@ if ( isset($_GET['importThis']) ) {
 								if ( $hashDB == $hashSQL ) {
 									$resultMessage = "neutral";
 									$resultStatus = "Duplicate Entry - Skipping";
+									$duplicate++;
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 								} else {
 									$resultMessage = "success";
 									$resultStatus = "Product Updated";
+									$updated++;
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
@@ -1474,6 +1490,8 @@ if ( isset($_GET['importThis']) ) {
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
+							array_push($result, $updated);
+							array_push($result, $duplicate);
 							echo json_encode($result);
 
 							return;
@@ -1571,11 +1589,13 @@ if ( isset($_GET['importThis']) ) {
 								if ( $hashDB == $hashSQL ) {
 									$resultMessage = "neutral";
 									$resultStatus = "Duplicate Entry - Skipping";
+									$duplicate++;
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 								} else {
 									$resultMessage = "success";
 									$resultStatus = "Product Updated";
+									$updated++;
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
@@ -1599,6 +1619,8 @@ if ( isset($_GET['importThis']) ) {
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
+							array_push($result, $updated);
+							array_push($result, $duplicate);
 							echo json_encode($result);
 
 							return;
@@ -1696,11 +1718,13 @@ if ( isset($_GET['importThis']) ) {
 								if ( $hashDB == $hashSQL ) {
 									$resultMessage = "neutral";
 									$resultStatus = "Duplicate Entry - Skipping";
+									$duplicate++;
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 								} else {
 									$resultMessage = "success";
 									$resultStatus = "Product Updated";
+									$updated++;
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
@@ -1724,6 +1748,8 @@ if ( isset($_GET['importThis']) ) {
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
+							array_push($result, $updated);
+							array_push($result, $duplicate);
 							echo json_encode($result);
 
 							return;
@@ -1821,11 +1847,13 @@ if ( isset($_GET['importThis']) ) {
 								if ( $hashDB == $hashSQL ) {
 									$resultMessage = "neutral";
 									$resultStatus = "Duplicate Entry - Skipping";
+									$duplicate++;
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 								} else {
 									$resultMessage = "success";
 									$resultStatus = "Product Updated";
+									$updated++;
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
@@ -1849,6 +1877,8 @@ if ( isset($_GET['importThis']) ) {
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
+							array_push($result, $updated);
+							array_push($result, $duplicate);
 							echo json_encode($result);
 
 							return;
@@ -1946,11 +1976,13 @@ if ( isset($_GET['importThis']) ) {
 								if ( $hashDB == $hashSQL ) {
 									$resultMessage = "neutral";
 									$resultStatus = "Duplicate Entry - Skipping";
+									$duplicate++;
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 								} else {
 									$resultMessage = "success";
 									$resultStatus = "Product Updated";
+									$updated++;
 									#$resultStatus .= json_encode($valuesDB);
 									#$resultStatus .= json_encode($valuesSQL);
 									
@@ -1974,6 +2006,8 @@ if ( isset($_GET['importThis']) ) {
 							array_push($result, $products[$i]['D']);
 							array_push($result, $resultStatus);
 							array_push($result, $i);
+							array_push($result, $updated);
+							array_push($result, $duplicate);
 							echo json_encode($result);
 
 							return;
@@ -2036,6 +2070,9 @@ if ( isset($_GET['importThis']) ) {
 					}
 					if ( !is_integer($products[$i]['AE']) ) {
 						$products[$i]['AE'] = intval($products[$i]['AE']);
+					}
+					if ( !is_integer($products[$i]['S']) ) {
+						$products[$i]['S'] = intval($products[$i]['S']);
 					}
 
 					$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, images_delta, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, :images_delta, NOW())");
@@ -3762,9 +3799,51 @@ if ( isset($_GET['importThis']) ) {
 			#No Rows Found
 		}
 
-		#Other Sheet
+		#Gold Quality Sheet
 		$outputExcel->createSheet(8);
 		$outputExcel->setActiveSheetIndex(8);
+		$outputExcel->getActiveSheet()->setTitle('gold_quality');
+		$outputExcel->getActiveSheet()->getStyle('A1:B1')->getFont()->setBold(true);
+		$outputExcel->getActiveSheet()->setCellValue('A1', 'id');
+		$outputExcel->getActiveSheet()->setCellValue('B1', 'gold quality');
+
+		$getCategories = $pdo->prepare("SELECT * FROM `gold_quality`");
+		$getCategories->execute();
+
+		if ( $getCategories->rowCount() > 0 ) {
+			$categories = $getCategories->fetchAll();
+
+			for($i = 0; $i < sizeof($categories); $i++ ) {
+				$outputExcel->getActiveSheet()->setCellValue('A' . intval($i+2), $categories[$i]['id']);
+				$outputExcel->getActiveSheet()->setCellValue('B' . intval($i+2), $categories[$i]['gold_quality']);
+			}
+		} else {
+			#No Rows Found
+		}
+
+		#Gold Quality Sheet
+		$outputExcel->createSheet(9);
+		$outputExcel->setActiveSheetIndex(9);
+		$outputExcel->getActiveSheet()->setTitle('clarity');
+		$outputExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+		$outputExcel->getActiveSheet()->setCellValue('A1', 'clarity');
+
+		$getCategories = $pdo->prepare("SELECT * FROM `clarity`");
+		$getCategories->execute();
+
+		if ( $getCategories->rowCount() > 0 ) {
+			$categories = $getCategories->fetchAll();
+
+			for($i = 0; $i < sizeof($categories); $i++ ) {
+				$outputExcel->getActiveSheet()->setCellValue('A' . intval($i+2), $categories[$i]['clarity']);
+			}
+		} else {
+			#No Rows Found
+		}
+
+		#Other Sheet
+		$outputExcel->createSheet(10);
+		$outputExcel->setActiveSheetIndex(10);
 		$outputExcel->getActiveSheet()->setTitle('Other options');
 		$outputExcel->getActiveSheet()->setCellValue('A2', 'Possible options for other columns:');
 		$outputExcel->getActiveSheet()->setCellValue('A4', 'Column Name');

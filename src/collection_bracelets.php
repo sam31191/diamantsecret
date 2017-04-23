@@ -213,16 +213,24 @@ pconsole($_POST);
 														</p>
 														<select form="filterForm" name="clarity" id="clarityFilter">
 															<option value="">Clarity</option>
-								                            <option value="FL">FL</option>
-								                            <option value="IF">IF</option>
-								                            <option value="VVS1">VVS1</option>
-								                            <option value="VVS2">VVS2</option>
-								                            <option value="VS1">VS1</option>
-								                            <option value="VS2">VS2</option>
-								                            <option value="SI1">SI1</option>
-								                            <option value="SI2">SI2</option>
-								                            <option value="SI3">SI3</option>
-								                            <option value="I1">I1</option>
+								                            <?php 
+															$fetchAvailableClarity = $pdo->prepare("SELECT * FROM `clarity`");
+															$fetchAvailableClarity->execute();
+
+															if ( $fetchAvailableClarity->rowCount() > 0 ) {
+																foreach ( $fetchAvailableClarity->fetchAll() as $clarity ) {
+																	$checkIfClarityExists = $pdo->prepare("SELECT COUNT(id) AS clarityCount FROM bracelets WHERE clarity = :clarity");
+																	$checkIfClarityExists->execute(array(":clarity" => $clarity['clarity']));
+
+																	if ( $checkIfClarityExists->rowCount() > 0 ) {
+																		$clarityCount = $checkIfClarityExists->fetch(PDO::FETCH_ASSOC)['clarityCount'];
+																		if ( $clarityCount > 0 ) {
+																			echo '<option value="'. $clarity['clarity'] .'">'. $clarity['clarity'] .'</option>';
+																		}
+																	}
+																}
+															}
+															?>
 														</select>
 													</div>
 
@@ -245,7 +253,15 @@ pconsole($_POST);
 
 															if ( $fetchAvailableMaterials->rowCount() > 0 ) {
 																foreach ( $fetchAvailableMaterials->fetchAll() as $materialOption ) {
-																	echo '<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. $materialOption["category"] .'" value="'. $materialOption["id"] .'" onclick="filterMaterial(this, this.value)">'. $materialOption["category"] .'</button></li>';
+																	$checkIfOptionExists = $pdo->prepare("SELECT COUNT(id) AS optionCount FROM bracelets WHERE material = :material");
+																	$checkIfOptionExists->execute(array(":material" => $materialOption['id']));
+
+																	if ( $checkIfOptionExists->rowCount() > 0 ) {
+																		$optionCount = $checkIfOptionExists->fetch(PDO::FETCH_ASSOC)['optionCount'];
+																		if ( $optionCount > 0 ) {
+																			echo '<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. $materialOption["category"] .'" value="'. $materialOption["id"] .'" onclick="filterMaterial(this, this.value)">'. $materialOption["category"] .'</button></li>';
+																		}
+																	}
 																}
 															}
 															?>
@@ -266,7 +282,7 @@ pconsole($_POST);
 													<!-- tags groupd 3 -->
 													<div class="tag-group" id="coll-filter-2-color">
 														<p class="title">
-															Stone Type
+															Type
 														</p>
 														<ul>
 															<?php 
@@ -305,7 +321,15 @@ pconsole($_POST);
 								                            if ( $query->rowCount() > 0 ) {
 								                            	$query = $query->fetchAll();
 								                            	foreach ( $query as $option ) {
-								                            		echo '<option value="'. $option['id'] .'">'. $option['category'] .'</option>';
+								                            		$checkIfOptionExists = $pdo->prepare("SELECT COUNT(id) AS optionCount FROM bracelets WHERE ring_subcategory = :ring_subcategory");
+																	$checkIfOptionExists->execute(array(":ring_subcategory" => $option['id']));
+
+																	if ( $checkIfOptionExists->rowCount() > 0 ) {
+																		$optionCount = $checkIfOptionExists->fetch(PDO::FETCH_ASSOC)['optionCount'];
+																		if ( $optionCount > 0 ) {
+								                            				echo '<option value="'. $option['id'] .'">'. $option['category'] .'</option>';
+								                            			}
+								                            		}
 								                            	}
 								                            }
 								                            ?>
@@ -539,11 +563,11 @@ pconsole($_POST);
 																		$select1 = "selected";
 																	}
 																}
-																echo '<option value="?filter=featured&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select1 .'>Featured</option>';
-																echo '<option value="?filter=item_value&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select2 .'>Price: High to Low</option>';
-																echo '<option value="?filter=item_value&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select3 .'>Price: Low to High</option>';
-																echo '<option value="?filter=item_name&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select4 .'>A - Z</option>';
-																echo '<option value="?filter=item_name&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select5 .'>Z - A</option>';
+																echo '<option value="?filter=featured&order=DESC&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select1 .'>Featured</option>';
+																echo '<option value="?filter=item_value&order=DESC&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select2 .'>Price: High to Low</option>';
+																echo '<option value="?filter=item_value&order=ASC&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select3 .'>Price: Low to High</option>';
+																echo '<option value="?filter=item_name&order=ASC&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select4 .'>A - Z</option>';
+																echo '<option value="?filter=item_name&order=DESC&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select5 .'>Z - A</option>';
 															?>
 														</select>
 													</div>
@@ -755,7 +779,7 @@ pconsole($_POST);
 											  <?php 
 											  	for ( $i = 0; $i < $pages; $i++ ) {
 											  		if ( $i == 0 ) {
-											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">first</a></li>';
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">first</a></li>';
 											  		}
 
 											  		if ( $i > $currentPage - 3 && $i < $currentPage + 3 ) {
@@ -763,13 +787,13 @@ pconsole($_POST);
 											  			if ( $i == $currentPage ) {
 											  				$class = "active";
 											  			}
-											  			echo '<li class="'. $class .'"><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">'. intval($i+1) .'</a></li>';
+											  			echo '<li class="'. $class .'"><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">'. intval($i+1) .'</a></li>';
 											  		}else if ( $i > $currentPage - 4 && $i < $currentPage + 4 ) {
 											  			echo '<li><a href="javascript:void(0);">.</a></li>';
 											  		}
 
 											  		if ( $i == intval($pages) ){
-											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">last</a></li>';
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">last</a></li>';
 											  		}
 											  	}
 											  ?>

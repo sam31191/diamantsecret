@@ -58,9 +58,9 @@ if ( isset($_SESSION['modSession']) ) {
       </style>
       
         <div id="uploadDiv" style="background:rgba(0,0,0,0.75); height:100%; width:100%; position:fixed; z-index:100" hidden>
-        <div class="alert alert-info" id="resultDiv" style="position: absolute; left: 50%; top: 50%; text-align: center; width: 800px; height: 400px; margin-left: -400px; margin-top: -200px; overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
-                <h4><div class='alert alert-info' style="position: fixed;" id="alertDiv">Importing <span id="importedItems">0</span>/<span id="totalItems">0</span></div>
-                <a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 0px 16px; /* right: 0px; */ position: fixed; display: block; /* float: right; */ margin-left: 700px;" onclick="window.location = './import_zip.php';" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
+        <div class="alert alert-info" id="resultDiv" style="position: absolute; left: 10%; top: 10%; text-align: center; width: 80%; height: 75%; /* margin-left: -400px; margin-top: -200px; */ overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
+                <h4><div class='alert alert-info' style="position: absolute; bottom: 0;" id="alertDiv">Importing <span id="importedItems">0</span>/<span id="totalItems">0</span></div>
+                <a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 0px 16px; /* right: 0px; */ position: absolute; right: 0; display: block; /* float: right; */ margin-left: 700px;" onclick="window.location = './import_zip.php';" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
                 </h4><table class='table table-condensed table-custom' style="table-layout: fixed; word-wrap: break-word;"><thead><th style="width: 50px;">#</th><th style="width: 60%;">Entry</th><th>Errors</th></thead><tbody id="resultTable"></tbody></table>
             </div>
         </div>
@@ -552,6 +552,7 @@ var successCount = 0;
 var failedCount = 0;
 var warningCount = 0;
 var skippedCount = 0;
+var updateCount = 0;
 
 function importThis(timeToken){
     globalTimeToken = timeToken;
@@ -636,7 +637,7 @@ function importAjax (id, index, timeToken) {
                 $('#uploadDivCloseIcon').show();
                 $('#alertDiv').removeClass("alert-info");
                 $('#alertDiv').addClass("alert-success");
-                $('#alertDiv').html("Import Complete! <label class='label label-primary'>Success: "+ successCount + "</label> <label class='label label-danger'>Failed: "+ failedCount + "</label> <label class='label label-warning'>Warning: " + warningCount +"</label> <label class='label label-info'>Skipped: "+ skippedCount +"</label>");
+                $('#alertDiv').html("Import Complete! <label class='label label-primary'>Success: "+ successCount + "</label> <label class='label label-danger'>Failed: "+ failedCount + "</label> <label class='label label-warning'>Warning: " + warningCount +"</label> <label class='label label-info'>Skipped: "+ skippedCount +"</label> <label class='label label-success'>Updated: "+ updateCount +"</label>");
                 finalizeImport();
             }
             console.log("Finished Query: " + index);
@@ -672,6 +673,8 @@ function importAjax (id, index, timeToken) {
                     rc = "background: #FFF59D;";
                     warningCount++;
                 }
+
+                updateCount = result[4];
 
                 $("#row_"+ result[3]).prop("style", rc);
                 $("#row_"+ result[3] +"_result").html(result[1]);

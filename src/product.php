@@ -466,7 +466,13 @@ pconsole($_POST);
 																		Gold Quality
 																	</div>
 																	<?php
-																	echo '<div class="header"><small>'. getMaterial($itemInfo['gold_quality'], $pdo) .'</small></div>';
+																	$goldQuality = $pdo->prepare("SELECT gold_quality FROM gold_quality WHERE id = :id");
+																	$goldQuality->execute(array(":id" => $itemInfo['gold_quality']));
+
+																	if ( $goldQuality->rowCount() > 0 ) {
+																		$goldQuality = $goldQuality->fetch(PDO::FETCH_ASSOC)['gold_quality'];
+																		echo '<div class="header"><small>'. $goldQuality .'</small></div>';
+																	}
 																	?>																	
 																</div>
 																<div class="swatch color clearfix" data-option-index="0">

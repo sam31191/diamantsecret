@@ -55,11 +55,13 @@ if ( isset($_POST['addItem']) ) {
                 $table = "rings";
                 $imageName = "ring";
                 $images = "ring_4_0.jpg,ring_4_1.jpg,ring_4_2.jpg,ring_4_3.jpg,ring_4_4.jpg,ring_4_5.jpg";
+                $images = "pendant_5_0.jpg,pendant_5_1.jpg,pendant_5_2.jpg,pendant_5_3.jpg,pendant_5_4.jpg,pendant_5_5.jpg";
                 break;
             } case 2: {
                 $table = "earrings";
                 $imageName = "earring";
                 $images = "earring_9_0.jpg,earring_9_1.jpg,earring_9_2.jpg,earring_9_3.jpg,earring_9_4.jpg,earring_9_5.jpg";
+                $images = "pendant_5_0.jpg,pendant_5_1.jpg,pendant_5_2.jpg,pendant_5_3.jpg,pendant_5_4.jpg,pendant_5_5.jpg";
                 break;
             } case 3: {
                 $table = "pendants";
@@ -70,11 +72,13 @@ if ( isset($_POST['addItem']) ) {
                 $table = "necklaces";
                 $imageName = "necklace";
                 $images = "necklace_1_0.jpg,necklace_1_1.jpg,necklace_1_2.jpg,necklace_1_3.jpg,necklace_1_4.jpg,necklace_1_5.jpg";
+                $images = "pendant_5_0.jpg,pendant_5_1.jpg,pendant_5_2.jpg,pendant_5_3.jpg,pendant_5_4.jpg,pendant_5_5.jpg";
                 break;
             } case 5: {
                 $table = "bracelets";
                 $imageName = "bracelet";
                 $images = "bracelet_1_0.jpg,bracelet_1_1.jpg,bracelet_1_2.jpg";
+                $images = "pendant_5_0.jpg,pendant_5_1.jpg,pendant_5_2.jpg,pendant_5_3.jpg,pendant_5_4.jpg,pendant_5_5.jpg";
                 break;
             } default: {
                 $table = "na";
