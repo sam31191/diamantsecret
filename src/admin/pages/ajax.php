@@ -18,6 +18,8 @@ set_include_path(get_include_path() . PATH_SEPARATOR . '../PHPExcel/PHPExcel/');
 /** PHPExcel_IOFactory */
 include '../PHPExcel/PHPExcel/IOFactory.php';
 if ( isset($_GET['importThis']) ) {
+	$updated = 0;
+	$duplicate = 0;
 	if ( file_exists($_SESSION['tmp_file']) ) {
 
 		$xlFile = $_SESSION['tmp_file'];
@@ -40,8 +42,6 @@ if ( isset($_GET['importThis']) ) {
 			//$toAdd = explode("_", $_GET['importThis']);
 
 			$error = "";
-			$updated = 0;
-			$duplicate = 0;
 
 			if ( strpos($xlFile, $_GET['timeToken']) !== false ) {
 				
@@ -1193,6 +1193,8 @@ if ( isset($_GET['importThis']) ) {
 	}
 
 } else if ( isset($_GET['importZip']) ) {
+	$updated = 0;
+	$duplicate = 0;
 	if ( file_exists('../../working/zip/import/'. $_GET['timeToken'] .'/products.xlsx') ) {
 
 		$xlFile = '../../working/zip/import/'. $_GET['timeToken'] .'/products.xlsx';
@@ -1216,8 +1218,6 @@ if ( isset($_GET['importThis']) ) {
 			//$toAdd = explode("_", $_GET['importThis']);
 
 			$error = "";
-			$updated = 0;
-			$duplicate = 0;
 
 			if ( sizeof($products[1]) < 30 ) {
 				echo '<h4><div class="alert alert-error">Invalid Zip Format</div></h4><p>Please download the defined Zip Format and use that to input entries.</p><br><br><br><br>

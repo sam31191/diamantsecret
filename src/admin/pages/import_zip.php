@@ -59,8 +59,8 @@ if ( isset($_SESSION['modSession']) ) {
       
         <div id="uploadDiv" style="background:rgba(0,0,0,0.75); height:100%; width:100%; position:fixed; z-index:100" hidden>
         <div class="alert alert-info" id="resultDiv" style="position: absolute; left: 10%; top: 10%; text-align: center; width: 80%; height: 75%; /* margin-left: -400px; margin-top: -200px; */ overflow: auto; font-variant:normal;background: rgb(238, 238, 238) none repeat scroll 0% 0%; color: black; border: none;">
-                <h4><div class='alert alert-info' style="position: absolute; bottom: 0;" id="alertDiv">Importing <span id="importedItems">0</span>/<span id="totalItems">0</span></div>
-                <a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="font-size: 20px; margin: 0px 16px; /* right: 0px; */ position: absolute; right: 0; display: block; /* float: right; */ margin-left: 700px;" onclick="window.location = './import_zip.php';" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
+                <h4><div class='alert alert-info' style="    position: fixed; bottom: 0; left: 0; margin: 10px;" id="alertDiv">Importing <span id="importedItems">0</span>/<span id="totalItems">0</span></div>
+                <a href="javascript:void(0);" id="uploadDivCloseIcon" class="btn btn-danger" style="    font-size: 20px; /* margin: 0px 16px 0px 700px; */ position: fixed; right: 0px; top: 0; display: block; margin: 10px;" onclick="window.location = './import_zip.php';" data-toggle="tooltip" data-placement="bottom" title="Close">Close</a>
                 </h4><table class='table table-condensed table-custom' style="table-layout: fixed; word-wrap: break-word;"><thead><th style="width: 50px;">#</th><th style="width: 60%;">Entry</th><th>Errors</th></thead><tbody id="resultTable"></tbody></table>
             </div>
         </div>
