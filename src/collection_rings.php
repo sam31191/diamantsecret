@@ -163,6 +163,12 @@ pconsole($_POST);
                                     } else {
                                         $stoneTag = "";
                                     }
+                                    if ( isset($_GET['quality']) ) {
+                                        $qualityTag = $_GET['quality'];
+                                        #echo '<label class="label label-info">'. $_GET['stone'] .'</label>';
+                                    } else {
+                                        $qualityTag = "";
+                                    }
                                     if ( isset($_GET['clarity']) ) {
                                         $clarityTag = $_GET['clarity'];
                                         #echo '<label class="label label-info">'. $_GET['clarity'] .'</label>';
@@ -203,6 +209,7 @@ pconsole($_POST);
                                                 <div class="filter-tag-group">
                                                     <form id="filterForm" method="get">
                                                         <input id="filterMaterial" name="material" hidden />
+                                                        <input id="filterQuality" name="quality" hidden />
                                                         <input id="filterStone" name="stone" hidden />
                                                     </form>
                                                     <h6 class="sb-title">Filter <a href="./collection_rings.php" style="font-size:12px">clear selection</a><button class="btn" form="filterForm" type="submit" style="float:right;">Apply</button></h6>
@@ -276,6 +283,46 @@ pconsole($_POST);
                                                         echo '<script>$("#filterMaterial").val("'. $materialTag .'");</script>';
                                                         foreach ( explode(";", urldecode($materialTag)) as $selectedMaterial ) {
                                                             echo '<script>$(".material-tag[value=\''. $selectedMaterial .'\']").addClass("material-tag-active");</script>';
+                                                        }
+                                                    }
+
+                                                    ?>
+
+
+                                                    <!-- tags groupd 2 -->
+                                                    <div class="tag-group" id="coll-filter-2">
+                                                        <p class="title">
+                                                            Karat
+                                                        </p>
+                                                        <ul>
+                                                            <?php 
+                                                            $fetchAvailableMaterials = $pdo->prepare("SELECT * FROM `gold_quality`");
+                                                            $fetchAvailableMaterials->execute();
+
+                                                            if ( $fetchAvailableMaterials->rowCount() > 0 ) {
+                                                                foreach ( $fetchAvailableMaterials->fetchAll() as $qualityOption ) {
+                                                                    $checkIfOptionExists = $pdo->prepare("SELECT COUNT(id) AS optionCount FROM rings WHERE gold_quality = :gold_quality");
+                                                                    $checkIfOptionExists->execute(array(":gold_quality" => $qualityOption['id']));
+
+                                                                    if ( $checkIfOptionExists->rowCount() > 0 ) {
+                                                                        $optionCount = $checkIfOptionExists->fetch(PDO::FETCH_ASSOC)['optionCount'];
+                                                                        if ( $optionCount > 0 ) {
+                                                                            echo '<li><button class="quality-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. $qualityOption["gold_quality"] .'" value="'. $qualityOption["id"] .'" onclick="filterQuality(this, this.value)">'. $qualityOption["gold_quality"] .'</button></li>';
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            ?>
+                                                            
+                                                        </ul>
+                                                    </div>
+
+                                                    <?php
+
+                                                    if ( !empty($qualityTag) ) {
+                                                        echo '<script>$("#filterQuality").val("'. $qualityTag .'");</script>';
+                                                        foreach ( explode(";", urldecode($qualityTag)) as $selectedQuality ) {
+                                                            echo '<script>$(".quality-tag[value=\''. $selectedQuality .'\']").addClass("quality-tag-active");</script>';
                                                         }
                                                     }
 
@@ -564,11 +611,11 @@ pconsole($_POST);
                                                                         $select1 = "selected";
                                                                     }
                                                                 }
-                                                                echo '<option value="?filter=featured&order=DESC&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select1 .'>Featured</option>';
-                                                                echo '<option value="?filter=item_value&order=DESC&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select2 .'>Price: High to Low</option>';
-                                                                echo '<option value="?filter=item_value&order=ASC&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select3 .'>Price: Low to High</option>';
-                                                                echo '<option value="?filter=item_name&order=ASC&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select4 .'>A - Z</option>';
-                                                                echo '<option value="?filter=item_name&order=DESC&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select5 .'>Z - A</option>';
+                                                                echo '<option value="?filter=featured&order=DESC&stone='. $stoneTag .'&material='. $materialTag .'&quality='. $qualityTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select1 .'>Featured</option>';
+                                                                echo '<option value="?filter=item_value&order=DESC&stone='. $stoneTag .'&material='. $materialTag .'&quality='. $qualityTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select2 .'>Price: High to Low</option>';
+                                                                echo '<option value="?filter=item_value&order=ASC&stone='. $stoneTag .'&material='. $materialTag .'&quality='. $qualityTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select3 .'>Price: Low to High</option>';
+                                                                echo '<option value="?filter=item_name&order=ASC&stone='. $stoneTag .'&material='. $materialTag .'&quality='. $qualityTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select4 .'>A - Z</option>';
+                                                                echo '<option value="?filter=item_name&order=DESC&stone='. $stoneTag .'&material='. $materialTag .'&quality='. $qualityTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'" '. $select5 .'>Z - A</option>';
                                                             ?>
                                                         </select>
                                                     </div>
@@ -654,7 +701,44 @@ pconsole($_POST);
                                                     }
 
                                                     if ( !empty($stoneTag) ) {
-                                                        $filterX .= " AND `color` = '" . $stoneTag . "' ";
+                                                        //$filterX .= " AND `color` = '" . $stoneTag . "' ";
+
+                                                        $filterX .= " AND ( ";
+                                                        $stoneSelections = explode(";", urldecode($stoneTag));
+
+                                                        pconsole($stoneSelections);
+                                                        
+                                                        for ( $i = 0; $i < sizeof($stoneSelections); $i++ ) {
+                                                            if ( isset($stoneSelections[$i]) && !empty($stoneSelections[$i]) ) {
+                                                                if ( $i == 0 ) {
+                                                                    $filterX .= " `color` = ". $stoneSelections[$i];
+                                                                } else {
+                                                                    $filterX .= " OR `color` = ". $stoneSelections[$i];
+                                                                }
+                                                            }
+                                                        }
+
+                                                        $filterX .= " ) ";
+                                                    }
+
+                                                    if ( !empty($qualityTag) ) {
+                                                        //$filterX .= " AND `gold_quality` = '" . $qualityTag . "' ";
+                                                        $filterX .= " AND ( ";
+                                                        $materialSelections = explode(";", urldecode($qualityTag));
+
+                                                        pconsole($materialSelections);
+                                                        
+                                                        for ( $i = 0; $i < sizeof($materialSelections); $i++ ) {
+                                                            if ( isset($materialSelections[$i]) && !empty($materialSelections[$i]) ) {
+                                                                if ( $i == 0 ) {
+                                                                    $filterX .= " `gold_quality` = ". $materialSelections[$i];
+                                                                } else {
+                                                                    $filterX .= " OR `gold_quality` = ". $materialSelections[$i];
+                                                                }
+                                                            }
+                                                        }
+
+                                                        $filterX .= " ) ";
                                                     }
 
                                                     if ( !empty($ringTag) ) {
@@ -780,7 +864,7 @@ pconsole($_POST);
                                               <?php 
                                                 for ( $i = 0; $i < $pages; $i++ ) {
                                                     if ( $i == 0 ) {
-                                                        echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">first</a></li>';
+                                                        echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&stone='. $stoneTag .'&material='. $materialTag .'&quality='. $qualityTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">first</a></li>';
                                                     }
 
                                                     if ( $i > $currentPage - 3 && $i < $currentPage + 3 ) {
@@ -788,13 +872,13 @@ pconsole($_POST);
                                                         if ( $i == $currentPage ) {
                                                             $class = "active";
                                                         }
-                                                        echo '<li class="'. $class .'"><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">'. intval($i+1) .'</a></li>';
+                                                        echo '<li class="'. $class .'"><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&stone='. $stoneTag .'&material='. $materialTag .'&quality='. $qualityTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">'. intval($i+1) .'</a></li>';
                                                     }else if ( $i > $currentPage - 4 && $i < $currentPage + 4 ) {
                                                         echo '<li><a href="javascript:void(0);">.</a></li>';
                                                     }
 
                                                     if ( $i == intval($pages) ){
-                                                        echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&stone='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">last</a></li>';
+                                                        echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&stone='. $stoneTag .'&material='. $materialTag .'&quality='. $qualityTag .'&clarity='. $clarityTag .'&_sc='. $ringTag .'&price_range='. $priceTag .'">last</a></li>';
                                                     }
                                                 }
                                               ?>
@@ -1132,6 +1216,21 @@ function filterMaterial(elem, val) {
             $(element).removeClass("material-tag-active");
         }
     });*/
+}
+
+function filterQuality(elem, val) {
+    if ( $(elem).hasClass("quality-tag-active") ) {
+        /* DESELECT FILTER */
+        var currentSelections = $("#filterQuality").val().replace(val +";", "");
+        $("#filterQuality").val(currentSelections);
+        $(elem).removeClass("quality-tag-active");
+    } else {
+        /* SELECT FILTER */
+        var currentSelections = $("#filterQuality").val() + val + ";";
+        $("#filterQuality").val(currentSelections);
+        $(elem).addClass("quality-tag-active");
+    }
+    
 }
 function filterStone(elem, val) {
     if ( $(elem).hasClass("stone-tag-active") ) {

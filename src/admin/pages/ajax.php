@@ -10,7 +10,8 @@ if ( !isset($_SESSION['modSession']) ) {
 	exit();
 }
 
-
+$updated = 0;
+$duplicate = 0;
 
 /** Include path **/
 set_include_path(get_include_path() . PATH_SEPARATOR . '../PHPExcel/PHPExcel/');
@@ -18,8 +19,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . '../PHPExcel/PHPExcel/');
 /** PHPExcel_IOFactory */
 include '../PHPExcel/PHPExcel/IOFactory.php';
 if ( isset($_GET['importThis']) ) {
-	$updated = 0;
-	$duplicate = 0;
+	
 	if ( file_exists($_SESSION['tmp_file']) ) {
 
 		$xlFile = $_SESSION['tmp_file'];

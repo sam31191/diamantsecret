@@ -125,6 +125,34 @@
     font-size: 11px;
 }
 
+
+.quality-tag {
+    font-weight: normal;
+    text-transform: uppercase !important;
+    transition: 0.5s all ease;
+    color: #607D8B;
+    border: solid 1px #607D8B;
+    border-radius: 0;
+    font-size: 11px;
+    padding: 4px 8px !important;
+    background: transparent;
+}
+.quality-tag-active {
+    background-color: #607D8B;
+    border: solid 1px #607D8B;
+    color: #fff;
+    border-radius: 0;
+    font-size: 11px;
+}
+
+.quality-tag:hover {
+    background-color: #607D8B;
+    border: solid 1px #607D8B;
+    color: #fff;
+    border-radius: 0;
+    font-size: 11px;
+}
+
 .stone-tag {
     font-weight: normal;
     text-transform: uppercase !important;
