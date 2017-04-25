@@ -54,6 +54,15 @@ if ( !isset($_GET['view']) || empty($_GET['view']) ) {
 	<script src="./assets/javascripts/jquery.zoom.js" type="text/javascript"></script>	
 	<script src="./assets/javascripts/cs.script.js" type="text/javascript"></script>
 	<script src="./js/jquery.elevateZoom-3.0.8.min.js" type="text/javascript"></script>
+
+	<style type="text/css">
+	.header {
+		width: 200px !important;
+	}
+	.swatch {
+	    border-bottom: solid thin #eaeaea;
+	}
+	</style>
 </head>
 
 <?php
@@ -71,13 +80,13 @@ if ( isset($_POST['addToCart']) ) {
 		//$carArray[2] = intval($cartArray[2]) + intval($_POST['quantity']);
 
 		//$currentCart = $cartArray[0] . '|' . $cartArray[1] . '|' . $cartArray[2] . ','; 
-		pconsole($cartArray);
-		pconsole("This Echo");
+		//pconsole($cartArray);
+		//pconsole("This Echo");
 
 		$currentCart = "";
 		foreach ( $cartArray as $cartItem ) {
 			if ( $cartItem !== "" ) {
-				pconsole($cartItem);
+				//pconsole($cartItem);
 				if ( strstr($cartItem, $cartElement) ) { // Match Found
 					$currentQuantity = str_replace($cartElement, "", $cartItem);
 					$newQ = $currentQuantity + $_POST['quantity'];
@@ -86,7 +95,7 @@ if ( isset($_POST['addToCart']) ) {
 				}
 				$currentCart .= $cartItem . ",";
 
-				pconsole("New Cart: " . $currentCart);
+				//pconsole("New Cart: " . $currentCart);
 			}
 		}
 	} else { //Cart doesn't have this, adding new
@@ -112,7 +121,7 @@ if ( isset($_POST['addToCart']) ) {
 	));
 }
 
-pconsole($_POST);
+//pconsole($_POST);
 ?>
 
 <body style="height: 2671px;" itemscope="" itemtype="http://schema.org/WebPage" class="templateProduct notouch">
@@ -170,7 +179,7 @@ pconsole($_POST);
 											$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="addToWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode" style="text-transform:uppercase; font-weight: bold;">Add to Wishlist</span></a>';
 										}
 										
-										pconsole($itemInfo);
+										//pconsole($itemInfo);
 
 										echo '<a href="./collection_'. $category .'.php" style="text-transform:capitalize;">'. $category .'</a>';
 										echo '<span>/</span>';
@@ -280,6 +289,18 @@ pconsole($_POST);
 															echo $itemInfo['description_french'];
 															?></p>
 														</fieldset>
+														<?php 
+															if ( $item['category'] == 3 ) {
+																?>
+																	<fieldset>
+																		<legend style="border-top: solid thin #ddd; padding-top: 15px; border-bottom: none; margin-bottom: 5px;">Note</legend>
+																		<p><?php
+																		echo "All Pendants will be shipped with a Silver Chain";
+																		?></p>
+																	</fieldset>
+																<?php
+															}
+														?>
 													</div>
 													<div class="relative">
 														<ul class="list-unstyled">
@@ -415,12 +436,12 @@ pconsole($_POST);
 									                                    			echo '<a class="btn size-badge tooptip" name="'. $sizes[$i] .'" onClick="selectSize(this)">'. $sizes[$i] .'</a>';
 									                                    		} else {
 									                                    			if ( strstr($sizes[$i], "-") !== false ) {
-									                                    				pconsole($sizes[$i] . " is a range");
+									                                    				//pconsole($sizes[$i] . " is a range");
 									                                    				$sizesRange = explode("-", $sizes[$i]);
 
 									                                    				if ( intval(trim($sizesRange[0])) < intval(trim($sizesRange[1])) ) {
 									                                    					for ( $j = intval(trim($sizesRange[0])); $j <= intval(trim($sizesRange[1])); $j++ ) {
-									                                    						pconsole($j);
+									                                    						//pconsole($j);
 									                                    						echo '<a class="btn size-badge" name="'. $j .'" onClick="selectSize(this)">'. $j .'</a>';
 									                                    					}
 									                                    				}
@@ -462,7 +483,11 @@ pconsole($_POST);
 																	?>																	
 																</div>
 																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="tooltip">
+																				asd
+																			</div>
 																	<div class="header">
+
 																		Gold Quality
 																	</div>
 																	<?php
@@ -471,41 +496,39 @@ pconsole($_POST);
 
 																	if ( $goldQuality->rowCount() > 0 ) {
 																		$goldQuality = $goldQuality->fetch(PDO::FETCH_ASSOC)['gold_quality'];
-																		echo '<div class="header"><small>'. $goldQuality .'</small></div>';
+																		//echo '<div class="header"><small>'. $goldQuality .' - '. $itemInfo['total_gold_weight'] .'gr</small></div>';
+
+																		echo '
+																		<div data-value="blue" class="swatch-element color blue available">
+																			<div class="tooltip" style="width: 250px; left: -100px;">
+																				Gold Quality - Gold Weight
+																			</div>
+																			<div class="header"><small>'. $goldQuality .' - '. $itemInfo['total_gold_weight'] .'gr <i class="fa fa-info-circle"></i></small></div>
+																			</label>
+																		</div>';
 																	}
 																	?>																	
 																</div>
 																<div class="swatch color clearfix" data-option-index="0">
 																	<div class="header">
-																		Color Stone Type
+																		Diamonds
 																	</div>
 																	<?php
-																	echo '<div class="header"><small>'. getMaterial($itemInfo['color_stone_type'], $pdo) .'</small></div>';
+																	//echo '<div class="header"><small>'. $itemInfo['no_of_stones'] .' - '. number_format($itemInfo['total_carat_weight'], 2) .'ct.</small></div>';
+
+																	echo '
+																		<div data-value="blue" class="swatch-element color blue available">
+																			<div class="tooltip" style="width: 250px; left: -100px;">
+																				No. of Diamonds - Diamond Weight
+																			</div>
+																			<div class="header"><small>'. $itemInfo['no_of_stones'] .' - '. number_format($itemInfo['total_carat_weight'], 2) .'ct. <i class="fa fa-info-circle"></i></small></div>
+																			</label>
+																		</div>';
 																	?>																	
 																</div>
 																<div class="swatch color clearfix" data-option-index="0">
 																	<div class="header">
-																		Diamond Weight
-																	</div>
-																	<?php
-																	echo '<div class="header"><small>'. $itemInfo['no_of_stones'] .' - '. number_format($itemInfo['total_carat_weight'], 2) .' ct.</small></div>';
-																	?>																	
-																</div>
-																<div class="swatch color clearfix" data-option-index="0">
-																	<div class="header">
-																		Color Stones
-																	</div>
-																	<?php
-																	$numColorStoneTag = "-";
-																	if ( isset($itemInfo['no_of_stones']) && !empty($itemInfo['no_of_color_stones']) ) {
-																		$numColorStoneTag = $itemInfo['no_of_color_stones'] .' - '. $itemInfo['color_stone_carat'] .'ct.';
-																	}
-																	echo '<div class="header"><small>'. $numColorStoneTag .'</small></div>';
-																	?>																	
-																</div>
-																<div class="swatch color clearfix" data-option-index="0">
-																	<div class="header">
-																		Clarity
+																		Diamond Clarity
 																	</div>
 																	<?php
 																	echo '<div class="header"><small>'. $itemInfo['clarity'] .'</small></div>';
@@ -521,14 +544,6 @@ pconsole($_POST);
 																</div>
 																<div class="swatch color clearfix" data-option-index="0">
 																	<div class="header">
-																		Color Stone Shape
-																	</div>
-																	<?php
-																	echo '<div class="header"><small>'. getDiamondShape($itemInfo['color_stone_shape'], $pdo) .'</small></div>';
-																	?>																	
-																</div>
-																<div class="swatch color clearfix" data-option-index="0">
-																	<div class="header">
 																		Lab Grown Diamond
 																	</div>
 																	<?php
@@ -537,6 +552,43 @@ pconsole($_POST);
 																		$labGrown = "<i class='fa fa-check' style='color:green'></i>";
 																	} 
 																	echo '<div class="header"><small>'. $labGrown .'</small></div>';
+																	?>																	
+																</div>
+																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="header">
+																		Color Stones
+																	</div>
+																	<?php
+																	$numColorStoneTag = "-";
+																	if ( isset($itemInfo['no_of_stones']) && !empty($itemInfo['no_of_color_stones']) ) {
+																		$numColorStoneTag = $itemInfo['no_of_color_stones'] .' - '. $itemInfo['color_stone_carat'] .'ct.';
+																	}
+																	//echo '<div class="header"><small>'. $numColorStoneTag .'</small></div>';
+
+																	echo '
+																		<div data-value="blue" class="swatch-element color blue available">
+																			<div class="tooltip" style="width: 250px; left: -100px;">
+																				No. of Stones - Stone Weight
+																			</div>
+																			<div class="header"><small>'. $numColorStoneTag .' <i class="fa fa-info-circle"></i></small></div>
+																			</label>
+																		</div>';
+																	?>																	
+																</div>
+																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="header">
+																		Color Stone Type
+																	</div>
+																	<?php
+																	echo '<div class="header"><small>'. $itemInfo['color_stone_type'] .'</small></div>';
+																	?>																	
+																</div>
+																<div class="swatch color clearfix" data-option-index="0">
+																	<div class="header">
+																		Color Stone Shape
+																	</div>
+																	<?php
+																	echo '<div class="header"><small>'. getDiamondShape($itemInfo['color_stone_shape'], $pdo) .'</small></div>';
 																	?>																	
 																</div>
 																<div class="quantity-wrapper clearfix">
@@ -716,6 +768,11 @@ pconsole($_POST);
 	</div> 
 
 	<?php include './url/footer.php'; ?>
+	<script type="text/javascript">
+		$(document).ready(function(){
+		    $('[data-toggle="tooltip"]').tooltip(); 
+		});
+	</script>
 </body>
 
 
@@ -805,6 +862,7 @@ pconsole($_POST);
 		</div>
 	</div>
 <script>
+
 
 $("#mainImage").elevateZoom({
 	   responsive: true,

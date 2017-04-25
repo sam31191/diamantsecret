@@ -153,7 +153,7 @@
                         <td><span class="table-item-label">Color Stone Shape</span></td>
                         <td>
                             <div class="table-item">
-                                <select id="edit_color_stone_shape" name="color_stone_shape" class="select-style" required>
+                                <select id="edit_color_stone_shape" name="color_stone_shape" class="select-style">
                                     <option value="">Select</option>
                                     <?php 
                                     $diamShapes = $pdo->prepare("SELECT * FROM `diamond_shape`");
@@ -370,7 +370,7 @@
                         <td> <span class="table-item-label">Ring Size</span></td>
                         <td>
                             <div class="table-item">
-                                <input id="edit_ring_size" name="ring_size" type="text" class="form-control" placeholder="Ring Size, Numbers separator (,) 50,51,52, / Range, separator (-) 55-60" required>
+                                <input id="edit_ring_size" name="ring_size" type="text" class="form-control" placeholder="Ring Size, Numbers separator (,) 50,51,52, / Range, separator (-) 55-60">
                             </div>
                         </td>
                     </tr>
@@ -380,7 +380,7 @@
                         <td>
                             <div class="table-item">
                                 <input type="radio" name="lab_grown" required  id="edit_lab_grown" value="1">Yes<br>
-                                <input type="radio" name="lab_grown" required  required  id="edit_lab_grown" value="0">No
+                                <input type="radio" name="lab_grown" required  required  id="edit_lab_grown" value="0" checked>No
                             </div>
                         </td>
                     </tr>

@@ -2062,9 +2062,9 @@ if ( isset($_GET['importThis']) ) {
 					if ( !is_integer($products[$i]['W']) ) {
 						$products[$i]['W'] = intval($products[$i]['W']);
 					}
-					if ( !is_integer($products[$i]['X']) ) {
+					/* if ( !is_integer($products[$i]['X']) ) {
 						$products[$i]['X'] = intval($products[$i]['X']);
-					}
+					} */
 					if ( !is_integer($products[$i]['Y']) ) {
 						$products[$i]['Y'] = intval($products[$i]['Y']);
 					}

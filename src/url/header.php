@@ -351,7 +351,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
               </a>
               <form id="header-search" class="search-form dropdown-menu" action="collection.php" method="get">
                 <input type="hidden" name="type" value="product">
-                <input type="text" name="q" accesskey="4" autocomplete="off" placeholder="Search something..." value="<?php echo $searchTag; ?>">
+                <input type="text" name="q" accesskey="4" autocomplete="off" placeholder="Search Product" value="<?php echo $searchTag; ?>">
                 <button type="submit" class="btn">Search</button>
               </form>
             </div>
@@ -359,7 +359,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
           <li class="mobile-search visible-xs">
             <form id="mobile-search" class="search-form" action="collection.php" method="get">
               <input type="hidden" name="type" value="product">
-              <input type="text" class="" name="q" accesskey="4" autocomplete="off" placeholder="Search something..." value="<?php echo $searchTag; ?>">
+              <input type="text" class="" name="q" accesskey="4" autocomplete="off" placeholder="Search Product" value="<?php echo $searchTag; ?>">
               <button type="submit" class="search-submit" title="search"><i class="fa fa-search"></i></button>
             </form>
           </li> 

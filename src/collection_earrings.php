@@ -292,7 +292,7 @@ pconsole($_POST);
                                                     <!-- tags groupd 2 -->
                                                     <div class="tag-group" id="coll-filter-2">
                                                         <p class="title">
-                                                            Karat
+                                                            Carat
                                                         </p>
                                                         <ul>
                                                             <?php 
