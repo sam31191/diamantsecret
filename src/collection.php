@@ -171,6 +171,8 @@ pconsole($_POST);
 									} else {
 										$orderTag = "DESC";
 									}
+
+									
 									#echo '
 									#	<div class="container col-sm-24" style="padding:20px; text-align:center">
 									#		<label style="font-size:12px;">Filters </label> '. $materialTag . $stoneTag . $clarityTag . $ringTag .'
@@ -318,11 +320,11 @@ pconsole($_POST);
 																		$select1 = "selected";
 																	}
 																}
-																echo '<option value="?filter=featured&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select1 .'>Featured</option>';
-																echo '<option value="?filter=item_value&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select2 .'>Price: High to Low</option>';
-																echo '<option value="?filter=item_value&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select3 .'>Price: Low to High</option>';
-																echo '<option value="?filter=item_name&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select4 .'>A - Z</option>';
-																echo '<option value="?filter=item_name&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select5 .'>Z - A</option>';
+																echo '<option value="?filter=featured&q='. $searchTag .'&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select1 .'>Featured</option>';
+																echo '<option value="?filter=item_value&q='. $searchTag .'&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select2 .'>Price: High to Low</option>';
+																echo '<option value="?filter=item_value&q='. $searchTag .'&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select3 .'>Price: Low to High</option>';
+																echo '<option value="?filter=item_name&q='. $searchTag .'&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select4 .'>A - Z</option>';
+																echo '<option value="?filter=item_name&q='. $searchTag .'&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select5 .'>Z - A</option>';
 															?>
 														</select>
 													</div>
@@ -382,7 +384,7 @@ pconsole($_POST);
 													</ul>
 												</li> -->
 												<?php
-													$count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items` WHERE site_0 = 1 AND disabled = 0");
+													$count = $pdo->prepare("SELECT COUNT(*) AS totalRows FROM `items` WHERE site_0 = 1 AND disabled = 0". $searchFilter);
 													$count->execute();
 													$totalRows = $count->fetch(PDO::FETCH_ASSOC);
 													$totalRows = $totalRows['totalRows'];
@@ -403,7 +405,7 @@ pconsole($_POST);
 														$offset = 0;
 													}
 
-													$filter = "ORDER BY ". $filterTag ." ". $orderTag .", `date_added` DESC LIMIT ". $offset . ", " . $perPage;
+													$filter = $searchFilter ."ORDER BY ". $filterTag ." ". $orderTag .", `date_added` DESC LIMIT ". $offset . ", " . $perPage;
 													$getAll = $pdo->prepare("SELECT * FROM `items` WHERE site_0 = 1 AND disabled = 0 " . $filter);
 													$getAll->execute();
 													$allItems = $getAll->fetchAll();
@@ -569,7 +571,7 @@ pconsole($_POST);
 											  <?php 
 											  	for ( $i = 0; $i < $pages; $i++ ) {
 											  		if ( $i == 0 ) {
-											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">first</a></li>';
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&q='. $searchTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">first</a></li>';
 											  		}
 
 											  		if ( $i > $currentPage - 3 && $i < $currentPage + 3 ) {
@@ -577,13 +579,13 @@ pconsole($_POST);
 											  			if ( $i == $currentPage ) {
 											  				$class = "active";
 											  			}
-											  			echo '<li class="'. $class .'"><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">'. intval($i+1) .'</a></li>';
+											  			echo '<li class="'. $class .'"><a href="?page='. $i .'&filter='. $filterTag .'&q='. $searchTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">'. intval($i+1) .'</a></li>';
 											  		}else if ( $i > $currentPage - 4 && $i < $currentPage + 4 ) {
 											  			echo '<li><a href="javascript:void(0);">.</a></li>';
 											  		}
 
 											  		if ( $i == intval($pages) ){
-											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">last</a></li>';
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&q='. $searchTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">last</a></li>';
 											  		}
 											  	}
 											  ?>

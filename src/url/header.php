@@ -331,6 +331,38 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
               </div>
             </nav>
           </li>
+          <?php 
+          if ( isset($_GET['q']) ) {
+            $searchTag = $_GET['q'];
+            $searchFilter = " AND item_name LIKE '%".$_GET['q']."%' ";
+          } else {
+            $searchTag = "";
+            $searchFilter = "";
+          }
+          ?>
+          <li class="top-search hidden-xs">
+            <div class="header-search">
+              <a href="#">
+              <span data-toggle="dropdown">
+              <i class="fa fa-search"></i>
+              <i class="sub-dropdown1"></i>
+              <i class="sub-dropdown"></i>
+              </span>
+              </a>
+              <form id="header-search" class="search-form dropdown-menu" action="collection.php" method="get">
+                <input type="hidden" name="type" value="product">
+                <input type="text" name="q" accesskey="4" autocomplete="off" placeholder="Search something..." value="<?php echo $searchTag; ?>">
+                <button type="submit" class="btn">Search</button>
+              </form>
+            </div>
+          </li>
+          <li class="mobile-search visible-xs">
+            <form id="mobile-search" class="search-form" action="collection.php" method="get">
+              <input type="hidden" name="type" value="product">
+              <input type="text" class="" name="q" accesskey="4" autocomplete="off" placeholder="Search something..." value="<?php echo $searchTag; ?>">
+              <button type="submit" class="search-submit" title="search"><i class="fa fa-search"></i></button>
+            </form>
+          </li> 
           <?php
           if ( $_SESSION['loggedIn'] ) { //<cart>
             $cartItems = explode(",", $info['cart']);
@@ -484,9 +516,11 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
               </div>
             </div>
           </li> 
+
           <?php
           } //</cart>
-          ?>     
+          ?>   
+
         </ul>
       </div>
       <!--End Navigation-->
