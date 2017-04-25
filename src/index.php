@@ -115,7 +115,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
         <div id="content-wrapper">  
 			<!-- Main Slideshow -->
 			<div class="home-slider-wrapper clearfix">
-				<div class="camera_wrap" id="home-slider"  style="max-height: 500px;">
+				<div class="camera_wrap" id="home-slider"  style="max-height: 650px;">
 					<div data-src="./images/gfx/slide-image-1.jpg">
 						<div class="camera_caption camera_title_1 fadeIn">
 						  <a href="./collection.php" style="color:#010101;">Live the moment</a>
