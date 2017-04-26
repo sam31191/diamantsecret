@@ -295,7 +295,7 @@ if ( isset($_POST['addToCart']) ) {
 																	<fieldset>
 																		<legend style="border-top: solid thin #ddd; padding-top: 15px; border-bottom: none; margin-bottom: 5px;">Note</legend>
 																		<p><?php
-																		echo "All Pendants will be shipped with a Silver Chain";
+																		echo "All Pendants will be shipped with a Silver Chain <br/> Tous les pendentifs sont livrés avec une chaine en argent";
 																		?></p>
 																	</fieldset>
 																<?php
@@ -568,7 +568,7 @@ if ( isset($_POST['addToCart']) ) {
 																	echo '
 																		<div data-value="blue" class="swatch-element color blue available">
 																			<div class="tooltip" style="width: 250px; left: -100px;">
-																				No. of Stones - Stone Weight
+																				No. of Color Stones - Color Stone Weight
 																			</div>
 																			<div class="header"><small>'. $numColorStoneTag .' <i class="fa fa-info-circle"></i></small></div>
 																			</label>

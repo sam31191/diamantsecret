@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `bracelets` (
   `pieces_in_stock` int(11) DEFAULT NULL COMMENT 'int 11',
   `days_for_shipment` int(11) DEFAULT NULL COMMENT 'int 11',
   `total_gold_weight` varchar(32) DEFAULT NULL,
-  `total_carat_weight` float(11,0) DEFAULT NULL COMMENT 'varchar 11',
+  `total_carat_weight` float DEFAULT NULL COMMENT 'varchar 11',
   `color_stone_carat` float DEFAULT NULL,
   `no_of_stones` int(11) DEFAULT NULL COMMENT 'int 11',
   `no_of_color_stones` int(11) DEFAULT NULL,
