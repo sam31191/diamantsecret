@@ -413,6 +413,29 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 						<!-- Home Blog Removed Here -->
 
 
+						<!-- <div class="container">
+							<div class="col-md-24">
+								<h6 class="general-title" style="margin-bottom: 15px;">Diamond Search</h6>
+								<p style="text-align: center;">Have a Diamond in mind? Find the perfect Diamond for you through us!</p>
+
+								<div class="camera_cta_1" style="    text-align: center; margin: 10px 0 25px;">
+									<a href="./diamond_search.php" class="btn">Search Now</a>
+								</div>
+							</div>
+						</div> -->
+
+						<div class="diamond-search-dialog" style="text-align: center;">
+							<i class="fa fa-times diamond-search-dialog-close" onclick="$('.diamond-search-dialog').hide();"></i>
+							<span style=" text-align: center; font-variant: small-caps;"> 
+								<i class="fa fa-diamond" style="font-size: 10px;color: #a07936;"></i> 
+								<i class="fa fa-diamond" style="color: #a07936;"></i> 
+								<i class="fa fa-diamond" style="font-size: 10px;color: #a07936;"></i> 
+
+								<br>Find your perfect Diamond here</span><br/>
+
+								<a href="./diamond_search.php" class="btn" style="margin-top: 10px;">Search Now</a>
+						</div>
+
 						<div class="home-feature">
 							<div class="container">
 								<div class="group_featured_products row">

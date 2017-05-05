@@ -674,7 +674,10 @@ function importAjax (id, index, timeToken) {
                     warningCount++;
                 }
 
-                updateCount = result[4];
+                if ( typeof result[4] != 'undefined' && result[4] == 1 ) {
+                    updateCount++;
+                    //updateCount = result[4];
+                }
 
                 $("#row_"+ result[3]).prop("style", rc);
                 $("#row_"+ result[3] +"_result").html(result[1]);

@@ -1193,8 +1193,6 @@ if ( isset($_GET['importThis']) ) {
 	}
 
 } else if ( isset($_GET['importZip']) ) {
-	$updated = 0;
-	$duplicate = 0;
 	if ( file_exists('../../working/zip/import/'. $_GET['timeToken'] .'/products.xlsx') ) {
 
 		$xlFile = '../../working/zip/import/'. $_GET['timeToken'] .'/products.xlsx';
