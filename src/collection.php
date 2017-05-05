@@ -164,12 +164,12 @@ pconsole($_POST);
 									if ( isset($_GET['filter']) ) {
 										$filterTag = $_GET['filter'];
 									} else {
-										$filterTag = "featured";
+										$filterTag = "item_value";
 									} 
 									if ( isset($_GET['order']) ) {
 										$orderTag = $_GET['order'];
 									} else {
-										$orderTag = "DESC";
+										$orderTag = "ASC";
 									}
 
 									

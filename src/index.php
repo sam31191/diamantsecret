@@ -143,10 +143,11 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 					</div>
 					<div data-src="./images/gfx/slide-image-3.jpg">
 						<div class="camera_caption camera_image-caption_3 moveFromLeft">
-							<img src="./images/gfx/slide-image-caption-3.png" alt="image_caption">
+							<!-- <img src="./images/gfx/slide-image-caption-3.png" alt="image_caption"> -->
+							<p style="font-size: 45px; font-weight: normal; color: black; font-variant: small-caps;">Have a Diamond in mind?<br><small>Search for the perfect diamond for you!</small></p>
 						</div>
 						<div class="camera_cta_1">
-							<a href="./collection.php" class="btn">See Collection</a>
+							<a href="./diamond_search.php" class="btn">Search Now</a>
 						</div>
 					</div>
 				</div>
@@ -548,7 +549,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 	
 	<?php include 'url/footer.php'; ?>
 	
-	<div class="newsletter-popup" style="display: none;">
+	<!-- <div class="newsletter-popup" style="display: none;">
 		<form method="post" name="mc-embedded-subscribe-form" id="mc-embedded-subscribe-form-popup">
 			<h4>Special Offers</h4>
 			<p class="tagline" style="">
@@ -562,7 +563,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 		<div id="popup-hide">
 			<input type="checkbox" id="mc-popup-hide" value="1" checked="checked"><label for="mc-popup-hide">Never show this message again</label>
 		</div>
-	</div>
+	</div> -->
 
 	<script src="assets/javascripts/cs.global.js" type="text/javascript"></script>
 	

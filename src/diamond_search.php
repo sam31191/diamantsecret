@@ -52,10 +52,29 @@ include 'conf/config.php';
                     </div>
                 </div>               
                 <section class="content">    
-                    <form target="dsframe" action="http://localhost/git/arhaandiam/coding/diamond-search" method="post" id="myForm">
-                    <input type="hidden" name="api_key" value="4344f950-05b7-11e7-824b-67e464a09c82" />
-                    <input type="hidden" name="unique_identifier" value="3" />
-                    <input type="hidden" name="style" value="gold" />
+                    <form target="dsframe" action="<?php echo DIAMOND_SEARCH_URL; ?>" method="post" id="myForm">
+                    <input type="hidden" name="api_key" value="<?php echo DIAMOND_SEARCH_API; ?>" />
+
+                    <?php 
+                    if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
+                    ?>
+                    <input type="hidden" name="unique_identifier" value="<?php echo $_SESSION['username']; ?>" />
+                    <input type="hidden" name="custom_argument1" value="arhaangroup" />
+                    <input type="hidden" name="custom_argument2" value="login_value:_none_" />
+                    <input type="hidden" name="custom_argument3" value="login_msg:Please login to access diamond cart" />
+                    <input type="hidden" name="custom_argument4" value="" />
+                    <?php
+                    } else {
+                    ?>
+                    <input type="hidden" name="unique_identifier" value="_none_" />
+                    <input type="hidden" name="custom_argument1" value="arhaangroup" />
+                    <input type="hidden" name="custom_argument2" value="login_value:_none_" />
+                    <input type="hidden" name="custom_argument3" value="login_msg:Please login to access diamond cart" />
+                    <input type="hidden" name="custom_argument4" value="" />
+                    <?php 
+                    }
+                    ?>
+                    <input type="hidden" name="style" value="<?php echo DIAMOND_SEARCH_THEME; ?>" />
                     </form>
 
                     <iframe name="dsframe" width="100%" height="700" src="" frameborder="0" scrolling="no" onload="this.style.height=this.contentDocument.body.scrollHeight +'px';"></iframe>

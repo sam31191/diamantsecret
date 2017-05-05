@@ -3,7 +3,7 @@
 
     /*  MySQL Configuration */
     $host = "localhost";
-    $dbname = "prod_diamantsecret";
+    $dbname = "db_diamantsecret";
     $user = "root";
     $pass = "";
     
@@ -31,6 +31,11 @@
     if ( $testSite ) {
         $__MAINDOMAIN__ = $__TESTSITEDOMAIN__;
     }
+
+    /* Diamond Search Params */
+    define("DIAMOND_SEARCH_THEME", "gold");
+    define("DIAMOND_SEARCH_URL", "http://198.57.197.106/~arhaandiam/testsite/diamond-search");
+    define("DIAMOND_SEARCH_API", "47030ee0-2bf5-11e7-b396-17bd839c5425");
 
     
     /* Other changes */
