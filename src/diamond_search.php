@@ -77,7 +77,7 @@ include 'conf/config.php';
                     <input type="hidden" name="style" value="<?php echo DIAMOND_SEARCH_THEME; ?>" />
                     </form>
 
-                    <iframe name="dsframe" width="100%" height="700" src="" frameborder="0" scrolling="no" onload="this.style.height=this.contentDocument.body.scrollHeight +'px';"></iframe>
+                    <iframe name="dsframe" width="100%" height="1500" src="" frameborder="0" scrolling="no" onload="this.style.height=this.contentDocument.body.scrollHeight +'px';"></iframe>
                 </section>        
             </div>
         </div>
