@@ -489,6 +489,19 @@ $(function () {
 
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
+
+    /* Session Expiry Denial */
+    var refreshTime = 300000; // every 10 minutes in milliseconds
+    window.setInterval( function() {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: "/",
+            success: function(data) {
+
+            }
+        });
+    }, refreshTime );
 });
 
 function editItem(e) {
