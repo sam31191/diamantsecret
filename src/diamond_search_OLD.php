@@ -27,19 +27,12 @@ if ( session_status() == PHP_SESSION_NONE ) {
     
     <script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
     <script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
-    <script type="text/javascript">
-    	function resizeFrame(elem) {
-    		setInterval(function() {
-	    		elem.style.height=elem.contentDocument.body.scrollHeight +'px';
-    		}, 1000);
-    	}	
-    </script>
 </head>
 <?php
 include 'conf/config.php';
 
 ?>
-<body itemscope="" itemtype="http://schema.org/WebPage" class="templatePage notouch" >
+<body itemscope="" itemtype="http://schema.org/WebPage" class="templatePage notouch" onload="document.getElementById('myForm').submit(); ">
   
     <?php include'./url/header.php'; ?>
   
@@ -84,7 +77,7 @@ include 'conf/config.php';
                     <input type="hidden" name="style" value="<?php echo DIAMOND_SEARCH_THEME; ?>" />
                     </form>
 
-                    <iframe name="dsframe" id="dsframe" width="100%" height="1500" src="./dssearch.php" frameborder="0" scrolling="no" onload="resizeFrame(this)"></iframe>
+                    <iframe name="dsframe" width="100%" height="1500" src="" frameborder="0" scrolling="no" onload="this.style.height=this.contentDocument.body.scrollHeight +'px';"></iframe>
                 </section>        
             </div>
         </div>
