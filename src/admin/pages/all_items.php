@@ -953,18 +953,17 @@ if ( isset($_POST['featuredAdd']) ) {
                     $("#edit_color_stone_type").val(result['color_stone_type']);
 
 
-                    $("#edit_material option[value='"+ result['material'] +"'").attr("selected", true);
-                    $("#edit_gold_quality option[value='"+ result['gold_quality'] +"'").attr("selected", true);
-                    $("#edit_category option[value='"+ result['category'] +"'").attr("selected", true);
-                    $("#edit_clarity option[value='"+ result['clarity'] +"'").attr("selected", true);
-                    $("#edit_color_stone_shape option[value='"+ result['color_stone_shape'] +"'").attr("selected", true);
+                    $("#edit_material option[value='"+ result['material'] +"']").attr("selected", true);
+                    $("#edit_gold_quality option[value='"+ result['gold_quality'] +"']").attr("selected", true);
+                    $("#edit_category option[value='"+ result['category'] +"']").attr("selected", true);
+                    $("#edit_clarity option[value='"+ result['clarity'] +"']").attr("selected", true);
+                    $("#edit_color_stone_shape option[value='"+ result['color_stone_shape'] +"']").attr("selected", true);
 
                     if ( result['category'] !== "1" ) {
                         $("#ringExclusiveEditDiv").hide();
                     } else {
                         $("#ringExclusiveEditDiv").show();
-                    }
-
+                    } 
                     $.ajax({
                         url : "./ajax.php?getSubcategories=" + result['category'],
                         type : "GET",
@@ -972,22 +971,21 @@ if ( isset($_POST['featuredAdd']) ) {
                             $("#edit_ring_subcategory").html(result);
                         },
                         complete : function () {
-                            $("#edit_ring_subcategory option[value='"+ result['ring_subcategory'] +"'").attr("selected", true);
+                            $("#edit_ring_subcategory option[value='"+ result['ring_subcategory'] +"']").attr("selected", true);
                         }
                     });
-                    
-                    $("#edit_ring_subcategory option[value='"+ result['ring_subcategory'] +"'").attr("selected", true);
-                    $("#edit_country_id option[value='"+ result['country_id'] +"'").attr("selected", true);
-                    $("#edit_company_id option[value='"+ result['company_id'] +"'").attr("selected", true);
-                    $("#edit_diamond_shape option[value='"+ result['diamond_shape'] +"'").attr("selected", true);
-                    $("#edit_color_stone_shape option[value='"+ result['color_stone_shape'] +"'").attr("selected", true);
+                    $("#edit_ring_subcategory option[value='"+ result['ring_subcategory'] +"']").attr("selected", true);
+                    $("#edit_country_id option[value='"+ result['country_id'] +"']").attr("selected", true);
+                    $("#edit_company_id option[value='"+ result['company_id'] +"']").attr("selected", true);
+                    $("#edit_diamond_shape option[value='"+ result['diamond_shape'] +"']").attr("selected", true);
+                    $("#edit_color_stone_shape option[value='"+ result['color_stone_shape'] +"']").attr("selected", true);
 
-                    $("#edit_lab_grown[value='"+ result['lab_grown'] +"'").attr("checked", true);
+                    $("#edit_lab_grown[value='"+ result['lab_grown'] +"']").attr("checked", true);
                     
                     $("#promptEditItem").modal("toggle");
 
                 } catch ( e ) {
-                    console.log(result);
+                    console.log(e);
                 }
             },
             failure: function(error) {
