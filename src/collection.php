@@ -2,6 +2,8 @@
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
+include 'conf/config.php';
+include './url/pre.php';
 ?>
 <!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -50,7 +52,6 @@ if ( session_status() == PHP_SESSION_NONE ) {
 </head>
 
 <?php
-include 'conf/config.php';
 if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
 	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user AND site_id = 1");
@@ -684,7 +685,8 @@ pconsole($_POST);
                                     if ( $_SESSION['loggedIn'] ) {
                                     	echo '<div id="buttonDiv"></div>';
                                     } else {
-                                    	echo '<a class="btn" href="./login.php" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" id="loginToAccessCart">Login to Access Cart</a>';
+                                    	echo '<div id="buttonDiv"></div>';
+                                    	//echo '<a class="btn" href="./login.php" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" id="loginToAccessCart">Login to Access Cart</a>';
                                     }
                                     ?>
 								</form>

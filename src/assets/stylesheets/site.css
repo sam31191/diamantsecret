@@ -332,3 +332,21 @@
     color: #a07936;
     cursor: pointer;
 }
+
+.nav-cart > li {
+    color: black;
+    text-align: center;
+    background: #ebebeb;
+    border: solid #f7f7f7;
+    padding: 10px;
+    font-size: 12px;
+    font-variant: small-caps;
+}
+
+.nav-cart > li.active {
+    background: #f2e4cc;
+}
+
+.help-block {
+    float: right;
+}

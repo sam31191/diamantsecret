@@ -32,10 +32,15 @@
         $__MAINDOMAIN__ = $__TESTSITEDOMAIN__;
     }
 
+    define('DOMAIN', $__MAINDOMAIN__);
+
     /* Diamond Search Params */
     define("DIAMOND_SEARCH_THEME", "gold");
     define("DIAMOND_SEARCH_URL", "http://198.57.197.106/~arhaandiam/testsite/diamond-search");
     define("DIAMOND_SEARCH_API", "47030ee0-2bf5-11e7-b396-17bd839c5425");
+
+    /* COOKIES */
+    define("COOKIE_CART", "TEMP_CART");
 
     
     /* Other changes */
@@ -675,6 +680,33 @@
                 return null;
                 break;
             }
+        }
+    }
+
+    function parseCartItem($item) {
+        if ( !empty($item) ) {
+            $itemInfo = explode("|", $item);
+            if ( sizeof($itemInfo) == 3 ) {
+                return array("ID" => $itemInfo[0], "SIZE" => $itemInfo[1], "QUANTITY" => $itemInfo[2]);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    function addToCart($pdo, $pid, $size, $quantity) {
+
+        $checkCart = $pdo->prepare("SELECT * FROM tb_cart WHERE user_id = :uid AND product_id = :pid AND size = :size");
+        $checkCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $pid, ":size" => $size));
+
+        if ( $checkCart->rowCount() > 0 ) {
+            $updateCart = $pdo->prepare("UPDATE tb_cart SET quantity = quantity + :quantity WHERE user_id = :uid AND product_id = :pid AND size = :size");
+            $updateCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $pid, ":size" => $size, ":quantity" => intval($quantity)));
+        } else {
+            $updateCart = $pdo->prepare("INSERT INTO tb_cart (quantity, user_id, product_id, size) VALUES (:quantity, :uid, :pid, :size)");
+            $updateCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $pid, ":size" => $size, ":quantity" => intval($quantity)));
         }
     }
 

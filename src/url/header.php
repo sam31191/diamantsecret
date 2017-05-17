@@ -23,6 +23,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 
   $favorites = $info['favorites'];
 }
+
 /*if ( isset($_POST['subscribe']) ) {
   $checkSubscriber = $pdo->prepare("SELECT * FROM `subscribers` WHERE `email` = :mail");
   $checkSubscriber->execute(array(":mail" => $_POST['email']));
@@ -361,12 +362,33 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
           </li> 
           <?php
           if ( $_SESSION['loggedIn'] ) { //<cart>
-            $cartItems = explode(",", $info['cart']);
+
+            $cartItems = array();
+
+            $userCart = $pdo->prepare("SELECT * FROM tb_cart WHERE user_id = :user");
+            $userCart->execute(array(":user" => $_SESSION['user_id']));
+            if ( $userCart->rowCount() > 0 ) {
+              $tempEntry = "";
+              foreach ( $userCart->fetchAll() as $item ) {
+                $tempEntry .= $item['product_id'] . "|" . $item['size'] . "|" . $item['quantity'] . ",";
+              }
+
+              $cartItems = explode(",", $tempEntry);
+            }
+          } else {
+            if ( isset($_COOKIE[COOKIE_CART]) ) {
+              $cartItems = explode(",", $_COOKIE[COOKIE_CART]);
+            } else {
+              $cartItems = array("");
+            }
+          }
+
+          pconsole($cartItems);
           ?>    
           <li class="umbrella hidden-xs">
             <div id="umbrella" class="list-inline unmargin">
               <div class="cart-link">
-                <a href="./cart.php" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
+                <a href="./cart.php" class="dropdown-toggle dropdown-link" data-toggle="dropdown" style="white-space: nowrap;">
                   <i class="sub-dropdown1"></i>
                   <i class="sub-dropdown"></i>
                   <div class="num-items-in-cart">
@@ -485,37 +507,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                 </div>
               </div>
             </div>
-          </li> 
-          <?php
-          } else { // cart if not logged
-          ?>    
-          <li class="umbrella hidden-xs">
-            <div id="umbrella" class="list-inline unmargin">
-              <div class="cart-link">
-                <a href="./login.php" class="dropdown-toggle dropdown-link" data-toggle="dropdown">
-                  <i class="sub-dropdown1"></i>
-                  <i class="sub-dropdown"></i>
-                  <div class="num-items-in-cart">
-                    <span class="icon" style="padding-right: 40px;">
-                      Cart
-                    </span>
-                  </div>
-                </a>
-                <div id="cart-info" class="dropdown-menu" style="display: none;">
-                  <div id="cart-content">
-                    <span style="display: block; text-align: center; margin: 20px 0px;">Please Login to Access your Cart</span>
-                    <div class="action">
-                      <a class="btn btn-1" href="./login.php">Login</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li> 
-
-          <?php
-          } //</cart>
-          ?>   
+          </li>   
 
         </ul>
       </div>

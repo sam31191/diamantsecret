@@ -214,3 +214,16 @@ function checkKey($key, $pdo) {
     </select>
     <button type="submit" name="addItem">Add</button>
 </form>
+
+<?php 
+session_start();
+echo var_dump($_SESSION);
+
+$cartItems = explode(",", $_COOKIE[COOKIE_CART]);
+
+                    foreach ( $cartItems as $item ) {
+                        $itemInfo = parseCartItem($item);
+
+                        echo var_dump($itemInfo);
+                    }
+?>

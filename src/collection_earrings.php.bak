@@ -897,7 +897,8 @@ pconsole($_POST);
                                     if ( $_SESSION['loggedIn'] ) {
                                         echo '<div id="buttonDiv"></div>';
                                     } else {
-                                        echo '<a class="btn" href="./login.php" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" id="loginToAccessCart">Login to Access Cart</a>';
+                                    echo '<div id="buttonDiv"></div>';
+                                        //echo '<a class="btn" href="./login.php" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" id="loginToAccessCart">Login to Access Cart</a>';
                                     }
                                     ?>
                                 </form>
