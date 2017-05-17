@@ -363,7 +363,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
           <?php
           if ( $_SESSION['loggedIn'] ) { //<cart>
 
-            $cartItems = array();
+            $cartItems = array("");
 
             $userCart = $pdo->prepare("SELECT * FROM tb_cart WHERE user_id = :user");
             $userCart->execute(array(":user" => $_SESSION['user_id']));
