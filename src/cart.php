@@ -322,21 +322,17 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 }
 
 if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
-    echo var_dump($_POST);
-    $getCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
-    $getCart->execute(array(
-        ":user" => $_USERNAME
-    ));
-    $inputCart = $getCart->fetch(PDO::FETCH_ASSOC);
-    $cart = $inputCart['cart'];
-        
-    $cart = str_replace($_POST['removeItem'] . ',', "", $cart);
-    
-    $addToCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user");
-    $addToCart->execute(array(
-        ":cart" => $cart,
-        ":user" => $_USERNAME
-    ));
+
+    $item = explode("|", trim($_POST['removeItem'], ",") );
+
+    $_POST['unique_key'] = $item[0];
+    $_POST['size'] = $item[1];
+    $_POST['quantity'] = $item[2];
+
+    $updateCart = $pdo->prepare("DELETE FROM tb_cart WHERE user_id = :uid AND product_id = :pid AND size = :size AND quantity = :quantity");
+    $updateCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $_POST['unique_key'], ":size" => $_POST['size'], ":quantity" => intval($_POST['quantity'])));
+
+
 } 
 ?>
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templateCart notouch">
@@ -726,7 +722,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                             <form method="post">
                                                 <div class="col-md-12">
                                                     <h4>Billing Address</h4>
-                                                    <textarea class="form-control" placeholder="Address Line 1&#013;&#010;Address Line 2&#013;&#010;City&#013;&#010;State&#013;&#010;Zip Code&#013;&#010;Country" style="min-height: 150px;" name="billing_address"><?php 
+                                                    <textarea class="form-control" placeholder="Address Line 1&#013;&#010;Address Line 2&#013;&#010;City&#013;&#010;State&#013;&#010;Zip Code&#013;&#010;Country" style="min-height: 150px;" name="billing_address" required><?php 
                                                     $billingAddress = $pdo->prepare("SELECT address FROM accounts WHERE id = :id");
                                                     $billingAddress->execute(array(":id" => $_SESSION['user_id']));
 
@@ -737,7 +733,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                 </div>
                                                 <div class="col-md-12">
                                                     <h4>Shipping Address</h4>
-                                                    <textarea class="form-control" placeholder="Address Line 1&#013;&#010;Address Line 2&#013;&#010;City&#013;&#010;State&#013;&#010;Zip Code&#013;&#010;Country" style="min-height: 150px;" name="shipping_address"></textarea>
+                                                    <textarea class="form-control" placeholder="Address Line 1&#013;&#010;Address Line 2&#013;&#010;City&#013;&#010;State&#013;&#010;Zip Code&#013;&#010;Country" style="min-height: 150px;" name="shipping_address" required></textarea>
                                                 </div>
                                                 <button name="CART[STEP]" value="2" class="btn btn-success" style="float: left; margin: 10px 15px;"><i class="fa fa-caret-left"></i> Back</button>
                                                 <button name="CART[STEP]" value="4" class="btn btn-success" style="float: right; margin: 10px 15px;">Checkout <i class="fa fa-caret-right"></i></button>
@@ -755,6 +751,13 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
 
                                         <h4 class="text-center">You would now be redirected to the payment portal</h4>
                                         <?php
+                                        echo '<form method="post" action="url/post.php" class="text-center">';
+                                        if ( isset($_POST['billing_address']) && isset($_POST['shipping_address']) ) {
+                                            echo '<input type="hidden" name="Paypal[BillingAddress]" value="'. $_POST['billing_address'] .'" />';
+                                            echo '<input type="hidden" name="Paypal[ShippingAddress]" value="'. $_POST['shipping_address'] .'" />';
+                                            echo '<button class="btn btn-info" type="submit" name="Paypal[Checkout]">Checkout</button>';
+                                        }
+                                        echo '</form>';
                                         break;
                                     }
                                 }

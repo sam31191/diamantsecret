@@ -52,58 +52,22 @@ include './url/pre.php';
 </head>
 
 <?php
-if ( isset($_POST['addToCart']) && $_SESSION['loggedIn'] ) {
-	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
-	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user AND site_id = 1");
-	$fetchCurrentCart->execute(array(":user" => $_USERNAME));
+if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
+    $checkCart = $pdo->prepare("SELECT * FROM tb_cart WHERE user_id = :uid AND product_id = :pid AND size = :size");
+    $checkCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $_POST['unique_key'], ":size" => $_POST['size']));
 
-	$currentCart = $fetchCurrentCart->fetch(PDO::FETCH_ASSOC);
-	$currentCart = $currentCart['cart'];
+    if ( $checkCart->rowCount() > 0 ) {
+        $updateCart = $pdo->prepare("UPDATE tb_cart SET quantity = quantity + :quantity WHERE user_id = :uid AND product_id = :pid AND size = :size");
+        $updateCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $_POST['unique_key'], ":size" => $_POST['size'], ":quantity" => intval($_POST['quantity'])));
+    } else {
+        $updateCart = $pdo->prepare("INSERT INTO tb_cart (quantity, user_id, product_id, size) VALUES (:quantity, :uid, :pid, :size)");
+        $updateCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $_POST['unique_key'], ":size" => $_POST['size'], ":quantity" => intval($_POST['quantity'])));
+    }
 
-	if ( strstr($currentCart, $cartElement) ) { //Cart alrady has this item + size
-		$cartArray = explode(",", $currentCart);
-		//$carArray[2] = intval($cartArray[2]) + intval($_POST['quantity']);
-
-		//$currentCart = $cartArray[0] . '|' . $cartArray[1] . '|' . $cartArray[2] . ','; 
-		pconsole($cartArray);
-		pconsole("This Echo");
-
-		$currentCart = "";
-		foreach ( $cartArray as $cartItem ) {
-			if ( $cartItem !== "" ) {
-				pconsole($cartItem);
-				if ( strstr($cartItem, $cartElement) ) { // Match Found
-					$currentQuantity = str_replace($cartElement, "", $cartItem);
-					$newQ = $currentQuantity + $_POST['quantity'];
-
-					$cartItem = $_POST['unique_key'] . '|' . $_POST['size'] . '|' . $newQ;
-				}
-				$currentCart .= $cartItem . ",";
-
-				pconsole("New Cart: " . $currentCart);
-			}
-		}
-	} else { //Cart doesn't have this, adding new
-		$currentCart .= $cartElement . $_POST['quantity'] . ",";
-	}
-
-	$updateCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user AND site_id = 1");
-	$updateCart->execute(array(":cart" => $currentCart, ":user" => $_USERNAME));
 } else if ( isset($_POST['removeFromCart']) && $_SESSION['loggedIn']  ) {
-	$getCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user AND site_id = 1");
-	$getCart->execute(array(
-		":user" => $_USERNAME
-	));
-	$inputCart = $getCart->fetch(PDO::FETCH_ASSOC);
-	$cart = $inputCart['cart'];
-		
-	$cart = str_replace($_POST['unique_key'] . '|' . $_POST['size'] . '|' . $_POST['quantity'] . ',', "", $cart);
-	
-	$addToCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :cart WHERE `username` = :user AND site_id = 1");
-	$addToCart->execute(array(
-		":cart" => $cart,
-		":user" => $_USERNAME
-	));
+    $updateCart = $pdo->prepare("DELETE FROM tb_cart WHERE user_id = :uid AND product_id = :pid AND size = :size AND quantity = :quantity");
+    $updateCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $_POST['unique_key'], ":size" => $_POST['size'], ":quantity" => intval($_POST['quantity'])));
+
 }
 
 pconsole($_POST);

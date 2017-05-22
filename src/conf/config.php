@@ -34,6 +34,10 @@
 
     define('DOMAIN', $__MAINDOMAIN__);
 
+    /* PAYPAL */
+    define('PAYPAL_CLIENT_ID', 'Ab0rLmYMWXxrf0Ggqvp47_-QY0NrGKPXGBoKcq_rVi4dCHxdRnVuHL0FH306MeqQVGALx3t0xtAiMjZi');
+    define('PAYPAL_CLIENT_SECRET', 'ENJ_bs_tEZVSyYxaIXaGIEphWwV9gNVjWu2g9m8mQfzmFtLjLOw7yt2VjfUtlCMSr8Pm-U-byhvsTaDt');
+
     /* Diamond Search Params */
     define("DIAMOND_SEARCH_THEME", "gold");
     define("DIAMOND_SEARCH_URL", "http://198.57.197.106/~arhaandiam/testsite/diamond-search");
@@ -707,6 +711,65 @@
         } else {
             $updateCart = $pdo->prepare("INSERT INTO tb_cart (quantity, user_id, product_id, size) VALUES (:quantity, :uid, :pid, :size)");
             $updateCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $pid, ":size" => $size, ":quantity" => intval($quantity)));
+        }
+    }
+
+    function getItemInfo($pid) {
+        global $pdo;
+
+        $productCategory = $pdo->prepare("SELECT category FROM items WHERE unique_key = :pid");
+        $productCategory->execute(array(":pid" => $pid));
+
+        if ( $productCategory->rowCount() > 0 ) {
+            $productCategory = $productCategory->fetch(PDO::FETCH_ASSOC)['category'];
+
+            $categoryName = $pdo->prepare("SELECT category FROM categories WHERE id = :id");
+            $categoryName->execute(array(":id" => $productCategory));
+
+            if ( $categoryName->rowCount() > 0 ) {
+                $categoryName = $categoryName->fetch(PDO::FETCH_ASSOC)['category'];
+
+                $itemInfo = $pdo->prepare("SELECT * FROM items LEFT JOIN ". $categoryName ." ON items.unique_key = ". $categoryName .".unique_key WHERE items.unique_key = :key");
+                $itemInfo->execute(array(":key" => $pid));
+
+                if ( $itemInfo->rowCount() > 0 ) {
+                    $itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
+
+                    return $itemInfo;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    function getTotalValue($pid) {
+        global $pdo;
+        $itemInfo = getItemInfo($pid);
+
+        if ( $itemInfo ) {
+            $productValue = $itemInfo['item_value'];
+            $discount = $itemInfo['discount'];
+            $vat = $pdo->prepare("SELECT `vat` FROM country_vat WHERE id = :id");
+            $vat->execute(array(":id" => $itemInfo['country_id']));
+
+            if ( $vat->rowCount() > 0 ) {
+                $vat = $vat->fetch(PDO::FETCH_ASSOC)['vat'];
+
+                $totalValue = $productValue - ($discount / 100 * $productValue);
+
+                $totalValue = $totalValue + ($vat / 100 * $totalValue);
+
+                return round($totalValue, 2);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
     }
 
