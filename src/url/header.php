@@ -76,6 +76,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                     <ul class="control-container customer-accounts list-unstyled" style="padding:0;">           
                       <a href="./account.php" class="dropdown-item">Favorites<span id="favorite_num_badge" style="padding: 2px 6px; background: #F9A825; border-radius: 100px; margin: 0px 0px 0px 5px; font-size: 12px; color: white; font-weight: bold;">'. intval(count(explode(",", $favorites)) - 1) .'</span></a>
                       <a href="./account.php?show=settings" class="dropdown-item">Settings</a>              
+                      <a href="./orders.php" class="dropdown-item">Orders</a>              
                       <form method="post">
                       <button href="#" class="btn-logout" name="action[logout]" value="true">Logout</button>
                       </form>
@@ -172,6 +173,9 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                         echo '
                           <li>
                           <a href="./account.php">Account</a> 
+                          </li>
+                          <li>
+                          <a href="./orders.php">Orders</a> 
                           </li>
                           <li class="account last">
                           <form method="post">

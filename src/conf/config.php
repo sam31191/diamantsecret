@@ -33,6 +33,10 @@
     }
 
     define('DOMAIN', $__MAINDOMAIN__);
+    
+    define('DATE_FORMAT', "F jS, Y");
+    define('DATETIME_FORMAT', "h:iA F jS, Y");
+    define('SQL_FORMAT', 'Y-m-d H:i:s');
 
     /* PAYPAL */
     define('PAYPAL_CLIENT_ID', 'Ab0rLmYMWXxrf0Ggqvp47_-QY0NrGKPXGBoKcq_rVi4dCHxdRnVuHL0FH306MeqQVGALx3t0xtAiMjZi');

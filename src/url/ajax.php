@@ -3,6 +3,8 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
 include './../conf/config.php';
+require("./../lib/PayPal/vendor/autoload.php");
+use PayPal\Api\Payment;
 
 if ( isset($_GET['addtoFav'])) {
 	if ( !$_SESSION['loggedIn'] ) {
@@ -210,5 +212,95 @@ if ( isset($_GET['register']) ) {
 	}
 
 	echo $alert;
+}
+
+if ( isset($_GET['paymentInfo']) ) {
+
+
+    $paymentInfo = $pdo->prepare("SELECT * FROM tb_paypal_payments WHERE `invoice_number` = :invoice");
+    $paymentInfo->execute(array(":invoice" => $_GET['paymentInfo']));
+
+    if ( $paymentInfo->rowCount() > 0 ) {
+        $paymentInfo = $paymentInfo->fetch(PDO::FETCH_ASSOC);
+
+        $paymentId = $paymentInfo['id'];
+        try {
+            $apiContext = new \PayPal\Rest\ApiContext(
+              new \PayPal\Auth\OAuthTokenCredential(
+                PAYPAL_CLIENT_ID,
+                PAYPAL_CLIENT_SECRET
+              )
+            );
+            $payment = Payment::get($paymentId, $apiContext);
+
+            $status = '<label class="label label-danger" style="font-size: 14px;" >Unknown</label>';
+
+              switch ( $paymentInfo['state'] ) {
+                case 'approved': {
+                  $status = '<label class="label label-success" style="font-size: 14px;" >Approved</label>';
+                  break;
+                } case 'opened': {
+                  $status = '<label class="label label-warning" style="font-size: 14px;" >Opening</label>';
+                  break;
+                }
+              }
+
+            $result = '<div class="row wrap-table">';
+            $result .= '<h5>Order Info</h5>';
+            $result .= '<table class="col-sm-24" style="margin-bottom: 15px;">';
+            $result .= '<thead>';
+            $result .= '<th>Amount</th>';
+            $result .= '<th>State</th>';
+            $result .= '<th>Invoice</th>';
+            $result .= '<th>Created On</th>';
+            $result .= '<th>Updated On</th>';
+            $result .= '<th>Address</th>';
+            $result .= '</thead>';
+            $result .= '<tbody>';
+            $result .= '<tr>';
+            $result .= '<td>&euro; '. number_format($paymentInfo['amount'], 2) .'</td>';
+            $result .= '<td>'. $status .'</td>';
+            $result .= '<td>'. $paymentInfo['invoice_number'] .'</td>';
+            $result .= '<td>'. date(DATETIME_FORMAT, strtotime($paymentInfo['create_time'])) .'</td>';
+            if ( strtotime($paymentInfo['update_time']) == 0 ) {
+                $result .= '<td>-</td>';
+            } else {
+                $result .= '<td>'. date(DATETIME_FORMAT, strtotime($paymentInfo['update_time'])) .'</td>';
+            }
+            $result .= '<td class="text-left"><small>Billing</small></br>'. $paymentInfo['billing_address'] .'<br/><small>Shipping</small></br>'. $paymentInfo['shipping_address'] .'</td>';
+            $result .= '</tr>';
+            $result .= '</tbody>';
+            $result .= '</table>';
+            $result .= '<br />';
+            $result .= '<h5>Cart</h5>';
+            $result .= '<table class="table-hover">';
+            $result .= '<thead>';
+            $result .= '<th>Name</th>';
+            $result .= '<th>Price</th>';
+            $result .= '<th>Quantity</th>';
+            $result .= '<th></th>';
+            $result .= '</thead>';
+            $result .= '<tbody>';
+
+            foreach ( $payment->transactions[0]->item_list->items as $cartItem ) {
+                $result .= '<tr>';
+                $result .= '<td>'. $cartItem->name .'</td>';
+                $result .= '<td>&euro; '. number_format($cartItem->price, 2) .'</td>';
+                $result .= '<td>'. $cartItem->quantity .'</td>';
+                $result .= '<td><a class="btn btn-info" href="'.DOMAIN.'product.php?view='. $cartItem->sku .'" target="_blank">View</a></td>';
+                $result .= '</tr>';
+            } 
+
+            $result .= '</tbody>';
+            $result .= '</table>';
+            $result .= '</div>';
+
+            echo $result;
+        } catch (Exception $ex) {
+            echo '<div class="alert alert-danger">An Error Occured</div>';
+        }
+
+    }
+
 }
 ?>

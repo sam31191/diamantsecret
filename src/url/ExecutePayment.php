@@ -53,7 +53,7 @@ if (isset($_GET['success']) && $_GET['success'] == 'true') {
                     ":payer_id" => $payment->payer->payer_info->payer_id ,
                     ":amount" => $payment->transactions[0]->amount->total ,
                     ":invoice_number" => $payment->transactions[0]->invoice_number ,
-                    ":update_time" => $payment->update_time ,
+                    ":update_time" => $payment->transactions[0]->related_resources[0]->sale->update_time ,
                     ":state" => $payment->state ,
                     ":id" => $payment->id 
                     ));
