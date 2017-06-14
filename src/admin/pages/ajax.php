@@ -2084,32 +2084,48 @@ if ( isset($_GET['importThis']) ) {
 
 					$cols = explode(',', $products[$i]['AG']);
 						$col_alais = $col_name ='';
-						$col_val  = array();
+						$col_val  = '';
 						if(!empty($cols)){
 							foreach ($cols as $col) {
 								if($col!=""){
 									$col_name .= "site_".$col.', '; 
-									$col_alais .= ":site_".$col.', ';
-									$col_val[":site_".$col] = "1, ";
+									//$col_alais .= ":site_".$col.', ';
+									$col_val .="site_".$col.'=1, ';
 								}
 							}
 						}
+						
+						// $addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, family, images_delta, $col_name `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, :family, :images_delta, $col_alais NOW())");
+
+						// $args = array(
+						// 	":unique_key" => $uniqueKey,
+						// 	":product_name" => $products[$i]['D'],
+						// 	":product_price" => $products[$i]['E'],
+						// 	":discount" => $products[$i]['F'],
+						// 	":category" => $products[$i]['B'],
+						// 	":family" => $products[$i]['AF'],
+						// 	":images_delta" => $products[$i]['AB'],
+						// );
+						// $args = array_merge($col_val,$args);
+						// $addItem->execute($args);
+
+						$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, family, images_delta, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, :family, :images_delta, NOW())");
+
+						$addItem->execute(array(
+								":unique_key" => $uniqueKey,
+								":product_name" => $products[$i]['D'],
+								":product_price" => $products[$i]['E'],
+								":discount" => $products[$i]['F'],
+								":category" => $products[$i]['B'],
+								":family" => $products[$i]['AF'],
+								":images_delta" => $products[$i]['AB'],
+							));
+					$update_item = $pdo->prepare('UPDATE items SET site_0 = 0, site_1 = 0, site_2 = 0, site_3 = 0, site_4 = 0, site_5 = 0, site_6 = 0, site_7 = 0 WHERE unique_key = "'.$uniqueKey.'"');
+					$update_item->execute();
+
+					$update_item1 = $pdo->prepare('UPDATE items SET '.substr(trim($col_val),0,-1).'  WHERE unique_key = "'.$uniqueKey.'"');
+					$update_item1->execute();
 					
-						$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, family, images_delta, $col_name `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, :family, :images_delta, $col_alais NOW())");
-
-						$args = array(
-							":unique_key" => $uniqueKey,
-							":product_name" => $products[$i]['D'],
-							":product_price" => $products[$i]['E'],
-							":discount" => $products[$i]['F'],
-							":category" => $products[$i]['B'],
-							":family" => $products[$i]['AF'],
-							":images_delta" => $products[$i]['AB'],
-						);
-
-						$args = array_merge($col_val,$args);
-						$addItem->execute($args);
-
 					switch ($products[$i]['B']) {
 						case 1: {
 							$addInfo = $pdo->prepare("INSERT INTO `rings` 
