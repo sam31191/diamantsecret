@@ -370,6 +370,8 @@ if ( isset($_SESSION['modSession']) ) {
                                                                 echo '<td>'. $products[$i]['AC'] .'</td>';
                                                                 echo '<td>'. $products[$i]['AD'] .'</td>';
                                                                 echo '<td>'. $products[$i]['AE'] .'</td>';
+                                                                echo '<td>'. $products[$i]['AF'] .'</td>';
+                                                                echo '<td>'. $products[$i]['AG'] .'</td>';
                                                             echo '</tr>';
                                                         }
 

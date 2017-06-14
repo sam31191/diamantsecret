@@ -3,7 +3,7 @@
 
     /*  MySQL Configuration */
     $host = "localhost";
-    $dbname = "db_diamantsecret";
+    $dbname = "diam_prince";
     $user = "root";
     $pass = "";
     
@@ -18,7 +18,7 @@
     $mailSenderName = "Diamant Secret";
     $__ADMINMAIL__ = "ryan.bhanwra@gmail.com";
     $__ADMINNAME__ = "Admin";
-    $__MAINDOMAIN__ = "http://localhost/git/diamantsecret/src/";
+    $__MAINDOMAIN__ = "http://localhost/git/diam_prince/diamantsecret/src/";
     $__SITE = "diamant_secret";
     #$__MAINDOMAIN__ = "http://www.diamantsecret.com/";
     

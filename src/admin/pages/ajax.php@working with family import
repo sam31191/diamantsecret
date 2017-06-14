@@ -513,6 +513,7 @@ if ( isset($_GET['importThis']) ) {
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
+
 								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
 								
 								#for Rings (has column S T and U)
@@ -1322,9 +1323,6 @@ if ( isset($_GET['importThis']) ) {
 			if ( !isset($products[1]['AF']) || $products[1]['AF'] !== "Family" ) {
 				$error .= "Invalid Column: <strong>" . $products[1]['AF'] ."</strong><br>";
 			}
-			if ( !isset($products[1]['AG']) || $products[1]['AG'] !== "Site ID (comma \",\" separated)" ) {
-				$error .= "Invalid Column: <strong>" . $products[1]['AG'] ."</strong><br>";
-			}
 
 			if ( empty($error) ) {
 				$result = "";
@@ -2082,33 +2080,16 @@ if ( isset($_GET['importThis']) ) {
 						$products[$i]['S'] = intval($products[$i]['S']);
 					}
 
-					$cols = explode(',', $products[$i]['AG']);
-						$col_alais = $col_name ='';
-						$col_val  = array();
-						if(!empty($cols)){
-							foreach ($cols as $col) {
-								if($col!=""){
-									$col_name .= "site_".$col.', '; 
-									$col_alais .= ":site_".$col.', ';
-									$col_val[":site_".$col] = "1, ";
-								}
-							}
-						}
-					
-						$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, family, images_delta, $col_name `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, :family, :images_delta, $col_alais NOW())");
-
-						$args = array(
+					$addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, family, images_delta, `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, :family, :images_delta, NOW())");
+						$addItem->execute(array(
 							":unique_key" => $uniqueKey,
 							":product_name" => $products[$i]['D'],
 							":product_price" => $products[$i]['E'],
 							":discount" => $products[$i]['F'],
 							":category" => $products[$i]['B'],
 							":family" => $products[$i]['AF'],
-							":images_delta" => $products[$i]['AB'],
-						);
-
-						$args = array_merge($col_val,$args);
-						$addItem->execute($args);
+							":images_delta" => $products[$i]['AB']
+						));
 
 					switch ($products[$i]['B']) {
 						case 1: {
@@ -2487,14 +2468,10 @@ if ( isset($_GET['importThis']) ) {
 			} else {
 				echo '<h4>Import Failed</h4><br>'. $error . "<br>Please Fix The Errors and Try to Import Again <br><br><br> Alternatively, you can download the format here: <button class='btn btn-custom' onclick='downloadFormat()'> Download Format </button><br><br><button class='btn btn-danger' onclick='window.location = \"./import_excel.php\";'>Reloag Page</button>";
 			}
-		
 
 		}
-		
+
 		unset($PHPExcel);
-
-	
-
 
 	} else {
 		echo "Error: File ". $_SESSION['tmp_file'] ." Invalid";
@@ -3518,34 +3495,6 @@ if ( isset($_GET['importThis']) ) {
 
 } else if ( isset($_GET['finalizeImport']) ) {
 
-	
-
-	//=========addming families to min_max_values table===========
-	$getFamily = $pdo->prepare("SELECT `family` FROM `items`");
-	$data = $getFamily->execute();
-	$getFamily = $getFamily->fetchAll();
-	foreach ($getFamily as $key => $Family) {
-		if(!empty($Family['family'])){
-			$family_list[] = trim($Family['family']);
-		}	
-	}
-	$json_family = json_encode(array_values(array_unique($family_list)));
-
-	$checkFamily = $pdo->prepare("SELECT `keys_name` FROM `min_max_values` where keys_name = 'family'");
-	
-	$checkFamily->execute();//print_r($checkFamily);die;
-	
-	if($checkFamily->rowCount() > 0){
-		$updateFamilies = $pdo->prepare("update `min_max_values` set keys_values='".$json_family."'
-										where keys_name = 'family'")->execute();
-	}
-	else{
-		$addFamilies = $pdo->prepare("INSERT INTO min_max_values (keys_name,keys_values) 
-									value('family','".$json_family."')");
-		$addFamilies->execute();
-	}
-	//=========ending families to min_max_values table===========
-	
 	if ( file_exists('./../../working/zip/import/'. $_GET['finalizeImport'] .'/token') ) {
 		$token = json_decode(file_get_contents('./../../working/zip/import/'. $_GET['finalizeImport'] .'/token'));
 

@@ -87,7 +87,7 @@ if ( isset($_POST['login']['username']) ) {
                 $_SESSION['email'] = $result['email'];
                 $_SESSION['loggedIn'] = true;
                 $_SESSION['_ref'] = 'diamant_secret';
-
+                $_SESSION['user_id'] = $result['id'];
                 if ( $result['type'] > 0 ) {
                     $_SESSION['admin'] = $result['type'];
                 }
