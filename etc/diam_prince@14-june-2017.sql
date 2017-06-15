@@ -51,10 +51,7 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`id`, `site_id`, `email`, `username`, `password`, `first_name`, `last_name`, `mobileno`, `address`, `favorites`, `type`, `cart`, `activated`, `verification_hash`, `recover_hash`) VALUES
-(1, 1, 'contact@diamantsecret.com', 'Admin', 'admin123', 'Admin', '', '032985866', 'Hoveniersstraat 30 Suite: 924, 2018 Antwerpen - Belgium', ',GtrYXhKaxf', 1, 'E07lak14Th|0|1,wssTdLCXeD|0|2,', 1, '', ''),
-(2, 2, 'contact@operabijoux.com', 'Admin', 'admin123', 'Admin', '', '032985866', 'Hoveniersstraat 30 Suite: 924, 2018 Antwerpen - Belgium', '', 1, 'E07lak14Th|0|1,wssTdLCXeD|0|2,', 1, '', ''),
-(3, 1, 'ryan.bhanwra@yahoo.com', 'karan', '123456', 'Karan', 'Bhanwra', '98756', '123123 test', ',hoMBQnGaSO,6CPzcb8eHG', 0, '', 1, '', ''),
-(7, 2, 'ryan.bhanwra@gmail.com', 'RBhan', '123123', 'Karan', 'Bh', '123123', '123123', NULL, 0, NULL, 1, '', '4FD9D8F51E1DCD5450C916B3A87184C5');
+(1, 1, 'contact@diamantsecret.com', 'Admin', 'admin123', 'Admin', '', '032985866', 'Hoveniersstraat 30 Suite: 924, 2018 Antwerpen - Belgium', ',GtrYXhKaxf', 1, 'E07lak14Th|0|1,wssTdLCXeD|0|2,', 1, '', '');
 
 -- --------------------------------------------------------
 
@@ -392,6 +389,7 @@ CREATE TABLE `items` (
   `featured` int(11) NOT NULL,
   `images_delta` text DEFAULT NULL,
   `date_added` datetime NOT NULL,
+  `family` varchar(255) NOT NULL,
   `disabled` int(11) NOT NULL DEFAULT 0 COMMENT 'A disabled item is not visible in any front end, but is visible on the backend.',
   `site_0` int(11) NOT NULL DEFAULT 0,
   `site_1` int(11) NOT NULL DEFAULT 0,
@@ -400,21 +398,9 @@ CREATE TABLE `items` (
   `site_4` int(11) NOT NULL DEFAULT 0,
   `site_5` int(11) NOT NULL DEFAULT 0,
   `site_6` int(11) NOT NULL DEFAULT 0,
-  `site_7` int(11) NOT NULL DEFAULT 0,
-  `family` varchar(255) NOT NULL
+  `site_7` int(11) NOT NULL DEFAULT 0
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `items`
---
-
-INSERT INTO `items` (`id`, `unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, `images_delta`, `date_added`, `disabled`, `site_0`, `site_1`, `site_2`, `site_3`, `site_4`, `site_5`, `site_6`, `site_7`, `family`) VALUES
-(77, '8VPffS6MG3', 'Ganiela', 871000, NULL, 1, 0, '1.jpg', '2017-06-14 12:39:21', 0, 1, 1, 1, 1, 0, 0, 1, 1, 'one'),
-(78, 'bNQZjKcXcM', 'Gilea', 851, NULL, 1, 0, '1.jpg', '2017-06-14 12:39:22', 0, 0, 0, 0, 1, 0, 1, 0, 0, 'two'),
-(79, 'nuAJeyfiHY', 'Pleka', 420, NULL, 1, 0, '1.jpg', '2017-06-14 12:39:23', 0, 0, 0, 1, 0, 0, 0, 0, 0, 'three'),
-(80, '8qBQkksCkM', 'Ganiela', 871000, NULL, 1, 0, '1.jpg', '2017-06-14 13:09:17', 0, 1, 1, 1, 1, 0, 0, 1, 1, 'one'),
-(81, 'RxOKMijCDW', 'Gilea', 851, NULL, 1, 0, '1.jpg', '2017-06-14 13:09:17', 0, 0, 0, 0, 1, 0, 1, 0, 0, 'two'),
-(82, '8XimZfdQQZ', 'Pleka', 420, NULL, 1, 0, '1.jpg', '2017-06-14 13:09:18', 0, 0, 0, 1, 0, 0, 0, 0, 0, 'three');
 
 -- --------------------------------------------------------
 
@@ -454,13 +440,6 @@ CREATE TABLE `min_max_values` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `min_max_values`
---
-
-INSERT INTO `min_max_values` (`id`, `keys_name`, `keys_values`, `created_at`) VALUES
-(10, 'family', '[\"one\",\"two\",\"three\"]', '2017-06-14 05:02:47');
-
 -- --------------------------------------------------------
 
 --
@@ -473,38 +452,6 @@ CREATE TABLE `moderator_login` (
   `login_ip` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `moderator_login`
---
-
-INSERT INTO `moderator_login` (`username`, `last_login`, `login_ip`) VALUES
-('Admin', '2017-03-05 16:11:35', '::1'),
-('Admin', '2017-03-15 22:18:36', '::1'),
-('Admin', '2017-03-18 15:22:51', '::1'),
-('Admin', '2017-03-22 21:40:12', '::1'),
-('Admin', '2017-03-23 22:09:02', '::1'),
-('Admin', '2017-03-31 09:02:39', '::1'),
-('Admin', '2017-04-01 13:58:14', '::1'),
-('Admin', '2017-04-01 15:43:20', '::1'),
-('Admin', '2017-04-02 18:03:58', '::1'),
-('Admin', '2017-04-03 18:31:33', '::1'),
-('Admin', '2017-04-05 23:18:10', '::1'),
-('Admin', '2017-04-07 18:13:02', '::1'),
-('Admin', '2017-04-09 14:46:30', '::1'),
-('Admin', '2017-04-09 15:04:43', '::1'),
-('Admin', '2017-04-12 12:26:25', '::1'),
-('Admin', '2017-04-16 01:43:03', '::1'),
-('Admin', '2017-04-23 19:20:58', '::1'),
-('Admin', '2017-04-23 19:23:17', '::1'),
-('Admin', '2017-04-23 19:25:38', '::1'),
-('Admin', '2017-04-23 21:38:27', '::1'),
-('Admin', '2017-04-24 00:32:20', '::1'),
-('Admin', '2017-05-05 23:48:36', '::1'),
-('Admin', '2017-05-06 01:30:08', '::1'),
-('Admin', '2017-05-17 05:56:14', '::1'),
-('Admin', '2017-05-23 03:41:20', '::1'),
-('Admin', '2017-06-13 17:14:45', '::1'),
-('Admin', '2017-06-14 12:58:19', '::1');
 
 -- --------------------------------------------------------
 
@@ -626,15 +573,6 @@ CREATE TABLE `rings` (
   `diamond_color` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `rings`
---
-
-INSERT INTO `rings` (`id`, `unique_key`, `company_id`, `internal_id`, `product_name`, `pieces_in_stock`, `days_for_shipment`, `total_gold_weight`, `total_carat_weight`, `color_stone_carat`, `no_of_stones`, `no_of_color_stones`, `diamond_shape`, `color_stone_shape`, `clarity`, `color`, `material`, `gold_quality`, `color_stone_type`, `height`, `width`, `length`, `country_id`, `subcategory`, `lab_grown`, `images`, `description`, `ring_subcategory`, `ring_size`, `description_french`, `diamond_color`) VALUES
-(78, '8qBQkksCkM', 2, '65081R001A', 'Ganiela', 10000, 15, '0.9', 0.15, NULL, 34, 0, 1, 0, 'SI1', 1, 2, '4', NULL, NULL, NULL, '0', 2, NULL, 2, 'ring_78_0.jpg,', 'Tear Solitaire Ring in White gold set by 0,15ct diamonds. Testingsssssssssssssssss', 4, '48-65', 'Bague Solitaire Goutte en Or blanc sertie de 0,15ct de diamants.', 5),
-(79, 'RxOKMijCDW', 2, '65081R002A', 'Gilea', 10000, 15, '0.8', 0.15, NULL, 34, 0, 1, 0, 'SI1', 1, 6, '4', NULL, NULL, NULL, '0', 2, NULL, 2, 'ring_79_0.jpg,', 'Tear Solitaire Ring in Yellow gold set by 0,15ct diamonds.', 4, '48', 'Bague Solitaire Goutte en Or jaune sertie de 0,15ct de diamants.', 5),
-(80, '8XimZfdQQZ', 2, '58607R007A', 'Pleka', 10000, 15, '1', 0.04, NULL, 14, 0, 1, 0, 'SI1', 1, 6, '4', NULL, NULL, NULL, '0', 2, NULL, 2, 'ring_80_0.jpg,', 'Round Solitaire Ring in Yellow gold set by 0,04ct diamonds.', 4, '48', 'Bague Solitaire Rond Illusion en Or jaune sertie de 0,04ct de diamants.', 5);
-
 -- --------------------------------------------------------
 
 --
@@ -718,12 +656,6 @@ CREATE TABLE `tb_cart` (
   `size` int(11) NOT NULL COMMENT 'If Applicable'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tb_cart`
---
-
-INSERT INTO `tb_cart` (`id`, `user_id`, `product_id`, `quantity`, `size`) VALUES
-(14, 3, '8VPffS6MG3', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -826,7 +758,7 @@ CREATE TABLE `version` (
 --
 
 INSERT INTO `version` (`id`, `sql_version`) VALUES
-(1, 'diamantsecretdb_1_5_5');
+(1, 'diamantsecretdb_1_5_6');
 
 --
 -- Indexes for dumped tables
@@ -1004,7 +936,7 @@ ALTER TABLE `version`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `bracelets`
 --
@@ -1074,7 +1006,7 @@ ALTER TABLE `pendants`
 -- AUTO_INCREMENT for table `rings`
 --
 ALTER TABLE `rings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'int 11', AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'int 11';
 --
 -- AUTO_INCREMENT for table `subscribers`
 --
@@ -1084,7 +1016,7 @@ ALTER TABLE `subscribers`
 -- AUTO_INCREMENT for table `tb_cart`
 --
 ALTER TABLE `tb_cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tb_paypal_payments`
 --
@@ -1099,7 +1031,9 @@ ALTER TABLE `tb_websites`
 -- AUTO_INCREMENT for table `tmp_table`
 --
 ALTER TABLE `tmp_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'int 11';COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'int 11';
+  
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
