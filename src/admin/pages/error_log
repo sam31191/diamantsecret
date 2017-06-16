@@ -1,0 +1,5 @@
+[15-Jun-2017 08:37:23 Europe/Paris] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'family' cannot be null' in /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/admin/pages/ajax.php:2122
+Stack trace:
+#0 /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/admin/pages/ajax.php(2122): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/admin/pages/ajax.php on line 2122

@@ -1,0 +1,17 @@
+[14-Jun-2017 12:38:32 Europe/Paris] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'TESTSITE_DIAMANTSECRET.tb_cart' doesn't exist' in /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/url/header.php:373
+Stack trace:
+#0 /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/url/header.php(373): PDOStatement->execute(Array)
+#1 /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/index.php(79): include('/home/diamantse...')
+#2 {main}
+  thrown in /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/url/header.php on line 373
+[14-Jun-2017 12:40:15 Europe/Paris] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'TESTSITE_DIAMANTSECRET.tb_cart' doesn't exist' in /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/url/header.php:373
+Stack trace:
+#0 /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/url/header.php(373): PDOStatement->execute(Array)
+#1 /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/index.php(79): include('/home/diamantse...')
+#2 {main}
+  thrown in /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/url/header.php on line 373
+[14-Jun-2017 14:46:48 Europe/Paris] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'TESTSITE_DIAMANTSECRET.tb_paypal_payments' doesn't exist' in /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/orders.php:116
+Stack trace:
+#0 /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/orders.php(116): PDOStatement->execute(Array)
+#1 {main}
+  thrown in /home/diamantsecret/public_html/BUILD/TESTSITE/V1_3_7/diamantsecret/src/orders.php on line 116
