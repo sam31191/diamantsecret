@@ -241,7 +241,9 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['images_delta'] . 
 										$resultValues['description'] .
 										$resultValues['description_french'] . 
-										$resultValues['diamond_color'];
+										$resultValues['diamond_color'] .
+										$resultValues['family'];
+										
 
 								$valuesSQL = 
 										$products[$i]['A'] . 
@@ -274,7 +276,8 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['AB'] .
 										$products[$i]['AC'] .
 										$products[$i]['AD'] .
-										$products[$i]['AE'];
+										$products[$i]['AE'] .
+										$products[$i]['AF'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -359,7 +362,8 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['images_delta'] . 
 										$resultValues['description'] .
 										$resultValues['description_french'] . 
-										$resultValues['diamond_color'];
+										$resultValues['diamond_color'] .
+										$resultValues['family'];
 
 								$valuesSQL = 
 										$products[$i]['A'] . 
@@ -392,7 +396,8 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['AB'] .
 										$products[$i]['AC'] .
 										$products[$i]['AD'] .
-										$products[$i]['AE'];
+										$products[$i]['AE'] .
+										$products[$i]['AF'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -476,7 +481,8 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['images_delta'] . 
 										$resultValues['description'] .
 										$resultValues['description_french'] . 
-										$resultValues['diamond_color'];
+										$resultValues['diamond_color'] .
+										$resultValues['family'];
 
 								$valuesSQL = 
 										$products[$i]['A'] . 
@@ -509,7 +515,9 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['AB'] .
 										$products[$i]['AC'] .
 										$products[$i]['AD'] .
-										$products[$i]['AE'];
+										$products[$i]['AE'] .
+										$products[$i]['AF'];
+
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -593,7 +601,8 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['images_delta'] . 
 										$resultValues['description'] .
 										$resultValues['description_french'] . 
-										$resultValues['diamond_color'];
+										$resultValues['diamond_color'] .
+										$resultValues['family'];
 
 								$valuesSQL = 
 										$products[$i]['A'] . 
@@ -626,7 +635,8 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['AB'] .
 										$products[$i]['AC'] .
 										$products[$i]['AD'] .
-										$products[$i]['AE'];
+										$products[$i]['AE'] .
+										$products[$i]['AF'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -711,7 +721,8 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['images_delta'] . 
 										$resultValues['description'] .
 										$resultValues['description_french'] . 
-										$resultValues['diamond_color'];
+										$resultValues['diamond_color'] .
+										$resultValues['family'];
 
 								$valuesSQL = 
 										$products[$i]['A'] . 
@@ -744,7 +755,8 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['AB'] .
 										$products[$i]['AC'] .
 										$products[$i]['AD'] .
-										$products[$i]['AE'];
+										$products[$i]['AE'] .
+										$products[$i]['AF'];
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -1374,6 +1386,8 @@ if ( isset($_GET['importThis']) ) {
 				}
 
 				$internalID = $products[$i]['C'];
+
+
 				switch( $products[$i]['B'] ) {
 					case 1 : {
 						$checkInternalID = $pdo->prepare("SELECT * FROM rings WHERE `internal_id` = :intID");
@@ -1418,7 +1432,18 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['images_delta'] . 
 										$resultValues['description'] .
 										$resultValues['description_french'] . 
-										$resultValues['diamond_color'];
+										$resultValues['diamond_color'] .
+										$resultValues['family'] .
+										$resultValues['site_0'] .
+										$resultValues['site_1'] .
+										$resultValues['site_2'] .
+										$resultValues['site_3'] .
+										$resultValues['site_4'] .
+										$resultValues['site_5'] .
+										$resultValues['site_6'] .
+										$resultValues['site_7'] ;
+
+								$siteIdsArr = getSiteidsValue($products[$i]['AG']);
 
 								$valuesSQL = 
 										$products[$i]['A'] . 
@@ -1451,14 +1476,22 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['AB'] .
 										$products[$i]['AC'] .
 										$products[$i]['AD'] .
-										$products[$i]['AE'];
-
+										$products[$i]['AE'] .
+										$products[$i]['AF'] .
+										$siteIdsArr[0] .
+										$siteIdsArr[1] .
+										$siteIdsArr[2] .
+										$siteIdsArr[3] .
+										$siteIdsArr[4] .
+										$siteIdsArr[5] .
+										$siteIdsArr[6] .
+										$siteIdsArr[7] ;
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
 
 								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
-								
+								// error_log("\n ".$hashDB ." ------1479----".$hashSQL,3,'C:/laragon/www/git/diam_prince/diamantsecret/test.log');
 								#for Rings (has column S T and U)
 								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
 
@@ -1478,6 +1511,7 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesSQL);
 									
 									$returnMessage = updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+									updateImportSiteIds($pdo, $resultValues['unique_key'], $siteIdsArr);
 
 									if ( $returnMessage !== " - No Errors" ) {
 										$resultMessage = "warning";
@@ -1516,7 +1550,11 @@ if ( isset($_GET['importThis']) ) {
 							$getItemMainValues->execute(array(":unique_key" => $resultValues['unique_key']));
 
 							if ( $getItemMainValues->rowCount() > 0 ) {
+
+								
 								$resultValues = array_merge($getItemMainValues->fetch(PDO::FETCH_ASSOC), $resultValues);
+
+
 								$valuesDB = 
 										getCompanyCode($resultValues['company_id'], $pdo) . 
 										$resultValues['category'] . 
@@ -1548,7 +1586,18 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['images_delta'] . 
 										$resultValues['description'] .
 										$resultValues['description_french'] . 
-										$resultValues['diamond_color'];
+										$resultValues['diamond_color'].
+										$resultValues['family'] .
+										$resultValues['site_0'] .
+										$resultValues['site_1'] .
+										$resultValues['site_2'] .
+										$resultValues['site_3'] .
+										$resultValues['site_4'] .
+										$resultValues['site_5'] .
+										$resultValues['site_6'] .
+										$resultValues['site_7'] ;
+
+								$siteIdsArr = getSiteidsValue($products[$i]['AG']);
 
 								$valuesSQL = 
 										$products[$i]['A'] . 
@@ -1581,13 +1630,23 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['AB'] .
 										$products[$i]['AC'] .
 										$products[$i]['AD'] .
-										$products[$i]['AE'];
+										$products[$i]['AE'] .
+										$products[$i]['AF'] .
+										$siteIdsArr[0] .
+										$siteIdsArr[1] .
+										$siteIdsArr[2] .
+										$siteIdsArr[3] .
+										$siteIdsArr[4] .
+										$siteIdsArr[5] .
+										$siteIdsArr[6] .
+										$siteIdsArr[7] ;
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
 
 								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
-								
+								// error_log("\n ".$hashDB ." ------1609----".$hashSQL.'-------'.$products[$i]['AF'].'------------------------'.$resultValues['family'],3,'C:/laragon/www/git/diam_prince/diamantsecret/test.log');
+
 								#for Rings (has column S T and U)
 								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
 
@@ -1607,6 +1666,8 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesSQL);
 									
 									$returnMessage = updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+
+									updateImportSiteIds($pdo, $resultValues['unique_key'], $siteIdsArr);
 
 									if ( $returnMessage !== " - No Errors" ) {
 										$resultMessage = "warning";
@@ -1677,7 +1738,18 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['images_delta'] . 
 										$resultValues['description'] .
 										$resultValues['description_french'] . 
-										$resultValues['diamond_color'];
+										$resultValues['diamond_color'] .
+										$resultValues['family'] .
+										$resultValues['site_0'] .
+										$resultValues['site_1'] .
+										$resultValues['site_2'] .
+										$resultValues['site_3'] .
+										$resultValues['site_4'] .
+										$resultValues['site_5'] .
+										$resultValues['site_6'] .
+										$resultValues['site_7'] ;
+
+								$siteIdsArr = getSiteidsValue($products[$i]['AG']);
 
 								$valuesSQL = 
 										$products[$i]['A'] . 
@@ -1710,13 +1782,21 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['AB'] .
 										$products[$i]['AC'] .
 										$products[$i]['AD'] .
-										$products[$i]['AE'];
+										$products[$i]['AE'] .
+										$products[$i]['AF'] .
+										$siteIdsArr[0] .
+										$siteIdsArr[1] .
+										$siteIdsArr[2] .
+										$siteIdsArr[3] .
+										$siteIdsArr[4] .
+										$siteIdsArr[5] .
+										$siteIdsArr[6] .
+										$siteIdsArr[7] ;
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
 
 								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
-								
 								#for Rings (has column S T and U)
 								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
 
@@ -1736,7 +1816,7 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesSQL);
 									
 									$returnMessage = updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
-
+									updateImportSiteIds($pdo, $resultValues['unique_key'], $siteIdsArr);
 									if ( $returnMessage !== " - No Errors" ) {
 										$resultMessage = "warning";
 									}
@@ -1806,8 +1886,17 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['images_delta'] . 
 										$resultValues['description'] .
 										$resultValues['description_french'] . 
-										$resultValues['diamond_color'];
-
+										$resultValues['diamond_color'] .
+										$resultValues['family'] .
+										$resultValues['site_0'] .
+										$resultValues['site_1'] .
+										$resultValues['site_2'] .
+										$resultValues['site_3'] .
+										$resultValues['site_4'] .
+										$resultValues['site_5'] .
+										$resultValues['site_6'] .
+										$resultValues['site_7'] ;
+								$siteIdsArr = getSiteidsValue($products[$i]['AG']);
 								$valuesSQL = 
 										$products[$i]['A'] . 
 										$products[$i]['B'] . 
@@ -1839,13 +1928,21 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['AB'] .
 										$products[$i]['AC'] .
 										$products[$i]['AD'] .
-										$products[$i]['AE'];
+										$products[$i]['AE'] .
+										$products[$i]['AF'] .
+										$siteIdsArr[0] .
+										$siteIdsArr[1] .
+										$siteIdsArr[2] .
+										$siteIdsArr[3] .
+										$siteIdsArr[4] .
+										$siteIdsArr[5] .
+										$siteIdsArr[6] .
+										$siteIdsArr[7] ;
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
 
 								$hashSQL = strtoupper(hash("md5", $valuesSQL ));
-								
 								#for Rings (has column S T and U)
 								#$hashSQL = strtoupper(hash("md5", $products[$i]['A'] . $products[$i]['B'] . $internalID . $products[$i]['D'] . $products[$i]['F'] . $products[$i]['G'] . $products[$i]['H'] . $products[$i]['I'] . $products[$i]['J'] . $products[$i]['K'] . $products[$i]['L'] . $products[$i]['M'] . $products[$i]['N'] . $products[$i]['O'] . $products[$i]['P'] . $products[$i]['Q'] . $products[$i]['R'] . $products[$i]['S'] . $products[$i]['T'] . $products[$i]['U'] . $products[$i]['V'] ));
 
@@ -1865,6 +1962,7 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesSQL);
 									
 									$returnMessage = updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+									updateImportSiteIds($pdo, $resultValues['unique_key'], $siteIdsArr);
 
 									if ( $returnMessage !== " - No Errors" ) {
 										$resultMessage = "warning";
@@ -1935,7 +2033,18 @@ if ( isset($_GET['importThis']) ) {
 										$resultValues['images_delta'] . 
 										$resultValues['description'] .
 										$resultValues['description_french'] . 
-										$resultValues['diamond_color'];
+										$resultValues['diamond_color'] .
+										$resultValues['family'] .
+										$resultValues['site_0'] .
+										$resultValues['site_1'] .
+										$resultValues['site_2'] .
+										$resultValues['site_3'] .
+										$resultValues['site_4'] .
+										$resultValues['site_5'] .
+										$resultValues['site_6'] .
+										$resultValues['site_7'] ;
+
+								$siteIdsArr = getSiteidsValue($products[$i]['AG']);
 
 								$valuesSQL = 
 										$products[$i]['A'] . 
@@ -1968,7 +2077,16 @@ if ( isset($_GET['importThis']) ) {
 										$products[$i]['AB'] .
 										$products[$i]['AC'] .
 										$products[$i]['AD'] .
-										$products[$i]['AE'];
+										$products[$i]['AE'] .
+										$products[$i]['AF'] .
+										$siteIdsArr[0] .
+										$siteIdsArr[1] .
+										$siteIdsArr[2] .
+										$siteIdsArr[3] .
+										$siteIdsArr[4] .
+										$siteIdsArr[5] .
+										$siteIdsArr[6] .
+										$siteIdsArr[7] ;
 
 								$hashDB = strtoupper(hash("md5", $valuesDB ));
 
@@ -1994,6 +2112,7 @@ if ( isset($_GET['importThis']) ) {
 									#$resultStatus .= json_encode($valuesSQL);
 									
 									$returnMessage = updateImportZipItem($pdo, $resultValues['unique_key'], $products[$i], 1, $_GET['timeToken'], $__MAINDOMAIN__, $__IMPORT_IMAGE_RES__);
+									updateImportSiteIds($pdo, $resultValues['unique_key'], $siteIdsArr);
 
 									if ( $returnMessage !== " - No Errors" ) {
 										$resultMessage = "warning";
@@ -2023,6 +2142,8 @@ if ( isset($_GET['importThis']) ) {
 					}
 				}
 				
+				// error_log("\n ".$products[$i]['AG']." 2052 ---skiping records---",3,'C:/laragon/www/git/diam_prince/diamantsecret/test.log');
+
 
 					$company_id = "0";
 					if ( isset($_SESSION['import_company_id_zip']) ) {
@@ -2082,18 +2203,7 @@ if ( isset($_GET['importThis']) ) {
 						$products[$i]['S'] = intval($products[$i]['S']);
 					}
 
-					$cols = explode(',', $products[$i]['AG']);
-						$col_alais = $col_name ='';
-						$col_val  = '';
-						if(!empty($cols)){
-							foreach ($cols as $col) {
-								if($col!=""){
-									$col_name .= "site_".$col.', '; 
-									//$col_alais .= ":site_".$col.', ';
-									$col_val .="site_".$col.'=1, ';
-								}
-							}
-						}
+					
 						
 						// $addItem = $pdo->prepare("INSERT INTO `items` (`unique_key`, `item_name`, `item_value`, `discount`, `category`, `featured`, family, images_delta, $col_name `date_added`) VALUES (:unique_key, :product_name, :product_price, :discount, :category, 0, :family, :images_delta, $col_alais NOW())");
 
@@ -2120,11 +2230,37 @@ if ( isset($_GET['importThis']) ) {
 								":family" => $products[$i]['AF'],
 								":images_delta" => $products[$i]['AB'],
 							));
-					$update_item = $pdo->prepare('UPDATE items SET site_0 = 0, site_1 = 0, site_2 = 0, site_3 = 0, site_4 = 0, site_5 = 0, site_6 = 0, site_7 = 0 WHERE unique_key = "'.$uniqueKey.'"');
-					$update_item->execute();
 
-					$update_item1 = $pdo->prepare('UPDATE items SET '.substr(trim($col_val),0,-1).'  WHERE unique_key = "'.$uniqueKey.'"');
-					$update_item1->execute();
+						// error_log("\n ".$products[$i]['AG']."skiping records---",3,'C:/laragon/www/git/diam_prince/diamantsecret/test.log');
+						if(!empty($products[$i]['AG'])){
+
+							$cols = explode(',', $products[$i]['AG']);
+							$col_alais = $col_name ='';
+							$col_val  = '';
+							if(!empty($cols)){
+								foreach ($cols as $col) {
+									if($col!=""){
+										$col_name .= "site_".$col.', '; 
+										//$col_alais .= ":site_".$col.', ';
+										$col_val .="site_".$col.'=1, ';
+									}
+								}
+							}
+
+							$update_item = $pdo->prepare('UPDATE items SET site_0 = 0, site_1 = 0, site_2 = 0, site_3 = 0, site_4 = 0, site_5 = 0, site_6 = 0, site_7 = 0 WHERE unique_key = "'.$uniqueKey.'"');
+							$update_item->execute();
+							//echo 'UPDATE items SET '.rtrim($col_val,',').'  WHERE unique_key = "'.$uniqueKey.'"';die;
+							$update_item1 = $pdo->prepare('UPDATE items SET '.rtrim($col_val,', ').'  WHERE unique_key = "'.$uniqueKey.'"');
+
+							$update_item1->execute();
+
+						}
+						// else{
+
+						// 	$update_item = $pdo->prepare('UPDATE items SET site_0 = 1, site_1 = 1, site_2 = 1, site_3 = 1, site_4 = 1, site_5 = 1, site_6 = 1, site_7 = 1 WHERE unique_key = "'.$uniqueKey.'"');
+						// 	$update_item->execute();
+						// }
+						
 					
 					switch ($products[$i]['B']) {
 						case 1: {

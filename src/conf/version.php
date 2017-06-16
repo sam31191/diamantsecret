@@ -7,12 +7,12 @@ $__VERSION_PROGRAMNAME__ = "diamantsecret";
 
 $__VERSION_MAJOR__    = "1";
 $__VERSION_MINOR__    = "3";
-$__VERSION_REVISION__ = "2";
-$__VERSION_DATE__     = "2016-10-11";
+$__VERSION_REVISION__ = "3";
+$__VERSION_DATE__     = "2017-06=15";
 
 
 //Compatible database version number, to be updated on every database change
-$__SQLVERSION__   = 'diamantsecretdb_1_5_5'; 
+$__SQLVERSION__   = 'diamantsecretdb_1_5_6'; 
 
 
 //Methods
@@ -22,6 +22,9 @@ $__BUILDVERSION__ = "$__VERSION_PROGRAMNAME__.$__VERSION_MAJOR__.$__VERSION_MINO
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 /*
+** v1.3.3 (2017-06-15) by JASS 
+** [] import updated to support family and site-id
+**
 ** v1.3.2  (2017-02-01) by RYAN (product release - db: diamantsecretdb_1_2_2)
 ** [] changes made to import / export, gold quality / color stone type added
 *
