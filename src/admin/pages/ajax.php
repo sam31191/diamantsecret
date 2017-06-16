@@ -1337,7 +1337,6 @@ if ( isset($_GET['importThis']) ) {
 			if ( !isset($products[1]['AG']) || $products[1]['AG'] !== "Site ID (comma \",\" separated)" ) {
 				$error .= "Invalid Column: <strong>" . $products[1]['AG'] ."</strong><br>";
 			}
-
 			if ( empty($error) ) {
 				$result = "";
 				$i = $_GET['importZip'];
@@ -1347,6 +1346,15 @@ if ( isset($_GET['importThis']) ) {
 					array_push($result, 'failure');
 					array_push($result, "N/A");
 					array_push($result, "Empty Data");
+					array_push($result, $i);
+					echo json_encode($result);
+					return;
+				}
+				if ( empty($products[$i]['AF']) ) {
+					$result = [];
+					array_push($result, 'failure');
+					array_push($result, "N/A");
+					array_push($result, "Empty Data Family");
 					array_push($result, $i);
 					echo json_encode($result);
 					return;
