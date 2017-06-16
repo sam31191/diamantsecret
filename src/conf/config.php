@@ -3,7 +3,7 @@
 
     /*  MySQL Configuration */
     $host = "localhost";
-    $dbname = "diam_prince";
+    $dbname = "testsite_diamantsecret";
     $user = "root";
     $pass = "";
     
@@ -233,20 +233,47 @@
             return "-";
         }
     }
+    function getSiteidsValue( $site_ids) {
+        
+        $siteIdsArr = array(0=>0,1=>0,2=>0,3=>0,4=>0,5=>0,6=>0,7=>0);
+       
+        if(empty($site_ids)){
+            $siteIdsArr = array(0=>1,1=>1,2=>1,3=>1,4=>1,5=>1,6=>1,7=>1);
+        }
+        else{
+            $siteIds =array();
+            $siteIds = explode(',', rtrim($site_ids,','));
+            foreach ($siteIds as $id) {
+                $siteIdsArr[$id] = 1;
+            }
+        }
+        return $siteIdsArr; 
+    }
+    function updateImportSiteIds( $pdo, $uniqueKey, $site_ids ) {
+
+        $col_val = '';
+        foreach ($site_ids as $key => $value) {
+            $col_val .="site_".$key.' = '.$value.', ';
+        }
+        $update_item1 = $pdo->prepare('UPDATE items SET '.rtrim($col_val,', ').'  WHERE unique_key = "'.$uniqueKey.'"');
+        $update_item1->execute();
+    }
 
     function updateImportZipItem( $pdo, $uniqueKey, $values, $zip, $timeToken, $domain, $imgRes ) {
         //return json_encode($values);
 
         $company_id = getCompanyID($values['A'], $pdo);
 
-        $updateItem = $pdo->prepare("UPDATE `items` SET `item_name` = :product_name, `item_value` = :product_price, `discount` = :discount, `category` = :category, images_delta = :images_delta WHERE `unique_key` = :unique_key");
+        $updateItem = $pdo->prepare("UPDATE `items` SET `item_name` = :product_name, `item_value` = :product_price, `discount` = :discount, `category` = :category, family=:family, images_delta = :images_delta WHERE `unique_key` = :unique_key");
         $updateItem->execute(array(
             ":unique_key" => $uniqueKey,
             ":product_name" => $values['D'],
             ":product_price" => $values['E'],
             ":discount" => $values['F'],
             ":category" => $values['B'],
+            ":family" => $values['AF'],
             ":images_delta" => $values['AB']
+
         ));
 
         /* VAR TYPE CHECK */
