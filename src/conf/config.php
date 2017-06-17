@@ -50,6 +50,10 @@
     /* COOKIES */
     define("COOKIE_CART", "TEMP_CART");
 
+
+
+$product_images = array('images/1.jpg','images/3.jpg','images/3.jpg');
+
     
     /* Other changes */
     // - Update $rootPath in __php__.php file
