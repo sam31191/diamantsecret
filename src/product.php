@@ -211,13 +211,18 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                         }
                                                         
                                                         if(!empty($product_images)){
-                                                            foreach ($product_images as $image) {?>
+                                                            foreach ($product_images as $image) {
+																																												if ( !empty($image) ) {
+                                                                echo '                                                  
                                                                 <li class="image">
-                                                                    <a href="<?=$image?>" class="cloud-zoom-gallery active">
-                                                                        <img src="<?=$image?>" onClick="selectImage('<?=$image?>')" alt="" width="100">
+                                                                    <a href="./images/images_md/'. $image .'" class="cloud-zoom-gallery active">
+                                                                        <img src="./images/images_sm/'. $image .'" onClick="selectImage(\'./images/images/'. $image .'\')" alt="">
                                                                     </a>
                                                                 </li>   
-                                                         <?php  }  
+                                                                ';
+                                                                $imageIndex++;
+                                                            }
+                                                         }  
                                                         }
                                                         
                                                         ?>
