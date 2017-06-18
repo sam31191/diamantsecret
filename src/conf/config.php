@@ -52,7 +52,11 @@
 
 
 
-$product_images = array('images/1.jpg','images/3.jpg','images/3.jpg');
+$product_images = array(
+                        'diamant-certificate1.jpg',
+						'diamant-certificate2.jpg',
+						'diamant-packing.jpg'
+						);
 
     
     /* Other changes */
