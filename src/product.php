@@ -8,6 +8,7 @@ if ( !isset($_GET['view']) || empty($_GET['view']) ) {
 }
 include 'conf/config.php';
 include './url/pre.php';
+
 ?>
 <!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -208,6 +209,17 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 $imageIndex++;
                                                             }
                                                         }
+                                                        
+                                                        if(!empty($product_images)){
+                                                            foreach ($product_images as $image) {?>
+                                                                <li class="image">
+                                                                    <a href="<?=$image?>" class="cloud-zoom-gallery active">
+                                                                        <img src="<?=$image?>" onClick="selectImage('<?=$image?>')" alt="" width="100">
+                                                                    </a>
+                                                                </li>   
+                                                         <?php  }  
+                                                        }
+                                                        
                                                         ?>
                                                     </ul>
                                                 </div>
