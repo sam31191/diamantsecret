@@ -12,7 +12,7 @@ $__VERSION_DATE__     = "2017-06=15";
 
 
 //Compatible database version number, to be updated on every database change
-$__SQLVERSION__   = 'diamantsecretdb_1_5_6'; 
+$__SQLVERSION__   = 'diamantsecretdb_1_6_0'; 
 
 
 //Methods
