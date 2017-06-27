@@ -74,7 +74,12 @@
 
 
 
-$product_images = array('images/images_md/ring_56_2.jpg','images/images_md/pendant_8_0.jpg','images/images_md/pendant_8_0.jpg');
+
+$product_images = array(
+                        'diamant-certificate1.jpg',
+						'diamant-certificate2.jpg',
+						'diamant-packing.jpg'
+						);
 
     
     /* Other changes */
