@@ -49,7 +49,7 @@ if ( isset($_POST['login']['username']) ) {
                 }
 
                 if ( isset($_POST['redir']) ) {
-                    echo var_dump($_POST);
+                    
                     header("Location: ". DOMAIN . $_POST['redir']); 
                 } else {
                     header("Location: index.php");
