@@ -1,0 +1,80 @@
+
+
+
+Below are required details:
+
+Excel file has made to also support variations for products. 
+What are variations? 
+Variations are products which are related with each other but with some difference. e.g. Same design ring in White gold and Yellow gold are variations of each other. Or say same ring with size 48 and size 50 are variations of a product.
+
+
+Excel format is already filled with sample records for 2 items:
+- First is a ring with variations - a parent with 3 children/variations
+- Second is a standalone Earring with no children/variation
+
+To fill records with variations:
+- Create a row and fill only basic information (as filled in sample).
+- Mark this entry as “Parent” under Relationship-type column
+- Ideally you can make up any unique internal id for parent, however it is recommended that you post-fix internal id of product with “-P”, as shown in sample.
+- Mark all variations as “Child” under Relationship-type, and fill up “Parent Internal Id” column
+- Fill rest of the details
+- You may keep below columns empty:
+    - EAN Code
+    - Discount Percent
+    - Description (French)
+- You may put below values for all records:
+    - Pieces in stock = 1000
+    - Days for shipment = 15
+
+To fill independent item (without variations):
+    - Mark “Accessory” under Relationship-type
+    - Keep "Parent Internal Id” and “Variation-theme” empty
+    - Fill rest of the data
+
+Note: Please don’t forget to remove sample records when you start filling excel sheet.
+
+Please note; there is a vb code associated with last column “Brand”, please also add that code while you export file.
+
+--------------------------------------------------
+
+Q&A:
+
+Q2 - There are some columns we need to clarify with you:
+ 
+i, Column C to H 
+=> Normally, our system will generate different internal ID for same style (e.g. 12345R) but in different material (e.g. emerald, sapphire, ruby etc.) and different metal, e.g.
+12345R001 (9KW+Sapphire)
+12345R002 (9KW+ Ruby)
+12345R003 (9KY+emerald) 
+PB: 
+Optionally if possible, please also generate unique internal id on basis of ring size. say 12345R001-48 (9KW+Sapphire-48), 12345R001-50 (9KW+Sapphire-50). 
+
+Also please add separate entry for each metal/carat/size combination of ring. For other products combination would be on basis of metal/carat only (no size).
+
+e.g. If we have Ring 9K-WG with size 48-65, then there would be 18 entries i.e 1 for each size.
+
+Likewise if same ring is available in 2 (9K) metals i.e. White Gold & Yellow Gold and each for size 48-65, then we will have 2 x 18 = 36 entries (# of metals x # of sizes)
+
+Further, if this ring is further available in 3 different carats of metals say 9K, 14K and 18K each for White Gold & Yellow Gold, sizes 48-65, then we will have 3 x 2 x 18 = 108 entries for that ring (# of carats per metal x # of metals x # of sizes)
+
+
+We are not sure how to make the logic for column F to H, can you advise ?
+PB: 
+Column F (Relationship-type) - Refers to Parent/Child/Independent(Accessory) relationship.
+Column G (Parent Internal Id) - To be only filled if Relationship-type(column-F) is “Child”, then we need to tell who is parent of this product by adding "Internal Id” for parent.
+Column H (Variation-theme)   - It tells basics of what criteria variation of product is taking place. e.g. in case you mentioned above (point i), according to your example Variation-theme would be “Material” as you are making variations on the basis of Material i.e. Metal and Carat of metal (9KW or say 9KY etc). However in case of rings, variation would be “Material-Size” because variation will take place on the basis of both “Material” and “Size”, option size is added for completion purpose only.
+
+Please note; we only need to fill-up minimal information(below) if product is marked as “Parent” in Column-F.
+- Company Id
+- Internal Id
+- Category
+- Subcategory
+- Relationship-type
+- Variation-theme
+- Product Name
+- Type
+- Images
+- Description
+- Description (French)
+
+
