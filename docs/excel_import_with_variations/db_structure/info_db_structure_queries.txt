@@ -1,0 +1,36 @@
+
+Data to be kept in 1 table, both for parent and variations.
+
+- In case of accessory, put product internal_id as parent_internal_id.
+- Find uniqueness on the bases of internal_id
+- Reject record if it is child and *no* parent_id
+- Reject record if no internal_id
+- Reject record if category_id or variation-theme is different from parent category_id and variation-theme respectively
+- EAN code column *not* mandatory
+
+
+If variation-theme:
+- material: show drop-down for material and gold_quality
+    - material column such as: White Gold, Rose Gold etc.
+	- gold_quality such as: 9K, 14K, 18, 22K
+- size: show drop-down for ring_size
+    - only applicable for rings
+- material-size: both of above, applicable to rings
+
+
+
+-----------
+
+Show all records:
+select * from products where relationship_type = "Parent" where site_id = 1
+
+Show all rings:
+select * from products where relationship_type = "Parent" AND site_id = 1 where category_id = "Rings"
+
+Show all records where material is white gold
+select * from products where relationship_type != "Parent" AND material = "white" AND site_id = 1 group by parent_internal_id
+
+Material and size combination:
+select * from products where relationship_type != "Parent" AND material = "white" AND size = 50 AND site_id = 1 group by parent_internal_id
+
+
