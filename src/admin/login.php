@@ -45,7 +45,7 @@ if ( isset($_POST['Password']) ) {
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+    <link rel='stylesheet prefetch' href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
     <!-- Custom Theme Style -->
     <link href="./assets/custom.min.css" rel="stylesheet">
     <link href="./assets/admin.css" rel="stylesheet">

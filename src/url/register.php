@@ -8,7 +8,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 <head>
     <meta charset="UTF-8">
     <title>Login - WEBSITE</title>
-	<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+	<link rel='stylesheet prefetch' href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
 	<link rel="stylesheet" href="../css/reset.css">
 	<link rel="stylesheet" href="../css/style.css">
 	<link href="../css/site.css" rel="stylesheet" type="text/css">
@@ -17,7 +17,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 <!-- Mixins-->
 <!-- Pen Title-->
 <div class="pen-title">
-  <h1><a href="../index.php"><img src="http://www.arhaandiam.com/images/Arhaan_Small_logo.png"></a></h1>
+  <h1><a href="../index.php"><img src="//www.arhaandiam.com/images/Arhaan_Small_logo.png"></a></h1>
 </div>
 <div class="alert-custom notification" id="notification">USERNAME INVALID</div>
 
