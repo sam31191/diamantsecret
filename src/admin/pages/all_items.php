@@ -768,7 +768,7 @@ if ( isset($_POST['featuredAdd']) ) {
                                             
                                             echo '<td style="text-transform:capitalize">'. trim(getCategory($entry['category'], $pdo), "s") .'</td>';
                                             echo '<td>'. $entry['id'] .'</td>';
-                                            echo '<td><a href="'. $__MAINDOMAIN__ .'product.php?view='. $info['unique_key'] .'" target="_blank">'. $info['product_name'] .' <i style="    font-size: 11px;" class="fa fa-external-link"><i></a></td>';
+                                            echo '<td><a href="'. alterFilepathHttps($__MAINDOMAIN__ .'product.php?view='. $info['unique_key']) .'" target="_blank">'. $info['product_name'] .' <i style="    font-size: 11px;" class="fa fa-external-link"><i></a></td>';
 
                                             $firstImage = $__MAINDOMAIN__ .'images/images_sm/'. explode(",", $info['images'])[0];
                                             if ( empty($info['images']) ) {
