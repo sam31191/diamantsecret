@@ -834,5 +834,12 @@ $product_images = array(
             return false;
         }
     }
+	
+	function alterFilepathHttps($file) {
+		if (substr($file, 0, 5) === 'http:') {
+			$file = substr($file, 5);
+		}
+		return $file;
+	}
 
 ?>
