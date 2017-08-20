@@ -774,7 +774,7 @@ if ( isset($_POST['featuredAdd']) ) {
                                             if ( empty($info['images']) ) {
                                                 $firstImage = $__MAINDOMAIN__ . 'images/images_sm/0.png';
                                             }
-                                            echo '<td><img style="max-width: 150px; cursor: pointer; border: solid thin #ddd;" onClick="manageImages(\''. $info['unique_key'] .'\')" src="'. $firstImage .'" /></td>';
+                                            echo '<td><img style="max-width: 150px; cursor: pointer; border: solid thin #ddd;" onClick="manageImages(\''. $info['unique_key'] .'\')" src="'. alterFilepathHttps($firstImage) .'" /></td>';
 
                                             if ( $entry['disabled'] == 1 ) {
                                                 $disabled = "<form action='post.php' method='post'><button name='enableItem' value='". $entry['unique_key'] ."' class='btn btn-success btn-sm' data-toggle='tooltip' title='Enable Product Display in FrontEnd'>Enable</button></form>";
