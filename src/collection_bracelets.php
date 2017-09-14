@@ -543,7 +543,7 @@ pconsole($_POST);
                                                 <ul class="list-inline text-right">
                                                     <li class="grid_list">
                                                     <ul class="list-inline option-set hidden-xs" data-option-key="layoutMode">
-                                                        <li data-original-title="<?php echo __("Grid"); ?>" data-option-value="fitRows" id="goGrid" class="goAction btooltip active" data-toggle="tooltip" data-placement="top" title="">
+                                                        <li data-original-title="<?php echo __("grid"); ?>" data-option-value="fitRows" id="goGrid" class="goAction btooltip active" data-toggle="tooltip" data-placement="top" title="">
                                                         <span></span>
                                                         </li>
                                                         <li data-original-title="<?php echo __("List"); ?>" data-option-value="straightDown" id="goList" class="goAction btooltip" data-toggle="tooltip" data-placement="top" title="">
