@@ -125,6 +125,7 @@ if ( isset($_POST['Paypal']['Checkout']) ) {
         } catch (Exception $ex) {
             //ResultPrinter::printError("Created Payment Using PayPal. Please visit the URL to Approve.", "Payment", null, $request, $ex);
             //echo var_dump($ex);
+            
             exit(1);
         }
         
