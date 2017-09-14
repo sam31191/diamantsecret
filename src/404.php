@@ -13,7 +13,7 @@ include 'conf/config.php';
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>Page not found</title>
+  <title><?php echo __("Page not found"); ?></title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
@@ -44,9 +44,9 @@ include 'conf/config.php';
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.php" class="homepage-link" title="Back to the frontpage">Home</a>
+								<a href="./index.php" class="homepage-link" title="Back to the frontpage"><?php echo __("Home"); ?></a>
 								<span>/</span>
-								<span class="page-title">Page not found</span>
+								<span class="page-title"><?php echo __("Page not found"); ?></span>
 							</div>
 						</div>
 					</div>
@@ -59,11 +59,11 @@ include 'conf/config.php';
 								
 							</div>
 							<div id="col-main" class="col-md-24">
-							<h1>404 - Page not found</h1>
-							<h3 style="font: inherit;">Unfortunately the page you are looking for has been moved or deleted.</h3>
+							<h1>404 - <?php echo __("Page not found"); ?></h1>
+							<h3 style="font: inherit;"><?php echo __("Unfortunately the page you are looking for has been moved or deleted."); ?></h3>
 							</div>   
 							<div>
-							<a href="./index.php" class="btn" style="margin: 10px 0px 0px 10px;">Go to homepage</a>
+							<a href="./index.php" class="btn" style="margin: 10px 0px 0px 10px;"><?php echo __("Go to homepage"); ?></a>
 							</div>
 						</div>
 					</div>

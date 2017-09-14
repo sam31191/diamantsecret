@@ -6,6 +6,7 @@ if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
   header("location: ./login.php");
   exit();
 }
+include './conf/config.php';
 ?><!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
@@ -16,7 +17,7 @@ if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>Account Page</title>
+  <title><?php echo __("My Orders"); ?></title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
@@ -35,7 +36,7 @@ if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
 </head>
 
 <?php
-include './conf/config.php';
+/*include './conf/config.php';*/
 
 
 #pre
@@ -55,9 +56,9 @@ $alert = "";
           <div itemprop="breadcrumb" class="container">
             <div class="row">
               <div class="col-md-24">
-                <a href="./index.php" class="homepage-link" title="Back to the frontpage">Home</a>
+                <a href="./index.php" class="homepage-link" title="<?php echo __("Back to the frontpage");?>">Home</a>
                 <span>/</span>
-                <span class="page-title">My Account</span>
+                <span class="page-title"><?php echo __("My Account"); ?></span>
               </div>
             </div>
           </div>
@@ -66,14 +67,14 @@ $alert = "";
           <div class="container">
             <div class="row">
               <div id="page-header" class="col-md-24">
-                <h1 id="page-title">My Orders</h1> 
+                <h1 id="page-title"><?php echo __("My Orders"); ?></h1> 
               </div>
               <?php
                 if ( !empty($alert) ) {
                   echo '
                     <div class="col-md-21 login-alert">
                       <div class="alert alert-danger">
-                        <button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="Close">×</button>
+                        <button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="'.__("Close").'">×</button>
                         <div class="errors">
                           <ul>
                             <li>'. $alert .'</li>
@@ -97,16 +98,16 @@ $alert = "";
                     <thead>
                     <tr>
                       <th class="order_number">
-                        Amount
+                        <?php echo __("Amount"); ?>
                       </th>
                       <th class="date">
-                        Status
+                        <?php echo __("Status"); ?>
                       </th>
                       <th class="payment_status">
                         
                       </th>
                       <th class="total">
-                        Time
+                        <?php echo __("Time"); ?>
                       </th>
                     </tr>
                     </thead>
@@ -122,15 +123,15 @@ $alert = "";
 
                       foreach ( $purchases as $item ) {
                         if ( !empty($item) ) {
-                          $price = '<span class="price">€ '. number_format($item['amount'], 2) .'<br/><span style="font-size: 14px;">Invoice: '. $item['invoice_number'] .'</span></span>';
-                          $status = '<label class="label label-danger" style="font-size: 20px;" >Unknown</label>';
+                          $price = '<span class="price">€ '. number_format($item['amount'], 2) .'<br/><span style="font-size: 14px;">'.__("Invoice").': '. $item['invoice_number'] .'</span></span>';
+                          $status = '<label class="label label-danger" style="font-size: 20px;" >'.__("Unknown").'</label>';
 
                           switch ( $item['state'] ) {
                             case 'approved': {
-                              $status = '<label class="label label-success" style="font-size: 20px;" >Approved</label>';
+                              $status = '<label class="label label-success" style="font-size: 20px;" >'.__("Approved").'</label>';
                               break;
                             } case 'opened': {
-                              $status = '<label class="label label-warning" style="font-size: 20px;" >Opening</label>';
+                              $status = '<label class="label label-warning" style="font-size: 20px;" >'.__("Opening").'</label>';
                               break;
                             }
                           }
@@ -143,7 +144,7 @@ $alert = "";
                               <span class="note">'. $status .'</span>
                             </td>
                             <td>
-                              <span class="status_authorized"><a class="btn btn-custom" href="#" onclick="viewCartInfo(\''. $item['invoice_number'] .'\')">View</a></span>
+                              <span class="status_authorized"><a class="btn btn-custom" href="#" onclick="viewCartInfo(\''. $item['invoice_number'] .'\')">'.__("View").'</a></span>
                             </td>
                             <td>
                               <span class="note">'. $item['create_time'] .'</span>
@@ -175,7 +176,7 @@ $alert = "";
   <div class="modal-dialog modal-lg rotateInDownLeft animated" style="width: 85vw;">
     <div class="modal-content" style="min-height: 0px;  overflow:auto; max-width: 95vw;">
       <div class="modal-header">
-        <i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="bottom" title="" data-dismiss="modal" aria-hidden="true" data-original-title="Close"></i>
+        <i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="bottom" title="" data-dismiss="modal" aria-hidden="true" data-original-title="<?php echo __('Close'); ?>"></i>
       </div>
       <div class="modal-body">
         <div class="quick-shop-modal-bg" style="display: none;">
@@ -194,7 +195,7 @@ $alert = "";
       url: './url/ajax.php?paymentInfo='+ invoice,
       type: 'GET',
       beforeSend: function() {
-        $("#modalContent").html('<div class="col-sm-8 col-sm-offset-8 text-center"><img src="./images/gfx/cube_lg.gif" /><br/><h5>Fetching Info</h5></div>');
+        $("#modalContent").html('<div class="col-sm-8 col-sm-offset-8 text-center"><img src="./images/gfx/cube_lg.gif" /><br/><h5><?php echo addslashes(__("Fetching Info")); ?></h5></div>');
         $("#settingsModal").modal("toggle");
       },
       success: function(result) {

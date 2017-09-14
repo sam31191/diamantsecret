@@ -59,7 +59,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 					
 					notify("Registration Successful");
 				} catch ( PDOException $e ) {
-					notify("Unknown Error:  Please contant the system administrator");
+					notify("Unknown Error:  Please contact the system administrator");
 				}
 			}
 			else {

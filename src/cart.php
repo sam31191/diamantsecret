@@ -17,7 +17,7 @@ include './url/pre.php';
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>Account Page</title>
+  <title><?php echo __("Account Page"); ?></title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
@@ -67,7 +67,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 
         if ( !empty($cart['cart']) ) {
             $items = explode(",", $cart['cart']);
-            $mailToAdmin = '<h3>Enquiry By</h3>Name: '. $_USERNAME .'<br>Email: '. $cart['email'] .'<br>Phone: '. $cart['mobileno'] .'<hr />';
+            $mailToAdmin = '<h3>'.__("Enquiry By").'</h3>'.__("Name").': '. $_USERNAME .'<br>'.__("Email").': '. $cart['email'] .'<br>'.__("Phone").': '. $cart['mobileno'] .'<hr />';
             $subtotal = 0;
             $orderedItemsAdmin = "";
             $orderedItems = "";
@@ -120,7 +120,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                 if ( $getVat->rowCount() > 0 ){
                                     $vat = $getVat->fetch(PDO::FETCH_ASSOC);    
                                 } else{
-                                    echo "Unknown";
+                                    echo __("Unknown");
                                 }
                                 if ( $itemInfo['discount'] > 0 ) {
                                     $price = ($itemInfo['item_value'] - (($itemInfo['discount']/100) * $itemInfo['item_value']) );
@@ -276,10 +276,10 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                     )
                 )
             );
-            $mail2->Subject = $testSiteSubject . 'Enquiry Placed by ' . $_USERNAME;
+            $mail2->Subject = $testSiteSubject ." ". __("Enquiry Placed by") ." " . $_USERNAME;
             $mail2->Body = $mailToAdmin;
             if ( !$mail2->send() ) {
-                $notify = "An Error Occured; Please Try Again Later";
+                $notify = __("An Error Occured: Please Try Again Later");
             } else {
                 $mail = new PHPMailer;
                 $mail->isSMTP();
@@ -306,9 +306,9 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                 $mail->Subject = $testSiteSubject . 'Enquiry Placed';
                 $mail->Body = $mailToCustomer;
                 if ( !$mail->send() ) {
-                    $notify = "An Error Occured; Please Try Again Later";
+                    $notify = __("An Error Occured: Please Try Again Later");
                 } else {
-                    $notify = "Enquiry Placed";
+                    $notify = __("Enquiry Placed");
                     echo '<script> $("#notificationBox").html("'. $notify .'"); $("#notificationBox").fadeToggle(500).delay(2000).fadeToggle(500); </script>';
 
                     $emptyCart = $pdo->prepare("UPDATE `accounts` SET `cart` = :emptyCart WHERE `username` = :user");
@@ -350,9 +350,9 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="./index.php" class="homepage-link" title="Back to the Frontpage">Home</a>
+                                <a href="./index.php" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
                                 <span>/</span>
-                                <span class="page-title">Cart</span>
+                                <span class="page-title"><?php echo __("Cart"); ?></span>
                             </div>
                         </div>
                     </div>
@@ -363,10 +363,10 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                         <div class="row">
                             <div id="page-header" class="col-md-24">
                                 <ul class="nav nav-pills nav-justified nav-cart">
-                                    <li name="1">Cart</li>
-                                    <li name="2">Account</li>
-                                    <li name="3">Addresss</li>
-                                    <li name="4">Payment</li>
+                                    <li name="1"><?php echo __("Cart"); ?></li>
+                                    <li name="2"><?php echo __("Account"); ?><?php echo __("</li>"); ?>
+                                    <li name="3"><?php echo __("Address"); ?><?php echo __("</li>"); ?>
+                                    <li name="4"><?php echo __("Payment"); ?><?php echo __("</li>"); ?>
                                 </ul>
                             </div>
                             <?php 
@@ -393,22 +393,22 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                 <thead>
                                                 <tr class="top-labels">
                                                     <th>
-                                                        Items
+                                                        <?php echo __("Items"); ?>
                                                     </th>
                                                     <th>
-                                                        Price
+                                                        <?php echo __("Price"); ?>
                                                     </th>
                                                     <th>
-                                                        Discount
+                                                        <?php echo __("Discount"); ?>
                                                     </th>
                                                     <th>
-                                                        Qty
+                                                        <?php echo __("Qty"); ?>
                                                     </th>
                                                     <th>
-                                                        <small>Total</small> VAT 
+                                                        <small><?php echo __("Total"); ?></small> <?php echo __("VAT"); ?> 
                                                     </th>
                                                     <th>
-                                                        SubTotal
+                                                        <?php echo __("SubTotal"); ?>
                                                     </th>
                                                     <th>
                                                         &nbsp;
@@ -484,7 +484,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
 
                                                                 if ( $itemVal[2] > $itemInfo['pieces_in_stock'] ) {
                                                                     $itemVal[2] = $itemInfo['pieces_in_stock'];
-                                                                    $adjustedQuantity = "<i class='fa fa-info-circle' data-toggle='tooltip' data-placement='bottom' title='Unfortunately, Item Quantity selected is more than our current Stock, adjusted to meet the highest available.'></i>";
+                                                                    $adjustedQuantity = "<i class='fa fa-info-circle' data-toggle='tooltip' data-placement='bottom' title='".__("Unfortunately, Item Quantity selected is more than our current Stock, adjusted to meet the highest available.")."'></i>";
                                                                 } else {
                                                                     $adjustedQuantity = "";
                                                                 }
@@ -494,7 +494,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                                 if ( $result['discount'] > 0 ) {
                                                                     
                                                                     $value = $result['item_value'] -  (($result['discount'] / 100 ) * $result['item_value']);
-                                                                    $sale = '<span class="label label-success" style="font-size: 18px; font-weight: bold;">'. $result['discount'] .'% OFF</span>';
+                                                                    $sale = '<span class="label label-success" style="font-size: 18px; font-weight: bold;">'. $result['discount'] .'% '.__("OFF").'</span>';
                                                                     $price = '<span>€'. number_format($value, 2, ".", "") .'</span> <del style="font-size:14px;">€'. $result['item_value'] .'</del>';
                                                                     $youSave += ($result['item_value'] - $value) * $itemVal[2];
                                                                 }
@@ -562,7 +562,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                                         <td class="total title-1">
                                                                             €'. number_format($vatAmount, 2, ".", "") .'
                                                                         </td>
-                                                                        <td class="action"><button type="submit" form="removeItemForm" name="removeItem" value="'. $item .'"><i class="fa fa-times"></i>Remove</button>
+                                                                        <td class="action"><button type="submit" form="removeItemForm" name="removeItem" value="'. $item .'"><i class="fa fa-times"></i>'.__("Remove").'</button>
                                                                         </td>
                                                                     </tr>';
                                                             } else {
@@ -598,7 +598,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                                             <a data-toggle="tooltip" >-</a>
                                                                         </td>
                                                                         <td class="total title-1">
-                                                                            <small>Out of Stock</small>
+                                                                            <small>'.__("Out of Stock").'</small>
                                                                         </td>
                                                                         <td class="action"><button type="submit" form="removeItemForm" name="removeItem" value="'. $item .'"><i class="fa fa-times"></i>Remove</button>
                                                                         </td>
@@ -632,7 +632,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                         <?php echo '<small style="font-size:14px;">Total:</small> <br>€' . number_format($subtotalMain, 2, ".", ""); ?>
                                                     </td>
                                                     <td class="subtotal title-1" style="text-align: left;">
-                                                        <?php echo '<span style="font-size:18px; color: grey;"><small style="font-size:12px;">You save:</small> <br>€' . number_format($youSave, 2, ".", "") . '</span>'; ?>
+                                                        <?php echo '<span style="font-size:18px; color: grey;"><small style="font-size:12px;">'.__("You save").':</small> <br>€' . number_format($youSave, 2, ".", "") . '</span>'; ?>
                                                     </td>
                                                 </tr>
                                                 </tfoot>
@@ -644,7 +644,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                         if ( $subtotalMain > 0 ) {
                                             echo'
                                                 <div id="checkout-proceed" class="last1 text-right">
-                                                    <button class="btn" type="submit" id="checkout" name="CART[STEP]" value="2">Proceed to Checkout</button>
+                                                    <button class="btn" type="submit" id="checkout" name="CART[STEP]" value="2">'.__("Proceed to Checkout").'</button>
                                                 </div>
                                                 ';
                                         }
@@ -666,33 +666,33 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                         if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
                                             ?>
                                             <div class="col-md-24">
-                                                <h3 class="text-center" style="background: #ebebeb; padding: 15px;"><small>Currently logged in as</small><br /> <strong><?php echo $_SESSION['username']; ?></strong><br />
+                                                <h3 class="text-center" style="background: #ebebeb; padding: 15px;"><small><?php echo __("Currently logged in as"); ?></small><br /> <strong><?php echo $_SESSION['username']; ?></strong><br />
 
                                                     
                                                 </h3>
-                                                <a href="./cart.php" class="btn btn-success"><i class="fa fa-caret-left"></i> Cart</a>
-                                                    <form style="float: right;" method="post"><button class="btn btn-success" name="CART[STEP]" value="3">Checkout <i class="fa fa-caret-right"></i> </button></form>
+                                                <a href="./cart.php" class="btn btn-success"><i class="fa fa-caret-left"></i> <?php echo __("Cart"); ?></a>
+                                                    <form style="float: right;" method="post"><button class="btn btn-success" name="CART[STEP]" value="3"><?php echo __("Checkout"); ?> <i class="fa fa-caret-right"></i> </button></form>
                                             </div>
                                             <?php
                                         } else {
                                             ?>
                                             <div class="col-md-24">
-                                                <h4>Not Logged In</h4>
+                                                <h4><?php echo __("Not Logged In"); ?></h4>
                                                 <div class="col-md-12">
                                                     <form method="post" action="./login.php" id="customer_login" accept-charset="UTF-8"><input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
                                                       <input type="hidden" name="redir" value="cart.php" />
                                                       <div id="bodyBox">
                                                         <ul class="control-container customer-accounts list-unstyled">
                                                           <li class="clearfix">
-                                                            <label for="customer_email_box" class="control-label">Username <span class="req">*</span></label>
+                                                            <label for="customer_email_box" class="control-label"><?php echo __("Username"); ?> <span class="req">*</span></label>
                                                             <input type="text" value="" name="login[username]" id="customer_email_box" class="form-control" required>
                                                           </li>            
                                                           <li class="clearfix">
-                                                            <label for="customer_password_box" class="control-label">Password <span class="req">*</span></label>
+                                                            <label for="customer_password_box" class="control-label"><?php echo __("Password"); ?> <span class="req">*</span></label>
                                                             <input type="password" value="" name="login[password]" id="customer_password_box" class="form-control password" required>
                                                           </li>             
                                                           <li class="clearfix">
-                                                            <button class="action btn btn-1" type="submit">Login</button>
+                                                            <button class="action btn btn-1" type="submit"><?php echo __("Login"); ?></button>
                                                           </li>
                                                           <!-- <li class="clearfix">
                                                             <a class="action btn btn-1" href="./register.php">Create an account</a>
@@ -702,8 +702,8 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                     </form>
                                                 </div>
                                                 <div class="col-md-12 text-center">
-                                                    <h4>New User?</h4><br/>
-                                                    <a class="btn btn-success" href="./register.php">Sign Up</a>
+                                                    <h4><?php echo __("New User"); ?>?</h4><br/>
+                                                    <a class="btn btn-success" href="./register.php"><?php echo __("Sign Up"); ?></a>
                                                 </div>
                                             </div>
                                             <?php
@@ -721,8 +721,8 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                         <div class="col-md-24 text-left">
                                             <form method="post">
                                                 <div class="col-md-12">
-                                                    <h4>Billing Address</h4>
-                                                    <textarea class="form-control" placeholder="Address Line 1&#013;&#010;Address Line 2&#013;&#010;City&#013;&#010;State&#013;&#010;Zip Code&#013;&#010;Country" style="min-height: 150px;" name="billing_address" required><?php 
+                                                    <h4><?php echo __("Billing Address"); ?></h4>
+                                                    <textarea class="form-control" placeholder="<?php echo __('Address Line'); ?>1&#013;&#010;<?php echo __('Address Line'); ?> 2&#013;&#010;<?php echo __('City'); ?>&#013;&#010;<?php echo __('State'); ?>&#013;&#010;<?php echo __('Zip Code'); ?>&#013;&#010;<?php echo __('Country'); ?>" style="min-height: 150px;" name="billing_address" required><?php 
                                                     $billingAddress = $pdo->prepare("SELECT address FROM accounts WHERE id = :id");
                                                     $billingAddress->execute(array(":id" => $_SESSION['user_id']));
 
@@ -732,11 +732,11 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                     ?></textarea>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <h4>Shipping Address</h4>
-                                                    <textarea class="form-control" placeholder="Address Line 1&#013;&#010;Address Line 2&#013;&#010;City&#013;&#010;State&#013;&#010;Zip Code&#013;&#010;Country" style="min-height: 150px;" name="shipping_address" required></textarea>
+                                                    <h4><?php echo __("Shipping Address"); ?></h4>
+                                                    <textarea class="form-control" placeholder="<?php echo __('Address Line'); ?> 1&#013;&#010;<?php echo __('Address Line'); ?> 2&#013;&#010;<?php echo __('City'); ?>&#013;&#010;<?php echo __('State'); ?>&#013;&#010;<?php echo __('Zip Code'); ?>&#013;&#010;<?php echo __('Country'); ?>" style="min-height: 150px;" name="shipping_address" required></textarea>
                                                 </div>
-                                                <button name="CART[STEP]" value="2" class="btn btn-success" style="float: left; margin: 10px 15px;"><i class="fa fa-caret-left"></i> Back</button>
-                                                <button name="CART[STEP]" value="4" class="btn btn-success" style="float: right; margin: 10px 15px;">Checkout <i class="fa fa-caret-right"></i></button>
+                                                <button name="CART[STEP]" value="2" class="btn btn-success" style="float: left; margin: 10px 15px;"><i class="fa fa-caret-left"></i> <?php echo __("Back"); ?></button>
+                                                <button name="CART[STEP]" value="4" class="btn btn-success" style="float: right; margin: 10px 15px;"><?php echo __("Checkout"); ?> <i class="fa fa-caret-right"></i></button>
                                             </form>
                                         </div>
 
@@ -749,13 +749,13 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                             $(".nav.nav-pills.nav-justified.nav-cart > li[name=\"4\"]").addClass("active");
                                         </script>
 
-                                        <h4 class="text-center">You would now be redirected to the payment portal</h4>
+                                        <h4 class="text-center"><?php echo __("You would now be redirected to the payment portal"); ?></h4>
                                         <?php
                                         echo '<form method="post" action="url/post.php" class="text-center">';
                                         if ( isset($_POST['billing_address']) && isset($_POST['shipping_address']) ) {
                                             echo '<input type="hidden" name="Paypal[BillingAddress]" value="'. $_POST['billing_address'] .'" />';
                                             echo '<input type="hidden" name="Paypal[ShippingAddress]" value="'. $_POST['shipping_address'] .'" />';
-                                            echo '<button class="btn btn-info" type="submit" name="Paypal[Checkout]">Checkout</button>';
+                                            echo '<button class="btn btn-info" type="submit" name="Paypal[Checkout]">'.__("Checkout").'</button>';
                                         }
                                         echo '</form>';
                                         break;

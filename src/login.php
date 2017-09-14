@@ -57,13 +57,13 @@ if ( isset($_POST['login']['username']) ) {
 
                 exit();
             } else {
-                $error = "Authentication Failed / Check your credentials";
+                $error = __("Authentication Failed") ." / ". __("Check your credentials");
             }
         } else {
-            $error = "Account is not activated. Please check your Email to activation instructions.";
+            $error = __("Account is not activated. Please check your Email to activation instructions.");
         }
     } else {
-        $error = "No User Found";
+        $error = __("No User Found");
     }
 } else if ( isset($_POST['form_type']) ) {
     $checkUser = $pdo->prepare("SELECT `username`, `activated` FROM `accounts` WHERE `username` = :user AND `site_id` = 1");
@@ -95,13 +95,13 @@ if ( isset($_POST['login']['username']) ) {
                 header("Location: index.php");
                 exit();
             } else {
-                $error = "Authentication Failed / Check your credentials";
+                $error = __("Authentication Failed") ." / ". __("Check your credentials");
             }
         } else {
-            $error = "Account is not activated. Please check your Email to activation instructions.";
+            $error = __("Account is not activated. Please check your Email to activation instructions.");
         }
     } else {
-        $error = "No User Found";
+        $error = __("No User Found");
     }
 }
 ?>
@@ -114,7 +114,7 @@ if ( isset($_POST['login']['username']) ) {
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>Login Page</title>
+  <title><?php echo __("Login Page"); ?></title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
@@ -192,10 +192,10 @@ if ( isset($_POST['recover']) ) {
                 )
             )
         );
-        $mail->Subject = $testSiteSubject . 'Password Recovery';
+        $mail->Subject = $testSiteSubject . __('Password Recovery');
         $mail->Body = $recoveryMail;
         if ( !$mail->send() ) {
-            $error = 'Invalid Email Address';
+            $error = __('Invalid Email Address');
 
         } else {
             $createHash = $pdo->prepare("UPDATE `accounts` SET `recover_hash` = :pass WHERE `email` = :email AND `site_id` = 1");
@@ -204,11 +204,11 @@ if ( isset($_POST['recover']) ) {
                 ":pass" => $recoverHash,
                 ":email" => $userInfo['email']
             ));
-            $error = 'An email with the instruction to reset your password has been sent to your Inbox';
+            $error = __('An email with the instruction to reset your password has been sent to your Inbox');
             
         }
     } else {
-        $error = "Invalid Email";
+        $error = __("Invalid Email");
     }
 }
 
@@ -250,10 +250,10 @@ if ( isset($_GET['recoverHash']) && !empty($_GET['recoverHash']) ) {
                 )
             )
         );
-        $mail->Subject = $testSiteSubject . 'Password Recovery';
+        $mail->Subject = $testSiteSubject . __('Password Recovery');
         $mail->Body = $recoveryMail2;
         if ( !$mail->send() ) {
-            $error = 'Invalid Email Address';
+            $error = __('Invalid Email Address');
         } else {
             $createHash = $pdo->prepare("UPDATE `accounts` SET `password` = :pass, `recover_hash` = :emptyHash WHERE `email` = :email AND `site_id` = 1");
 
@@ -264,10 +264,10 @@ if ( isset($_GET['recoverHash']) && !empty($_GET['recoverHash']) ) {
             ));
 
             pconsole($newPass);
-            $error = 'An email with your new password has been sent to your Inbox';
+            $error = __('An email with your new password has been sent to your Inbox');
         }
     } else {
-        $error = "Invalid Token";
+        $error = __("Invalid Token");
     }
 }
 
@@ -292,9 +292,9 @@ function generatePass($length = 10) {
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="./index.php" class="homepage-link" title="Back to the frontpage">Home</a>
+                                <a href="./index.php" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
                                 <span>/</span>
-                                <span class="page-title">Login</span>
+                                <span class="page-title"><?php echo __("Login"); ?></span>
                             </div>
                         </div>
                     </div>
@@ -303,7 +303,7 @@ function generatePass($length = 10) {
                     <div class="container">
                         <div class="row">
                             <div id="page-header" class="col-md-24">
-                                <h1 id="page-title">Login</h1> 
+                                <h1 id="page-title"><?php echo __("Login"); ?></h1> 
                             </div>
                             <div id="col-main" class="col-md-24 register-page clearfix">
                                 <div class="row checkout-form">
@@ -311,7 +311,7 @@ function generatePass($length = 10) {
                                         <!-- Customer Account Login -->
                                         <div id="customer-login">
                                             <div class="checkout-title">
-                                                <span class="general-title">Customer Login</span>
+                                                <span class="general-title"><?php echo __("Customer Login"); ?></span>
                                             </div>
                                             <form method="post" id="customer_login" accept-charset="UTF-8">
                                                 <input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
@@ -319,7 +319,7 @@ function generatePass($length = 10) {
                                                     echo '
                                                         <div class="col-md-21 login-alert">
                                                             <div class="alert alert-danger">
-                                                                <button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="Close">×</button>
+                                                                <button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="'.__("Close").'">×</button>
                                                                 <div class="errors">
                                                                     <ul>
                                                                         <li style="font-size:15px;">'. $error .'</li>
@@ -332,24 +332,24 @@ function generatePass($length = 10) {
                                                 <ul id="login-form" class="list-unstyled">
                                                     <li class="clearfix"></li>
                                                     <li id="login_email" class="col-md-21">
-                                                    <label class="control-label" for="customer_email">Username <span class="req">*</span></label>
+                                                    <label class="control-label" for="customer_email"><?php echo __("Username"); ?> <span class="req">*</span></label>
                                                     <input type="text" value="" name="customer[username]" id="customer_email" class="form-control">
                                                     </li>
                                                     <li class="clearfix"></li>
                                                     <li id="login_password" class="col-md-21">
-                                                    <label class="control-label" for="customer_password">Password <span class="req">*</span></label>
+                                                    <label class="control-label" for="customer_password"><?php echo __("Password"); ?> <span class="req">*</span></label>
                                                     <input type="password" value="" name="customer[password]" id="customer_password" class="form-control password">
                                                     </li>
                                                     <li class="col-md-21 unpadding-top">
                                                     <ul class="login-wrapper list-unstyled">
                                                         <li>
-                                                        <button class="btn" type="submit">Login</button>
+                                                        <button class="btn" type="submit"><?php echo __("Login"); ?></button>
                                                         </li>
                                                         <li>
-                                                        <a class="action" href="javascript:;" onclick="$('#recoverMail').modal('toggle');">Forgot your password?</a>
+                                                        <a class="action" href="javascript:;" onclick="$('#recoverMail').modal('toggle');"><?php echo __("Forgot your password"); ?>?</a>
                                                         </li>
                                                         <li>
-                                                        or <a class="return" href="./index.php">Return to store</a>
+                                                        <?php echo __("or"); ?> <a class="return" href="./index.php"><?php echo __("Return to store"); ?></a>
                                                         </li>
                                                     </ul>
                                                     </li>
@@ -377,7 +377,7 @@ function generatePass($length = 10) {
     <div class="modal-content" style="height: auto;">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Recover Account</h4>
+        <h4 class="modal-title"><?php echo __("Recover Account"); ?></h4>
       </div>
       <div class="modal-body">
         <div class="container-fluid">
@@ -385,19 +385,19 @@ function generatePass($length = 10) {
             <ul id="login-form">
                 <li class="clearfix"></li>
                 <li id="login_email" class="col-md-24">
-                <label class="control-label" for="customer_email">Email <span class="req">*</span></label>
+                <label class="control-label" for="customer_email"><?php echo __("Email"); ?> <span class="req">*</span></label>
                 <input type="email" value="" name="recover[email]" id="customer_email" class="form-control">
                 </li>
                 <li class="clearfix"></li>
                 <li style="margin-left: 580px;">
-                <button class="btn" type="submit">Recover</button>
+                <button class="btn" type="submit"><?php echo __("Recover"); ?></button>
                 </li>
             </ul>
         </form>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-custom" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-custom" data-dismiss="modal"><?php echo __("Close"); ?></button>
       </div>
     </div>
   </div>

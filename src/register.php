@@ -31,8 +31,8 @@ if ( isset($_GET['verifyLogin']) ) {
 		} else {
 			$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email AND `site_id` = 1");
 			$activate->execute(array(":emptyHash" => "", ":email" => $accountToActivate['email']));
-			$alert = "Account has been verified";
-			$alert2 = "Invalid Login Credentials </li></li> Click here to <a style='color:#607D8B' href='./login.php'>Login</a>";
+			$alert = __("Account has been verified");
+			$alert2 = __("Invalid Login Credentials")." </li></li>". __("Click here to")." <a style='color:#607D8B' href='./login.php'>".__("Login")."</a>";
 		}
 
 	} else {
@@ -53,7 +53,7 @@ if ( isset($_GET['verifyLogin']) ) {
 			header("Location: ./index.php");
 			exit();
 		} else {
-			$alert = "Verification Link has expired";
+			$alert = __("Verification Link has expired");
 		}
 	}
 }
@@ -67,7 +67,7 @@ if ( isset($_GET['verifyLogin']) ) {
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>Register Page</title>
+  <title><?php echo __("Register Page"); ?></title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
@@ -115,9 +115,9 @@ if ( isset($_GET['verify']) ) {
 
 		//echo var_dump($activate);
 
-		$alert = 'Account Verified. Please <a href="./login.php" style="color: #607D8B;">Login</a>';
+		$alert = __('Account Verified. Please').' <a href="./login.php" style="color: #607D8B;">'.__("Login").'</a>';
 	} else {
-		$alert = 'Verification link has expired';
+		$alert = __('Verification link has expired');
 	}
 }
 ?>
@@ -135,9 +135,9 @@ if ( isset($_GET['verify']) ) {
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.php" class="homepage-link" title="Back to the frontpage">Home</a>
+								<a href="./index.php" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
 								<span>/</span>
-								<span class="page-title">Create Account</span>
+								<span class="page-title"><?php echo __("Create Account"); ?></span>
 							</div>
 						</div>
 					</div>
@@ -146,7 +146,7 @@ if ( isset($_GET['verify']) ) {
 					<div class="container">
 						<div class="row">
 							<div id="page-header" class="col-md-24">
-								<h1 id="page-title">Register</h1> 
+								<h1 id="page-title"><?php echo __("Register"); ?></h1> 
 							</div>
 							<div class="col-md-24" style="padding-right: 52%;">
 							<?php
@@ -154,7 +154,7 @@ if ( isset($_GET['verify']) ) {
 								echo '
 									<div class="col-md-21 login-alert">
 										<div class="alert alert-danger">
-											<button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="Close">×</button>
+											<button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="'.__("Close").'">×</button>
 											<div class="errors">
 												<ul>
 													<li>'. $alert .'</li>
@@ -167,7 +167,8 @@ if ( isset($_GET['verify']) ) {
 								echo '
 									<div class="col-md-21 login-alert">
 										<div class="alert alert-danger">
-											<button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="Close">×</button>
+											<button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="'.__("Close").'"
+											">×</button>
 											<div class="errors">
 												<ul>
 													<li>'. $alert2 .'</li>
@@ -183,7 +184,7 @@ if ( isset($_GET['verify']) ) {
 									<input value="create_customer" name="form_type" type="hidden"><input name="utf8" value="✓" type="hidden">
 									<ul id="" class="row list-unstyled">
 										<li id="last_namef">
-										<label class="control-label" for="username">Username <span class="req">*</span></label>
+										<label class="control-label" for="username"><?php echo __("Username"); ?> <span class="req">*</span></label>
 											<div class="input-group">
 												<input name="customer[username]" pattern="[a-zA-Z0-9-+$_^!]{2,32}"  id="username" class="form-control invalid" type="text" style="border-right: none;" required>
 												<span class="input-group-addon" id="username_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="username_fa" class="fa"></i></span>
@@ -191,7 +192,7 @@ if ( isset($_GET['verify']) ) {
 										</li>
 										<li class="clearfix"></li>
 										<li id="emailf" class="">
-										<label class="control-label" for="email">Email <span class="req">*</span></label>
+										<label class="control-label" for="email"><?php echo __("Email"); ?> <span class="req">*</span></label>
 											<div class="input-group">
 												<input name="customer[email]" id="email" class="form-control invalid" type="email" style="border-right: none;"  required>
 												<span class="input-group-addon" id="email_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="email_fa" class="fa"></i></span>
@@ -199,42 +200,42 @@ if ( isset($_GET['verify']) ) {
 										</li>
 										<li class="clearfix"></li>
 										<li id="passwordf" class="">
-											<label class="control-label" for="password">Password <span class="req">*</span></label>
+											<label class="control-label" for="password"><?php echo __("Password"); ?> <span class="req">*</span></label>
 											<div class="input-group">
-												<input value="" name="customer[password]" id="password" pattern=".{6,}" title="Minimum 6 Characters" class="form-control password" type="password" style="border-right: none;" required>
+												<input value="" name="customer[password]" id="password" pattern=".{6,}" title="<?php echo __("Minimum 6 Characters"); ?>" class="form-control password" type="password" style="border-right: none;" required>
 												<span class="input-group-addon" id="password_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="password_fa" class="fa"></i></span>
 											</div>
 										</li>
 										<li id="passwordf" class="">
-											<label class="control-label" for="password">Confirm Password <span class="req">*</span></label>
+											<label class="control-label" for="password"><?php echo __("Confirm Password"); ?> <span class="req">*</span></label>
 											<div class="input-group">
-												<input value="" name="customer[confirm_password]" id="password_confirm" pattern=".{6,}" title="Minimum 6 Characters" class="form-control password" type="password" style="border-right: none;" required>
+												<input value="" name="customer[confirm_password]" id="password_confirm" pattern=".{6,}" title="<?php echo __("Minimum 6 Characters"); ?>" class="form-control password" type="password" style="border-right: none;" required>
 												<span class="input-group-addon" id="password_confirm_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="password_confirm_fa" class="fa"></i></span>
 											</div>
 										</li>
 										<li class="clearfix"></li>
 										<li>
-										<label class="control-label" for="first_name">First Name</label>
+										<label class="control-label" for="first_name"><?php echo __("First Name"); ?></label>
 										<input name="customer[first_name]" id="first_name" class="form-control" type="text">
 										</li>
 										<li class="clearfix"></li>
 										<li id="last_namef">
-										<label class="control-label" for="last_name">Last Name</label>
+										<label class="control-label" for="last_name"><?php echo __("Last Name"); ?></label>
 										<input name="customer[last_name]" id="last_name" class="form-control " type="text">
 										</li>
 										<li class="clearfix"></li>
 										<li id="passwordf" class="">
-										<label class="control-label" for="password">Phone Number</label>
+										<label class="control-label" for="password"><?php echo __("Phone Number"); ?></label>
 										<input value="" name="customer[phone_number]" id="phone_number" class="form-control" type="text" pattern="[0-9+ ]{0,20}">
 										</li>
 										<li class="clearfix"></li>
 										<li id="passwordf" class="">
-										<label class="control-label" for="password">Address</label>
+										<label class="control-label" for="password"><?php echo __("Address"); ?></label>
 										<input value="" name="customer[address]" id="address" class="form-control" type="text">
 										</li>
 										<li class="clearfix"></li>
 										<li class="unpadding-top action-last">
-										<button class="btn" type="submit" name="register" id="submitButton"><span>Create an Account</span><img src="./images/gfx/cube.gif" style="height: 100%; padding: 6px; margin-top: -5px; display:none;" tabindex="1"></button>
+										<button class="btn" type="submit" name="register" id="submitButton"><span><?php echo __("Create an account");  ?></span><img src="./images/gfx/cube.gif" style="height: 100%; padding: 6px; margin-top: -5px; display:none;" tabindex="1"></button>
 										</li>
 									</ul>
 								</form>

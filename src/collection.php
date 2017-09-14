@@ -14,7 +14,7 @@ include './url/pre.php';
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>Collection</title>
+  <title><?php echo __("Collection"); ?></title>
   
 	<link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
     
@@ -85,9 +85,9 @@ pconsole($_POST);
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.php" class="homepage-link" title="Back to the frontpage">Home</a>
+								<a href="./index.php" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
 								<span>/</span>
-								<span class="page-title"><a href="./collection.php" title="View All">Collection</a></span>
+								<span class="page-title"><a href="./collection.php" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
 							</div>
 						</div>
 					</div>
@@ -98,7 +98,7 @@ pconsole($_POST);
 						<div class="row"> 
 							<div id="collection-content">
 								<div id="page-header">
-									<h1 id="page-title">Collection</h1>
+									<h1 id="page-title"><?php echo __("Collection"); ?></h1>
 								</div>
 								<!-- <div class="collection-warper col-sm-24 clearfix"> 
 									<div class="collection-panner">
@@ -155,14 +155,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="./collection_rings.php" title="Browse our Rings">
+																					<a href="./collection_rings.php" title="<?php echo __("Browse our Rings"); ?>">
 																						<img src="./images/gfx/ring_270x270.png" alt="Rings">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="./collection_rings.php">Rings</a></span>
+																					<span class="col-name"><a href="./collection_rings.php"><?php echo __("Rings"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="./collection_rings.php">See the Collection</a>
+																						<a href="./collection_rings.php"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -170,14 +170,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="./collection_earrings.php" title="Browse our Earrings">
+																					<a href="./collection_earrings.php" title="<?php echo __("Browse our Earrings"); ?>">
 																					<img src="./images/gfx/earring_270x270.png" alt="Earrings">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="./collection_earrings.php">Earrings</a></span>
+																					<span class="col-name"><a href="./collection_earrings.php"><?php echo __("Earrings"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="./collection_earrings.php">See the Collection</a>
+																						<a href="./collection_earrings.php"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -185,14 +185,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="./collection_pendants.php" title="Browse our Pendants">
+																					<a href="./collection_pendants.php" title="<?php echo __("Browse our Pendants") ;?>">
 																					<img src="./images/gfx/pendant_270x270.png" alt="Pendants">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="./collection_pendants.php">Pendants</a></span>
+																					<span class="col-name"><a href="./collection_pendants.php"><?php echo __("Pendants"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="./collection_pendants.php">See the Collection</a>
+																						<a href="./collection_pendants.php"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -200,14 +200,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="./collection_necklaces.php" title="Browse our Necklaces">
+																					<a href="./collection_necklaces.php" title="<?php echo __("Browse our Necklaces"); ?>">
 																					<img src="./images/gfx/necklace_270x270.png" alt="Necklaces">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="./collection_necklaces.php">Necklaces</a></span>
+																					<span class="col-name"><a href="./collection_necklaces.php"><?php echo __("Necklaces"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="./collection_necklaces.php">See the Collection</a>
+																						<a href="./collection_necklaces.php"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -215,14 +215,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="./collection_bracelets.php" title="Browse our Bracelets">
+																					<a href="./collection_bracelets.php" title="<?php echo __("Browse our Bracelets"); ?>">
 																						<img src="./images/gfx/bracelet_270x270.png" alt="Bracelets">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="./collection_bracelets.php">Bracelets</a></span>
+																					<span class="col-name"><a href="./collection_bracelets.php"><?php echo __("Bracelets"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="./collection_bracelets.php">See the Collection</a>
+																						<a href="./collection_bracelets.php"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -252,10 +252,10 @@ pconsole($_POST);
 												<ul class="list-inline text-right">
 													<li class="grid_list">
 													<ul class="list-inline option-set hidden-xs" data-option-key="layoutMode">
-														<li data-original-title="Grid" data-option-value="fitRows" id="goGrid" class="goAction btooltip active" data-toggle="tooltip" data-placement="top" title="">
+														<li data-original-title="<?php echo __("grid"); ?>" data-option-value="fitRows" id="goGrid" class="goAction btooltip active" data-toggle="tooltip" data-placement="top" title="">
 														<span></span>
 														</li>
-														<li data-original-title="List" data-option-value="straightDown" id="goList" class="goAction btooltip" data-toggle="tooltip" data-placement="top" title="">
+														<li data-original-title="<?php echo __("List"); ?>" data-option-value="straightDown" id="goList" class="goAction btooltip" data-toggle="tooltip" data-placement="top" title="">
 														<span></span>
 														</li>
 													</ul>
@@ -265,7 +265,7 @@ pconsole($_POST);
 														<form method="post" id="sortForm">
 															
 														</form>
-														<strong class="title-6">View as</strong>
+														<strong class="title-6"><?php echo __("View as"); ?></strong>
 														<select form="sortForm" class="list-unstyled option-set text-left list-styled" data-option-key="sortBy"  name="orderBy" onchange="if (this.value) window.location.href=this.value">
 															<?php
 																switch ($filterTag . $orderTag) {
@@ -285,9 +285,9 @@ pconsole($_POST);
 																		$select1 = "selected";
 																	}
 																}
-																echo '<option value="?filter=featured&q='. $searchTag .'&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select1 .'>Featured</option>';
-																echo '<option value="?filter=item_value&q='. $searchTag .'&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select2 .'>Price: High to Low</option>';
-																echo '<option value="?filter=item_value&q='. $searchTag .'&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select3 .'>Price: Low to High</option>';
+																echo '<option value="?filter=featured&q='. $searchTag .'&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select1 .'>'.__("Featured").'</option>';
+																echo '<option value="?filter=item_value&q='. $searchTag .'&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select2 .'>'.__("Price").': '.__("High to Low").'</option>';
+																echo '<option value="?filter=item_value&q='. $searchTag .'&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select3 .'>'.__("Price").': '.__("Low to High").'</option>';
 																echo '<option value="?filter=item_name&q='. $searchTag .'&order=ASC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select4 .'>A - Z</option>';
 																echo '<option value="?filter=item_name&q='. $searchTag .'&order=DESC&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'" '. $select5 .'>Z - A</option>';
 															?>
@@ -407,14 +407,14 @@ pconsole($_POST);
 														if ( $item['discount'] > 0 ) {
 															
 															$value = $item['item_value'] -  (($item['discount'] / 100 ) * $item['item_value']);
-															$sale = '<span class="sale_banner"><span class="sale_text">Sale</span></span>';
+															$sale = '<span class="sale_banner"><span class="sale_text">'.__("Sale").'</span></span>';
 															$price = '<span class="price_sale">€'. number_format($value, 2, ".", "") .'</span><del class="price_compare">€'. $item['item_value'] .'</del>';
 														}
 
 														if ( strstr($favorites, $item['unique_key']) ) {
-															$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="removeFromWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart fav-true"></i><span class="list-mode">Remove from Wishlist</span></a>';
+															$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="removeFromWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart fav-true"></i><span class="list-mode">'.__("Remove from Wishlist").'</span></a>';
 														} else {
-															$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="addToWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>';
+															$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="addToWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">'.__("Add to Wishlist").'</span></a>';
 														}
 
 														
@@ -442,7 +442,7 @@ pconsole($_POST);
 																		<a class="title-5" href="./product.php?view='. $item['unique_key'] .'">'. $itemInfo['product_name'] .'</a>
 																		<span class="spr-badge" id="spr_badge_129323961956" data-rating="0.0">
 																		<span class="spr-badge-caption">
-																		No reviews </span>
+																		'.__("No reviews").' </span>
 																		</span>
 																	</div>
 																	<div class="product-content-right">
@@ -454,10 +454,10 @@ pconsole($_POST);
 																		'. $itemInfo['description'] .'
 																	</div>
 																	<div class="hover-appear">
-																		<a href="product.php?view='. $itemInfo['unique_key'] .'" style="margin:0px 20px; line-height:50px; font-size:13px; font-weight:700; text-transform:uppercase;"><i class="fa fa-bars" aria-hidden="true" style="padding-right:10px;"></i>View Product</a>
+																		<a href="product.php?view='. $itemInfo['unique_key'] .'" style="margin:0px 20px; line-height:50px; font-size:13px; font-weight:700; text-transform:uppercase;"><i class="fa fa-bars" aria-hidden="true" style="padding-right:10px;"></i>'.__("View Product").'</a>
 																		<div class="product-ajax-qs hidden-xs hidden-sm">
 																			<div class="quick_shop" onclick="quickShop(\''. $item['unique_key'] .'\')">
-																				<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
+																				<i class="fa fa-eye" title="'.__("Quick view").'"></i><span class="list-mode">'.__("Quick View").'</span>																		
 																			</div>
 																		</div>
 																		'. $wishlist .'
@@ -536,7 +536,7 @@ pconsole($_POST);
 											  <?php 
 											  	for ( $i = 0; $i < $pages; $i++ ) {
 											  		if ( $i == 0 ) {
-											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&q='. $searchTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">first</a></li>';
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&q='. $searchTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">'.__("first").'</a></li>';
 											  		}
 
 											  		if ( $i > $currentPage - 3 && $i < $currentPage + 3 ) {
@@ -550,7 +550,7 @@ pconsole($_POST);
 											  		}
 
 											  		if ( $i == intval($pages) ){
-											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&q='. $searchTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">last</a></li>';
+											  			echo '<li><a href="?page='. $i .'&filter='. $filterTag .'&q='. $searchTag .'&order='. $orderTag .'&color='. $stoneTag .'&material='. $materialTag .'&clarity='. $clarityTag .'">'.__("last").'</a></li>';
 											  		}
 											  	}
 											  ?>
@@ -575,7 +575,7 @@ pconsole($_POST);
 		<div class="modal-dialog rotateInDownLeft animated">
 			<div class="modal-content" style="min-height: 0px;">
 				<div class="modal-header">
-					<i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="modal" aria-hidden="true" data-original-title="Close"></i>
+					<i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="modal" aria-hidden="true" data-original-title="<?php echo __("Close"); ?>"></i>
 				</div>
 				<div class="modal-body">
 					<div class="quick-shop-modal-bg" style="display: none;">
@@ -611,15 +611,15 @@ pconsole($_POST);
 										
 									</div>
 									<div class="quantity-wrapper clearfix">
-										<label class="wrapper-title">Quantity</label>
+										<label class="wrapper-title"><?php echo __("Quantity"); ?></label>
 										<div class="wrapper">
 											<input type="text" id="qs-quantity" size="5" class="item-quantity" name="quantity" value="1">
 											<span class="qty-group">
 											<span class="qty-wrapper">
-											<span class="qty-up" title="Increase" data-src="#qs-quantity">
+											<span class="qty-up" title="<?php echo __("Increase"); ?>" data-src="#qs-quantity">
 											<i class="fa fa-plus"></i>
 											</span>
-											<span class="qty-down" title="Decrease" data-src="#qs-quantity">
+											<span class="qty-down" title="<?php echo __("Decrease"); ?>" data-src="#qs-quantity">
 											<i class="fa fa-minus"></i>
 											</span>
 											</span>
@@ -627,17 +627,17 @@ pconsole($_POST);
 										</div>
 									</div>
                 
-                                    <label class="label-quick-shop">Material <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label>
+                                    <label class="label-quick-shop"><?php echo __("Material"); ?> <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label>
                                     <input id="quick-shop-material-value" name="material" hidden />
                                     <div class="input-group" id="quick-shop-material">
-                                    	<a class="btn material-badge" name="1">Yellow Gold</a>
-                                    	<a class="btn material-badge" name="2">White Gold</a>
-                                    	<a class="btn material-badge" name="3">Pink Gold</a>
-                                    	<a class="btn material-badge" name="4">Silver</a>
-                                    	<a class="btn material-badge" name="5">Platinum</a>
+                                    	<a class="btn material-badge" name="1"><?php echo __("Yellow Gold"); ?></a>
+                                    	<a class="btn material-badge" name="2"><?php echo __("White Gold"); ?></a>
+                                    	<a class="btn material-badge" name="3"><?php echo __("Pink Gold"); ?></a>
+                                    	<a class="btn material-badge" name="4"><?php echo __("Silver"); ?></a>
+                                    	<a class="btn material-badge" name="5"><?php echo __("Platinum"); ?></a>
                                     </div>
                                     <div id="quick-shop-size">
-	                                    <label class="label-quick-shop">Size <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label> 
+	                                    <label class="label-quick-shop"><?php echo __("Size"); ?> <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label> 
 	                                    <input id="quick-shop-size-value" name="size" value="0" hidden />
 	                                    <div class="input-group" id="quick-shop-size-container">
 	                                    	<!-- Sizes go here -->
@@ -769,9 +769,9 @@ function quickShop(id) {
 				}
 
 				if ( result['pieces_in_stock'] <= 0 ) {
-					$("#buttonDiv").html('<button class="btn" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" disabled>Out of Stock</button>');
+					$("#buttonDiv").html('<button class="btn" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" disabled><?php echo __("Out of Stock"); ?></button>');
 				} else {
-					$("#buttonDiv").html('<button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;">Add to Cart</button>');
+					$("#buttonDiv").html('<button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;"><?php echo __("Add to Cart"); ?></button>');
 				}
 
 				$("#quick-shop-unique-key").val(result['unique_key']);

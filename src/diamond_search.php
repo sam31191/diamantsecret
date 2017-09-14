@@ -2,6 +2,7 @@
 if ( session_status() == PHP_SESSION_NONE ) {
     session_start();
 }
+include 'conf/config.php';
 ?><!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
@@ -11,7 +12,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>Diamond Search</title>
+  <title><?php echo __("Diamond Search"); ?></title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
@@ -36,7 +37,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
     </script>
 </head>
 <?php
-include 'conf/config.php';
+/*include 'conf/config.php';*/
 
 ?>
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templatePage notouch" >
@@ -51,9 +52,9 @@ include 'conf/config.php';
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="index.php" class="homepage-link" title="Back to the frontpage">Home</a>
+                                <a href="index.php" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
                                 <span>/</span>
-                                <span class="page-title">Diamond Search</span>
+                                <span class="page-title"><?php echo __("Diamond Search"); ?></span>
                             </div>
                         </div>
                     </div>

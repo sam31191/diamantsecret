@@ -41,19 +41,32 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 
 }*/
 ?>
+<script type="text/javascript">
+function urlclick(currentLang,changeLang){
+	
+	var current_url = document.URL;
+	
+	current_url = current_url.replace("/"+currentLang+"/", "/"+changeLang+"/");
+	
+	window.location.href = current_url;
+
+}
+</script>
 	<header id="top" class="clearfix" style="    background: rgba(255,255,255,0.6);">
 		<!--top-->
 		<div class="container">
 			<div class="top row">
 			<div class="col-md-6 phone-shopping">
-				<span>Phone: +32 3 298 58 66</span>
+				<span><?php echo __("Phone"); ?>: +32 3 298 58 66</span>&nbsp;&nbsp;
+				<span><a href="javascript:void(0);" onclick="urlclick('en','fr')">French</a></span>&nbsp;&nbsp;
+				<span><a href="javascript:void(0);" onclick="urlclick('fr','en')">English</a></span>
 			</div>
 			<div class="col-md-18">
 				<ul class="text-right">
 				<li class="customer-links hidden-xs" style="width:100%;">
 					<ul id="accounts" class="list-inline">
 						<li class="my-account">
-							<a href="./account.php">My Account</a>
+							<a href="./account.php"><?php echo __("My Account"); ?></a>
 						</li> 
 
 						<?php
@@ -66,7 +79,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 							echo'
 							<li class="login">    
 								<span id="loginButton" class="dropdown-toggle" data-toggle="dropdown">
-									<a href="javascript:void(0);">Hi, '. $_USERNAME . $ast . '</a>
+									<a href="javascript:void(0);">'.__("Hi").', '. $_USERNAME . $ast . '</a>
 									<i class="sub-dropdown1"></i>
 									<i class="sub-dropdown"></i>
 								</span>
@@ -74,11 +87,11 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 								<div id="loginBox" class="dropdown-menu text-left" style="padding:0;">
 									<div id="bodyBox" style="text-align:right">
 										<ul class="control-container customer-accounts list-unstyled" style="padding:0;">           
-											<a href="./account.php" class="dropdown-item">Favorites<span id="favorite_num_badge" style="padding: 2px 6px; background: #F9A825; border-radius: 100px; margin: 0px 0px 0px 5px; font-size: 12px; color: white; font-weight: bold;">'. intval(count(explode(",", $favorites)) - 1) .'</span></a>
-											<a href="./account.php?show=settings" class="dropdown-item">Settings</a>              
-											<a href="./orders.php" class="dropdown-item">Orders</a>              
+											<a href="./account.php" class="dropdown-item">'.__("Favorites").'<span id="favorite_num_badge" style="padding: 2px 6px; background: #F9A825; border-radius: 100px; margin: 0px 0px 0px 5px; font-size: 12px; color: white; font-weight: bold;">'. intval(count(explode(",", $favorites)) - 1) .'</span></a>
+											<a href="./account.php?show=settings" class="dropdown-item">'.__("Settings").'</a>              
+											<a href="./orders.php" class="dropdown-item">'.__("Orders").'</a>              
 											<form method="post">
-											<button href="#" class="btn-logout" name="action[logout]" value="true">Logout</button>
+											<button href="#" class="btn-logout" name="action[logout]" value="true">'.__("Logout").'</button>
 											</form>
 										</ul>
 									</div>
@@ -89,7 +102,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 							echo'
 							<li class="login">    
 								<span id="loginButton" class="dropdown-toggle" data-toggle="dropdown">
-									<a href="./login.php">Login</a>
+									<a href="./login.php">'.__("Login").'</a>
 									<i class="sub-dropdown1"></i>
 									<i class="sub-dropdown"></i>
 								</span>
@@ -99,18 +112,18 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 									<div id="bodyBox">
 										<ul class="control-container customer-accounts list-unstyled">
 											<li class="clearfix">
-												<label for="customer_email_box" class="control-label">Username <span class="req">*</span></label>
+												<label for="customer_email_box" class="control-label">'.__("Username").' <span class="req">*</span></label>
 												<input type="text" value="" name="login[username]" id="customer_email_box" class="form-control" required>
 											</li>            
 											<li class="clearfix">
-												<label for="customer_password_box" class="control-label">Password <span class="req">*</span></label>
+												<label for="customer_password_box" class="control-label">'.__("Password").' <span class="req">*</span></label>
 												<input type="password" value="" name="login[password]" id="customer_password_box" class="form-control password" required>
 											</li>             
 											<li class="clearfix">
-												<button class="action btn btn-1" type="submit">Login</button>
+												<button class="action btn btn-1" type="submit">'.__("Login").'</button>
 											</li>
 											<!-- <li class="clearfix">
-												<a class="action btn btn-1" href="./register.php">Create an account</a>
+												<a class="action btn btn-1" href="./register.php">'.__("Create an account").'</a>
 											</li> -->
 										</ul>
 									</div>
@@ -119,7 +132,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 							</li>
 							<li>/</li>   
 							<li class="register">
-								<a href="./register.php" id="customer_register_link">Create an account</a>
+								<a href="./register.php" id="customer_register_link">'.__("Create an account").'</a>
 							</li> ';
 						}
 						?>
@@ -145,7 +158,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 							<div class="clearfix">
 								<div class="navbar-header">
 									<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-									<span class="sr-only">Toggle main navigation</span>
+									<span class="sr-only"><?php echo __("Toggle main navigation"); ?></span>
 									<span class="icon-bar"></span>
 									<span class="icon-bar"></span>
 									<span class="icon-bar"></span>
@@ -172,23 +185,23 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 											if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 												echo '
 													<li>
-													<a href="./account.php">Account</a> 
+													<a href="./account.php">'.__("Account").'</a> 
 													</li>
 													<li>
-													<a href="./orders.php">Orders</a> 
+													<a href="./orders.php">'.__("Orders").'</a> 
 													</li>
 													<li class="account last">
 													<form method="post">
-													<button href="#" class="btn-logout" name="action[logout]" value="true" style="padding: 0px; text-align: left;">Logout</button>
+													<button href="#" class="btn-logout" name="action[logout]" value="true" style="padding: 0px; text-align: left;">'.__("Logout").'</button>
 													</form>
 													</li>';
 											} else {
 												echo '
 													<li class="logout">
-													<a href="login.php">Login</a>
+													<a href="login.php">'.__("Login").'</a>
 													</li>
 													<li class="account last">
-													<a href="register.php">Register</a>
+													<a href="register.php">'.__("Register").'</a>
 													</li>';
 											}
 											?>
@@ -207,12 +220,12 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 									<ul class="nav navbar-nav hoverMenuWrapper">
 										<li class="nav-item active">
 										<a href="./index.php">
-										<span>Home</span>
+										<span><?php echo __("Home"); ?></span>
 										</a>
 										</li>
 										<li class="dropdown mega-menu">
 										<a href="./collection.php" class="dropdown-toggle dropdown-link" data-toggle="dropdown" onclick="window.location.href= './collection.php';">
-										<span>Collections</span>
+										<span><?php echo __("Collections"); ?></span>
 										<i class="fa fa-caret-down"></i>
 										<i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
 										<i class="sub-dropdown visible-sm visible-md visible-lg"></i>
@@ -221,7 +234,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 											<ul class="sub-mega-menu">
 												<div class="collection-link-list">
 													<ul>
-														<li><a class="collection-link-title" href="./collection_rings.php">Rings</a></li>
+														<li><a class="collection-link-title" href="./collection_rings.php"><?php echo __("Rings"); ?></a></li>
 														<?php 
 														$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 1");
 														$query->execute();
@@ -238,7 +251,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 												</div>
 												<div class="collection-link-list">
 													<ul>
-														<li><a class="collection-link-title" href="./collection_earrings.php">Earrings</a></li>
+														<li><a class="collection-link-title" href="./collection_earrings.php"><?php echo __("Earrings"); ?></a></li>
 														<?php 
 														$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 2");
 														$query->execute();
@@ -255,7 +268,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 												</div>
 												<div class="collection-link-list">
 													<ul>
-														<li><a class="collection-link-title" href="./collection_pendants.php">Pendants</a></li>
+														<li><a class="collection-link-title" href="./collection_pendants.php"><?php echo __("Pendants"); ?></a></li>
 														<?php 
 														$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 3");
 														$query->execute();
@@ -272,7 +285,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 												</div>
 												<div class="collection-link-list">
 													<ul>
-														<li><a class="collection-link-title" href="./collection_necklaces.php">Necklaces</a></li>
+														<li><a class="collection-link-title" href="./collection_necklaces.php"><?php echo __("Necklaces"); ?></a></li>
 														<?php 
 														$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 4");
 														$query->execute();
@@ -289,7 +302,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 												</div>
 												<div class="collection-link-list">
 													<ul>
-														<li><a class="collection-link-title" href="./collection_bracelets.php">Bracelets</a></li>
+														<li><a class="collection-link-title" href="./collection_bracelets.php"><?php echo __("Bracelets"); ?></a></li>
 														<?php 
 														$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 5");
 														$query->execute();
@@ -309,12 +322,12 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 										</li>
 										<li class="nav-item">
 										<a href="./contact.php">
-										<span>Contact</span>
+										<span><?php echo __("Contact"); ?></span>
 										</a>
 										</li>
 										<li class="nav-item">
 											<a href="./diamond_search.php">
-											<span>Diamond Search</span>
+											<span><?php echo __("Diamond Search"); ?></span>
 											</a>
 										</li>
 										<?php 
@@ -322,7 +335,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 												echo '
 													<li class="nav-item">
 													<a href="./admin/login.php">
-													<span>Admin</span>
+													<span>'.__("Admin").'</span>
 													</a>
 													</li>';
 											}
@@ -352,8 +365,8 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 							</a>
 							<form id="header-search" class="search-form dropdown-menu" action="collection.php" method="get">
 								<input type="hidden" name="type" value="product">
-								<input type="text" name="q" accesskey="4" autocomplete="off" placeholder="Search Product" value="<?php echo $searchTag; ?>">
-								<button type="submit" class="btn">Search</button>
+								<input type="text" name="q" accesskey="4" autocomplete="off" placeholder="<?php echo __('Search Product'); ?>" value="<?php echo $searchTag; ?>">
+								<button type="submit" class="btn"><?php echo __("Search"); ?></button>
 							</form>
 						</div>
 					</li>
@@ -397,7 +410,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 									<i class="sub-dropdown"></i>
 									<div class="num-items-in-cart">
 										<span class="icon">
-											Cart
+											<?php echo __("Cart"); ?>
 											<?php
 												echo '<span class="number">'. intval(count($cartItems) - 1) .'</span>';
 											?>
@@ -461,7 +474,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 																		</div>
 																		<div class="col-md-16 cart-right">
 																			<div class="cart-title">
-																				<a href="./product.php?view='. $cartItemInfo['unique_key'] .'">'. $cartItemCategory['item_name'] .'<br><small>Size: '. $cartItem[1] .'</small></a>
+																				<a href="./product.php?view='. $cartItemInfo['unique_key'] .'">'. $cartItemCategory['item_name'] .'<br><small>'.__("Size").': '. $cartItem[1] .'</small></a>
 																			</div>
 																			<div class="cart-price">
 																				€ '. $cartItemCategory['item_value'] .'<span class="x"> x </span>'. $cartItem[2] .'
@@ -486,7 +499,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 																			</div>
 																			<div class="col-md-16 cart-right">
 																				<div class="cart-title">
-																					<a>Item Unavailable <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="Item Deleted or Invalid"></i></small></a>
+																					<a>'.__("Item Unavailable").' <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="'.__("Item Deleted or Invalid").'"></i></small></a>
 																				</div>
 																				<div class="cart-price">
 																					€ 0.0 <span class="x"> x </span>0
@@ -497,15 +510,15 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 														}
 												}
 											} else {
-												echo '<span style="display: block; text-align: center; margin: 20px 0px;">Your Cart Is Empty</span>';
+												echo '<span style="display: block; text-align: center; margin: 20px 0px;">'.__("Your Cart Is Empty").'</span>';
 											}
 											echo '
 												<div class="subtotal">
-													<span>Subtotal:</span><span class="cart-total-right"> €'. $subtotal .'</span>
+													<span>'.__("Subtotal").':</span><span class="cart-total-right"> €'. $subtotal .'</span>
 												</div>';
 										?>
 										<div class="action">
-											<a class="btn btn-1" href="./cart.php">View Cart</a>
+											<a class="btn btn-1" href="./cart.php"><?php echo __("View Cart"); ?></a>
 										</div>
 									</div>
 								</div>

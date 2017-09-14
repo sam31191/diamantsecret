@@ -85,36 +85,35 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 				<div class="camera_wrap" id="home-slider"  style="max-height: 650px;">
 					<div data-src="./images/gfx/slide-image-1.jpg">
 						<div class="camera_caption camera_title_1 fadeIn">
-						  <a href="./collection.php" style="color:#010101;">Live the moment</a>
+						  <a href="./collection.php" style="color:#010101;"><?php echo __("Live the moment"); ?></a>
 						</div>
 						<div class="camera_caption camera_caption_1 fadeIn" style="color: rgb(1, 1, 1);">
-							people of class deserve the classiest of Jewels
 						</div>
 						<div class="camera_caption camera_image-caption_1 moveFromLeft">
 							<img src="./images/gfx/slide-image-caption-1.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
-							<a href="./collection.php" class="btn">See Collection</a>
+							<a href="./collection.php" class="btn"><?php echo __("See Collection"); ?></a>
 						</div>
 					</div>
 					<div data-src="./images/gfx/slide-image-2.jpg">
 						<div class="camera_caption camera_title_2 moveFromLeft">
-						  <a href="./collection.php" style="color:#666666;">Love’s embrace</a>
+						  <a href="./collection.php" style="color:#666666;"><?php echo __("Love’s embrace"); ?></a>
 						</div>
 						<div class="camera_caption camera_image-caption_2 moveFromLeft" style="visibility: hidden;">
 							<img src="./images/gfx/slide-image-caption-2.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
-							<a href="./collection.php" class="btn">See Collection</a>
+							<a href="./collection.php" class="btn"><?php echo __("See Collection"); ?></a>
 						</div>
 					</div>
 					<div data-src="./images/gfx/slide-image-3.jpg">
 						<div class="camera_caption camera_image-caption_3 moveFromLeft">
 							<!-- <img src="./images/gfx/slide-image-caption-3.png" alt="image_caption"> -->
-							<p style="font-size: 45px; font-weight: normal; color: black; font-variant: small-caps;">Have a Diamond in mind?<br><small>Search for the perfect diamond for you!</small></p>
+							<p style="font-size: 45px; font-weight: normal; color: black; font-variant: small-caps;"><?php echo __("Have a Diamond in mind"); ?>?<br><small><?php echo __("Search for the perfect diamond for you"); ?>!</small></p>
 						</div>
 						<div class="camera_cta_1">
-							<a href="./diamond_search.php" class="btn">Search Now</a>
+							<a href="./diamond_search.php" class="btn"><?php echo __("Search Now"); ?></a>
 						</div>
 					</div>
 				</div>
@@ -128,20 +127,20 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 								<div class="group_home_collections row">
 									<div class="col-md-24">
 										<div class="home_collections">
-											<h6 class="general-title">Popular Collections</h6>
+											<h6 class="general-title"><?php echo __("Popular Collections"); ?></h6>
 											<div class="home_collections_wrapper">												
 												<div id="home_collections">
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection_rings.php" title="Browse our Rings">
+																			<a href="./collection_rings.php" title="<?php echo __("Browse our Rings"); ?>">
 																				<img src="./images/gfx/ring_270x270.png" alt="Rings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection_rings.php">Rings</a></span>
+																			<span class="col-name"><a href="./collection_rings.php"><?php echo __("Rings"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="./collection_rings.php">See the Collection</a>
+																				<a href="./collection_rings.php"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -149,14 +148,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection_earrings.php" title="Browse our Earrings">
+																			<a href="./collection_earrings.php" title="<?php echo __("Browse our Earrings"); ?>">
 																			<img src="./images/gfx/earring_270x270.png" alt="Earrings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection_earrings.php">Earrings</a></span>
+																			<span class="col-name"><a href="./collection_earrings.php"><?php echo __("Earrings"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="./collection_earrings.php">See the Collection</a>
+																				<a href="./collection_earrings.php"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -164,14 +163,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection_pendants.php" title="Browse our Pendants">
+																			<a href="./collection_pendants.php" title="<?php echo __("Browse our Pendants"); ?>">
 																			<img src="./images/gfx/pendant_270x270.png" alt="Pendants">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection_pendants.php">Pendants</a></span>
+																			<span class="col-name"><a href="./collection_pendants.php"><?php echo __("Pendants"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="./collection_pendants.php">See the Collection</a>
+																				<a href="./collection_pendants.php"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -179,14 +178,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection_necklaces.php" title="Browse our Necklaces">
+																			<a href="./collection_necklaces.php" title="<?php echo __("Browse our Necklaces"); ?>">
 																			<img src="./images/gfx/necklace_270x270.png" alt="Necklaces">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection_necklaces.php">Necklaces</a></span>
+																			<span class="col-name"><a href="./collection_necklaces.php"><?php echo __("Necklaces"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="./collection_necklaces.php">See the Collection</a>
+																				<a href="./collection_necklaces.php"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -194,14 +193,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection_bracelets.php" title="Browse our Bracelets">
+																			<a href="./collection_bracelets.php" title="<?php echo __("Browse our Bracelets"); ?>">
 																				<img src="./images/gfx/bracelet_270x270.png" alt="Bracelets">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection_bracelets.php">Bracelets</a></span>
+																			<span class="col-name"><a href="./collection_bracelets.php"><?php echo __("Bracelets"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="./collection_bracelets.php">See the Collection</a>
+																				<a href="./collection_bracelets.php"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -229,7 +228,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 								<div class="group_home_products row">
 									<div class="col-md-24">
 										<div class="home_products">
-											<h6 class="general-title">New Products</h6>
+											<h6 class="general-title"><?php echo __("New Products"); ?></h6>
 											<div class="home_products_wrapper">
 												<div id="home_products">
                                                 <?php
@@ -276,14 +275,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 													if ( $product['discount'] > 0 ) {
 														
 														$value = $product['item_value'] -  (($product['discount'] / 100 ) * $product['item_value']);
-														$sale = '<span class="sale_banner"><span class="sale_text">Sale</span></span>';
+														$sale = '<span class="sale_banner"><span class="sale_text">'.__("Sale").'</span></span>';
 														$price = '<span class="price_sale">€'. round($value, 2) .'</span><del class="price_compare">€'. $product['item_value'] .'</del>';
 													}
 
 													if ( strstr($favorites, $product['unique_key']) ) {
-														$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'" onClick="removeFromWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart fav-true"></i><span class="list-mode">Remove from Wishlist</span></a>';
+														$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'" onClick="removeFromWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart fav-true"></i><span class="list-mode">'.__("Remove from Wishlist").'</span></a>';
 													} else {
-														$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'" onClick="addToWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>';
+														$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'" onClick="addToWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">'.__("Add to Wishlist").'</span></a>';
 													}
 
 													if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
@@ -312,7 +311,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<span class="spr-badge" id="spr_badge_12932382113" data-rating="0.0">
 																<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 																<span class="spr-badge-caption">
-																No reviews </span>
+																'.__("No reviews").' </span>
 																</span>
 															</div>
 															<div class="product-content-right">
@@ -327,12 +326,12 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<form action="./product.php?view='. $product['unique_key'] .'" method="post">
 																	<div class="effect-ajax-cart">
 																		<input type="hidden" name="quantity" value="1">
-																		<button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $product['unique_key'] .'\'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
+																		<button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $product['unique_key'] .'\'"><i class="fa fa-th-list" title="'.__("Select Options").'"></i><span class="list-mode">'.__("Select Option").'</span></button>
 																	</div>
 																</form>
 																<div class="product-ajax-qs hidden-xs hidden-sm">
 																	<div class="quick_shop" onclick="quickShop(\''. $product['unique_key'] .'\')">
-																		<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
+																		<i class="fa fa-eye" title="'.__("Quick view").'"></i><span class="list-mode">'.__("Quick View").'</span>																		
 																	</div>
 																</div>
 																'. $wishlist .'
@@ -360,18 +359,17 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 									<div class="home-banner-caption">
 									<?php
 									$quotes = array(
-										"“I'd rather wear jewels in my hair than anywhere else. The face should have the advantage of this brilliance.” ― Hedy Lamarr",
-										"“Jewelry has the power to be this one little thing that can make you feel unique.”",
-										"“For me, Jewelry is a way to keep the memories alive.”",
-										"“I favor Pearls on screen and in my private life.” ― Grace Kelly",
-										"“Diamonds are a girl's best friend.” ― Marilyn Monroe",
+										
+										"“".__('For me, Jewelry is a way to keep the memories alive.')."”",
+
+ 										"“".__("Diamonds are a girl's best friend.")."” ― Marilyn Monroe",
 									);
 									$quote = $quotes[rand(0, sizeof($quotes)-1)];
 									echo '<p>'. $quote .'</p>';
 									?>
 									</div>
 									<div class="home-banner-action">
-										<a href="./collection.php">Shop Now</a>
+										<a href="./collection.php"><?php echo __("Shop Now"); ?></a>
 									</div>
 								</div>
 							</div>
@@ -398,9 +396,9 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 								<i class="fa fa-diamond" style="color: #a07936;"></i> 
 								<i class="fa fa-diamond" style="font-size: 10px;color: #a07936;"></i> 
 
-								<br>Find your perfect Diamond here</span><br/>
+								<br><?php echo __("Find your perfect Diamond here"); ?></span><br/>
 
-								<a href="./diamond_search.php" class="btn" style="margin-top: 10px;">Search Now</a>
+								<a href="./diamond_search.php" class="btn" style="margin-top: 10px;"><?php echo __("Search Now"); ?></a>
 						</div>
 
 						<div class="home-feature">
@@ -408,7 +406,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 								<div class="group_featured_products row">
 									<div class="col-md-24">
 										<div class="home_fp">
-											<h6 class="general-title">Featured Products</h6>
+											<h6 class="general-title"><?php echo __("Featured Products"); ?></h6>
 											<div class="home_fp_wrapper">
 												<div id="home_fp">
 													<?php
@@ -457,15 +455,15 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 														if ( $product['discount'] > 0 ) {
 															
 															$value = $product['item_value'] -  (($product['discount'] / 100 ) * $product['item_value']);
-															$sale = '<span class="sale_banner"><span class="sale_text">Sale</span></span>';
+															$sale = '<span class="sale_banner"><span class="sale_text">'.__("Sale").'</span></span>';
 															$price = '<span class="price_sale">€'. round($value, 2) .'</span><del class="price_compare">€'. $product['item_value'] .'</del>';
 														}
 
 
 														if ( strstr($favorites, $product['unique_key']) ) {
-															$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'_FEAT" onClick="removeFromWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart fav-true"></i><span class="list-mode">Remove from Wishlist</span></a>';
+															$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'_FEAT" onClick="removeFromWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart fav-true"></i><span class="list-mode">'.__("Remove from Wishlist").'</span></a>';
 														} else {
-															$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'_FEAT" onClick="addToWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>';
+															$wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'_FEAT" onClick="addToWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">'.__("Add to Wishlist").'</span></a>';
 														}
 														
 														if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
@@ -494,7 +492,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<span class="spr-badge" id="spr_badge_1293238211" data-rating="0.0">
 																<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 																<span class="spr-badge-caption">
-																No reviews </span>
+																'.__("No reviews").' </span>
 																</span>
 															</div>
 															<div class="product-content-right">
@@ -507,12 +505,12 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<form method="post">
 																	<div class="effect-ajax-cart">
 																		<input type="hidden" name="quantity" value="1">
-																		<button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $product['unique_key'] .'\'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
+																		<button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $product['unique_key'] .'\'"><i class="fa fa-th-list" title="'.__("Select Options").'"></i><span class="list-mode">'.__("Select Option").'</span></button>
 																	</div>
 																</form>
 																<div class="product-ajax-qs hidden-xs hidden-sm">
 																	<div class="quick_shop" onclick="quickShop(\''. $product['unique_key'] .'\')">
-																		<i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>																		
+																		<i class="fa fa-eye" title="'.__("Quick view").'"></i><span class="list-mode">'.__("Quick View").'</span>																		
 																	</div>
 																</div>
 																'. $wishlist .'
@@ -563,7 +561,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 		<div class="modal-dialog rotateInDownLeft animated">
 			<div class="modal-content" style="min-height: 0px;">
 				<div class="modal-header">
-					<i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="modal" aria-hidden="true" data-original-title="Close"></i>
+					<i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="modal" aria-hidden="true" data-original-title="<?php echo __("Close"); ?>"></i>
 				</div>
 				<div class="modal-body">
 					<div class="quick-shop-modal-bg" style="display: none;">
@@ -599,15 +597,15 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 										
 									</div>
 									<div class="quantity-wrapper clearfix">
-										<label class="wrapper-title">Quantity</label>
+										<label class="wrapper-title"><?php echo __("Quantity"); ?></label>
 										<div class="wrapper">
 											<input type="text" id="qs-quantity" size="5" class="item-quantity" name="quantity" value="1">
 											<span class="qty-group">
 											<span class="qty-wrapper">
-											<span class="qty-up" title="Increase" data-src="#qs-quantity">
+											<span class="qty-up" title="<?php echo __("Increase"); ?>" data-src="#qs-quantity">
 											<i class="fa fa-plus"></i>
 											</span>
-											<span class="qty-down" title="Decrease" data-src="#qs-quantity">
+											<span class="qty-down" title="<?php echo __("Decrease"); ?>" data-src="#qs-quantity">
 											<i class="fa fa-minus"></i>
 											</span>
 											</span>
@@ -615,17 +613,17 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 										</div>
 									</div>
                 
-                                    <label class="label-quick-shop">Material <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label>
+                                    <label class="label-quick-shop"><?php echo __("Material"); ?> <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label>
                                     <input id="quick-shop-material-value" name="material" hidden />
                                     <div class="input-group" id="quick-shop-material">
-                                    	<a class="btn material-badge" name="1">Yellow Gold</a>
-                                    	<a class="btn material-badge" name="2">White Gold</a>
-                                    	<a class="btn material-badge" name="3">Pink Gold</a>
-                                    	<a class="btn material-badge" name="4">Silver</a>
-                                    	<a class="btn material-badge" name="5">Platinum</a>
+                                    	<a class="btn material-badge" name="1"><?php echo __("Yellow Gold"); ?></a>
+                                    	<a class="btn material-badge" name="2"><?php echo __("White Gold"); ?></a>
+                                    	<a class="btn material-badge" name="3"><?php echo __("Pink Gold"); ?></a>
+                                    	<a class="btn material-badge" name="4"><?php echo __("Silver"); ?></a>
+                                    	<a class="btn material-badge" name="5"><?php echo __("Platinum"); ?></a>
                                     </div>
                                     <div id="quick-shop-size">
-	                                    <label class="label-quick-shop">Size <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label> 
+	                                    <label class="label-quick-shop"><?php echo __("Size"); ?> <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label> 
 	                                    <input id="quick-shop-size-value" name="size" value="0" hidden />
 	                                    <div class="input-group" id="quick-shop-size-container">
 	                                    	<!-- Sizes go here -->
@@ -749,9 +747,9 @@ function quickShop(id) {
 				}
 
 				if ( result['pieces_in_stock'] <= 0 ) {
-					$("#buttonDiv").html('<button class="btn" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" disabled>Out of Stock</button>');
+					$("#buttonDiv").html('<button class="btn" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" disabled><?php echo __("Out of Stock"); ?></button>');
 				} else {
-					$("#buttonDiv").html('<button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;">Add to Cart</button>');
+					$("#buttonDiv").html('<button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;"><?php echo __("Add to Cart"); ?></button>');
 				}
 
 				$("#quick-shop-unique-key").val(result['unique_key']);
