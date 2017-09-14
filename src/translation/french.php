@@ -23,7 +23,15 @@ require_once("lib/gettext.php");
 		return $locale_fetch->translate($text);
 
 	}
+/*	$pageURL = '';
+echo $pageURL .= $_SERVER["REQUEST_URI"].'<br/>';
 
+$path_parts = pathinfo('http://localhost/diamantsecret/src/translation/french.php');
+ echo $path_parts['dirname'];*/
+/*   $path_parts = pathinfo('http://localhost/diamantsecret/src/en/admin/');
+ if($path_parts['dirname'] == 'http://localhost/diamantsecret/src/en/admin/'){
+echo 'done';
+ }*/
 
 ?>
 
