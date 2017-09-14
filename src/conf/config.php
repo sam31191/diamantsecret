@@ -29,8 +29,6 @@
     $user = "diamants_test";
     $pass = "test_diamants";
 
-    
-
     /* Mail Configuration */
     $mailHost = 'mail.diamantsecret.com';
     $mailPort = 26;
@@ -841,5 +839,11 @@ $product_images = array(
 		}
 		return $file;
 	}
+ 
+ if(basename($_SERVER['PHP_SELF']) == 'ajax.php' || basename($_SERVER['PHP_SELF']) == 'fetch_item_info.php' || basename($_SERVER['PHP_SELF']) == 'post.php') {
+    include '../translation/french.php';
+ } else {
+    include 'translation/french.php';
+ }
 
 ?>

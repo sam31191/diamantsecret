@@ -2,6 +2,7 @@
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
+include 'conf/config.php';
 ?><!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
@@ -11,7 +12,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>Contact Page</title>
+  <title><?php echo __("Contact Page"); ?></title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
@@ -29,7 +30,7 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
 </head>
 <?php
-include 'conf/config.php';
+
 if ( isset($_POST['addToCart']) ) {
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
 	$fetchCurrentCart = $pdo->prepare("SELECT `cart` FROM `accounts` WHERE `username` = :user");
@@ -116,10 +117,10 @@ if ( isset($_POST['addToCart']) ) {
 							<div class="container">
 								<div class="row">
 									<div class="right-block contact-content col-md-12">
-										<h6 class="sb-title"><i class="fa fa-home"></i> Contact Information</h6>
+										<h6 class="sb-title"><i class="fa fa-home"></i> <?php echo __("Contact Information"); ?></h6>
 										<ul class="right-content">
 											<li class="title">
-											<h6>Office Address</h6>
+											<h6><?php echo __("Office Address"); ?></h6>
 											</li>
 											<li class="address">
 											<p>

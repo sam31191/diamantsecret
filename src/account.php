@@ -6,6 +6,7 @@ if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
 	header("location: ./login.php");
 	exit();
 }
+include './conf/config.php';
 ?><!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
@@ -16,7 +17,7 @@ if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>Account Page</title>
+  <title><?php echo __("Account Page"); ?></title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
@@ -35,7 +36,7 @@ if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
 </head>
 
 <?php
-include './conf/config.php';
+/*include './conf/config.php';*/
 
 
 #pre
@@ -72,7 +73,7 @@ if ( isset($_POST['removeFromFav'])) {
 	pconsole($_POST);
 
 	if ( $_POST['new_pass'] !== $_POST['confirm_new_pass'] ) {
-		$alert = "New and Confirm Password Mismatch";
+		$alert = __("New and Confirm Password Mismatch");
 	} else {
 		$authenticate = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user AND BINARY `password` = :pass");
 		$authenticate->execute(array(":user" => $_USERNAME, ":pass" => $_POST['current_pass']));
@@ -89,12 +90,12 @@ if ( isset($_POST['removeFromFav'])) {
 			if ( !empty($_POST['new_pass']) && !empty($_POST['confirm_new_pass']) ) {
 				$updatePass = $pdo->prepare("UPDATE `accounts` SET `password` = :pass WHERE `username` = :user");
 				$updatePass->execute(array(":pass" => $_POST['new_pass'], ":user" => $_USERNAME));
-				$alert = "Information / Password Updated";
+				$alert = __("Information") ." / ". __("Password Updated");
 			} else {
-				$alert = "Information Updated";
+				$alert = __("Information Updated");
 			}
 		} else {
-			$alert = "Authentication Failure / Please check your credentials";
+			$alert = __("Authentication Failure")." / ".__("Please check your credentials");
 		}
 	}
 }
@@ -113,9 +114,9 @@ if ( isset($_POST['removeFromFav'])) {
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.php" class="homepage-link" title="Back to the frontpage">Home</a>
+								<a href="./index.php" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
 								<span>/</span>
-								<span class="page-title">My Account</span>
+								<span class="page-title"><?php echo __("My Account"); ?></span>
 							</div>
 						</div>
 					</div>
@@ -124,14 +125,14 @@ if ( isset($_POST['removeFromFav'])) {
 					<div class="container">
 						<div class="row">
 							<div id="page-header" class="col-md-24">
-								<h1 id="page-title">My Account</h1> 
+								<h1 id="page-title"><?php echo __("My Account"); ?></h1> 
 							</div>
 							<?php
 								if ( !empty($alert) ) {
 									echo '
 										<div class="col-md-21 login-alert">
 											<div class="alert alert-danger">
-												<button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="Close">×</button>
+												<button type="button" class="close btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="alert" data-original-title="'.__("Close").'">×</button>
 												<div class="errors">
 													<ul>
 														<li>'. $alert .'</li>
@@ -145,7 +146,7 @@ if ( isset($_POST['removeFromFav'])) {
 							<div class="col-sm-6 col-md-6 sidebar">
 								<div class="group_sidebar">
 									<div class="row sb-wrapper unpadding-top">
-										<h6 class="sb-title">Account Details</h6>
+										<h6 class="sb-title"><?php echo __("Account Details"); ?></h6>
 										<span class="mini-line"></span>
 										<?php
 										$getUser = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user");
@@ -172,7 +173,7 @@ if ( isset($_POST['removeFromFav'])) {
 												</address>
 												</li>
 												<li>
-												<button class="btn btn-1" id="view_address" onclick="$(\'#settingsModal\').modal(\'toggle\');">Settings</button>
+												<button class="btn btn-1" id="view_address" onclick="$(\'#settingsModal\').modal(\'toggle\');">'.__("Settings").'<?php echo __("</button>
 												</li>
 											</ul>
 											';
@@ -185,17 +186,17 @@ if ( isset($_POST['removeFromFav'])) {
 							</div>
 							<div id="col-main" class="account-page col-sm-18 col-md-18 clearfix">
 								<div id="customer_orders">
-									<h6 class="sb-title">Favorites</h6>
+									<h6 class="sb-title"><?php echo __("Favorites"); ?></h6>
 									<span class="mini-line"></span>
 									<div class="row wrap-table">
 										<table class="table-hover">
 										<thead>
 										<tr>
 											<th class="order_number">
-												Item
+												<?php echo __("Item"); ?>
 											</th>
 											<th class="date">
-												Value
+												<?php echo __("Value"); ?>
 											</th>
 											<th class="payment_status">
 												
@@ -226,7 +227,7 @@ if ( isset($_POST['removeFromFav'])) {
 														if ( $itemInfo['discount'] > 0 ) {
 															
 															$value = $itemInfo['item_value'] -  (($itemInfo['discount'] / 100 ) * $itemInfo['item_value']);
-															$sale = '<span class="sale_banner"><span class="sale_text">Sale</span></span>';
+															$sale = '<span class="sale_banner"><span class="sale_text">'.__("Sale").'</span></span>';
 															$price = '<span class="price_sale">€'. number_format($value, 2, ".", "") .'</span><del class="price_compare">€'. $itemInfo['item_value'] .'</del>';
 														}
 														echo '
@@ -238,26 +239,26 @@ if ( isset($_POST['removeFromFav'])) {
 																<span class="note">'. $price .'</span>
 															</td>
 															<td>
-																<span class="status_authorized"><a class="btn btn-custom" href="./product.php?view='. $item .'">View</a></span>
+																<span class="status_authorized"><a class="btn btn-custom" href="./product.php?view='. $item .'">'.__("View").'</a></span>
 															</td>
 															<td>
-																<span class="total"><form method="post"><button class="btn btn-custom" name="removeFromFav" value="'. $item .'">Remove</button></form></span>
+																<span class="total"><form method="post"><button class="btn btn-custom" name="removeFromFav" value="'. $item .'">'.__("Remove").'</button></form></span>
 															</td>
 														</tr>';
 													} else {
 														echo '
 														<tr class="odd ">
 															<td>
-																<a href="#" title="">Item Not Found</a>
+																<a href="#" title="">'.__("Item Not Found").'</a>
 															</td>
 															<td>
-																<span class="note">N/A</span>
+																<span class="note">'.__("N/A").'</span>
 															</td>
 															<td>
-																<span class="status_authorized">N/A</span>
+																<span class="status_authorized">'.__("N/A").'</span>
 															</td>
 															<td>
-																<span class="total"><form method="post"><button class="btn btn-custom" name="removeFromFav" value="'. $item .'">Remove</button></form></span>
+																<span class="total"><form method="post"><button class="btn btn-custom" name="removeFromFav" value="'. $item .'">'.__("Remove").'</button></form></span>
 															</td>
 														</tr>';
 													}
@@ -287,7 +288,7 @@ if ( isset($_POST['removeFromFav'])) {
 	<div class="modal-dialog rotateInDownLeft animated">
 		<div class="modal-content" style="min-height: 0px;  overflow:auto; height: 490px; max-width: 95vw;">
 			<div class="modal-header">
-				<i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="bottom" title="" data-dismiss="modal" aria-hidden="true" data-original-title="Close"></i>
+				<i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="bottom" title="" data-dismiss="modal" aria-hidden="true" data-original-title="<?php echo __("Close"); ?>"></i>
 			</div>
 			<div class="modal-body">
 				<div class="quick-shop-modal-bg" style="display: none;">
@@ -302,44 +303,44 @@ if ( isset($_POST['removeFromFav'])) {
 					$info = $fetchInfo->fetch(PDO::FETCH_ASSOC);
 					echo '
 					<div class="col-md-12">
-						<label>Username</label>
+						<label>'.__("Username").'</label>
 						<input type="text" name="username" class="form-control" value="'. $info['username'] .'" disabled>
 					</div>
 					<div class="col-md-12">
-						<label>Email</label>
+						<label>'.__("Email").'</label>
 						<input type="email" name="email" class="form-control" value="'. $info['email'] .'" disabled>
 					</div>
 					<div class="col-md-12">
-						<label>First Name</label>
+						<label>'.__("First Name").'</label>
 						<input type="text" name="first_name" value="'. $info['first_name'] .'" class="form-control">
 					</div>
 					<div class="col-md-12">
-						<label>Last Name</label>
+						<label>'.__("Last Name").'</label>
 						<input type="text" name="last_name" value="'. $info['last_name'] .'" class="form-control">
 					</div>
 					<div class="col-md-12">
-						<label>Phone Number</label>
+						<label>'.__("Phone Number").'</label>
 						<input type="text" name="mobileno" value="'. $info['mobileno'] .'" pattern="[0-9+ ]{4,}" class="form-control">
 					</div>
 					<div class="col-md-12">
-						<label>Address</label>
+						<label>'.__("Address").'</label>
 						<textarea type="text" name="address" class="form-control">'. $info['address'] .'</textarea>
 					</div>
 					<div class="col-md-12">
-						<label>New Password</label>
+						<label>'.__("New Password").'</label>
 						<input type="password" name="new_pass" class="form-control">
 					</div>
 					<div class="col-md-12">
-						<label>Confirm New Password</label>
+						<label>'.__("Confirm New Password").'</label>
 						<input type="password" name="confirm_new_pass" class="form-control">
 					</div>
 					<div class="col-md-24">
-						<label>Current Password <span class="req">*</span></label>
+						<label>'.__("Current Password").' <span class="req">*</span></label>
 						<input type="password" name="current_pass" class="form-control" required>
 					</div>
 
 					<div class="col-md-24" style="text-align:right;">
-						<button type="submit" name="saveInfo" class="btn btn-custom" style="margin: 15px 20px; width: 100px;">Save</button>
+						<button type="submit" name="saveInfo" class="btn btn-custom" style="margin: 15px 20px; width: 100px;">'.__("Save").'</button>
 					</div>
 					';
 				}

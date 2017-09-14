@@ -208,11 +208,11 @@ function checkKey($key, $pdo) {
         ?>
     </select>
     <select name="total">
-        <option value="5">Add 5</option>
-        <option value="10">Add 10</option>
-        <option value="25">Add 25</option>
+        <option value="5"><?php echo __("Add"); ?> 5</option>
+        <option value="10"><?php echo __("Add"); ?> 10</option>
+        <option value="25"><?php echo __("Add"); ?> 25</option>
     </select>
-    <button type="submit" name="addItem">Add</button>
+    <button type="submit" name="addItem"><?php echo __("Add"); ?></button>
 </form>
 
 <?php 

@@ -19,7 +19,7 @@ include './url/pre.php';
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>Product </title>
+  <title><?php echo __("Product"); ?> </title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
@@ -103,7 +103,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="./index.php" class="homepage-link" title="Back to the frontpage">Home</a>
+                                <a href="./index.php" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
                                 <span>/</span>
                                 <a href="./collection.php" title="">Collection</a>
                                 <span>/</span>
@@ -133,15 +133,15 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                         if ( $item['discount'] > 0 ) {
                                             
                                             $value = $item['item_value'] -  (($item['discount'] / 100 ) * $item['item_value']);
-                                            $sale = '<span class="sale_banner"><span class="sale_text">Sale</span></span>';
+                                            $sale = '<span class="sale_banner"><span class="sale_text">'.__("Sale").'</span></span>';
                                             $price = '<span class="price_sale">€'. number_format($value, 2, ".", "") .'</span>
                                                          <span class="dash">/</span> <del class="price_compare">€'. $item['item_value'] .'</del>';
                                         }
 
                                         if ( strstr($favorites, $item['unique_key']) ) {
-                                            $wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="removeFromWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart fav-true"></i><span class="list-mode" style="text-transform:uppercase; font-weight: bold;">Remove from Wishlist</span></a>';
+                                            $wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="removeFromWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart fav-true"></i><span class="list-mode" style="text-transform:uppercase; font-weight: bold;">'.__("Remove from Wishlist").'</span></a>';
                                         } else {
-                                            $wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="addToWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode" style="text-transform:uppercase; font-weight: bold;">Add to Wishlist</span></a>';
+                                            $wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $item['unique_key'] .'" onClick="addToWishlist(\''. $item['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode" style="text-transform:uppercase; font-weight: bold;">'.__("Add to Wishlist").'</span></a>';
                                         }
                                         
                                         //pconsole($itemInfo);
@@ -150,7 +150,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                         echo '<span>/</span>';
                                         echo '<span>'. $item['item_name'] .'</span>';
                                     } else {
-                                        $itemInfo['product_name'] = "Invalid Item";
+                                        $itemInfo['product_name'] = __("Invalid Item");
                                         $images = array("0.png");
                                         $itemInfo['description'] = "";
                                         $itemInfo['material'] = "";
@@ -211,8 +211,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                         }
                                                         
                                                         if(!empty($product_images)){
-                                                            foreach ($product_images as $image) {
-																																												if ( !empty($image) ) {
+                                                            foreach ($product_images as $image) {			if ( !empty($image) ) {
                                                                 echo '                                                  
                                                                 <li class="image">
                                                                     <a href="./images/images_md/'. $image .'" class="cloud-zoom-gallery active">
@@ -274,9 +273,9 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             if ( $item['category'] == 3 ) {
                                                                 ?>
                                                                     <fieldset>
-                                                                        <legend style="border-top: solid thin #ddd; padding-top: 15px; border-bottom: none; margin-bottom: 5px;">Note</legend>
+                                                                        <legend style="border-top: solid thin #ddd; padding-top: 15px; border-bottom: none; margin-bottom: 5px;"><?php echo __("Note"); ?></legend>
                                                                         <p><?php
-                                                                        echo "All Pendants will be shipped with a Silver Chain <br/> Tous les pendentifs sont livrés avec une chaine en argent";
+                                                                        echo __("All Pendants will be shipped with a Silver Chain")." <br/> Tous les pendentifs sont livrés avec une chaine en argent";
                                                                         ?></p>
                                                                     </fieldset>
                                                                 <?php
@@ -286,7 +285,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                     <div class="relative">
                                                         <ul class="list-unstyled">
                                                             <li class="tags">
-                                                            <span>Tags :</span>
+                                                            <span><?php echo __("Tags"); ?> :</span>
                                                             <?php
                                                             $getMaterial = $pdo->prepare("SELECT * FROM `materials` WHERE `id` = :material");
                                                             $getMaterial->execute(array(":material" => $itemInfo['material']));
@@ -329,7 +328,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 </style>                                                                
                                                                 <div class="swatch color clearfix" data-option-index="0">
                                                                     <div class="header">
-                                                                        Stone
+                                                                        <?php echo __("Stone"); ?>
                                                                     </div>
                                                                     <?php
                                                                     $getColorName = $pdo->prepare("SELECT * FROM color WHERE id = :id");
@@ -352,7 +351,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                     ?>
                                                                     <div class="swatch color clearfix" data-option-index="0">
                                                                         <div class="header">
-                                                                            Diamond Color
+                                                                            <?php echo __("Diamond Color"); ?>
                                                                         </div>
                                                                         <?php
                                                                         $getColorName = $pdo->prepare("SELECT * FROM diamond_color WHERE id = :id");
@@ -379,7 +378,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                     echo '
                                                                 <div class="swatch clearfix" data-option-index="1">
                                                                     <div class="header">
-                                                                        Size
+                                                                        '.__("Size").'
                                                                     </div>
                                                                     
                                                                     <div id="quick-shop-size">';
@@ -445,7 +444,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 ?>
                                                                 <div class="swatch color clearfix" data-option-index="0">
                                                                     <div class="header">
-                                                                        Length
+                                                                        <?php echo __("Length"); ?>
                                                                     </div>
                                                                     <?php
                                                                     if ( empty($itemInfo['height']) || $itemInfo['height'] == 0 || empty($itemInfo['width']) || $itemInfo['width'] == 0 || empty($itemInfo['length']) || $itemInfo['length'] == 0 ) {
@@ -464,7 +463,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 ?>
                                                                 <div class="swatch color clearfix" data-option-index="0">
                                                                     <div class="header">
-                                                                        Measurement
+                                                                        <?php echo __("Measurement"); ?>
                                                                     </div>
                                                                     <?php
                                                                     if ( empty($itemInfo['height']) || $itemInfo['height'] == 0 || empty($itemInfo['width']) || $itemInfo['width'] == 0 || empty($itemInfo['length']) || $itemInfo['length'] == 0 ) {
@@ -483,7 +482,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 ?>
                                                                 <div class="swatch color clearfix" data-option-index="0">
                                                                     <div class="header">
-                                                                        Metal
+                                                                        <?php echo __("Metal"); ?>
                                                                     </div>
                                                                     <?php
                                                                     echo '<div class="header"><small>'. getMaterial($itemInfo['material'], $pdo) .'</small></div>';
@@ -495,7 +494,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                             </div>
                                                                     <div class="header">
 
-                                                                        Gold Quality
+                                                                        <?php echo __("Gold Quality"); ?>
                                                                     </div>
                                                                     <?php
                                                                     $goldQuality = $pdo->prepare("SELECT gold_quality FROM gold_quality WHERE id = :id");
@@ -508,7 +507,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                         echo '
                                                                         <div data-value="blue" class="swatch-element color blue available">
                                                                             <div class="tooltip" style="width: 250px; left: -100px;">
-                                                                                Gold Quality - Gold Weight
+                                                                                '.__("Gold Quality").' - '.__("Gold Weight").'
                                                                             </div>
                                                                             <div class="header"><small>'. $goldQuality .' - '. $itemInfo['total_gold_weight'] .'gr <i class="fa fa-info-circle"></i></small></div>
                                                                             </label>
@@ -518,7 +517,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 </div>
                                                                 <div class="swatch color clearfix" data-option-index="0">
                                                                     <div class="header">
-                                                                        Diamonds
+                                                                        <?php echo __("Diamonds"); ?>
                                                                     </div>
                                                                     <?php
                                                                     //echo '<div class="header"><small>'. $itemInfo['no_of_stones'] .' - '. number_format($itemInfo['total_carat_weight'], 2) .'ct.</small></div>';
@@ -526,7 +525,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                     echo '
                                                                         <div data-value="blue" class="swatch-element color blue available">
                                                                             <div class="tooltip" style="width: 250px; left: -100px;">
-                                                                                No. of Diamonds - Diamond Weight
+                                                                                '.__("No. of Diamonds").' - '.__("Diamond Weight").'
                                                                             </div>
                                                                             <div class="header"><small>'. $itemInfo['no_of_stones'] .' - '. number_format($itemInfo['total_carat_weight'], 2) .'ct. <i class="fa fa-info-circle"></i></small></div>
                                                                             </label>
@@ -535,7 +534,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 </div>
                                                                 <div class="swatch color clearfix" data-option-index="0">
                                                                     <div class="header">
-                                                                        Diamond Clarity
+                                                                        <?php echo __("Diamond Clarity"); ?>
                                                                     </div>
                                                                     <?php
                                                                     echo '<div class="header"><small>'. $itemInfo['clarity'] .'</small></div>';
@@ -543,7 +542,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 </div>
                                                                 <div class="swatch color clearfix" data-option-index="0">
                                                                     <div class="header">
-                                                                        Diamond Shape
+                                                                        <?php echo __("Diamond Shape"); ?>
                                                                     </div>
                                                                     <?php
                                                                     echo '<div class="header"><small>'. getDiamondShape($itemInfo['diamond_shape'], $pdo) .'</small></div>';
@@ -563,7 +562,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 </div> -->
                                                                 <div class="swatch color clearfix" data-option-index="0">
                                                                     <div class="header">
-                                                                        Color Stones
+                                                                        <?php echo __("Color Stones"); ?>
                                                                     </div>
                                                                     <?php
                                                                     $numColorStoneTag = "-";
@@ -575,7 +574,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                     echo '
                                                                         <div data-value="blue" class="swatch-element color blue available">
                                                                             <div class="tooltip" style="width: 250px; left: -100px;">
-                                                                                No. of Color Stones - Color Stone Weight
+                                                                                '.__("No. of Color Stones").' - '.__("Color Stone Weight").'
                                                                             </div>
                                                                             <div class="header"><small>'. $numColorStoneTag .' <i class="fa fa-info-circle"></i></small></div>
                                                                             </label>
@@ -584,7 +583,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 </div>
                                                                 <div class="swatch color clearfix" data-option-index="0">
                                                                     <div class="header">
-                                                                        Color Stone Type
+                                                                        <?php echo __("Color Stone Type"); ?>
                                                                     </div>
                                                                     <?php
                                                                     echo '<div class="header"><small>'. $itemInfo['color_stone_type'] .'</small></div>';
@@ -592,22 +591,22 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 </div>
                                                                 <div class="swatch color clearfix" data-option-index="0">
                                                                     <div class="header">
-                                                                        Color Stone Shape
+                                                                        <?php echo __("Color Stone Shape"); ?>
                                                                     </div>
                                                                     <?php
                                                                     echo '<div class="header"><small>'. getDiamondShape($itemInfo['color_stone_shape'], $pdo) .'</small></div>';
                                                                     ?>                                                                  
                                                                 </div>
                                                                 <div class="quantity-wrapper clearfix">
-                                                                    <label class="wrapper-title">Quantity</label>
+                                                                    <label class="wrapper-title"><?php echo __("Quantity"); ?></label>
                                                                     <div class="wrapper">
                                                                         <input id="quantity" name="quantity" value="1" maxlength="5" size="5" class="item-quantity" type="text">
                                                                         <span class="qty-group">
                                                                         <span class="qty-wrapper">
-                                                                        <span data-original-title="Increase" class="qty-up btooltip" data-toggle="tooltip" data-placement="top" title="" data-src="#quantity">
+                                                                        <span data-original-title="<?php echo __("Increase"); ?>" class="qty-up btooltip" data-toggle="tooltip" data-placement="top" title="" data-src="#quantity">
                                                                         <i class="fa fa-caret-right"></i>
                                                                         </span>
-                                                                        <span data-original-title="Decrease" class="qty-down btooltip" data-toggle="tooltip" data-placement="top" title="" data-src="#quantity">
+                                                                        <span data-original-title="<?php echo __("Decrease"); ?>" class="qty-down btooltip" data-toggle="tooltip" data-placement="top" title="" data-src="#quantity">
                                                                         <i class="fa fa-caret-left"></i>
                                                                         </span>
                                                                         </span>
@@ -619,7 +618,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                         <span class="price">
                                                                             <?php
                                                                                 if ( $item["discount"] > 0 ) {
-                                                                                    $sale = '<span style="font-size: 18px;" class="label label-success">'. $item['discount'] .'% OFF</span>'; 
+                                                                                    $sale = '<span style="font-size: 18px;" class="label label-success">'. $item['discount'] .'% '.__("OFF").'</span>'; 
                                                                                 } else {
                                                                                     $sale = "";
                                                                                 }
@@ -629,9 +628,9 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 </div>
                                                                 <?php
                                                                 if ( $itemInfo['pieces_in_stock'] > 0 ) {
-                                                                    $button = '<button id="add-to-cart" class="btn btn-1 add-to-cart" data-parent=".product-information" type="submit" name="addToCart">Add to Cart</button>';
+                                                                    $button = '<button id="add-to-cart" class="btn btn-1 add-to-cart" data-parent=".product-information" type="submit" name="addToCart">'.__("Add to Cart").'</button>';
                                                                 } else {
-                                                                    $button = '<button id="add-to-cart" class="btn btn-1 add-to-cart disabled" data-parent=".product-information" type="submit" name="add">Out of Stock</button>';
+                                                                    $button = '<button id="add-to-cart" class="btn btn-1 add-to-cart disabled" data-parent=".product-information" type="submit" name="add">'.__("Out of Stock").'</button>';
                                                                 }
 
                                                                 /* if ( !$_SESSION['loggedIn'] || !isset($_SESSION['loggedIn']) ) {
@@ -655,7 +654,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                 </div>         
                                 <!-- Related Products -->
                                 <section class="rel-container clearfix">  
-                                    <h6 class="general-title text-left">You may also like the related products</h6>
+                                    <h6 class="general-title text-left"><?php echo __("You may also like the related products"); ?></h6>
                                     <div id="prod-related-wrapper">
                                         <div class="prod-related clearfix">
                                         
@@ -705,15 +704,15 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                         if ( $product['discount'] > 0 ) {
                                                             
                                                             $value = $product['item_value'] -  (($product['discount'] / 100 ) * $product['item_value']);
-                                                            $sale = '<span class="sale_banner"><span class="sale_text">Sale</span></span>';
+                                                            $sale = '<span class="sale_banner"><span class="sale_text">'.__("Sale").'</span></span>';
                                                             $price = '<span class="price_sale">€'. round($value, 2) .'</span><del class="price_compare">€'. $product['item_value'] .'</del>';
                                                         }
 
 
                                                         if ( strstr($favorites, $product['unique_key']) ) {
-                                                            $wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'_FEAT" onClick="removeFromWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart fav-true"></i><span class="list-mode">Remove from Wishlist</span></a>';
+                                                            $wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'_FEAT" onClick="removeFromWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart fav-true"></i><span class="list-mode">'.__("Remove from Wishlist").'</span></a>';
                                                         } else {
-                                                            $wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'_FEAT" onClick="addToWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">Add to Wishlist</span></a>';
+                                                            $wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'_FEAT" onClick="addToWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">'.__("Add to Wishlist").'</span></a>';
                                                         }
                                                         
                                                         echo '                                                                                          
@@ -733,7 +732,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 <a class="title-5" href="./product.php?view='. $product['unique_key'] .'">'. $product['item_name'] .'</a>
                                                                 <span class="spr-badge" id="spr_badge_1293238211" data-rating="0.0">
                                                                 <span class="spr-badge-caption">
-                                                                No reviews </span>
+                                                                '.__("No reviews").' </span>
                                                                 </span>
                                                             </div>
                                                             <div class="product-content-right">
@@ -746,12 +745,12 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 <form action="./product.php?view='. $product['unique_key'] .'" method="post">
                                                                     <div class="effect-ajax-cart">
                                                                         <input type="hidden" name="quantity" value="1">
-                                                                        <button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $product['unique_key'] .'\'"><i class="fa fa-th-list" title="Select Options"></i><span class="list-mode">Select Option</span></button>
+                                                                        <button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $product['unique_key'] .'\'"><i class="fa fa-th-list" title="'.__("Select Options").'"></i><span class="list-mode">'.__("Select Option").'</span></button>
                                                                     </div>
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                     <div class="quick_shop" onclick="quickShop(\''. $product['unique_key'] .'\')">
-                                                                        <i class="fa fa-eye" title="Quick view"></i><span class="list-mode">Quick View</span>                                                                       
+                                                                        <i class="fa fa-eye" title="'.__("Quick view").'"></i><span class="list-mode">'.__("Quick View").'</span>                                                                       
                                                                     </div>
                                                                 </div>
                                                                 '. $wishlist .'
@@ -789,7 +788,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
         <div class="modal-dialog rotateInDownLeft animated">
             <div class="modal-content" style="min-height: 0px;">
                 <div class="modal-header">
-                    <i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="modal" aria-hidden="true" data-original-title="Close"></i>
+                    <i class="close fa fa-times btooltip" data-toggle="tooltip" data-placement="top" title="" data-dismiss="modal" aria-hidden="true" data-original-title="<?php echo __("Close"); ?>"></i>
                 </div>
                 <div class="modal-body">
                     <div class="quick-shop-modal-bg" style="display: none;">
@@ -825,15 +824,15 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                         
                                     </div>
                                     <div class="quantity-wrapper clearfix">
-                                        <label class="wrapper-title">Quantity</label>
+                                        <label class="wrapper-title"><?php echo __("Quantity"); ?></label>
                                         <div class="wrapper">
                                             <input type="text" id="qs-quantity" size="5" class="item-quantity" name="quantity" value="1">
                                             <span class="qty-group">
                                             <span class="qty-wrapper">
-                                            <span class="qty-up" title="Increase" data-src="#qs-quantity">
+                                            <span class="qty-up" title="<?php echo __("Increase"); ?>" data-src="#qs-quantity">
                                             <i class="fa fa-plus"></i>
                                             </span>
-                                            <span class="qty-down" title="Decrease" data-src="#qs-quantity">
+                                            <span class="qty-down" title="<?php echo __("Decrease"); ?>" data-src="#qs-quantity">
                                             <i class="fa fa-minus"></i>
                                             </span>
                                             </span>
@@ -841,17 +840,17 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                         </div>
                                     </div>
                 
-                                    <label class="label-quick-shop">Material <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label>
+                                    <label class="label-quick-shop"><?php echo __("Material"); ?>" <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label>
                                     <input id="quick-shop-material-value" name="material" hidden />
                                     <div class="input-group" id="quick-shop-material">
-                                        <a class="btn material-badge" name="1">Yellow Gold</a>
-                                        <a class="btn material-badge" name="2">White Gold</a>
-                                        <a class="btn material-badge" name="3">Pink Gold</a>
-                                        <a class="btn material-badge" name="4">Silver</a>
-                                        <a class="btn material-badge" name="5">Platinum</a>
+                                        <a class="btn material-badge" name="1"><?php echo __("Yellow Gold"); ?></a>
+                                        <a class="btn material-badge" name="2"><?php echo __("White Gold"); ?></a>
+                                        <a class="btn material-badge" name="3"><?php echo __("Pink Gold"); ?></a>
+                                        <a class="btn material-badge" name="4"><?php echo __("Silver"); ?></a>
+                                        <a class="btn material-badge" name="5"><?php echo __("Platinum"); ?>"</a>
                                     </div>
                                     <div id="quick-shop-size">
-                                        <label class="label-quick-shop">Size <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label> 
+                                        <label class="label-quick-shop"><?php echo __("Size"); ?> <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label> 
                                         <input id="quick-shop-size-value" name="size" value="0" hidden />
                                         <div class="input-group" id="quick-shop-size-container">
                                             <!-- Sizes go here -->
@@ -891,7 +890,7 @@ function addToWishlist(key) {
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 $("#fav_"+key+" i").addClass("fav-true");
-                $("#fav_"+key+" span").text("Remove from Wishlist");
+                $("#fav_"+key+" span").text("<?php echo __('Remove from Wishlist'); ?>");
                 $("#fav_"+key).removeAttr("onClick");
                 $("#fav_"+key).attr("onClick", "removeFromWishlist('"+ key +"')");
                 $("#fav_"+key).attr("data-original-title", "Un-favorites it!");
@@ -1001,9 +1000,9 @@ function quickShop(id) {
                 }
 
                 if ( result['pieces_in_stock'] <= 0 ) {
-                    $("#buttonDiv").html('<button class="btn" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" disabled>Out of Stock</button>');
+                    $("#buttonDiv").html('<button class="btn" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" disabled><?php echo __("Out of Stock"); ?></button>');
                 } else {
-                    $("#buttonDiv").html('<button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;">Add to Cart</button>');
+                    $("#buttonDiv").html('<button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;"><?php echo __("Add to Cart"); ?></button>');
                 }
 
                 $("#quick-shop-unique-key").val(result['unique_key']);
@@ -1034,7 +1033,7 @@ function removeFromWishlist(key) {
   xmlhttp.onreadystatechange = function() {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
           $("#fav_"+key+" i").removeClass("fav-true");
-          $("#fav_"+key+" span").text("Add to Wishlist");
+          $("#fav_"+key+" span").text("<?php echo __('Add to Wishlist'); ?>");
           $("#fav_"+key).removeAttr("onClick");
           $("#fav_"+key).attr("onClick", "addToWishlist('"+ key +"')");
           $("#fav_"+key).attr("data-original-title", "Favorite it!");

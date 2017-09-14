@@ -1,13 +1,13 @@
 <footer id="footer">      
     <div id="footer-content">
-      <h6 class="general-title contact-footer-title">Newsletter</h6>  
+      <h6 class="general-title contact-footer-title"><?php echo __("Newsletter"); ?></h6>  
       <div id="widget-newsletter">
         <div class="container">            
           <div class="newsletter col-md-24">
           <form method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
-            <span class="news-desc">We promise only send the good things</span><img id="subscribe-loading-img" src="./images/gfx/cube.gif" style="margin: 0px 10px; width: 20px; display:none;" />
+            <span class="news-desc"><?php echo __("We promise only send the good things"); ?></span><img id="subscribe-loading-img" src="./images/gfx/cube.gif" style="margin: 0px 10px; width: 20px; display:none;" />
             <div class="group_input">
-            <input class="form-control" type="email" placeholder="Your Email Address" name="email" id="email-input" required="true">
+            <input class="form-control" type="email" placeholder="<?php echo __("Your Email Address"); ?>" name="email" id="email-input" required="true">
             <div class="unpadding-top"><button class="btn btn-1" type="submit" name="subscribe"><i class="fa fa-paper-plane"></i></button></div>
             </div>              
           </form>
@@ -19,50 +19,50 @@
         <div class="container">
           <div class="footer-link-list col-md-6 col-md-offset-2">
             <div class="group">
-            <h5 class="general-title">About Us</h5>           
+            <h5 class="general-title"><?php echo __("About Us"); ?></h5>           
             <ul class="list-unstyled list-styled">              
               <li class="list-unstyled">
               </li>           
               <li class="list-unstyled">
-              <a href="./contact.php">Contact Us</a>
+              <a href="./contact.php"><?php echo __("Contact Us"); ?></a>
               </li>             
             </ul>
             </div>
           </div>   
           <div class="footer-link-list col-md-6 col-md-offset-2">
             <div class="group">
-            <h5 class="general-title">Collections</h5>            
+            <h5 class="general-title"><?php echo __("Collections"); ?></h5>            
             <ul class="list-unstyled list-styled">              
               <li class="list-unstyled">
-              <a href="./collection_rings.php">Rings</a>
+              <a href="./collection_rings.php"><?php echo __("Rings"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="./collection_earrings.php">Earrings</a>
+              <a href="./collection_earrings.php"><?php echo __("Earrings"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="./collection_pendants.php">Pendants</a>
+              <a href="./collection_pendants.php"><?php echo __("Pendants"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="./collection_necklaces.php">Necklaces</a>
+              <a href="./collection_necklaces.php"><?php echo __("Necklaces"); ?></a>
               </li>            
               <li class="list-unstyled">
-              <a href="./collection_bracelets.php">Bracelets</a>
+              <a href="./collection_bracelets.php"><?php echo __("Bracelets"); ?></a>
               </li>             
             </ul>
             </div>
           </div>
           <div class="footer-link-list col-md-6 col-md-offset-2">
             <div class="group">
-            <h5 class="general-title">Account</h5>            
+            <h5 class="general-title"><?php echo __("Account"); ?></h5>            
             <ul class="list-unstyled list-styled">              
               <li class="list-unstyled">
-              <a href="./account.php">Preferences</a>
+              <a href="./account.php"><?php echo __("Preferences"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="./cart.php">My Cart</a>
+              <a href="./cart.php"><?php echo __("My Cart"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="./account.php">Favorites</a>
+              <a href="./account.php"><?php echo __("Favorites"); ?></a>
               </li>             
             </ul>
             </div>
@@ -73,7 +73,7 @@
       <div class="footer-content footer-content-bottom clearfix">
         <div class="container">
           <div class="copyright col-md-12">
-            © 2016 <a href="./contact.php">Diamant Secret</a>. All Rights Reserved.
+            © 2016 <a href="./contact.php">Diamant Secret</a>. <?php echo __("All Rights Reserved"); ?>.
           </div>
           <div id="widget-payment" class="col-md-12" style="text-align:right">
             <img src="./images/gfx/logo.png" style="width:200px" />
