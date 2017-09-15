@@ -373,8 +373,8 @@ function urlclick(currentLang,changeLang){
 					<li class="mobile-search visible-xs">
 						<form id="mobile-search" class="search-form" action="collection.php" method="get">
 							<input type="hidden" name="type" value="product">
-							<input type="text" class="" name="q" accesskey="4" autocomplete="off" placeholder="Search Product" value="<?php echo $searchTag; ?>">
-							<button type="submit" class="search-submit" title="search"><i class="fa fa-search"></i></button>
+							<input type="text" class="" name="q" accesskey="4" autocomplete="off" placeholder="<?php echo __('Search Product'); ?>" value="<?php echo $searchTag; ?>">
+							<button type="submit" class="search-submit" title="<?php echo __('Search'); ?>"><i class="fa fa-search"></i></button>
 						</form>
 					</li> 
 					<?php
@@ -468,7 +468,7 @@ function urlclick(currentLang,changeLang){
 																		<input name="quantity" value="'. $cartItem[2] .'" hidden />
 																		<input name="offset" value="'. $i .'" hidden />
 																		</form>
-																		<button class="cart-close" title="Remove" href="javascript:void(0);" style="background:transparent;" form="removeFromCart_'. $i .'" type="submit" name="removeFromCart"><i class="fa fa-times"></i></button>
+																		<button class="cart-close" title="'.__("Remove").'" href="javascript:void(0);" style="background:transparent;" form="removeFromCart_'. $i .'" type="submit" name="removeFromCart"><i class="fa fa-times"></i></button>
 																		<div class="col-md-8 cart-left">
 																			<a class="cart-image" href="./product.php?view='. $cartItemInfo['unique_key'] .'"><img src="./images/images_sm/'. $images[0] .'" alt="" title=""></a>
 																		</div>
@@ -493,7 +493,7 @@ function urlclick(currentLang,changeLang){
 																			<input name="offset" value="'. $i .'" hidden />
 																			<input name="size" value="'. $cartItem[1] .'" hidden />
 																			</form>
-																			<button class="cart-close" title="Remove" href="javascript:void(0);" style="background:transparent;" form="removeFromCart_'. $i .'" type="submit" name="removeFromCart"><i class="fa fa-times"></i></button>
+																			<button class="cart-close" title="'.__("Remove").'" href="javascript:void(0);" style="background:transparent;" form="removeFromCart_'. $i .'" type="submit" name="removeFromCart"><i class="fa fa-times"></i></button>
 																			<div class="col-md-8 cart-left">
 																				<a class="cart-image"><img src="./images/images_sm/0.png" alt="" title=""></a>
 																			</div>

@@ -52,19 +52,6 @@ echo textTranslate("View Cart");
 /* -- url/header.php ENDS HERE -- */
 
 
-/* -- url/register.php STARTS HERE -- */
-echo textTranslate("WEBSITE");
-echo textTranslate("USERNAME INVALID");
-echo textTranslate("Username not found");
-echo textTranslate("Unknown Error");
-echo textTranslate("Please contact the system administrator");
-echo textTranslate("Password Mismatch");
-echo textTranslate("Repeat Password");
-echo textTranslate("Next");
-echo textTranslate("Back to Homepage");
-/* -- url/register.php ENDS HERE -- */
-
-
 /* -- index.php STARTS HERE -- */
 echo textTranslate("Home");//PAGE TITLE
 /* -- SLIDER PART TRANSLATION STARTS HERE -- */
@@ -213,11 +200,6 @@ echo textTranslate("Contact Page");// Page title
 echo textTranslate("Contact Information");
 echo textTranslate("Office Address");
 /* -- contact.php ENDS HERE -- */
-
-
-/* -- dssearch.php STARTS HERE -- */
-echo textTranslate("Error while displaying search");
-/* -- dssearch.php ENDS HERE -- */
 
 
 /* -- login.php STARTS HERE -- */

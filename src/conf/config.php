@@ -822,10 +822,10 @@ $product_images = array(
 
 if (strpos($actual_link,'admin') !== false) {
     
-}else if(basename($_SERVER['PHP_SELF']) == 'ajax.php' || basename($_SERVER['PHP_SELF']) == 'fetch_item_info.php' || basename($_SERVER['PHP_SELF']) == 'post.php') {
+}else if(basename($_SERVER['PHP_SELF']) == 'ajax.php' || basename($_SERVER['PHP_SELF']) == 'fetch_item_info.php' || basename($_SERVER['PHP_SELF']) == 'post.php' || basename($_SERVER['PHP_SELF']) == 'ExecutePayment.php') {
     include '../translation/french.php';
  } else {
     include 'translation/french.php';
  }
-
+ob_start();
 ?>
