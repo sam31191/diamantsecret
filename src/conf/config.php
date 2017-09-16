@@ -1,12 +1,33 @@
 <?php
 
 
-    /*  MySQL Configuration */
-    $host = "localhost";
-    $dbname = "diamantsecret";
-    $user = "root";
-    $pass = "";
+    // /*  MySQL Configuration */
+    // $host = "localhost";
+    // $dbname = "diam_prince";
+    // $user = "root";
+    // $pass = "";
     
+
+    // /* Mail Configuration */
+    // $mailHost = 'mail.diamantsecret.com';
+    // $mailPort = 26;
+    // $mailSMTPAuth = true;
+    // $mailUsername = "contact@diamantsecret.com";
+    // $mailPassword = "contact@123";
+    // $mailSenderEmail = "contact@diamantsecret.com";
+    // $mailSenderName = "Diamant Secret";
+    // $__ADMINMAIL__ = "ryan.bhanwra@gmail.com";
+    // $__ADMINNAME__ = "Admin";
+    // $__MAINDOMAIN__ = "http://localhost/git/diam_prince/diamantsecret/src/";
+    // $__SITE = "diamant_secret";
+    #$__MAINDOMAIN__ = "http://www.diamantsecret.com/";
+    /*  MySQL Configuration */
+    
+    $host = "localhost";
+
+    $dbname = "TESTSITE_DIAMANTSECRET";
+    $user = "diamants_test";
+    $pass = "test_diamants";
 
     /* Mail Configuration */
     $mailHost = 'mail.diamantsecret.com';
@@ -16,11 +37,10 @@
     $mailPassword = "contact@123";
     $mailSenderEmail = "contact@diamantsecret.com";
     $mailSenderName = "Diamant Secret";
-    $__ADMINMAIL__ = "ryan.bhanwra@gmail.com";
+    $__ADMINMAIL__ = "contact@diamantsecret.com";
     $__ADMINNAME__ = "Admin";
-    $__MAINDOMAIN__ = "http://localhost/git/diam_prince/diamantsecret/src/";
+    $__MAINDOMAIN__ = "http://www.diamantsecret.com/testsite/";
     $__SITE = "diamant_secret";
-    #$__MAINDOMAIN__ = "http://www.diamantsecret.com/";
     
     
     /* Test site options */
@@ -49,6 +69,7 @@
 
     /* COOKIES */
     define("COOKIE_CART", "TEMP_CART");
+
 
 
 
@@ -822,10 +843,10 @@ $product_images = array(
 
 if (strpos($actual_link,'admin') !== false) {
     
-}else if(basename($_SERVER['PHP_SELF']) == 'ajax.php' || basename($_SERVER['PHP_SELF']) == 'fetch_item_info.php' || basename($_SERVER['PHP_SELF']) == 'post.php' || basename($_SERVER['PHP_SELF']) == 'ExecutePayment.php') {
+}else if(basename($_SERVER['PHP_SELF']) == 'ajax.php' || basename($_SERVER['PHP_SELF']) == 'fetch_item_info.php' || basename($_SERVER['PHP_SELF']) == 'post.php') {
     include '../translation/french.php';
  } else {
     include 'translation/french.php';
  }
-ob_start();
+
 ?>
