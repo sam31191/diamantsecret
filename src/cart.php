@@ -408,7 +408,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                         <small><?php echo __("Total"); ?></small> <?php echo __("VAT"); ?> 
                                                     </th>
                                                     <th>
-                                                        <?php echo __("SubTotal"); ?>
+                                                        <?php echo __("Subtotal"); ?>
                                                     </th>
                                                     <th>
                                                         &nbsp;
@@ -600,7 +600,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                                         <td class="total title-1">
                                                                             <small>'.__("Out of Stock").'</small>
                                                                         </td>
-                                                                        <td class="action"><button type="submit" form="removeItemForm" name="removeItem" value="'. $item .'"><i class="fa fa-times"></i>Remove</button>
+                                                                        <td class="action"><button type="submit" form="removeItemForm" name="removeItem" value="'. $item .'"><i class="fa fa-times"></i>'.__("Remove").'</button>
                                                                         </td>
                                                                     </tr>';
                                                             }

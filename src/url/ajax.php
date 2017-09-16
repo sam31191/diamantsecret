@@ -49,7 +49,7 @@ if ( isset($_GET['subscribe']) ) {
 	$checkSub->execute(array(":email" => $email));
 
 	if ( $checkSub->rowCount() > 0 ) {
-		echo "You are already subscribed";
+		echo __("You are already subscribed");
 	} else {
     	$hash = strtoupper((hash("MD5", $email . "RAND123HASH")));
 		$addSub = $pdo->prepare("INSERT INTO `subscribers` (`email`, `hash`, `site_id`) VALUES (:email, :hash, 1)");
@@ -88,13 +88,13 @@ if ( isset($_GET['subscribe']) ) {
 		        )
 		    )
 		);
-		$mail->Subject = $testSiteSubject . 'Subscription';
+		$mail->Subject = $testSiteSubject . ' '.__('Subscription');
 		$mail->Body = $mailBody;
 		if ( !$mail->send() ) {
-			echo 'Invalid Email Address';
+			echo __('Invalid Email Address');
 
 		} else {
-			echo "Thank you for subscribing to Diamant Secret";
+			echo __("Thank you for subscribing to Diamant Secret");
 		}
 	}
 }
@@ -137,17 +137,17 @@ if ( isset($_GET['register']) ) {
 		$checkUsername = $checkUsername->fetch(PDO::FETCH_ASSOC);
 
 		if ( $checkUsername['activated'] == 0 ) {
-			$alert = ' Email with the activation link has already been sent to your Inbox';
+			$alert = ' '.__('Email with the activation link has already been sent to your Inbox');
 		} else {
-			$alert = ' Username Already Exists ';
+			$alert = ' '.__('Username Already Exists').' ';
 		}
 	} else if ( $checkEmail->rowCount() > 0 ) {
 		$checkEmail = $checkEmail->fetch(PDO::FETCH_ASSOC);
 
 		if ( $checkEmail['activated'] == 0 ) {
-			$alert = ' Email with the activation link has already been sent to your Inbox';
+			$alert = ' '.__('Email with the activation link has already been sent to your Inbox');
 		} else {
-			$alert = ' Email Already Registered. Please <a href="./login.php"  style="color: #607D8B;">Login</a> Instead ';
+			$alert = ' '.__('Email Already Registered. Please').' <a href="./login.php"  style="color: #607D8B;">'.__('Login').'</a> '.__('Instead').' ';
 		}
 		
 	} else {
@@ -188,12 +188,12 @@ if ( isset($_GET['register']) ) {
 		        )
 		    )
 		);
-		$mail->Subject = $testSiteSubject . 'Activation Account';
+		$mail->Subject = $testSiteSubject . ' '.__('Activation Account');
 
 		#$mailBody = mailVerify($_POST['customer']['username'], "http://www.diamantsecret.com/register.php?verify=".$verifyHash);
 		$mail->Body = $mailBody;
 		if ( !$mail->send() ) {
-			$alert = "Invalid Email";
+			$alert = __("Invalid Email");
 		} else {
 			$createUser = $pdo->prepare("INSERT INTO `accounts` (`username`, `email`, `password`, `first_name`, `last_name`, `mobileno`, `address`, `type`, `activated`, `verification_hash`, `site_id`) VALUES (:user, :email, :password, :first_name, :last_name, :phone_number, :address, 0, 0, :hash, 1)");
 
@@ -207,7 +207,7 @@ if ( isset($_GET['register']) ) {
 				":address" => trim($_POST['customer']['address']),
 				":hash" => $verifyHash,
 			));
-			$alert = 'Registration Successful. Please follow the instructions in your Email to continue';
+			$alert = __('Registration Successful. Please follow the instructions in your Email to continue');
 		}
 	}
 
@@ -233,28 +233,28 @@ if ( isset($_GET['paymentInfo']) ) {
             );
             $payment = Payment::get($paymentId, $apiContext);
 
-            $status = '<label class="label label-danger" style="font-size: 14px;" >Unknown</label>';
+            $status = '<label class="label label-danger" style="font-size: 14px;" >'.__("Unknown").'</label>';
 
               switch ( $paymentInfo['state'] ) {
                 case 'approved': {
-                  $status = '<label class="label label-success" style="font-size: 14px;" >Approved</label>';
+                  $status = '<label class="label label-success" style="font-size: 14px;" >'.__("Approved").'</label>';
                   break;
                 } case 'opened': {
-                  $status = '<label class="label label-warning" style="font-size: 14px;" >Opening</label>';
+                  $status = '<label class="label label-warning" style="font-size: 14px;" >'.__("Opening").'</label>';
                   break;
                 }
               }
 
             $result = '<div class="row wrap-table">';
-            $result .= '<h5>Order Info</h5>';
+            $result .= '<h5>'.__("Order Info").'</h5>';
             $result .= '<table class="col-sm-24" style="margin-bottom: 15px;">';
             $result .= '<thead>';
-            $result .= '<th>Amount</th>';
-            $result .= '<th>State</th>';
-            $result .= '<th>Invoice</th>';
-            $result .= '<th>Created On</th>';
-            $result .= '<th>Updated On</th>';
-            $result .= '<th>Address</th>';
+            $result .= '<th>'.__("Amount").'</th>';
+            $result .= '<th>'.__("State").'</th>';
+            $result .= '<th>'.__("Invoice").'</th>';
+            $result .= '<th>'.__("Created On").'</th>';
+            $result .= '<th>'.__("Updated On").'</th>';
+            $result .= '<th>'.__("Address").'</th>';
             $result .= '</thead>';
             $result .= '<tbody>';
             $result .= '<tr>';
@@ -267,17 +267,17 @@ if ( isset($_GET['paymentInfo']) ) {
             } else {
                 $result .= '<td>'. date(DATETIME_FORMAT, strtotime($paymentInfo['update_time'])) .'</td>';
             }
-            $result .= '<td class="text-left"><small>Billing</small></br>'. $paymentInfo['billing_address'] .'<br/><small>Shipping</small></br>'. $paymentInfo['shipping_address'] .'</td>';
+            $result .= '<td class="text-left"><small>'.__("Billing").'</small></br>'. $paymentInfo['billing_address'] .'<br/><small>'.__("Shipping").'</small></br>'. $paymentInfo['shipping_address'] .'</td>';
             $result .= '</tr>';
             $result .= '</tbody>';
             $result .= '</table>';
             $result .= '<br />';
-            $result .= '<h5>Cart</h5>';
+            $result .= '<h5>'.__("Cart").'</h5>';
             $result .= '<table class="table-hover">';
             $result .= '<thead>';
-            $result .= '<th>Name</th>';
-            $result .= '<th>Price</th>';
-            $result .= '<th>Quantity</th>';
+            $result .= '<th>'.__("Name").'</th>';
+            $result .= '<th>'.__("Price").'</th>';
+            $result .= '<th>'.__("Quantity").'</th>';
             $result .= '<th></th>';
             $result .= '</thead>';
             $result .= '<tbody>';
@@ -287,7 +287,7 @@ if ( isset($_GET['paymentInfo']) ) {
                 $result .= '<td>'. $cartItem->name .'</td>';
                 $result .= '<td>&euro; '. number_format($cartItem->price, 2) .'</td>';
                 $result .= '<td>'. $cartItem->quantity .'</td>';
-                $result .= '<td><a class="btn btn-info" href="'.DOMAIN.'product.php?view='. $cartItem->sku .'" target="_blank">View</a></td>';
+                $result .= '<td><a class="btn btn-info" href="'.DOMAIN.'product.php?view='. $cartItem->sku .'" target="_blank">'.__("View").'</a></td>';
                 $result .= '</tr>';
             } 
 
@@ -297,7 +297,7 @@ if ( isset($_GET['paymentInfo']) ) {
 
             echo $result;
         } catch (Exception $ex) {
-            echo '<div class="alert alert-danger">An Error Occured</div>';
+            echo '<div class="alert alert-danger">'.__("An Error Occured").'</div>';
         }
 
     }

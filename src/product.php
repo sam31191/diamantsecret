@@ -258,7 +258,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                 <div id="product-info-left">
                                                     <div class="description">
                                                         <fieldset>
-                                                            <legend>Description</legend>
+                                                            <legend><?php echo __("Description"); ?></legend>
                                                             <p><?php
                                                             echo $itemInfo['description'];
                                                             ?></p>
@@ -750,7 +750,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                     <div class="quick_shop" onclick="quickShop(\''. $product['unique_key'] .'\')">
-                                                                        <i class="fa fa-eye" title="'.__("Quick view").'"></i><span class="list-mode">'.__("Quick View").'</span>                                                                       
+                                                                        <i class="fa fa-eye" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>                                                                       
                                                                     </div>
                                                                 </div>
                                                                 '. $wishlist .'
