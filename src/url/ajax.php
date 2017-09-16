@@ -147,7 +147,11 @@ if ( isset($_GET['register']) ) {
 		if ( $checkEmail['activated'] == 0 ) {
 			$alert = ' '.__('Email with the activation link has already been sent to your Inbox');
 		} else {
-			$alert = ' '.__('Email Already Registered. Please').' <a href="./login.php"  style="color: #607D8B;">'.__('Login').'</a> '.__('Instead').' ';
+
+			$alert = __("Email Already Registered. Please [v6] Login [v7] Instead");
+			
+			$alert = str_replace("[v6]", "<a href='./login.php'  style='color: #607D8B;'>", $alert);
+			$alert = str_replace("[v7]", "</a>", $alert);
 		}
 		
 	} else {

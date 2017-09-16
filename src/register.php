@@ -32,7 +32,14 @@ if ( isset($_GET['verifyLogin']) ) {
 			$activate = $pdo->prepare("UPDATE `accounts` SET `activated` = 1, `verification_hash` = :emptyHash WHERE `email` = :email AND `site_id` = 1");
 			$activate->execute(array(":emptyHash" => "", ":email" => $accountToActivate['email']));
 			$alert = __("Account has been verified");
-			$alert2 = __("Invalid Login Credentials")." </li></li>". __("Click here to")." <a style='color:#607D8B' href='./login.php'>".__("Login")."</a>";
+			//$alert2 = __("Invalid Login Credentials")." </li></li>". __("Click here to")." <a style='color:#607D8B' href='./login.php'>".__("Login")."</a>";
+			
+
+			$alert2 = __("Invalid Login Credentials [v1] Click here to [v2] Login [v3]");
+			$alert2 = str_replace("[v1]", "</li></li>", $alert2);
+			$alert2 = str_replace("[v2]", "<a style='color:#607D8B' href='./login.php'>", $alert2);
+			$alert2 = str_replace("[v3]", "</a>", $alert2);
+
 		}
 
 	} else {
@@ -115,7 +122,11 @@ if ( isset($_GET['verify']) ) {
 
 		//echo var_dump($activate);
 
-		$alert = __('Account Verified. Please').' <a href="./login.php" style="color: #607D8B;">'.__("Login").'</a>';
+		
+		$alert = __("Account Verified. Please [v4] Login [v5]");
+		$alert = str_replace("[v4]", "<a href='./login.php' style='color: #607D8B;'>", $alert);
+		$alert = str_replace("[v5]", "</a>", $alert);
+
 	} else {
 		$alert = __('Verification link has expired');
 	}
