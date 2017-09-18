@@ -1,6 +1,0 @@
-
-RewriteEngine on
-RewriteCond %{HTTP_HOST} ^testsite\.diamantsecret\.com$ [OR]
-RewriteCond %{HTTP_HOST} ^www\.testsite\.diamantsecret\.com$
-RewriteRule ^/?$ "http\:\/\/www\.diamantsecret\.com\/testsite" [R=301,L]
-
