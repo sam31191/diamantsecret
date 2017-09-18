@@ -13,9 +13,9 @@ include './url/pre.php';
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-  <link rel="canonical" href="/" />
-  <meta name="description" content="" />
-  <title><?php echo __("Rings"); ?></title>
+  <link rel="canonical" href="https://diamantsecret.com/en/collection_rings.php" />
+  <meta name="description" content="Looking for diamond rings for wedding? Diamant Secret has the best collection of full diamond eternity rings, elegant rings, solitaire engagement rings." />
+  <title><?php echo __("Diamond Engagement Rings - Gemstone Rings Collection - Pearl Rings"); ?></title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
     

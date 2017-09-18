@@ -13,9 +13,9 @@ include './url/pre.php';
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-  <link rel="canonical" href="/" />
-  <meta name="description" content="" />
-  <title><?php echo __("Necklace"); ?></title>
+  <link rel="canonical" href="https://diamantsecret.com/en/collection_necklaces.php" />
+  <meta name="description" content="Find the best collection of fine diamond necklace, gemstone necklace, necklace chain, and pearl necklace. We are one of the largest jewellery brands in Paris." />
+  <title><?php echo __("Fine Diamond Necklaces - Best Gemstone Necklace - Chain Necklace - Pearl Necklace"); ?></title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
     

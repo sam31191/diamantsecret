@@ -585,10 +585,10 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 								<div id="quick-shop-relative" class="relative text-left">
 									<ul class="list-unstyled">
 										<li class="control-group vendor">
-										<span class="control-label">Vendor :</span><a href="/collections/vendors?q=Vendor+1"> Vendor 1</a>
+										<span class="control-label">Home :</span><a href="#"> Home</a>
 										</li>
 										<li class="control-group type">
-										<span class="control-label">Type :</span><a href="/collections/types?q=Sweaters+Wear"> Sweaters Wear</a>
+										<span class="control-label">Home :</span><a href="#"> Home</a>
 										</li>
 									</ul>
 								</div>

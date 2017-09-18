@@ -13,9 +13,9 @@ include './url/pre.php';
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-  <link rel="canonical" href="/" />
-  <meta name="description" content="" />
-  <title><?php echo __("Bracelets"); ?></title>
+  <link rel="canonical" href="https://diamantsecret.com/en/collection_bracelets.php" />
+  <meta name="description" content="Looking for top quality of bracelets to buy online? We at DiamantSecret have the best collection of diamond bracets, gemstone bracelets, pearl bracelets etc." />
+  <title><?php echo __("Collection of Best Diamond Bracelets - Gemstone Bracelets"); ?></title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
     

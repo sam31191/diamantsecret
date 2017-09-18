@@ -13,10 +13,10 @@ include './url/pre.php';
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-  <link rel="canonical" href="/" />
-  <meta name="description" content="" />
-  <title><?php echo __("Earrings"); ?></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />  
+  <link rel="canonical" href="https://diamantsecret.com/en/collection_earrings.php" />
+  <meta name="description" content="If you want to buy best quality of diamond earrings and gemstone earrings online then Diamant Secret is the best source. Call us today +32 3 298 58 66" />
+  <title><?php echo __("Buy Best Diamond Earrings online - Gemstone Earrings for Women"); ?></title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
     
