@@ -1,10 +1,10 @@
 ErrorDocument 404 /en/404.php
 RewriteEngine On
-RewriteBase /diamantsecret/src/   
+RewriteBase /diamantsecret/src/
 
 # empty url -> redirect to en/
 RewriteCond %{QUERY_STRING} !lang=(en|fr)
-RewriteRule ^$ en/ [R=301,L]
+RewriteRule ^$ fr/ [R=301,L]
 
 # url is ONLY '/en' or '/de' -> redirect to /en/ or /de/ (adding slash)
 RewriteRule ^(en|fr)$  $1/ [R=301,L]

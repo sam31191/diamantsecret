@@ -153,7 +153,7 @@ if ( isset($_POST['addToCart']) ) {
 										}
 										</script>
 
-										<script src="https://maps.googleapis.com/maps/api/js?callback=myMap&v=3&key=AIzaSyAk_N6UbtKDMpR8WOeAKWPJwtYJ9QcyeJY"></script>
+										<script src="https://maps.googleapis.com/maps/api/js?callback=myMap&v=3&key=AIzaSyAx7URd4-Dap3X3Ln5PfT784AgrpJ_l3D4"></script>
 									</div>
 								</div>
 							</div>

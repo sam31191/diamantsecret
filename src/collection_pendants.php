@@ -13,9 +13,9 @@ include './url/pre.php';
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-  <link rel="canonical" href="/" />
-  <meta name="description" content="" />
-  <title><?php echo __("Pendants"); ?></title>
+  <link rel="canonical" href="https://diamantsecret.com/en/collection_pendants.php" />
+  <meta name="description" content="If you want to shop best quality of diamond pendants and gemstone pendants online then Diamant Secret is the best source. Call us today +32 3 298 58 66" />
+  <title><?php echo __("Buy Diamond Pendants Online - Best Gemstone Pendants Collection"); ?></title>
   
     <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
     
