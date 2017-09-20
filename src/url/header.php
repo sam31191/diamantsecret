@@ -58,8 +58,8 @@ function urlclick(currentLang,changeLang){
 			<div class="top row">
 			<div class="col-md-6 phone-shopping">
 				<span><?php echo __("Phone"); ?>: +32 3 298 58 66</span>&nbsp;&nbsp;
-				<span><a href="javascript:void(0);" onclick="urlclick('en','fr')">French</a></span>&nbsp;&nbsp;
-				<span><a href="javascript:void(0);" onclick="urlclick('fr','en')">English</a></span>
+				<span><a href="javascript:void(0);" onclick="urlclick('en','fr')"><img src="images/images/lang-france.png"></a></span>&nbsp;&nbsp;
+				<span><a href="javascript:void(0);" onclick="urlclick('fr','en')"><img src="images/images/lang-usa.png"></a></span>
 			</div>
 			<div class="col-md-18">
 				<ul class="text-right">

@@ -25,9 +25,9 @@
     
     $host = "localhost";
 
-    $dbname = "TESTSITE_DIAMANTSECRET";
-    $user = "diamants_test";
-    $pass = "test_diamants";
+    $dbname = "diamantsecret";
+    $user = "root";
+    $pass = "";
 
     /* Mail Configuration */
     $mailHost = 'mail.diamantsecret.com';
