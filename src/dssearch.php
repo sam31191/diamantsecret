@@ -28,7 +28,7 @@
   
   
   if($response == FALSE) {
-     echo __("Error while displaying search").": " . curl_error($ch);
+     echo "Error while displaying search: " . curl_error($ch);
   }
   
   //Close handle
