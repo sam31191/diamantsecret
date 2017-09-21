@@ -56,12 +56,12 @@ function urlclick(currentLang,changeLang){
 		<!--top-->
 		<div class="container">
 			<div class="top row">
-			<div class="col-md-6 phone-shopping">
+			<div class="col-md-8 phone-shopping">
 				<span><?php echo __("Phone"); ?>: +32 3 298 58 66</span>&nbsp;&nbsp;
-				<span><a href="javascript:void(0);" onclick="urlclick('en','fr')"><img src="images/images/lang-france.png"></a></span>&nbsp;&nbsp;
-				<span><a href="javascript:void(0);" onclick="urlclick('fr','en')"><img src="images/images/lang-usa.png"></a></span>
+				<span><a href="javascript:void(0);" onclick="urlclick('en','fr')"><img src="images/gfx/lang-france.png" style="height:14px; padding-bottom: 2px;">&nbsp;Français</a></span>&nbsp;&nbsp;
+				<span><a href="javascript:void(0);" onclick="urlclick('fr','en')"><img src="images/gfx/lang-uk.png" style="height:14px; padding-bottom: 2px;">&nbsp;English</a></span>
 			</div>
-			<div class="col-md-18">
+			<div class="col-md-16">
 				<ul class="text-right">
 				<li class="customer-links hidden-xs" style="width:100%;">
 					<ul id="accounts" class="list-inline">
