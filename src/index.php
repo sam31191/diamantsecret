@@ -18,38 +18,50 @@ include './url/pre.php';
   <meta name="description" content="" />
   <title>Home</title>
   
-    <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
-	<link href="./assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 
-	<link href="./assets/stylesheets/jquery.camera.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/application.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/swatch.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/jquery.owl.carousel.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/jquery.bxslider.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
-  	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
-  	<link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.camera.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/application.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/swatch.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.owl.carousel.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.bxslider.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
+  	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+  	<link rel="icon" href="<?php echo $__MAINDOMAIN__;?>images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
 	
-	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.imagesloaded.min.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.easing.1.3.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.camera.min.js" type="text/javascript"></script>	
-	<script src="./assets/javascripts/cookies.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/modernizr.js" type="text/javascript"></script>  
-	<script src="./assets/javascripts/application.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.owl.carousel.min.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.bxslider.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/skrollr.min.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.fancybox-buttons.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.zoom.js" type="text/javascript"></script>	
-	<script src="./assets/javascripts/cs.script.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.imagesloaded.min.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.easing.1.3.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.camera.min.js" type="text/javascript"></script>	
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/cookies.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/modernizr.js" type="text/javascript"></script>  
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/application.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.owl.carousel.min.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.bxslider.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/skrollr.min.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.fancybox-buttons.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.zoom.js" type="text/javascript"></script>	
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/cs.script.js" type="text/javascript"></script>
+
+	<style type="text/css">
+		.home-banner-wrapper {
+    background: url(images/gfx/parallax.jpg) no-repeat center;
+    width: 100%;
+    min-height: 500px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 80%;
+    background-size: 100%;
+}
+	</style>
 </head>
 
 <body class="templateIndex notouch">
@@ -73,6 +85,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
     $updateCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $_POST['unique_key'], ":size" => $_POST['size'], ":quantity" => intval($_POST['quantity'])));
 
 }
+
 ?>
   
 	<!-- Header -->
@@ -83,37 +96,37 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 			<!-- Main Slideshow -->
 			<div class="home-slider-wrapper clearfix">
 				<div class="camera_wrap" id="home-slider"  style="max-height: 650px;">
-					<div data-src="./images/gfx/slide-image-1.jpg">
+					<div data-src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-1.jpg">
 						<div class="camera_caption camera_title_1 fadeIn">
-						  <a href="./collection.php" style="color:#010101;"><?php echo __("Live the moment"); ?></a>
+						  <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection" style="color:#010101;"><?php echo __("Live the moment"); ?></a>
 						</div>
 						<div class="camera_caption camera_caption_1 fadeIn" style="color: rgb(1, 1, 1);">
 						</div>
 						<div class="camera_caption camera_image-caption_1 moveFromLeft">
-							<img src="./images/gfx/slide-image-caption-1.png" alt="image_caption">
+							<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-caption-1.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
-							<a href="./collection.php" class="btn"><?php echo __("See Collection"); ?></a>
+							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection" class="btn"><?php echo __("See Collection"); ?></a>
 						</div>
 					</div>
-					<div data-src="./images/gfx/slide-image-2.jpg">
+					<div data-src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-2.jpg">
 						<div class="camera_caption camera_title_2 moveFromLeft">
-						  <a href="./collection.php" style="color:#666666;"><?php echo __("Love’s embrace"); ?></a>
+						  <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection" style="color:#666666;"><?php echo __("Love’s embrace"); ?></a>
 						</div>
 						<div class="camera_caption camera_image-caption_2 moveFromLeft" style="visibility: hidden;">
-							<img src="./images/gfx/slide-image-caption-2.png" alt="image_caption">
+							<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-caption-2.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
-							<a href="./collection.php" class="btn"><?php echo __("See Collection"); ?></a>
+							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection" class="btn"><?php echo __("See Collection"); ?></a>
 						</div>
 					</div>
-					<div data-src="./images/gfx/slide-image-3.jpg">
+					<div data-src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-3.jpg">
 						<div class="camera_caption camera_image-caption_3 moveFromLeft">
 							<!-- <img src="./images/gfx/slide-image-caption-3.png" alt="image_caption"> -->
 							<p style="font-size: 45px; font-weight: normal; color: black; font-variant: small-caps;"><?php echo __("Have a Diamond in mind"); ?>?<br><small><?php echo __("Search for the perfect diamond for you"); ?>!</small></p>
 						</div>
 						<div class="camera_cta_1">
-							<a href="./diamond_search.php" class="btn"><?php echo __("Search Now"); ?></a>
+							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>diamond-search" class="btn"><?php echo __("Search Now"); ?></a>
 						</div>
 					</div>
 				</div>
@@ -133,14 +146,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection_rings.php" title="<?php echo __("Browse our Rings"); ?>">
-																				<img src="./images/gfx/ring_270x270.png" alt="Rings">
+																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings" title="<?php echo __("Browse our Rings"); ?>">
+																				<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/ring_270x270.png" alt="Rings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection_rings.php"><?php echo __("Rings"); ?></a></span>
+																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings"><?php echo __("Rings"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="./collection_rings.php"><?php echo __("See the Collection"); ?></a>
+																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -148,14 +161,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection_earrings.php" title="<?php echo __("Browse our Earrings"); ?>">
-																			<img src="./images/gfx/earring_270x270.png" alt="Earrings">
+																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings" title="<?php echo __("Browse our Earrings"); ?>">
+																			<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/earring_270x270.png" alt="Earrings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection_earrings.php"><?php echo __("Earrings"); ?></a></span>
+																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings"><?php echo __("Earrings"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="./collection_earrings.php"><?php echo __("See the Collection"); ?></a>
+																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -163,14 +176,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection_pendants.php" title="<?php echo __("Browse our Pendants"); ?>">
-																			<img src="./images/gfx/pendant_270x270.png" alt="Pendants">
+																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants" title="<?php echo __("Browse our Pendants"); ?>">
+																			<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/pendant_270x270.png" alt="Pendants">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection_pendants.php"><?php echo __("Pendants"); ?></a></span>
+																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants"><?php echo __("Pendants"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="./collection_pendants.php"><?php echo __("See the Collection"); ?></a>
+																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -178,14 +191,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection_necklaces.php" title="<?php echo __("Browse our Necklaces"); ?>">
-																			<img src="./images/gfx/necklace_270x270.png" alt="Necklaces">
+																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>necklaces" title="<?php echo __("Browse our Necklaces"); ?>">
+																			<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/necklace_270x270.png" alt="Necklaces">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection_necklaces.php"><?php echo __("Necklaces"); ?></a></span>
+																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>necklaces"><?php echo __("Necklaces"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="./collection_necklaces.php"><?php echo __("See the Collection"); ?></a>
+																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>necklaces"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -193,14 +206,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="./collection_bracelets.php" title="<?php echo __("Browse our Bracelets"); ?>">
-																				<img src="./images/gfx/bracelet_270x270.png" alt="Bracelets">
+																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets" title="<?php echo __("Browse our Bracelets"); ?>">
+																				<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/bracelet_270x270.png" alt="Bracelets">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="./collection_bracelets.php"><?php echo __("Bracelets"); ?></a></span>
+																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets"><?php echo __("Bracelets"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="./collection_bracelets.php"><?php echo __("See the Collection"); ?></a>
+																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -237,21 +250,27 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 												
 												$newProducts = $fetchNew->fetchAll();
 												$delay = 0;
+												
 												foreach ( $newProducts as $product ) {
 													switch ($product['category']) {
 														case 1: {
+															
 															$getInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :unique_key");
 															break;
 														} case 2: {
+															
 															$getInfo = $pdo->prepare("SELECT * FROM `earrings` WHERE `unique_key` = :unique_key");
 															break;
 														} case 3: {
+															
 															$getInfo = $pdo->prepare("SELECT * FROM `pendants` WHERE `unique_key` = :unique_key");
 															break;
 														} case 4: {
+														
 															$getInfo = $pdo->prepare("SELECT * FROM `necklaces` WHERE `unique_key` = :unique_key");
 															break;
 														} case 5: {
+															
 															$getInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :unique_key");
 															break;
 														} 
@@ -259,7 +278,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 															# code...
 															break;
 													}
-
+													
 													$getInfo->execute(array(":unique_key" => $product['unique_key']));
 													$info = $getInfo->fetch(PDO::FETCH_ASSOC);
 
@@ -292,13 +311,21 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 													if ( !is_file( './images/images_md/'. $images[0] ) ) {
 														$images[0] = "0.png";
 													}
+													$urlSubcategory = '';
+                                                         if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+                                                            $urlSubcategory = $ringTag;
+                                                        } else if ( isset($_GET['_sc'])) {
+                                                            $urlSubcategory = $_GET['_sc'];
+                                                         } else {
+                                                            $urlSubcategory = $info['ring_subcategory'];
+                                                         }  
 
 													echo '
 												<div class="element no_full_width bounceIn col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
-															<a href="./product.php?view='. $product['unique_key'] .'" class="container_item"  style="max-height:375px !important;">
-															<img src="./images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="">
+															<a href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'" class="container_item"  style="max-height:375px !important;">
+															<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="">
 															'. $sale .'
 															</a>
 															<div class="hbw">
@@ -307,7 +334,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 															</li>
 															<li class="row-right parent-fly animMix">
 															<div class="product-content-left">
-																<a class="title-5" href="./product.php?view='. $product['unique_key'] .'">'. $product['item_name'] .'</a>
+																<a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'">'. $product['item_name'] .'</a>
 																<span class="spr-badge" id="spr_badge_12932382113" data-rating="0.0">
 																<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 																<span class="spr-badge-caption">
@@ -355,7 +382,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 						<div class="home-banner-wrapper">
 							<div class="container">
 								<div id="home-banner" class="text-center clearfix">
-									<img class="pulse img-banner-caption" src="./images/gfx/home_banner_image_text.png" alt="">
+									<img class="pulse img-banner-caption" src="<?php echo $__MAINDOMAIN__;?>images/gfx/diamond.png" alt="">
 									<div class="home-banner-caption">
 									<?php
 									$quotes = array(
@@ -369,7 +396,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 									?>
 									</div>
 									<div class="home-banner-action">
-										<a href="./collection.php"><?php echo __("Shop Now"); ?></a>
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection"><?php echo __("Shop Now"); ?></a>
 									</div>
 								</div>
 							</div>
@@ -398,7 +425,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 
 								<br><?php echo __("Find your perfect Diamond here"); ?></span><br/>
 
-								<a href="./diamond_search.php" class="btn" style="margin-top: 10px;"><?php echo __("Search Now"); ?></a>
+								<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>diamond-search" class="btn" style="margin-top: 10px;"><?php echo __("Search Now"); ?></a>
 						</div>
 
 						<div class="home-feature">
@@ -473,13 +500,20 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 														if ( !is_file( './images/images_md/'. $images[0] ) ) {
 															$images[0] = "0.png";
 														}
-
+														$urlSubcategory = '';
+                                                         if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+                                                            $urlSubcategory = $ringTag;
+                                                        } else if ( isset($_GET['_sc'])) {
+                                                            $urlSubcategory = $_GET['_sc'];
+                                                         } else {
+                                                            $urlSubcategory = $info['ring_subcategory'];
+                                                         }   
 														echo '   																						
 													<div class="element no_full_width bounceIn not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
-															<a href="./product.php?view='. $product['unique_key'] .'" class="container_item" style="height:277px;">
-															<img src="./images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="">
+															<a href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'" class="container_item" style="height:277px;">
+															<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="">
 															'. $sale .'
 															</a>
 															<div class="hbw">
@@ -488,7 +522,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 															</li>
 															<li class="row-right parent-fly animMix">
 															<div class="product-content-left">
-																<a class="title-5" href="./product.php?view='. $product['unique_key'] .'">'. $product['item_name'] .'</a>
+																<a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'">'. $info['product_name'] .'</a>
 																<span class="spr-badge" id="spr_badge_1293238211" data-rating="0.0">
 																<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 																<span class="spr-badge-caption">
@@ -553,7 +587,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 		</div>
 	</div> -->
 
-	<script src="assets/javascripts/cs.global.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/cs.global.js" type="text/javascript"></script>
 	
  	<div id="quick-shop-modal" class="modal in" role="dialog" aria-hidden="false" tabindex="-1" data-width="800">
 		<div class="modal-backdrop in" style="height: 742px;">
@@ -569,7 +603,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 					<div class="row">
 						<div class="col-md-12 product-image">
 							<div id="quick-shop-image" class="product-image-wrapper">
-								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="./images/gfx/cube_lg.gif" data-zoom-image="./images/gfx/cube_lg.gif" alt=""/></a>
+								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="<?php echo $__MAINDOMAIN__;?>images/gfx/cube_lg.gif" data-zoom-image="<?php echo $__MAINDOMAIN__;?>images/gfx/cube_lg.gif" alt=""/></a>
 								<div id="gallery_main_qs" class="product-image-thumb">
 								</div>	
 							</div>
@@ -679,7 +713,7 @@ function quickShop(id) {
 				if ( result['images'] == "" ) {
 					images[0] = "0.png";
 				}	
-				$("#quick-shop-image .main-image img").attr("src", "./images/images/" + images[0] + '?v=' + Date.now());
+				$("#quick-shop-image .main-image img").attr("src", "<?php echo $__MAINDOMAIN__;?>images/images/" + images[0] + '?v=' + Date.now());
 				
 				//Remove old Thumbs if any
 				var currentThumbs = $(".image-thumb").length;
@@ -689,14 +723,14 @@ function quickShop(id) {
 				}
 				//Item Thumbnals
 				for ( var i = 0; i < images.length-1; i++ ) {
-					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/images/'+ images[i] +'?v='+ Date.now() +'" ><img src="./images/images_sm/'+ images[i] +'?v='+ Date.now() +'" alt=""/></a>';
+					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/images/'+ images[i] +'?v='+ Date.now() +'" ><img src="<?php echo $__MAINDOMAIN__;?>images/images_sm/'+ images[i] +'?v='+ Date.now() +'" alt=""/></a>';
 					//console.log("1 Item Added");
 					$('#gallery_main_qs').owlCarousel().data('owlCarousel').addItem(content);
 					$('.owl-item').toggleClass('show-item');
 				}
 				//Item Name
 				$("#quick-shop-title a").text(result['item_name']);
-				$("#quick-shop-title a").attr("href", "./product.php?view=" + result['unique_key']);
+				$("#quick-shop-title a").attr("href", "<?php echo $__MAINDOMAIN__;?>product?view=" + result['unique_key']);
 				
 				//Desc
 				$("#quick-shop-description").html(result['description']);
@@ -757,7 +791,7 @@ function quickShop(id) {
 			}
 		};
 		xmlhttp.open("GET","./url/fetch_item_info.php?id="+id, true);
-		$("#quick-shop-image .main-image img").attr("src", "./images/gfx/cube_lg.gif");
+		$("#quick-shop-image .main-image img").attr("src", "<?php echo $__MAINDOMAIN__;?>images/gfx/cube_lg.gif");
 		xmlhttp.send();
 	}
 }

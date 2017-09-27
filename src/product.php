@@ -21,42 +21,42 @@ include './url/pre.php';
   <meta name="description" content="" />
   <title><?php echo __("Product"); ?> </title>
   
-    <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
-    <link href="./assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 
-    <link href="./assets/stylesheets/jquery.camera.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/application.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/swatch.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/jquery.owl.carousel.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/jquery.bxslider.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/spr.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/addthis.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
-    <link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.camera.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/application.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/swatch.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.owl.carousel.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.bxslider.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/spr.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/addthis.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="icon" href="<?php echo $__MAINDOMAIN__;?>images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
     
-    <script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.imagesloaded.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.easing.1.3.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.camera.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.mobile.customized.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/cookies.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/modernizr.js" type="text/javascript"></script>  
-    <script src="./assets/javascripts/application.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.owl.carousel.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.bxslider.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/skrollr.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.fancybox-buttons.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.zoom.js" type="text/javascript"></script>  
-    <script src="./assets/javascripts/cs.script.js" type="text/javascript"></script>
-    <script src="./js/jquery.elevateZoom-3.0.8.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.imagesloaded.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.easing.1.3.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.camera.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.mobile.customized.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/cookies.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/modernizr.js" type="text/javascript"></script>  
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/application.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.owl.carousel.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.bxslider.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/skrollr.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.fancybox-buttons.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.zoom.js" type="text/javascript"></script>  
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/cs.script.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>js/jquery.elevateZoom-3.0.8.min.js" type="text/javascript"></script>
 
     <style type="text/css">
     .header {
@@ -86,6 +86,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
     $updateCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $_POST['unique_key'], ":size" => $_POST['size'], ":quantity" => intval($_POST['quantity'])));
 
 }
+
 //pconsole($_POST);
 ?>
 
@@ -103,29 +104,32 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="./index.php" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
                                 <span>/</span>
-                                <a href="./collection.php" title="">Collection</a>
+                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection" title="">Collection</a>
                                 <span>/</span>
                                 <?php
                                     $_GET['view'];
                                     $getItem = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :unique_key AND site_0 = 1 AND disabled = 0");
+
                                     $getItem->execute(array(":unique_key" => $_GET['view']));
+
                                     if ( $getItem->rowCount() > 0 ) {
                                         $item = $getItem->fetch(PDO::FETCH_ASSOC);
 
                                         $getCategory = $pdo->prepare("SELECT * FROM `categories` WHERE `id` = :id");
                                         $getCategory->execute(array(":id" => $item['category']));
                                         $category = $getCategory->fetch(PDO::FETCH_ASSOC);
+                                        
                                         $category = $category['category'];
-
+                                      
                                         $table = '`'. $category .'`';
-
+                                    
                                         $itemInfo = $pdo->prepare("SELECT * FROM ". $table ." WHERE `unique_key` = :unique_key");
                                         $itemInfo->execute(array(":unique_key" => $_GET['view']));
 
                                         $itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
-
+                                       
                                         $images = explode(",", $itemInfo['images']);
 
                                         $sale = "";
@@ -146,7 +150,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                         
                                         //pconsole($itemInfo);
 
-                                        echo '<a href="./collection_'. $category .'.php" style="text-transform:capitalize;">'. $category .'</a>';
+                                        echo '<a href="'.$__MAINDOMAIN__.''.$lang.'/'. $category.'" style="text-transform:capitalize;">'. $category .'</a>';
                                         echo '<span>/</span>';
                                         echo '<span>'. $item['item_name'] .'</span>';
                                     } else {
@@ -201,8 +205,8 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             if ( !empty($image) ) {
                                                                 echo '                                                  
                                                                 <li class="image">
-                                                                    <a href="./images/images_md/'. $image .'" class="cloud-zoom-gallery active">
-                                                                        <img src="./images/images_sm/'. $image .'" onClick="selectImage(\'./images/images/'. $image .'\')" alt="">
+                                                                    <a href="'. $__MAINDOMAIN__.'images/images_md/'. $image .'" class="cloud-zoom-gallery active">
+                                                                        <img src="'. $__MAINDOMAIN__.'images/images_sm/'. $image .'" onClick="selectImage(\'./images/images/'. $image .'\')" alt="">
                                                                     </a>
                                                                 </li>   
                                                                 ';
@@ -214,8 +218,8 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             foreach ($product_images as $image) {			if ( !empty($image) ) {
                                                                 echo '                                                  
                                                                 <li class="image">
-                                                                    <a href="./images/images_md/'. $image .'" class="cloud-zoom-gallery active">
-                                                                        <img src="./images/images_sm/'. $image .'" onClick="selectImage(\'./images/images/'. $image .'\')" alt="">
+                                                                    <a href="'. $__MAINDOMAIN__.'images/images_md/'. $image .'" class="cloud-zoom-gallery active">
+                                                                        <img src="'. $__MAINDOMAIN__.'images/images_sm/'. $image .'" onClick="selectImage(\'./images/images/'. $image .'\')" alt="">
                                                                     </a>
                                                                 </li>   
                                                                 ';
@@ -233,7 +237,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                 if ( !is_file( './images/images_md/'. $images[0] ) ) {
                                                     $images[0] = "0.png";
                                                 }
-                                                echo '<img src="./images/images_md/'. $images[0] .'" alt="'. $itemInfo['product_name'] .'" data-zoom-image="./images/images/'. $images[0] .'"  data-imageIndex="0" id="mainImage">' ?>
+                                                echo '<img src="'. $__MAINDOMAIN__.'images/images_md/'. $images[0] .'" alt="'. $itemInfo['product_name'] .'" data-zoom-image="'. $__MAINDOMAIN__.'images/images/'. $images[0] .'"  data-imageIndex="0" id="mainImage">' ?>
                                             </div>
                                             <div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
                                                 <ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
@@ -242,8 +246,8 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             if ( !empty($image) ) {
                                                                 echo '                                                  
                                                                 <li class="image">
-                                                                    <a href="./images/images_md/'. $image .'" class="cloud-zoom-gallery">
-                                                                        <img src="./images/images_sm/'. $image .'" alt="">
+                                                                    <a href="'. $__MAINDOMAIN__.'images/images_md/'. $image .'" class="cloud-zoom-gallery">
+                                                                        <img src="'. $__MAINDOMAIN__.'images/images_sm/'. $image .'" alt="">
                                                                     </a>
                                                                 </li>   
                                                                 ';
@@ -293,7 +297,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             $material = $getMaterial->fetch(PDO::FETCH_ASSOC);
                                                             $material = $material['category'];
                                                             echo '
-                                                            <a href="./collection_'. $category .'.php?material='. $itemInfo['material'] .'">
+                                                            <a href="'.$__MAINDOMAIN__.''.$lang.'/'. $category .'?material='. $itemInfo['material'] .'">
                                                             '. $material .'<span>,</span>
                                                             </a>
                                                             ';
@@ -303,11 +307,11 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             $getColor->execute(array(":id" => $itemInfo["color"]));
                                                             $getColor = $getColor->fetch(PDO::FETCH_ASSOC);
 
-                                                            $color = '<a href="./collection_'. $category .'.php?color='. $getColor['id'] .'">'. $getColor["color"] .'<span>,</span>
+                                                            $color = '<a href="'.$__MAINDOMAIN__.''.$lang.'/'. $category .'?color='. $getColor['id'] .'">'. $getColor["color"] .'<span>,</span>
                                                                         </a>';
                                                             echo $color;
 
-                                                            echo '<a href="./collection_'. $category .'.php?clarity='. $itemInfo['clarity'] .'">
+                                                            echo '<a href="'.$__MAINDOMAIN__.''.$lang.'/'. $category .'?clarity='. $itemInfo['clarity'] .'">
                                                                         '. $itemInfo['clarity'] .'<span></span>
                                                                         </a>';
                                                             ?>
@@ -617,6 +621,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                     <div class="detail-price" itemprop="price">
                                                                         <span class="price">
                                                                             <?php
+																			$item["discount"]='';
                                                                                 if ( $item["discount"] > 0 ) {
                                                                                     $sale = '<span style="font-size: 18px;" class="label label-success">'. $item['discount'] .'% '.__("OFF").'</span>'; 
                                                                                 } else {
@@ -667,8 +672,10 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 
                                                     $delay = 0;
                                                     foreach ( $featuredItems as $product ) {
+
                                                         switch ($product['category']) {
                                                         case 1: {
+                                                            
                                                             $getInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :unique_key");
                                                             break;
                                                         } case 2: {
@@ -689,7 +696,8 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             break;
                                                     }
 
-                                                    $getInfo->execute(array(":unique_key" => $product['unique_key']));
+                                                     $getInfo->execute(array(":unique_key" => $product['unique_key']));
+
                                                     $info = $getInfo->fetch(PDO::FETCH_ASSOC);
 
                                                     $images = $info['images'];
@@ -714,13 +722,21 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                         } else {
                                                             $wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'_FEAT" onClick="addToWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">'.__("Add to Wishlist").'</span></a>';
                                                         }
-                                                        
+                                                            $urlSubcategory = '';
+                                                         if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+                                                            $urlSubcategory = $ringTag;
+                                                        } else if ( isset($_GET['_sc'])) {
+                                                            $urlSubcategory = $_GET['_sc'];
+                                                         } else {
+                                                            $urlSubcategory = $info['ring_subcategory'];
+                                                         } 
+
                                                         echo '                                                                                          
                                                     <div class="element no_full_width bounceIn not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
                                                         <ul class="row-container list-unstyled clearfix">
                                                             <li class="row-left">
-                                                            <a href="./product.php?view='. $product['unique_key'] .'" class="container_item" style="height:277px;">
-                                                            <img src="./images/images_md/'. $images[0] .'" class="img-responsive" alt="">
+                                                            <a href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'" class="container_item" style="height:277px;">
+                                                            <img src="<?php echo $__MAINDOMAIN__;?>images/images_md/'. $images[0] .'" class="img-responsive" alt="">
                                                             '. $sale .'
                                                             </a>
                                                             <div class="hbw">
@@ -729,7 +745,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             </li>
                                                             <li class="row-right parent-fly animMix">
                                                             <div class="product-content-left">
-                                                                <a class="title-5" href="./product.php?view='. $product['unique_key'] .'">'. $product['item_name'] .'</a>
+                                                                <a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'">'. $product['item_name'] .'</a>
                                                                 <span class="spr-badge" id="spr_badge_1293238211" data-rating="0.0">
                                                                 <span class="spr-badge-caption">
                                                                 '.__("No reviews").' </span>
@@ -796,7 +812,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                     <div class="row">
                         <div class="col-md-12 product-image">
                             <div id="quick-shop-image" class="product-image-wrapper">
-                                <a class="main-image" style="display: inline-block; max-height: 354px; overflow: hidden;"><img class="img-zoom img-responsive image-fly" src="./assets/images/demo_354x354.png" data-zoom-image="./assets/images/demo_354x354.png" alt=""/></a>
+                                <a class="main-image" style="display: inline-block; max-height: 354px; overflow: hidden;"><img class="img-zoom img-responsive image-fly" src="<?php echo $__MAINDOMAIN__;?>assets/images/demo_354x354.png" data-zoom-image="<?php echo $__MAINDOMAIN__;?>assets/images/demo_354x354.png" alt=""/></a>
                                 <div id="gallery_main_qs" class="product-image-thumb">
                                 </div>  
                             </div>

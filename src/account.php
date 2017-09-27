@@ -19,20 +19,20 @@ include './conf/config.php';
   <meta name="description" content="" />
   <title><?php echo __("Account Page"); ?></title>
   
-    <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
-	<link href="./assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 	
-	<link href="./assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
-	<link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 	
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+	<link rel="icon" href="<?php echo $__MAINDOMAIN__;?>images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
 	
-	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
 </head>
 
 <?php
@@ -114,7 +114,7 @@ if ( isset($_POST['removeFromFav'])) {
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.php" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
+								<a href="<?php echo $__MAINDOMAIN__;?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
 								<span>/</span>
 								<span class="page-title"><?php echo __("My Account"); ?></span>
 							</div>
@@ -213,16 +213,52 @@ if ( isset($_POST['removeFromFav'])) {
 
 										if ( $getFavs->rowCount() > 0 ) {
 											$user = $getFavs->fetch(PDO::FETCH_ASSOC);
-
+											
 											$favorites = explode(",", $user['favorites']);
 
 											foreach ( $favorites as $item ) {
 												if ( !empty($item) ) {
 													$getItemInfo = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
 													$getItemInfo->execute(array(":key" => $item));
-
+													
 													if ( $getItemInfo->rowCount() > 0 ) {
 														$itemInfo = $getItemInfo->fetch(PDO::FETCH_ASSOC);
+														
+														////
+														
+														switch ($itemInfo['category']) {
+														case 1: {
+															
+															$getInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :unique_key");
+															break;
+														} case 2: {
+															
+															$getInfo = $pdo->prepare("SELECT * FROM `earrings` WHERE `unique_key` = :unique_key");
+															break;
+														} case 3: {
+															
+															$getInfo = $pdo->prepare("SELECT * FROM `pendants` WHERE `unique_key` = :unique_key");
+															break;
+														} case 4: {
+														
+															$getInfo = $pdo->prepare("SELECT * FROM `necklaces` WHERE `unique_key` = :unique_key");
+															break;
+														} case 5: {
+															
+															$getInfo = $pdo->prepare("SELECT * FROM `bracelets` WHERE `unique_key` = :unique_key");
+															break;
+														} 
+														default:
+															# code...
+															break;
+													}
+													
+													$getInfo->execute(array(":unique_key" => $itemInfo['unique_key']));
+													$info = $getInfo->fetch(PDO::FETCH_ASSOC);
+													//echo "<pre>";
+													//print_r($info);
+														/////
+														
 														$price = '<span class="price">€'. $itemInfo['item_value'] .'</span>';
 														if ( $itemInfo['discount'] > 0 ) {
 															
@@ -230,16 +266,22 @@ if ( isset($_POST['removeFromFav'])) {
 															$sale = '<span class="sale_banner"><span class="sale_text">'.__("Sale").'</span></span>';
 															$price = '<span class="price_sale">€'. number_format($value, 2, ".", "") .'</span><del class="price_compare">€'. $itemInfo['item_value'] .'</del>';
 														}
+														$urlSubcategory = '';
+													 if ( isset($_GET['_sc']) ) {
+														$urlSubcategory = $_GET['_sc'];
+													 } else {
+														$urlSubcategory = $info['ring_subcategory'];
+													 }
 														echo '
 														<tr class="odd ">
 															<td>
-																<a href="./product.php?view='. $item .'" title="">'. $itemInfo['item_name'] .'</a>
+																<a href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'" title="">'. $itemInfo['item_name'] .'</a>
 															</td>
 															<td>
 																<span class="note">'. $price .'</span>
 															</td>
 															<td>
-																<span class="status_authorized"><a class="btn btn-custom" href="./product.php?view='. $item .'">'.__("View").'</a></span>
+																<span class="status_authorized"><a class="btn btn-custom" href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'">'.__("View").'</a></span>
 															</td>
 															<td>
 																<span class="total"><form method="post"><button class="btn btn-custom" name="removeFromFav" value="'. $item .'">'.__("Remove").'</button></form></span>
@@ -301,6 +343,7 @@ if ( isset($_POST['removeFromFav'])) {
 
 				if ( $fetchInfo->rowCount() > 0 ) {
 					$info = $fetchInfo->fetch(PDO::FETCH_ASSOC);
+					
 					echo '
 					<div class="col-md-12">
 						<label>'.__("Username").'</label>

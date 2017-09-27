@@ -17,42 +17,42 @@ include './url/pre.php';
   <meta name="description" content="If you want to shop best quality of diamond pendants and gemstone pendants online then Diamant Secret is the best source. Call us today +32 3 298 58 66" />
   <title><?php echo __("Buy Diamond Pendants Online - Best Gemstone Pendants Collection"); ?></title>
   
-    <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
     
-    <link href="./assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 
-    <link href="./assets/stylesheets/jquery.camera.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/application.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/swatch.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/jquery.owl.carousel.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/jquery.bxslider.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/ion.rangeSlider.skinFlat.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/ion.rangeSlider.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.camera.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/application.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/swatch.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.owl.carousel.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.bxslider.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/ion.rangeSlider.skinFlat.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/ion.rangeSlider.css" rel="stylesheet" type="text/css" media="all">
     <link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
     
-    <script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.imagesloaded.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.easing.1.3.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.camera.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.mobile.customized.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/cookies.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/modernizr.js" type="text/javascript"></script>  
-    <script src="./assets/javascripts/application.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.owl.carousel.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.bxslider.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/skrollr.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.fancybox-buttons.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/jquery.zoom.js" type="text/javascript"></script>  
-    <script src="./assets/javascripts/cs.script.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/ion.rangeSlider.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.imagesloaded.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.easing.1.3.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.camera.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.mobile.customized.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/cookies.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/modernizr.js" type="text/javascript"></script>  
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/application.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.owl.carousel.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.bxslider.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/skrollr.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.fancybox-buttons.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.zoom.js" type="text/javascript"></script>  
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/cs.script.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/ion.rangeSlider.min.js" type="text/javascript"></script>
 </head>
 
 <?php
@@ -91,11 +91,11 @@ pconsole($_POST);
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="./index.php" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
                                 <span>/</span>
-                                <span class="page-title"><a href="./collection.php" title="<?php echo __("View All"); ?>">Collection</a></span>
+                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection" title="<?php echo __("View All"); ?>">Collection</a></span>
                                 <span>/</span>
-                                <span class="page-title"><a href="./collection_pendants.php" title="<?php echo __("View All"); ?>"><?php echo __("Pendants"); ?></a></span>
+                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants" title="<?php echo __("View All"); ?>"><?php echo __("Pendants"); ?></a></span>
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@ pconsole($_POST);
                                 </div>
                                 <div class="collection-warper col-sm-24 clearfix"> 
                                     <div class="collection-panner">
-                                        <img src="./images/gfx/collection_banner.jpg" class="img-responsive" alt="">
+                                        <img src="<?php echo $__MAINDOMAIN__;?>images/gfx/ring.jpg" class="img-responsive" alt="">
                                     </div>
                                 </div>
                                 <?php
@@ -141,8 +141,15 @@ pconsole($_POST);
                                         $clarityTag = "";
                                     }
                                     if ( isset($_GET['_sc']) ) {
-                                        $ringTag = $_GET['_sc'];
-                                        #echo '<label class="label label-info">'. $_GET['_sc'] .'</label>';
+                                       $ringTag = $_GET['_sc'];
+
+                                      $data=$pdo->prepare("select id from ring_subcategory WHERE category='".ucwords(strtolower(str_replace("-"," ", $ringTag)))." Pendant' and category_id = 3");
+                                      $data->execute();
+                                      $subCatQryAns = $data->fetch();
+
+                                      if(isset($subCatQryAns['id'])) {
+                                        $ringTag = $subCatQryAns['id'];
+                                      }
                                     } else {
                                         $ringTag = "";
                                     }
@@ -177,7 +184,7 @@ pconsole($_POST);
                                                         <input id="filterQuality" name="quality" hidden />
                                                         <input id="filterStone" name="stone" hidden />
                                                     </form>
-                                                    <h6 class="sb-title"><?php echo __("Filter"); ?> <a href="./collection_pendants.php" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" style="float:right;"><?php echo __("Apply"); ?></button></h6>
+                                                    <h6 class="sb-title"><?php echo __("Filter"); ?> <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" style="float:right;"><?php echo __("Apply"); ?></button></h6>
                                                     <!-- tags groupd 1 -->
                                                     <div class="tag-group" id="coll-filter-1">
                                                         <p class="title">
@@ -366,7 +373,7 @@ pconsole($_POST);
                                                         <ul>
                                                         </ul>
 
-                                                        <h6 class="sb-title"><?php echo __("Filter"); ?> <a href="./collection_pendants.php" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" style="float:right;"><?php echo __("Apply"); ?></button></h6>
+                                                        <h6 class="sb-title"><?php echo __("Filter"); ?> <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" style="float:right;"><?php echo __("Apply"); ?></button></h6>
                                                     </div>
 
                                                     <?php
@@ -383,19 +390,19 @@ pconsole($_POST);
                                                 <h6 class="sb-title"><?php echo __("Product Categories"); ?></h6>
                                                 <ul class="list-unstyled sb-content list-styled">
                                                     <li>
-                                                    <a href="./collection_rings.php"><span><i class="fa fa-circle"></i> <?php echo __("Rings"); ?></span><span class="collection-count"></span></a>
+                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings"><span><i class="fa fa-circle"></i> <?php echo __("Rings"); ?></span><span class="collection-count"></span></a>
                                                     </li>
                                                     <li>
-                                                    <a href="./collection_earrings.php"><span><i class="fa fa-circle"></i> <?php echo __("Earrings"); ?></span><span class="collection-count"></span></a>
+                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings"><span><i class="fa fa-circle"></i> <?php echo __("Earrings"); ?></span><span class="collection-count"></span></a>
                                                     </li>
                                                     <li>
-                                                    <a href="./collection_pendants.php"><span><i class="fa fa-circle"></i> <?php echo __("Pendants"); ?></span><span class="collection-count"></span></a>
+                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants"><span><i class="fa fa-circle"></i> <?php echo __("Pendants"); ?></span><span class="collection-count"></span></a>
                                                     </li>
                                                     <li>
-                                                    <a href="./collection_necklaces.php"><span><i class="fa fa-circle"></i> <?php echo __("Necklaces"); ?></span><span class="collection-count"></span></a>
+                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>necklaces"><span><i class="fa fa-circle"></i> <?php echo __("Necklaces"); ?></span><span class="collection-count"></span></a>
                                                     </li>
                                                     <li>
-                                                    <a href="./collection_bracelets.php"><span><i class="fa fa-circle"></i> <?php echo __("Bracelets"); ?></span><span class="collection-count"></span></a>
+                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets"><span><i class="fa fa-circle"></i> <?php echo __("Bracelets"); ?></span><span class="collection-count"></span></a>
                                                     </li>
                                                 </ul>
                                             </div>  
@@ -464,24 +471,31 @@ pconsole($_POST);
                                                                     if ( !is_file( './images/images_md/'. $images[0] ) ) {
                                                                         $images[0] = "0.png";
                                                                     }
-                                                                    
+                                                                    $urlSubcategory = '';
+                                                         if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+                                                            $urlSubcategory = $ringTag;
+                                                        } else if ( isset($_GET['_sc'])) {
+                                                            $urlSubcategory = $_GET['_sc'];
+                                                         } else {
+                                                            $urlSubcategory = $itemInfo['ring_subcategory'];
+                                                         }    
                                                                     echo '
                                                                     <div class="element full_width fadeInUp animated" data-animate="fadeInUp" data-delay="0">
                                                                         <form action="#" method="post">
                                                                             <ul class="row-container list-unstyled clearfix">
                                                                                 <li class="row-left">
-                                                                                <a href="./product.php?view='. $item['unique_key'] .'" class="container_item"style="max-height:100px">
-                                                                                <img src="./images/images_sm/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="'. $itemInfo['product_name'] .'">
+                                                                                <a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'" class="container_item"style="max-height:100px">
+                                                                                <img src="'. $__MAINDOMAIN__.'images/images_sm/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="'. $itemInfo['product_name'] .'">
                                                                                 </a>
                                                                                 </li>
                                                                                 <li class="row-right parent-fly animMix">
-                                                                                <a class="title-5" href="./product.php?view='. $item['unique_key'] .'">'. $itemInfo['product_name'] .'</a>
+                                                                                <a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'">'. $itemInfo['product_name'] .'</a>
                                                                                 <div class="product-price">
                                                                                     '. $price .'
                                                                                 </div>
                                                                                 <div class="effect-ajax-cart">
                                                                                     <input name="quantity" value="1" type="hidden">
-                                                                                    <button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $item['unique_key'] .'\'">'.__("View").'</button>
+                                                                                    <button class="select-option" type="button" onclick="window.location.href=\''. makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'\'">'.__("View").'</button>
                                                                                 </div>
                                                                                 </li>
                                                                             </ul>
@@ -777,12 +791,19 @@ pconsole($_POST);
                                                         if ( !is_file( './images/images_md/'. $images[0] ) ) {
                                                             $images[0] = "0.png";
                                                         }
-
+														$urlSubcategory = '';
+                                                         if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+                                                            $urlSubcategory = $ringTag;
+                                                        } else if ( isset($_GET['_sc'])) {
+                                                            $urlSubcategory = $_GET['_sc'];
+                                                         } else {
+                                                            $urlSubcategory = $item['ring_subcategory'];
+                                                         }    
                                                         $element = '<li class="element no_full_width" data-alpha="" data-price="20000">
                                                                 <ul class="row-container list-unstyled clearfix">
                                                                     <li class="row-left">
-                                                                    <a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
-                                                                    <img src="./images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive img-custom-collection" alt="">
+                                                                    <a href="'.makeProductDetailPageUrl($urlSubcategory,$item['total_carat_weight'],$item['gold_quality'],$item['material'],$item['item_name'],$item['unique_key']) .'" class="container_item">
+                                                                    <img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive img-custom-collection" alt="">
                                                                     '. $sale .'
                                                                     </a>
                                                                     <div class="hbw">
@@ -791,7 +812,7 @@ pconsole($_POST);
                                                                     </li>
                                                                     <li class="row-right parent-fly animMix">
                                                                     <div class="product-content-left">
-                                                                        <a class="title-5" href="./product.php?view='. $item['unique_key'] .'">'. $itemInfo['product_name'] .'</a>
+                                                                        <a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$item['total_carat_weight'],$item['gold_quality'],$item['material'],$item['item_name'],$item['unique_key']) .'">'. $itemInfo['product_name'] .'</a>
                                                                         <span class="spr-badge" id="spr_badge_129323961956" data-rating="0.0">
                                                                         <span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
                                                                         <span class="spr-badge-caption">
@@ -807,7 +828,7 @@ pconsole($_POST);
                                                                         '. $itemInfo['description'] .'
                                                                     </div>
                                                                     <div class="hover-appear">
-                                                                        <a href="product.php?view='. $itemInfo['unique_key'] .'" style="margin:0px 20px; line-height:50px; font-size:13px; font-weight:700; text-transform:uppercase;"><i class="fa fa-bars" aria-hidden="true" style="padding-right:10px;"></i>'.__("View Product").'</a>
+                                                                        <a href="'.makeProductDetailPageUrl($urlSubcategory,$item['total_carat_weight'],$item['gold_quality'],$item['material'],$item['item_name'],$item['unique_key']) .'" style="margin:0px 20px; line-height:50px; font-size:13px; font-weight:700; text-transform:uppercase;"><i class="fa fa-bars" aria-hidden="true" style="padding-right:10px;"></i>'.__("View Product").'</a>
                                                                         <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                             <div class="quick_shop" onclick="quickShop(\''. $item['unique_key'] .'\')">
                                                                                 <i class="fa fa-eye" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>                                                                       
@@ -993,7 +1014,7 @@ function quickShop(id) {
                 if ( result['images'] == "" ) {
                     images[0] = "0.png";
                 }   
-                $("#quick-shop-image .main-image img").attr("src", "./images/images_md/" + images[0] + '?v=' + Date.now());
+                $("#quick-shop-image .main-image img").attr("src", "<?php echo $__MAINDOMAIN__;?>images/images_md/" + images[0] + '?v=' + Date.now());
                 
                 //Remove old Thumbs if any
                 var currentThumbs = $(".image-thumb").length;
@@ -1003,14 +1024,14 @@ function quickShop(id) {
                 }
                 //Item Thumbnals
                 for ( var i = 0; i < images.length-1; i++ ) {
-                    content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/images_md/'+ images[i] +'?v='+ Date.now() +'" ><img src="./images/images_sm/'+ images[i] +'?v='+ Date.now() +'" alt=""/></a>';
+                    content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/images_md/'+ images[i] +'?v='+ Date.now() +'" ><img src="<?php echo $__MAINDOMAIN__;?>images/images_sm/'+ images[i] +'?v='+ Date.now() +'" alt=""/></a>';
                     //console.log("1 Item Added");
                     $('#gallery_main_qs').owlCarousel().data('owlCarousel').addItem(content);
                     $('.owl-item').toggleClass('show-item');
                 }
                 //Item Name
                 $("#quick-shop-title a").text(result['item_name']);
-                $("#quick-shop-title a").attr("href", "./product.php?view=" + result['unique_key']);
+                $("#quick-shop-title a").attr("href", "<?php echo $__MAINDOMAIN__;?>product?view=" + result['unique_key']);
                 
                 //Desc
                 $("#quick-shop-description").html(result['description']);

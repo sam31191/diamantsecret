@@ -11,3 +11,40 @@ RewriteRule ^(en|fr)$  $1/ [R=301,L]
 
 # now all urls have en/ de/ -> parse them
 RewriteRule ^(en|fr)/(.*)$  $2?lang=$1&%{query_STRING} [L]
+
+RewriteRule    earrings/(.*)$  collection_earrings.php?_sc=$1 [L]
+RewriteRule    earrings   collection_earrings.php [L]
+RewriteRule    boucles-doreilles/(.*)$  collection_earrings.php?_sc=$1 [L]
+RewriteRule    boucles-doreilles   collection_earrings.php [L]
+
+RewriteRule    rings/(.*)$ collection_rings.php?_sc=$1 [L]
+RewriteRule    rings   collection_rings.php [L]
+RewriteRule    bagues/(.*)$ collection_rings.php?_sc=$1 [L]
+RewriteRule    bagues   collection_rings.php [L]
+
+RewriteRule    pendants/(.*)$ collection_pendants.php?_sc=$1 [L]
+RewriteRule    pendants   collection_pendants.php [L]
+RewriteRule    pendentifs/(.*)$ collection_pendants.php?_sc=$1 [L]
+RewriteRule    pendentifs   collection_pendants.php [L]
+
+RewriteRule    necklaces/(.*)$ collection_necklaces.php?_sc=$1 [L]
+RewriteRule    necklaces   collection_necklaces.php [L]
+RewriteRule    colliers/(.*)$ collection_necklaces.php?_sc=$1 [L]
+RewriteRule    colliers   collection_necklaces.php [L]
+
+#bracelets, english and french dona ch same ch hunda
+RewriteRule    bracelets/(.*)$ collection_bracelets.php?_sc=$1 [L]
+RewriteRule    bracelets   collection_bracelets.php [L]
+
+RewriteRule    home index.php [L]
+RewriteRule    cart  cart.php [L]
+RewriteRule    contact  contact.php [L]
+RewriteRule    login  login.php [L]
+RewriteRule    register  register.php [L]
+RewriteRule    account  account.php [L]
+RewriteRule    collection  collection.php [L]
+RewriteRule    diamond-search diamond_search.php [L]
+RewriteRule    orders  orders.php [L]
+
+RewriteRule    product/(.*)/(.*)/(.*) product.php?view=$3 [L]
+RewriteRule    produit/(.*)/(.*)/(.*) product.php?view=$3 [L]

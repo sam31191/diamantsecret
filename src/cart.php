@@ -19,20 +19,20 @@ include './url/pre.php';
   <meta name="description" content="" />
   <title><?php echo __("Account Page"); ?></title>
   
-    <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
-    <link href="./assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">    
-    <link href="./assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
-    <link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">    
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="icon" href="<?php echo $__MAINDOMAIN__;?>images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
     
-    <script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
 </head>
 <div class="alert alert-danger" style="position: fixed; top: 0px; right: 0; margin: 25px; min-width: 250px; min-height: 40px; text-align: center; display: none; z-index: 1000; font-size: 18px;" id="notificationBox"> </div>
 <?php
@@ -350,7 +350,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="./index.php" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
+                                <a href="<?php echo $__MAINDOMAIN__;?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
                                 <span>/</span>
                                 <span class="page-title"><?php echo __("Cart"); ?></span>
                             </div>
@@ -530,17 +530,23 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                                     $vat['vat'] = "N/A";
                                                                     $vatAmount = 0;
                                                                 }
+																$urlSubcategory = '';
+																 if ( isset($_GET['_sc']) ) {
+																	$urlSubcategory = $_GET['_sc'];
+																 } else {
+																	$urlSubcategory = $itemInfo['ring_subcategory'];
+																 }
                                                                 echo '
                                                                     <tr class="item donec-condime-fermentum">
                                                                         <td class="title text-center">
                                                                             <ul class="list-inline">
                                                                                 <li class="image">
-                                                                                <a href="./product.php?view='. $result['unique_key'] .'">
-                                                                                <img src="./images/images_sm/'. $images[0] .'?v='. time() .'" alt="'. $itemInfo['product_name'] .'" style="max-width: 200px;">
+                                                                                <a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'">
+                                                                                <img src="'.$__MAINDOMAIN__.'images/images_sm/'. $images[0] .'?v='. time() .'" alt="'. $itemInfo['product_name'] .'" style="max-width: 200px;">
                                                                                 </a><br />
                                                                                 </li>
                                                                                 <li class="link">
-                                                                                <a href="./product.php?view='. $result['unique_key'] .'">
+                                                                                <a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'">
                                                                                 <span class="title-5">'. $itemInfo['product_name'] .'</span>
                                                                                 </a>
                                                                                 <br>
@@ -571,7 +577,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                                         <td class="title text-left" style="opacity:0.25;">
                                                                             <ul class="list-inline">
                                                                                 <li class="image">
-                                                                                <a href="./product.php?view='. $result['unique_key'] .'">
+                                                                                <a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'">
                                                                                 <img src="./images/images_sm/'. $images[0] .'" alt="'. $itemInfo['product_name'] .'">
                                                                                 </a>
                                                                                 </li>
@@ -679,7 +685,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                             <div class="col-md-24">
                                                 <h4><?php echo __("Not Logged In"); ?></h4>
                                                 <div class="col-md-12">
-                                                    <form method="post" action="./login.php" id="customer_login" accept-charset="UTF-8"><input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
+                                                    <form method="post" action="<?php echo $__MAINDOMAIN__;?>login" id="customer_login" accept-charset="UTF-8"><input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
                                                       <input type="hidden" name="redir" value="cart.php" />
                                                       <div id="bodyBox">
                                                         <ul class="control-container customer-accounts list-unstyled">
@@ -703,7 +709,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                 </div>
                                                 <div class="col-md-12 text-center">
                                                     <h4><?php echo __("New User"); ?>?</h4><br/>
-                                                    <a class="btn btn-success" href="./register.php"><?php echo __("Sign Up"); ?></a>
+                                                    <a class="btn btn-success" href="<?php echo $__MAINDOMAIN__;?>register"><?php echo __("Sign Up"); ?></a>
                                                 </div>
                                             </div>
                                             <?php
