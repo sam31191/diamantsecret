@@ -34,19 +34,19 @@
             <h5 class="general-title"><?php echo __("Collections"); ?></h5>            
             <ul class="list-unstyled list-styled">              
               <li class="list-unstyled">
-              <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings"><?php echo __("Rings"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Rings'))?>"><?php echo __("Rings"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings"><?php echo __("Earrings"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Earrings'))?>"><?php echo __("Earrings"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants"><?php echo __("Pendants"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Pendants'))?>"><?php echo __("Pendants"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>necklaces"><?php echo __("Necklaces"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Necklaces'))?>"><?php echo __("Necklaces"); ?></a>
               </li>            
               <li class="list-unstyled">
-              <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets"><?php echo __("Bracelets"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Bracelets'))?>"><?php echo __("Bracelets"); ?></a>
               </li>             
             </ul>
             </div>
@@ -56,13 +56,13 @@
             <h5 class="general-title"><?php echo __("Account"); ?></h5>            
             <ul class="list-unstyled list-styled">              
               <li class="list-unstyled">
-              <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>account"><?php echo __("Preferences"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>account"><?php echo __("Preferences"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>cart"><?php echo __("My Cart"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>cart"><?php echo __("My Cart"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>login"><?php echo __("Favorites"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>login"><?php echo __("Favorites"); ?></a>
               </li>             
             </ul>
             </div>

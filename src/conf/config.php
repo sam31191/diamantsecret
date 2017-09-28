@@ -861,7 +861,7 @@ function processUrlParameter($urlParam){
 }
 function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$product_name,$unique_key)
 {
-    global $pdo,$__MAINDOMAIN__;
+    global $pdo,$__MAINDOMAIN__,$lang;
     if(is_numeric($subcategory))
     {
         $name = $pdo->prepare("SELECT  category FROM ring_subcategory WHERE id = '".$subcategory."'");
@@ -894,7 +894,7 @@ function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$pr
       }
 
 
-    return $__MAINDOMAIN__.__('product').'/'.str_replace(" ", "-", strtolower($subcategory)).'/'.str_replace(".", "", $carat).'-ct-'.$gold_quality_str.'-'.str_replace(" ", "-", strtolower($materials_str)).'-'.str_replace(" ", "-", strtolower($product_name)).'/'.$unique_key;
+    return $__MAINDOMAIN__.$lang.'/'.__('product').'/'.str_replace(" ", "-", strtolower($subcategory)).'/'.str_replace(".", "", $carat).'-ct-'.$gold_quality_str.'-'.str_replace(" ", "-", strtolower($materials_str)).'-'.str_replace(" ", "-", strtolower($product_name)).'/'.$unique_key;
 
 }
 
