@@ -349,7 +349,7 @@ function generatePass($length = 10) {
                                                         <a class="action" href="javascript:;" onclick="$('#recoverMail').modal('toggle');"><?php echo __("Forgot your password"); ?>?</a>
                                                         </li>
                                                         <li>
-                                                        <?php echo __("or"); ?> <a class="return" href="<?php echo $__MAINDOMAIN__;?>home"><?php echo __("Return to store"); ?></a>
+                                                        <?php echo __("or"); ?> <a class="return" href="<?php echo $__MAINDOMAIN__.$lang;?>"><?php echo __("Return to store"); ?></a>
                                                         </li>
                                                     </ul>
                                                     </li>

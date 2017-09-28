@@ -237,7 +237,7 @@ function urlclick(currentLang,changeLang){
 											<ul class="sub-mega-menu">
 												<div class="collection-link-list">
 													<ul>
-														<li><a class="collection-link-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings"><?php echo __("Rings"); ?></a></li>
+														<li><a class="collection-link-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.processUrlParameter(__('Rings'))?>"><?php echo __("Rings"); ?></a></li>
 														<?php 
 														$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 1");
 													$query->execute();
@@ -249,7 +249,7 @@ function urlclick(currentLang,changeLang){
 																$tag = $option['category'];
 																$tag = str_replace("Ring", " ", $tag);
 
-																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.''.$lang.'/'.'rings/'. str_replace("-ring","",str_replace(" ","-",strtolower($option['category']))) .'">'. $tag .'</a></li>';
+																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.''.$lang.'/'.processUrlParameter(__('Rings')).'/'. str_replace("-ring","",str_replace(" ","-",strtolower($option['category']))) .'">'. $tag .'</a></li>';
 															}
 														}
 														?>
@@ -257,7 +257,7 @@ function urlclick(currentLang,changeLang){
 												</div>
 												<div class="collection-link-list">
 													<ul>
-														<li><a class="collection-link-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings"><?php echo __("Earrings"); ?></a></li>
+														<li><a class="collection-link-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.processUrlParameter(__('Earrings'))?>"><?php echo __("Earrings"); ?></a></li>
 														<?php 
 														$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 2");
 														$query->execute();
@@ -266,7 +266,9 @@ function urlclick(currentLang,changeLang){
 															foreach ( $query as $option ) {
 																$tag = $option['category'];
 																$tag = str_replace("Earrings", " ", $tag);
-																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.'earrings/'. str_replace("-earrings","",str_replace(" ","-",strtolower($option['category']))) .'">'. $tag .'</a></li>';
+
+
+																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Earrings')).'/'. str_replace("-earrings","",str_replace(" ","-",strtolower($option['category']))) .'">'. $tag .'</a></li>';
 															}
 														}
 														?>
@@ -274,7 +276,7 @@ function urlclick(currentLang,changeLang){
 												</div>
 												<div class="collection-link-list">
 													<ul>
-														<li><a class="collection-link-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants"><?php echo __("Pendants"); ?></a></li>
+														<li><a class="collection-link-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.processUrlParameter(__('Pendants'))?>"><?php echo __("Pendants"); ?></a></li>
 														<?php 
 														$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 3");
 														$query->execute();
@@ -283,7 +285,7 @@ function urlclick(currentLang,changeLang){
 															foreach ( $query as $option ) {
 																$tag = $option['category'];
 																$tag = str_replace("Pendant", " ", $tag);
-																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.'pendants/'. str_replace("-pendant","",str_replace(" ","-",strtolower($option['category']))) .'">'.  $tag .'</a></li>';
+																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Pendants')).'/'. str_replace("-pendant","",str_replace(" ","-",strtolower($option['category']))) .'">'.  $tag .'</a></li>';
 															}
 														}
 														?>
@@ -291,7 +293,7 @@ function urlclick(currentLang,changeLang){
 												</div>
 												<div class="collection-link-list">
 													<ul>
-														<li><a class="collection-link-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>necklaces"><?php echo __("Necklaces"); ?></a></li>
+														<li><a class="collection-link-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.processUrlParameter(__('Necklaces'))?>"><?php echo __("Necklaces"); ?></a></li>
 														<?php 
 														$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 4");
 														$query->execute();
@@ -300,7 +302,7 @@ function urlclick(currentLang,changeLang){
 															foreach ( $query as $option ) {
 																$tag = $option['category'];
 																$tag = str_replace("Necklace", " ", $tag);
-																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.'necklaces/'. str_replace("-necklace","",str_replace(" ","-",strtolower($option['category']))) .'">'. $tag .'</a></li>';
+																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Necklaces')).'/'. str_replace("-necklace","",str_replace(" ","-",strtolower($option['category']))) .'">'. $tag .'</a></li>';
 															}
 														}
 														?>
@@ -308,7 +310,7 @@ function urlclick(currentLang,changeLang){
 												</div>
 												<div class="collection-link-list">
 													<ul>
-														<li><a class="collection-link-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets"><?php echo __("Bracelets"); ?></a></li>
+														<li><a class="collection-link-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.processUrlParameter(__('Bracelets'))?>"><?php echo __("Bracelets"); ?></a></li>
 														<?php 
 														$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE `category_id` = 5");
 														$query->execute();
@@ -317,7 +319,7 @@ function urlclick(currentLang,changeLang){
 															foreach ( $query as $option ) {
 																$tag = $option['category'];
 																$tag = str_replace("Bracelet", " ", $tag);
-																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.'bracelets/'. str_replace("-bracelet","",str_replace(" ","-",strtolower($option['category']))) .'">'. $tag .'</a></li>';
+																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Bracelets')).'/'. str_replace("-bracelet","",str_replace(" ","-",strtolower($option['category']))) .'">'. $tag .'</a></li>';
 															}
 														}
 														?>

@@ -39,7 +39,7 @@
     $mailSenderName = "Diamant Secret";
     $__ADMINMAIL__ = "contact@diamantsecret.com";
     $__ADMINNAME__ = "Admin";
-    $__MAINDOMAIN__ = "http://www.diamantsecret.com/testsite/";
+    $__MAINDOMAIN__ = "http://localhost/diamantsecret/src/";
     $__SITE = "diamant_secret";
     $lang = 'fr';
     if (isset($_REQUEST['lang']) && ($_REQUEST['lang'] == 'fr' || $_REQUEST['lang'] == 'en')) {
@@ -853,6 +853,12 @@ if (strpos($actual_link,'admin') !== false) {
     include 'translation/french.php';
  }
 
+function processUrlParameter($urlParam){
+    $urlParam = strtolower($urlParam);
+    $urlParam = str_replace(" ", "-", $urlParam);
+    $urlParam = str_replace("'", "", $urlParam);
+    return $urlParam;
+}
 function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$product_name,$unique_key)
 {
     global $pdo,$__MAINDOMAIN__;

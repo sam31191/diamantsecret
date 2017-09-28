@@ -6,45 +6,46 @@ RewriteBase /diamantsecret/src/
 RewriteCond %{QUERY_STRING} !lang=(en|fr)
 RewriteRule ^$ fr/ [R=301,L]
 
-# url is ONLY '/en' or '/de' -> redirect to /en/ or /de/ (adding slash)
+# url is ONLY '/en' or '/fr' -> redirect to /en/ or /fr/ (adding slash)
 RewriteRule ^(en|fr)$  $1/ [R=301,L]
 
-# now all urls have en/ de/ -> parse them
-RewriteRule ^(en|fr)/(.*)$  $2?lang=$1&%{query_STRING} [L]
+# now all urls have en/ fr/ -> parse them
+#RewriteRule ^(en|fr)/(.*)$  $2?lang=$1&%{query_STRING} [L]
 
-RewriteRule    earrings/(.*)$  collection_earrings.php?_sc=$1 [L]
-RewriteRule    earrings   collection_earrings.php [L]
-RewriteRule    boucles-doreilles/(.*)$  collection_earrings.php?_sc=$1 [L]
-RewriteRule    boucles-doreilles   collection_earrings.php [L]
+RewriteRule    ^(en|fr)/earrings/(.*)$  collection_earrings.php?lang=$1&_sc=$1 [L]
+RewriteRule    ^(en|fr)/earrings   collection_earrings.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/boucles-doreilles/(.*)$  collection_earrings.php?lang=$1&_sc=$1 [L]
+RewriteRule    ^(en|fr)/boucles-doreilles   collection_earrings.php?lang=$1&[L]
 
-RewriteRule    rings/(.*)$ collection_rings.php?_sc=$1 [L]
-RewriteRule    rings   collection_rings.php [L]
-RewriteRule    bagues/(.*)$ collection_rings.php?_sc=$1 [L]
-RewriteRule    bagues   collection_rings.php [L]
+RewriteRule    ^(en|fr)/rings/(.*)$ collection_rings.php?lang=$1&_sc=$2 [L]
+RewriteRule    ^(en|fr)/rings   collection_rings.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/bagues/(.*)$ collection_rings.php?lang=$1&_sc=$2 [L]
+RewriteRule    ^(en|fr)/bagues   collection_rings.php?lang=$1&[L]
 
-RewriteRule    pendants/(.*)$ collection_pendants.php?_sc=$1 [L]
-RewriteRule    pendants   collection_pendants.php [L]
-RewriteRule    pendentifs/(.*)$ collection_pendants.php?_sc=$1 [L]
-RewriteRule    pendentifs   collection_pendants.php [L]
+RewriteRule    ^(en|fr)/pendants/(.*)$ collection_pendants.php?lang=$1&_sc=$2 [L]
+RewriteRule    ^(en|fr)/pendants   collection_pendants.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/pendentifs/(.*)$ collection_pendants.php?lang=$1&_sc=$2 [L]
+RewriteRule    ^(en|fr)/pendentifs   collection_pendants.php?lang=$1&[L]
 
-RewriteRule    necklaces/(.*)$ collection_necklaces.php?_sc=$1 [L]
-RewriteRule    necklaces   collection_necklaces.php [L]
-RewriteRule    colliers/(.*)$ collection_necklaces.php?_sc=$1 [L]
-RewriteRule    colliers   collection_necklaces.php [L]
+RewriteRule    ^(en|fr)/necklaces/(.*)$ collection_necklaces.php?lang=$1&_sc=$2 [L]
+RewriteRule    ^(en|fr)/necklaces   collection_necklaces.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/colliers/(.*)$ collection_necklaces.php?lang=$1&_sc=$2 [L]
+RewriteRule    ^(en|fr)/colliers   collection_necklaces.php?lang=$1&[L]
 
 #bracelets, english and french dona ch same ch hunda
-RewriteRule    bracelets/(.*)$ collection_bracelets.php?_sc=$1 [L]
-RewriteRule    bracelets   collection_bracelets.php [L]
+RewriteRule    ^(en|fr)/bracelets/(.*)$ collection_bracelets.php?lang=$1&_sc=$2 [L]
+RewriteRule    ^(en|fr)/bracelets   collection_bracelets.php?lang=$1&[L]
 
-RewriteRule    home index.php [L]
-RewriteRule    cart  cart.php [L]
-RewriteRule    contact  contact.php [L]
-RewriteRule    login  login.php [L]
-RewriteRule    register  register.php [L]
-RewriteRule    account  account.php [L]
-RewriteRule    collection  collection.php [L]
-RewriteRule    diamond-search diamond_search.php [L]
-RewriteRule    orders  orders.php [L]
+RewriteRule    ^(en|fr)/$ index.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/home index.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/cart  cart.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/contact  contact.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/login  login.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/register  register.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/account  account.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/collection  collection.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/diamond-search diamond_search.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/orders  orders.php?lang=$1&[L]
 
-RewriteRule    product/(.*)/(.*)/(.*) product.php?view=$3 [L]
-RewriteRule    produit/(.*)/(.*)/(.*) product.php?view=$3 [L]
+RewriteRule    ^(en|fr)/product/(.*)/(.*)/(.*) product.php?lang=$1&view=$3 [L]
+RewriteRule    ^(en|fr)/produit/(.*)/(.*)/(.*) product.php?lang=$1&view=$3 [L]
