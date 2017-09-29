@@ -736,7 +736,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                         <ul class="row-container list-unstyled clearfix">
                                                             <li class="row-left">
                                                             <a href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'" class="container_item" style="height:277px;">
-                                                            <img src="<?php echo $__MAINDOMAIN__;?>images/images_md/'. $images[0] .'" class="img-responsive" alt="">
+                                                            <img src="'. $__MAINDOMAIN__.'images/images_md/'. $images[0] .'" class="img-responsive" alt="">
                                                             '. $sale .'
                                                             </a>
                                                             <div class="hbw">

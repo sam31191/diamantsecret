@@ -52,7 +52,7 @@ if ( isset($_POST['login']['username']) ) {
                     
                     header("Location: ". DOMAIN . $_POST['redir']); 
                 } else {
-                    header("Location: index.php");
+                    header("Location: $__MAINDOMAIN__$lang/home");
                 }
 
                 exit();

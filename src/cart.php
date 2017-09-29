@@ -350,7 +350,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="<?php echo $__MAINDOMAIN__;?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
+                                <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
                                 <span>/</span>
                                 <span class="page-title"><?php echo __("Cart"); ?></span>
                             </div>

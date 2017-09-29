@@ -126,7 +126,7 @@ function urlclick(currentLang,changeLang){
 												<button class="action btn btn-1" type="submit">'.__("Login").'</button>
 											</li>
 											<!-- <li class="clearfix">
-												<a class="action btn btn-1" href="'.$__MAINDOMAIN__.'register">'.__("Create an account").'</a>
+												<a class="action btn btn-1" href="'.$__MAINDOMAIN__.$lang.'/register">'.__("Create an account").'</a>
 											</li> -->
 										</ul>
 									</div>
@@ -490,7 +490,7 @@ function urlclick(currentLang,changeLang){
 																		</form>
 																		<button class="cart-close" title="'.__("Remove").'" href="javascript:void(0);" style="background:transparent;" form="removeFromCart_'. $i .'" type="submit" name="removeFromCart"><i class="fa fa-times"></i></button>
 																		<div class="col-md-8 cart-left">
-																			<a class="cart-image" href="'.makeProductDetailPageUrl($urlSubcategory,$cartItemInfo['total_carat_weight'],$cartItemInfo['gold_quality'],$cartItemInfo['material'],$cartItemInfo['product_name'],$cartItemInfo['unique_key']) .'"><img src="./images/images_sm/'. $images[0] .'" alt="" title=""></a>
+																			<a class="cart-image" href="'.makeProductDetailPageUrl($urlSubcategory,$cartItemInfo['total_carat_weight'],$cartItemInfo['gold_quality'],$cartItemInfo['material'],$cartItemInfo['product_name'],$cartItemInfo['unique_key']) .'"><img src="'. $__MAINDOMAIN__.'images/images_sm/'. $images[0] .'" alt="" title=""></a>
 																		</div>
 																		<div class="col-md-16 cart-right">
 																			<div class="cart-title">
@@ -515,7 +515,7 @@ function urlclick(currentLang,changeLang){
 																			</form>
 																			<button class="cart-close" title="'.__("Remove").'" href="javascript:void(0);" style="background:transparent;" form="removeFromCart_'. $i .'" type="submit" name="removeFromCart"><i class="fa fa-times"></i></button>
 																			<div class="col-md-8 cart-left">
-																				<a class="cart-image"><img src="./images/images_sm/0.png" alt="" title=""></a>
+																				<a class="cart-image"><img src="'.$__MAINDOMAIN__.'images/images_sm/0.png" alt="" title=""></a>
 																			</div>
 																			<div class="col-md-16 cart-right">
 																				<div class="cart-title">

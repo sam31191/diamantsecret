@@ -146,7 +146,7 @@ if ( isset($_GET['verify']) ) {
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="<?php echo $__MAINDOMAIN__;?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
+								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
 								<span>/</span>
 								<span class="page-title"><?php echo __("Create Account"); ?></span>
 							</div>
@@ -271,7 +271,7 @@ $("#username").keyup(function(event){
 
 $("#username").focusout(function(event){
 	$.ajax({
-		url: './url/ajax.php?verifyUsername='+ $("#username").val(),
+		url: '<?php echo $__MAINDOMAIN__;?>url/ajax.php?verifyUsername='+ $("#username").val(),
 		type: 'GET',
 		success: function(result){
 			if ( result == 1 && $("#username").val().length > 1 ) {
@@ -297,7 +297,7 @@ $("#email").keyup(function(event){
 
 $("#email").focusout(function(event){
 	$.ajax({
-		url: './url/ajax.php?verifyEmail='+ $("#email").val(),
+		url: '<?php echo $__MAINDOMAIN__;?>url/ajax.php?verifyEmail='+ $("#email").val(),
 		type: 'GET',
 		success: function(result){
 			if ( result == 1 
@@ -373,7 +373,7 @@ $("#create_customer").submit(function(event){
 			if ( $("#password").hasClass("valid") ) {
 				if ( $("#password").val() == $("#password_confirm").val() ) {
 					$.ajax({
-						url: './url/ajax.php?register=' + $("#username").val(),
+						url: '<?php echo $__MAINDOMAIN__;?>url/ajax.php?register=' + $("#username").val(),
 						type: 'POST',
 						data: $("#create_customer").serialize(),
 						beforeSend: function(){
