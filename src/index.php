@@ -53,7 +53,7 @@ include './url/pre.php';
 
 	<style type="text/css">
 		.home-banner-wrapper {
-    background: url(images/gfx/parallax.jpg) no-repeat center;
+    background: url(../images/gfx/parallax.jpg) no-repeat center;
     width: 100%;
     min-height: 500px;
     background-repeat: no-repeat;
@@ -350,10 +350,10 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																 
 															</div>
 															<div class="hover-appear">
-																<form action="./product.php?view='. $product['unique_key'] .'" method="post">
+																<form action="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'" method="post">
 																	<div class="effect-ajax-cart">
 																		<input type="hidden" name="quantity" value="1">
-																		<button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $product['unique_key'] .'\'"><i class="fa fa-th-list" title="'.__("Select Options").'"></i><span class="list-mode">'.__("Select Option").'</span></button>
+																		<button class="select-option" type="button" onclick="window.location.href='."'".makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) ."'".'"><i class="fa fa-th-list" title="'.__("Select Options").'"></i><span class="list-mode">'.__("Select Option").'</span></button>
 																	</div>
 																</form>
 																<div class="product-ajax-qs hidden-xs hidden-sm">
@@ -445,6 +445,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 
 													$delay = 0;
 													foreach ( $featuredItems as $product ) {
+
 														switch ($product['category']) {
 														case 1: {
 															$getInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :unique_key");
@@ -469,7 +470,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 
 													$getInfo->execute(array(":unique_key" => $product['unique_key']));
 													$info = $getInfo->fetch(PDO::FETCH_ASSOC);
-
+													
 													$images = $info['images'];
 													$images = explode(",", $images);
 
@@ -536,10 +537,10 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																 
 															</div>
 															<div class="hover-appear">
-																<form method="post">
+																<form method="post" action="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'">
 																	<div class="effect-ajax-cart">
 																		<input type="hidden" name="quantity" value="1">
-																		<button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $product['unique_key'] .'\'"><i class="fa fa-th-list" title="'.__("Select Options").'"></i><span class="list-mode">'.__("Select Option").'</span></button>
+																		<button class="select-option" type="button" onclick="window.location.href='."'".makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) ."'".'"><i class="fa fa-th-list" title="'.__("Select Options").'"></i><span class="list-mode">'.__("Select Option").'</span></button>
 																	</div>
 																</form>
 																<div class="product-ajax-qs hidden-xs hidden-sm">
@@ -691,10 +692,13 @@ function quickDisplay(src) {
 }
 
 function quickShop(id) {
+
 	if (id == "") {
 		document.getElementById("quick-shop-modal").innerHTML = "";
+
 		return;
 	} else { 
+
 		if (window.XMLHttpRequest) {
 			// code for IE7+, Firefox, Chrome, Opera, Safari
 			xmlhttp = new XMLHttpRequest();
@@ -702,6 +706,7 @@ function quickShop(id) {
 			// code for IE6, IE5
 			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 		}
+
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 				var result = JSON.parse(xmlhttp.responseText);
@@ -723,14 +728,15 @@ function quickShop(id) {
 				}
 				//Item Thumbnals
 				for ( var i = 0; i < images.length-1; i++ ) {
-					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/images/'+ images[i] +'?v='+ Date.now() +'" ><img src="<?php echo $__MAINDOMAIN__;?>images/images_sm/'+ images[i] +'?v='+ Date.now() +'" alt=""/></a>';
+					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="<?php echo $__MAINDOMAIN__;?>images/images/'+ images[i] +'?v='+ Date.now() +'" ><img src="<?php echo $__MAINDOMAIN__;?>images/images_sm/'+ images[i] +'?v='+ Date.now() +'" alt=""/></a>';
 					//console.log("1 Item Added");
 					$('#gallery_main_qs').owlCarousel().data('owlCarousel').addItem(content);
 					$('.owl-item').toggleClass('show-item');
+
 				}
 				//Item Name
 				$("#quick-shop-title a").text(result['item_name']);
-				$("#quick-shop-title a").attr("href", "<?php echo $__MAINDOMAIN__;?>product?view=" + result['unique_key']);
+				$("#quick-shop-title a").attr("href", "<?php echo $__MAINDOMAIN__;?>product.php?view=" + result['unique_key']);
 				
 				//Desc
 				$("#quick-shop-description").html(result['description']);
@@ -785,12 +791,13 @@ function quickShop(id) {
 				} else {
 					$("#buttonDiv").html('<button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;"><?php echo __("Add to Cart"); ?></button>');
 				}
-
+				
 				$("#quick-shop-unique-key").val(result['unique_key']);
 				$("#quick-shop-modal").modal("toggle");
 			}
-		};
-		xmlhttp.open("GET","./url/fetch_item_info.php?id="+id, true);
+		};   
+		
+		xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/fetch_item_info.php?id="+id, true);
 		$("#quick-shop-image .main-image img").attr("src", "<?php echo $__MAINDOMAIN__;?>images/gfx/cube_lg.gif");
 		xmlhttp.send();
 	}
@@ -837,7 +844,7 @@ function addToWishlist(key) {
 			  	console.log(xmlhttp.responseText);
 	  		};
 	  	}
-	xmlhttp.open("GET","url/ajax.php?addtoFav="+key,true);
+	xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/ajax.php?addtoFav="+key,true);
 	xmlhttp.send();
 }
 function removeFromWishlist(key) {
@@ -865,7 +872,7 @@ function removeFromWishlist(key) {
 		  console.log(xmlhttp.responseText);
       }
   };
-  xmlhttp.open("GET","url/ajax.php?removeFromFav="+key,true);
+  xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/ajax.php?removeFromFav="+key,true);
   xmlhttp.send();
 }
 

@@ -191,7 +191,7 @@ if ( isset($_GET['verify']) ) {
 							?>
 							</div>
 							<div id="col-main" class="col-md-12 register-page clearfix">
-								<form id="create_customer" accept-charset="UTF-8" method="post">
+							<form id="create_customer" accept-charset="UTF-8" method="post">
 									<input value="create_customer" name="form_type" type="hidden"><input name="utf8" value="✓" type="hidden">
 									<ul id="" class="row list-unstyled">
 										<li id="last_namef">

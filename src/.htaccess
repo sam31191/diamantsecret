@@ -46,6 +46,8 @@ RewriteRule    ^(en|fr)/account  account.php?lang=$1&[L]
 RewriteRule    ^(en|fr)/collection  collection.php?lang=$1&[L]
 RewriteRule    ^(en|fr)/diamond-search diamond_search.php?lang=$1&[L]
 RewriteRule    ^(en|fr)/orders  orders.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/dssearch  dssearch.php?lang=$1&[L]
+
 
 RewriteRule    ^(en|fr)/product/(.*)/(.*)/(.*) product.php?lang=$1&view=$4 [L]
 RewriteRule    ^(en|fr)/produit/(.*)/(.*)/(.*) product.php?lang=$1&view=$4 [L]

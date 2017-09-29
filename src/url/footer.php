@@ -56,13 +56,13 @@
             <h5 class="general-title"><?php echo __("Account"); ?></h5>            
             <ul class="list-unstyled list-styled">              
               <li class="list-unstyled">
-              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>account"><?php echo __("Preferences"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>login"><?php echo __("Preferences"); ?></a>
               </li>             
               <li class="list-unstyled">
               <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>cart"><?php echo __("My Cart"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>login"><?php echo __("Favorites"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>account"><?php echo __("Favorites"); ?></a>
               </li>             
             </ul>
             </div>
@@ -73,7 +73,7 @@
       <div class="footer-content footer-content-bottom clearfix">
         <div class="container">
           <div class="copyright col-md-12">
-            © 2016 <a href="<?php echo $__MAINDOMAIN__;?>contact">Diamant Secret</a>. <?php echo __("All Rights Reserved"); ?>.
+            © 2016 <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>contact">Diamant Secret</a>. <?php echo __("All Rights Reserved"); ?>.
           </div>
           <div id="widget-payment" class="col-md-12" style="text-align:right">
             <img src="<?php echo $__MAINDOMAIN__;?>images/gfx/logo.png" style="width:200px" />

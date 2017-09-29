@@ -56,7 +56,7 @@ $alert = "";
           <div itemprop="breadcrumb" class="container">
             <div class="row">
               <div class="col-md-24">
-                <a href="<?php echo $__MAINDOMAIN__;?>home" class="homepage-link" title="<?php echo __("Back to the frontpage");?>">Home</a>
+                <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage");?>">Home</a>
                 <span>/</span>
                 <span class="page-title"><?php echo __("My Account"); ?></span>
               </div>
@@ -144,7 +144,7 @@ $alert = "";
                               <span class="note">'. $status .'</span>
                             </td>
                             <td>
-                              <span class="status_authorized"><a class="btn btn-custom" href="#" onclick="viewCartInfo(\''. $item['invoice_number'] .'\')">'.__("View").'</a></span>
+                              <span class="status_authorized"><a class="btn btn-custom" href="javascript:void(0);" onclick="viewCartInfo(\''. $item['invoice_number'] .'\')">'.__("View").'</a></span>
                             </td>
                             <td>
                               <span class="note">'. $item['create_time'] .'</span>
@@ -195,7 +195,7 @@ $alert = "";
       url: './url/ajax.php?paymentInfo='+ invoice,
       type: 'GET',
       beforeSend: function() {
-        $("#modalContent").html('<div class="col-sm-8 col-sm-offset-8 text-center"><img src="./images/gfx/cube_lg.gif" /><br/><h5><?php echo addslashes(__("Fetching Info")); ?></h5></div>');
+        $("#modalContent").html('<div class="col-sm-8 col-sm-offset-8 text-center"><img src="<?php echo $__MAINDOMAIN__;?>images/gfx/cube_lg.gif" /><br/><h5><?php echo addslashes(__("Fetching Info")); ?></h5></div>');
         $("#settingsModal").modal("toggle");
       },
       success: function(result) {

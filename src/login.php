@@ -126,7 +126,7 @@ if ( isset($_POST['login']['username']) ) {
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
-    <link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
+    <link rel="icon" href="<?php echo $__MAINDOMAIN__;?>images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
     
     <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
     <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
@@ -292,7 +292,7 @@ function generatePass($length = 10) {
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="<?php echo $__MAINDOMAIN__;?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+                                <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
                                 <span>/</span>
                                 <span class="page-title"><?php echo __("Login"); ?></span>
                             </div>
@@ -313,7 +313,7 @@ function generatePass($length = 10) {
                                             <div class="checkout-title">
                                                 <span class="general-title"><?php echo __("Customer Login"); ?></span>
                                             </div>
-                                            <form method="post" id="customer_login" accept-charset="UTF-8">
+                                            <form action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('login')?>" method="post" id="customer_login" accept-charset="UTF-8">
                                                 <input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
                                                 <?php if ( !empty($error) ) {
                                                     echo '

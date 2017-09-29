@@ -531,11 +531,13 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                                     $vatAmount = 0;
                                                                 }
 																$urlSubcategory = '';
-																 if ( isset($_GET['_sc']) ) {
-																	$urlSubcategory = $_GET['_sc'];
-																 } else {
-																	$urlSubcategory = $itemInfo['ring_subcategory'];
-																 }
+                                                         if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+                                                            $urlSubcategory = $ringTag;
+                                                        } else if ( isset($_GET['_sc'])) {
+                                                            $urlSubcategory = $_GET['_sc'];
+                                                         } else {
+                                                            $urlSubcategory = $itemInfo['ring_subcategory'];
+                                                         } 
                                                                 echo '
                                                                     <tr class="item donec-condime-fermentum">
                                                                         <td class="title text-center">
@@ -676,8 +678,8 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
 
                                                     
                                                 </h3>
-                                                <a href="./cart.php" class="btn btn-success"><i class="fa fa-caret-left"></i> <?php echo __("Cart"); ?></a>
-                                                    <form style="float: right;" method="post"><button class="btn btn-success" name="CART[STEP]" value="3"><?php echo __("Checkout"); ?> <i class="fa fa-caret-right"></i> </button></form>
+                                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>cart" class="btn btn-success"><i class="fa fa-caret-left"></i> <?php echo __("Cart"); ?></a>
+                                                    <form style="float: right;" method="post" action=""><button class="btn btn-success" name="CART[STEP]" value="3"><?php echo __("Checkout"); ?> <i class="fa fa-caret-right"></i> </button></form>
                                             </div>
                                             <?php
                                         } else {
@@ -685,8 +687,8 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                             <div class="col-md-24">
                                                 <h4><?php echo __("Not Logged In"); ?></h4>
                                                 <div class="col-md-12">
-                                                    <form method="post" action="<?php echo $__MAINDOMAIN__;?>login" id="customer_login" accept-charset="UTF-8"><input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
-                                                      <input type="hidden" name="redir" value="cart.php" />
+                                                    <form method="post" action="<?php echo $__MAINDOMAIN__.$lang.'/'?>login" id="customer_login" accept-charset="UTF-8"><input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
+                                                      <input type="hidden" name="redir" value="<?php echo $__MAINDOMAIN__.$lang.'/'?>cart" />
                                                       <div id="bodyBox">
                                                         <ul class="control-container customer-accounts list-unstyled">
                                                           <li class="clearfix">
@@ -709,7 +711,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                 </div>
                                                 <div class="col-md-12 text-center">
                                                     <h4><?php echo __("New User"); ?>?</h4><br/>
-                                                    <a class="btn btn-success" href="<?php echo $__MAINDOMAIN__;?>register"><?php echo __("Sign Up"); ?></a>
+                                                    <a class="btn btn-success" href="<?php echo $__MAINDOMAIN__.$lang.'/'?>register"><?php echo __("Sign Up"); ?></a>
                                                 </div>
                                             </div>
                                             <?php

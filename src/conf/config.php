@@ -39,7 +39,7 @@
     $mailSenderName = "Diamant Secret";
     $__ADMINMAIL__ = "contact@diamantsecret.com";
     $__ADMINNAME__ = "Admin";
-    $__MAINDOMAIN__ = "http://localhost/diamantsecret/src/";
+    $__MAINDOMAIN__ = "http://www.diamantsecret.com/testsite/";
     $__SITE = "diamant_secret";
     $lang = 'fr';
     if (isset($_REQUEST['lang']) && ($_REQUEST['lang'] == 'fr' || $_REQUEST['lang'] == 'en')) {

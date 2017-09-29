@@ -668,7 +668,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                     $fetchFeatured->execute(array(":cat" => $item['category']));
 
                                                     $featuredItems = $fetchFeatured->fetchAll();
-
+                                                   
 
                                                     $delay = 0;
                                                     foreach ( $featuredItems as $product ) {
@@ -699,7 +699,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                      $getInfo->execute(array(":unique_key" => $product['unique_key']));
 
                                                     $info = $getInfo->fetch(PDO::FETCH_ASSOC);
-
+                                                    
                                                     $images = $info['images'];
                                                     $images = explode(",", $images);
 
@@ -758,10 +758,10 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                  
                                                             </div>
                                                             <div class="hover-appear">
-                                                                <form action="./product.php?view='. $product['unique_key'] .'" method="post">
+                                                                <form action="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'"  method="post">
                                                                     <div class="effect-ajax-cart">
                                                                         <input type="hidden" name="quantity" value="1">
-                                                                        <button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $product['unique_key'] .'\'"><i class="fa fa-th-list" title="'.__("Select Options").'"></i><span class="list-mode">'.__("Select Option").'</span></button>
+                                                                        <button class="select-option" type="button" onclick="window.location.href='."'".makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) ."'".'"><i class="fa fa-th-list" title="'.__("Select Options").'"></i><span class="list-mode">'.__("Select Option").'</span></button>
                                                                     </div>
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
@@ -922,7 +922,7 @@ function addToWishlist(key) {
                 console.log(xmlhttp.responseText);
             };
         }
-    xmlhttp.open("GET","url/ajax.php?addtoFav="+key,true);
+    xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/ajax.php?addtoFav="+key,true);
     xmlhttp.send();
 }
 function quickShop(id) {
@@ -1033,7 +1033,7 @@ function quickShop(id) {
             }
         }, false);
 
-        xmlhttp.open("GET","./url/fetch_item_info.php?id="+id, false);
+        xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/fetch_item_info.php?id="+id, false);
         xmlhttp.send();
 
     }
@@ -1064,7 +1064,7 @@ function removeFromWishlist(key) {
           console.log(xmlhttp.responseText);
       }
   };
-  xmlhttp.open("GET","url/ajax.php?removeFromFav="+key,true);
+  xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/ajax.php?removeFromFav="+key,true);
   xmlhttp.send();
 }
 

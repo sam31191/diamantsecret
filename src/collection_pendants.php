@@ -1099,7 +1099,7 @@ function quickShop(id) {
             }
         }, false);
 
-        xmlhttp.open("GET","./url/fetch_item_info.php?id="+id, false);
+        xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/fetch_item_info.php?id="+id, false);
         xmlhttp.send();
 
     }
@@ -1146,7 +1146,7 @@ function addToWishlist(key) {
                 console.log(xmlhttp.responseText);
             };
         }
-    xmlhttp.open("GET","url/ajax.php?addtoFav="+key,true);
+    xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/ajax.php?addtoFav="+key,true);
     xmlhttp.send();
 }
 
@@ -1176,7 +1176,7 @@ function removeFromWishlist(key) {
           console.log(xmlhttp.responseText);
       }
   };
-  xmlhttp.open("GET","url/ajax.php?removeFromFav="+key,true);
+  xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/ajax.php?removeFromFav="+key,true);
   xmlhttp.send();
 }
 

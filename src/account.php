@@ -2,8 +2,10 @@
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
+
 if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
-	header("location: ./login.php");
+
+	header("location: $__MAINDOMAIN__.$lang/login");
 	exit();
 }
 include './conf/config.php';
@@ -114,7 +116,7 @@ if ( isset($_POST['removeFromFav'])) {
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="<?php echo $__MAINDOMAIN__;?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
+								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
 								<span>/</span>
 								<span class="page-title"><?php echo __("My Account"); ?></span>
 							</div>

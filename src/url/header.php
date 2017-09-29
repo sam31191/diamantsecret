@@ -1,6 +1,8 @@
 <?php
 
+
 if ( $testSite && !isset($_SESSION['admin']) ) {
+	echo "tester";
 	echo '<script> window.location.href = "./under_construction/index.php"; </script>';
 	die();
 } 
@@ -8,7 +10,7 @@ if ( isset($_POST['action']['logout']) ) {
 	session_unset();
 	session_destroy();
 
-	echo '<script> window.location.href = "'.$__MAINDOMAIN__.'home"; </script>';
+	echo '<script> window.location.href = "'.$__MAINDOMAIN__.$lang.'/home"; </script>';
 	die();
 }
 if ( !isset($_SESSION['loggedIn']) ) {
@@ -67,7 +69,7 @@ function urlclick(currentLang,changeLang){
 				<li class="customer-links hidden-xs" style="width:100%;">
 					<ul id="accounts" class="list-inline">
 						<li class="my-account">
-							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>login"><?php echo __("My Account"); ?></a>
+							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>account"><?php echo __("My Account"); ?></a>
 						</li> 
 
 						<?php
@@ -88,7 +90,7 @@ function urlclick(currentLang,changeLang){
 								<div id="loginBox" class="dropdown-menu text-left" style="padding:0;">
 									<div id="bodyBox" style="text-align:right">
 										<ul class="control-container customer-accounts list-unstyled" style="padding:0;">           
-											<a href="'.$__MAINDOMAIN__.''.''.$lang.'/'.'account" class="dropdown-item">'.__("Favorites").'<span id="favorite_num_badge" style="padding: 2px 6px; background: #F9A825; border-radius: 100px; margin: 0px 0px 0px 5px; font-size: 12px; color: white; font-weight: bold;">'. intval(count(explode(",", $favorites)) - 1) .'</span></a>
+											<a href="'.$__MAINDOMAIN__.$lang.'/'.'account" class="dropdown-item">'.__("Favorites").'<span id="favorite_num_badge" style="padding: 2px 6px; background: #F9A825; border-radius: 100px; margin: 0px 0px 0px 5px; font-size: 12px; color: white; font-weight: bold;">'. intval(count(explode(",", $favorites)) - 1) .'</span></a>
 											<a href="'.$__MAINDOMAIN__.''.''.$lang.'/'.'account?show=settings" class="dropdown-item">'.__("Settings").'</a>              
 											<a href="'.$__MAINDOMAIN__.$lang.'/orders" class="dropdown-item">'.__("Orders").'</a>              
 											<form method="post">
@@ -103,13 +105,13 @@ function urlclick(currentLang,changeLang){
 							echo'
 							<li class="login">    
 								<span id="loginButton" class="dropdown-toggle" data-toggle="dropdown">
-									<a href="'.$__MAINDOMAIN__.'login">'.__("Login").'</a>
+									<a href="'.$__MAINDOMAIN__.$lang.'/login">'.__("Login").'</a>
 									<i class="sub-dropdown1"></i>
 									<i class="sub-dropdown"></i>
 								</span>
 								<!-- Customer Account Login -->
 								<div id="loginBox" class="dropdown-menu text-left">
-								<form method="post" action="'.$__MAINDOMAIN__.'login" id="customer_login" accept-charset="UTF-8"><input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
+								<form method="post" action="'.$__MAINDOMAIN__.$lang.'/login" id="customer_login" accept-charset="UTF-8"><input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
 									<div id="bodyBox">
 										<ul class="control-container customer-accounts list-unstyled">
 											<li class="clearfix">
@@ -188,10 +190,10 @@ function urlclick(currentLang,changeLang){
 											if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 												echo '
 													<li>
-													<a href="'.$__MAINDOMAIN__.'account">'.__("Account").'</a> 
+													<a href="'.$__MAINDOMAIN__.$lang.'/account">'.__("Account").'</a> 
 													</li>
 													<li>
-													<a href="./orders.php">'.__("Orders").'</a> 
+													<a href="'.$__MAINDOMAIN__.$lang.'/orders">'.__("Orders").'</a> 
 													</li>
 													<li class="account last">
 													<form method="post">
@@ -201,10 +203,10 @@ function urlclick(currentLang,changeLang){
 											} else {
 												echo '
 													<li class="logout">
-													<a href="'.$__MAINDOMAIN__.'login">'.__("Login").'</a>
+													<a href="'.$__MAINDOMAIN__.$lang.'/login">'.__("Login").'</a>
 													</li>
 													<li class="account last">
-													<a href="'.$__MAINDOMAIN__.'register">'.__("Register").'</a>
+													<a href="'.$__MAINDOMAIN__.$lang.'/register">'.__("Register").'</a>
 													</li>';
 											}
 											?>
@@ -212,10 +214,10 @@ function urlclick(currentLang,changeLang){
 										</div>
 										</li>
 										<li class="is-mobile-wl">
-										<a href="<?php echo $__MAINDOMAIN__;?>account"><i class="fa fa-heart"></i></a>
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>account"><i class="fa fa-heart"></i></a>
 										</li>
 										<li class="is-mobile-cart">
-										<a href="<?php echo $__MAINDOMAIN__;?>cart"><i class="fa fa-shopping-cart"></i></a>
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>cart"><i class="fa fa-shopping-cart"></i></a>
 										</li>
 									</ul>
 								</div>
@@ -371,7 +373,7 @@ function urlclick(currentLang,changeLang){
 							<i class="sub-dropdown"></i>
 							</span>
 							</a>
-							<form id="header-search" class="search-form dropdown-menu" action="<?php echo $__MAINDOMAIN__;?>collection" method="get">
+							<form id="header-search" class="search-form dropdown-menu" action="<?php echo $__MAINDOMAIN__.$lang.'/'?>collection" method="get">
 								<input type="hidden" name="type" value="product">
 								<input type="text" name="q" accesskey="4" autocomplete="off" placeholder="<?php echo __('Search Product'); ?>" value="<?php echo $searchTag; ?>">
 								<button type="submit" class="btn"><?php echo __("Search"); ?></button>
@@ -379,7 +381,7 @@ function urlclick(currentLang,changeLang){
 						</div>
 					</li>
 					<li class="mobile-search visible-xs">
-						<form id="mobile-search" class="search-form" action="collection.php" method="get">
+						<form id="mobile-search" class="search-form" action="<?php echo $__MAINDOMAIN__.$lang.'/'?>collection" method="get">
 							<input type="hidden" name="type" value="product">
 							<input type="text" class="" name="q" accesskey="4" autocomplete="off" placeholder="<?php echo __('Search Product'); ?>" value="<?php echo $searchTag; ?>">
 							<button type="submit" class="search-submit" title="<?php echo __('Search'); ?>"><i class="fa fa-search"></i></button>
@@ -413,7 +415,7 @@ function urlclick(currentLang,changeLang){
 					<li class="umbrella hidden-xs">
 						<div id="umbrella" class="list-inline unmargin">
 							<div class="cart-link">
-								<a href="<?php echo $__MAINDOMAIN__;?>cart" class="dropdown-toggle dropdown-link" data-toggle="dropdown" style="white-space: nowrap;">
+								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>cart" class="dropdown-toggle dropdown-link" data-toggle="dropdown" style="white-space: nowrap;">
 									<i class="sub-dropdown1"></i>
 									<i class="sub-dropdown"></i>
 									<div class="num-items-in-cart">
@@ -462,11 +464,21 @@ function urlclick(currentLang,changeLang){
 															$getCartItemInfo->execute(array(":key" => $cartItem[0]));
 
 															$cartItemInfo = $getCartItemInfo->fetch(PDO::FETCH_ASSOC);
-
+															
 															$images = explode(",", $cartItemInfo['images']);
 															if ( $images[0] == "" ) {
 																$images[0] = '0.png';
 															}
+															
+															$urlSubcategory = '';
+															 if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+																$urlSubcategory = $ringTag;
+															} else if ( isset($_GET['_sc'])) {
+																$urlSubcategory = $_GET['_sc'];
+															 } else {
+																$urlSubcategory = $cartItemInfo['ring_subcategory'];
+															 } 
+														 
 															echo '
 																<div class="items control-container">
 																	<div class="row items-wrapper">
@@ -478,11 +490,11 @@ function urlclick(currentLang,changeLang){
 																		</form>
 																		<button class="cart-close" title="'.__("Remove").'" href="javascript:void(0);" style="background:transparent;" form="removeFromCart_'. $i .'" type="submit" name="removeFromCart"><i class="fa fa-times"></i></button>
 																		<div class="col-md-8 cart-left">
-																			<a class="cart-image" href="./product.php?view='. $cartItemInfo['unique_key'] .'"><img src="./images/images_sm/'. $images[0] .'" alt="" title=""></a>
+																			<a class="cart-image" href="'.makeProductDetailPageUrl($urlSubcategory,$cartItemInfo['total_carat_weight'],$cartItemInfo['gold_quality'],$cartItemInfo['material'],$cartItemInfo['product_name'],$cartItemInfo['unique_key']) .'"><img src="./images/images_sm/'. $images[0] .'" alt="" title=""></a>
 																		</div>
 																		<div class="col-md-16 cart-right">
 																			<div class="cart-title">
-																				<a href="./product.php?view='. $cartItemInfo['unique_key'] .'">'. $cartItemCategory['item_name'] .'<br><small>'.__("Size").': '. $cartItem[1] .'</small></a>
+																				<a href="'.makeProductDetailPageUrl($urlSubcategory,$cartItemInfo['total_carat_weight'],$cartItemInfo['gold_quality'],$cartItemInfo['material'],$cartItemInfo['product_name'],$cartItemInfo['unique_key']) .'">'. $cartItemCategory['item_name'] .'<br><small>'.__("Size").': '. $cartItem[1] .'</small></a>
 																			</div>
 																			<div class="cart-price">
 																				€ '. $cartItemCategory['item_value'] .'<span class="x"> x </span>'. $cartItem[2] .'
