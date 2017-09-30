@@ -98,7 +98,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 				<div class="camera_wrap" id="home-slider"  style="max-height: 650px;">
 					<div data-src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-1.jpg">
 						<div class="camera_caption camera_title_1 fadeIn">
-						  <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection" style="color:#010101;"><?php echo __("Live the moment"); ?></a>
+						  <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" style="color:#010101;"><?php echo __("Live the moment"); ?></a>
 						</div>
 						<div class="camera_caption camera_caption_1 fadeIn" style="color: rgb(1, 1, 1);">
 						</div>
@@ -106,18 +106,18 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 							<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-caption-1.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
-							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection" class="btn"><?php echo __("See Collection"); ?></a>
+							<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('collection')?>" class="btn"><?php echo __("See Collection"); ?></a>
 						</div>
 					</div>
 					<div data-src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-2.jpg">
 						<div class="camera_caption camera_title_2 moveFromLeft">
-						  <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection" style="color:#666666;"><?php echo __("Love’s embrace"); ?></a>
+						  <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" style="color:#666666;"><?php echo __("Love’s embrace"); ?></a>
 						</div>
 						<div class="camera_caption camera_image-caption_2 moveFromLeft" style="visibility: hidden;">
 							<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-caption-2.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
-							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection" class="btn"><?php echo __("See Collection"); ?></a>
+							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" class="btn"><?php echo __("See Collection"); ?></a>
 						</div>
 					</div>
 					<div data-src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-3.jpg">
@@ -126,7 +126,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 							<p style="font-size: 45px; font-weight: normal; color: black; font-variant: small-caps;"><?php echo __("Have a Diamond in mind"); ?>?<br><small><?php echo __("Search for the perfect diamond for you"); ?>!</small></p>
 						</div>
 						<div class="camera_cta_1">
-							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>diamond-search" class="btn"><?php echo __("Search Now"); ?></a>
+							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('diamond-search')?>" class="btn"><?php echo __("Search Now"); ?></a>
 						</div>
 					</div>
 				</div>
@@ -146,14 +146,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings" title="<?php echo __("Browse our Rings"); ?>">
+																			<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('rings')?>" title="<?php echo __("Browse our Rings"); ?>">
 																				<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/ring_270x270.png" alt="Rings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings"><?php echo __("Rings"); ?></a></span>
+																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('rings')?>"><?php echo __("Rings"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings"><?php echo __("See the Collection"); ?></a>
+																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('rings')?>"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -161,14 +161,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings" title="<?php echo __("Browse our Earrings"); ?>">
+																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>" title="<?php echo __("Browse our Earrings"); ?>">
 																			<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/earring_270x270.png" alt="Earrings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings"><?php echo __("Earrings"); ?></a></span>
+																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>"><?php echo __("Earrings"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings"><?php echo __("See the Collection"); ?></a>
+																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -176,14 +176,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants" title="<?php echo __("Browse our Pendants"); ?>">
+																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>" title="<?php echo __("Browse our Pendants"); ?>">
 																			<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/pendant_270x270.png" alt="Pendants">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants"><?php echo __("Pendants"); ?></a></span>
+																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>"><?php echo __("Pendants"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants"><?php echo __("See the Collection"); ?></a>
+																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -191,14 +191,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>necklaces" title="<?php echo __("Browse our Necklaces"); ?>">
+																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('necklaces')?>" title="<?php echo __("Browse our Necklaces"); ?>">
 																			<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/necklace_270x270.png" alt="Necklaces">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>necklaces"><?php echo __("Necklaces"); ?></a></span>
+																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('necklaces')?>"><?php echo __("Necklaces"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>necklaces"><?php echo __("See the Collection"); ?></a>
+																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('necklaces')?>"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -206,14 +206,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets" title="<?php echo __("Browse our Bracelets"); ?>">
+																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>" title="<?php echo __("Browse our Bracelets"); ?>">
 																				<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/bracelet_270x270.png" alt="Bracelets">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets"><?php echo __("Bracelets"); ?></a></span>
+																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>"><?php echo __("Bracelets"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets"><?php echo __("See the Collection"); ?></a>
+																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
@@ -396,7 +396,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 									?>
 									</div>
 									<div class="home-banner-action">
-										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection"><?php echo __("Shop Now"); ?></a>
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>"><?php echo __("Shop Now"); ?></a>
 									</div>
 								</div>
 							</div>
@@ -425,7 +425,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 
 								<br><?php echo __("Find your perfect Diamond here"); ?></span><br/>
 
-								<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>diamond-search" class="btn" style="margin-top: 10px;"><?php echo __("Search Now"); ?></a>
+								<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('diamond-search')?>" class="btn" style="margin-top: 10px;"><?php echo __("Search Now"); ?></a>
 						</div>
 
 						<div class="home-feature">
@@ -620,14 +620,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 								<div id="quick-shop-relative" class="relative text-left">
 									<ul class="list-unstyled">
 										<li class="control-group vendor">
-										<span class="control-label">Home :</span><a href="#"> Home</a>
+										<span class="control-label"><?php echo __('Home'); ?> :</span><a href="#"> <?php  echo __('Home'); ?></a>
 										</li>
 										<li class="control-group type">
-										<span class="control-label">Home :</span><a href="#"> Home</a>
+										<span class="control-label"> <?php  echo __('Home'); ?> :</span><a href="#">  <?php  echo __('Home'); ?></a>
 										</li>
 									</ul>
 								</div>
-								<form method="post" enctype="multipart/form-data">
+								<form method="post" enctype="multipart/form-data" action="<?php  echo $__MAINDOMAIN__.$lang.'/'.__('home') ?>">
 									<div id="quick-shop-price-container" class="detail-price">
 										
 									</div>

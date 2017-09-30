@@ -38,14 +38,31 @@ RewriteRule    ^(en|fr)/bracelets   collection_bracelets.php?lang=$1&[L]
 
 RewriteRule    ^(en|fr)/$ index.php?lang=$1&[L]
 RewriteRule    ^(en|fr)/home index.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/maison index.php?lang=$1&[L]
+
 RewriteRule    ^(en|fr)/cart  cart.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/chariot  cart.php?lang=$1&[L]
+
+
 RewriteRule    ^(en|fr)/contact  contact.php?lang=$1&[L]
 RewriteRule    ^(en|fr)/login  login.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/se-connecter  login.php?lang=$1&[L]
+
 RewriteRule    ^(en|fr)/register  register.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/registre  register.php?lang=$1&[L]
+
 RewriteRule    ^(en|fr)/account  account.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/compte  account.php?lang=$1&[L]
+
 RewriteRule    ^(en|fr)/collection  collection.php?lang=$1&[L]
+
 RewriteRule    ^(en|fr)/diamond-search diamond_search.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/recherche-de-diamants diamond_search.php?lang=$1&[L]
+
+
 RewriteRule    ^(en|fr)/orders  orders.php?lang=$1&[L]
+RewriteRule    ^(en|fr)/ordres  orders.php?lang=$1&[L]
+
 RewriteRule    ^(en|fr)/dssearch  dssearch.php?lang=$1&[L]
 
 

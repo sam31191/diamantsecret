@@ -50,7 +50,7 @@ if ( isset($_POST['login']['username']) ) {
 
                 if ( isset($_POST['redir']) ) {
                     
-                    header("Location: ". DOMAIN . $_POST['redir']); 
+                    header("Location: ". $_POST['redir']); 
                 } else {
                     header("Location: $__MAINDOMAIN__$lang/home");
                 }
@@ -292,7 +292,7 @@ function generatePass($length = 10) {
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+                                <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
                                 <span>/</span>
                                 <span class="page-title"><?php echo __("Login"); ?></span>
                             </div>
@@ -349,7 +349,7 @@ function generatePass($length = 10) {
                                                         <a class="action" href="javascript:;" onclick="$('#recoverMail').modal('toggle');"><?php echo __("Forgot your password"); ?>?</a>
                                                         </li>
                                                         <li>
-                                                        <?php echo __("or"); ?> <a class="return" href="<?php echo $__MAINDOMAIN__.$lang;?>"><?php echo __("Return to store"); ?></a>
+                                                        <?php echo __("or"); ?> <a class="return" href="<?php echo $__MAINDOMAIN__.$lang.'/'?>"><?php echo __("Return to store"); ?></a>
                                                         </li>
                                                     </ul>
                                                     </li>
@@ -381,7 +381,7 @@ function generatePass($length = 10) {
       </div>
       <div class="modal-body">
         <div class="container-fluid">
-        <form method="post">
+        <form method="post" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('login') ?>">
             <ul id="login-form">
                 <li class="clearfix"></li>
                 <li id="login_email" class="col-md-24">

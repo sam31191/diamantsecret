@@ -69,7 +69,7 @@ function urlclick(currentLang,changeLang){
 				<li class="customer-links hidden-xs" style="width:100%;">
 					<ul id="accounts" class="list-inline">
 						<li class="my-account">
-							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>account"><?php echo __("My Account"); ?></a>
+							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('account')?>"><?php echo __("My Account"); ?></a>
 						</li> 
 
 						<?php
@@ -90,9 +90,9 @@ function urlclick(currentLang,changeLang){
 								<div id="loginBox" class="dropdown-menu text-left" style="padding:0;">
 									<div id="bodyBox" style="text-align:right">
 										<ul class="control-container customer-accounts list-unstyled" style="padding:0;">           
-											<a href="'.$__MAINDOMAIN__.$lang.'/'.'account" class="dropdown-item">'.__("Favorites").'<span id="favorite_num_badge" style="padding: 2px 6px; background: #F9A825; border-radius: 100px; margin: 0px 0px 0px 5px; font-size: 12px; color: white; font-weight: bold;">'. intval(count(explode(",", $favorites)) - 1) .'</span></a>
-											<a href="'.$__MAINDOMAIN__.''.''.$lang.'/'.'account?show=settings" class="dropdown-item">'.__("Settings").'</a>              
-											<a href="'.$__MAINDOMAIN__.$lang.'/orders" class="dropdown-item">'.__("Orders").'</a>              
+											<a href="'.$__MAINDOMAIN__.$lang.'/'.__('account').'" class="dropdown-item">'.__("Favorites").'<span id="favorite_num_badge" style="padding: 2px 6px; background: #F9A825; border-radius: 100px; margin: 0px 0px 0px 5px; font-size: 12px; color: white; font-weight: bold;">'. intval(count(explode(",", $favorites)) - 1) .'</span></a>
+											<a href="'.$__MAINDOMAIN__.$lang.'/'.__('account').'?show=settings" class="dropdown-item">'.__("Settings").'</a>              
+											<a href="'.$__MAINDOMAIN__.$lang.'/'.__('orders').'" class="dropdown-item">'.__("Orders").'</a>              
 											<form method="post">
 											<button href="#" class="btn-logout" name="action[logout]" value="true">'.__("Logout").'</button>
 											</form>
@@ -105,13 +105,13 @@ function urlclick(currentLang,changeLang){
 							echo'
 							<li class="login">    
 								<span id="loginButton" class="dropdown-toggle" data-toggle="dropdown">
-									<a href="'.$__MAINDOMAIN__.$lang.'/login">'.__("Login").'</a>
+									<a href="'.$__MAINDOMAIN__.$lang.'/'.__('login').'">'.__("Login").'</a>
 									<i class="sub-dropdown1"></i>
 									<i class="sub-dropdown"></i>
 								</span>
 								<!-- Customer Account Login -->
 								<div id="loginBox" class="dropdown-menu text-left">
-								<form method="post" action="'.$__MAINDOMAIN__.$lang.'/login" id="customer_login" accept-charset="UTF-8"><input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
+								<form method="post" action="'.$__MAINDOMAIN__.$lang.'/'.__('login').'" id="customer_login" accept-charset="UTF-8"><input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
 									<div id="bodyBox">
 										<ul class="control-container customer-accounts list-unstyled">
 											<li class="clearfix">
@@ -126,7 +126,7 @@ function urlclick(currentLang,changeLang){
 												<button class="action btn btn-1" type="submit">'.__("Login").'</button>
 											</li>
 											<!-- <li class="clearfix">
-												<a class="action btn btn-1" href="'.$__MAINDOMAIN__.$lang.'/register">'.__("Create an account").'</a>
+												<a class="action btn btn-1" href="'.$__MAINDOMAIN__.$lang.'/'.__('register').'">'.__("Create an account").'</a>
 											</li> -->
 										</ul>
 									</div>
@@ -135,7 +135,7 @@ function urlclick(currentLang,changeLang){
 							</li>
 							<li>/</li>   
 							<li class="register">
-								<a href="'.$__MAINDOMAIN__.$lang.'/register" id="customer_register_link">'.__("Create an account").'</a>
+								<a href="'.$__MAINDOMAIN__.$lang.'/'.__('register').'" id="customer_register_link">'.__("Create an account").'</a>
 							</li> ';
 						}
 						?>
@@ -154,7 +154,7 @@ function urlclick(currentLang,changeLang){
 			<div class="top-navigation">
 				<ul class="list-inline">
 					<li class="top-logo">
-						<a id="site-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>home" title="Diamant Secret">          
+						<a id="site-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('home')?>" title="Diamant Secret">          
 						<img class="img-responsive" src="<?php echo $__MAINDOMAIN__;?>images/gfx/logo.png" alt="Diamant Secret" style="max-width: 220px; margin:2px">
 						</a>
 					</li>
@@ -190,10 +190,10 @@ function urlclick(currentLang,changeLang){
 											if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 												echo '
 													<li>
-													<a href="'.$__MAINDOMAIN__.$lang.'/account">'.__("Account").'</a> 
+													<a href="'.$__MAINDOMAIN__.$lang.'/'.__('account').'">'.__("Account").'</a> 
 													</li>
 													<li>
-													<a href="'.$__MAINDOMAIN__.$lang.'/orders">'.__("Orders").'</a> 
+													<a href="'.$__MAINDOMAIN__.$lang.'/'.__('orders').'">'.__("Orders").'</a> 
 													</li>
 													<li class="account last">
 													<form method="post">
@@ -203,10 +203,10 @@ function urlclick(currentLang,changeLang){
 											} else {
 												echo '
 													<li class="logout">
-													<a href="'.$__MAINDOMAIN__.$lang.'/login">'.__("Login").'</a>
+													<a href="'.$__MAINDOMAIN__.$lang.'/'.__('login').'">'.__("Login").'</a>
 													</li>
 													<li class="account last">
-													<a href="'.$__MAINDOMAIN__.$lang.'/register">'.__("Register").'</a>
+													<a href="'.$__MAINDOMAIN__.$lang.'/'.__('register').'">'.__("Register").'</a>
 													</li>';
 											}
 											?>
@@ -214,22 +214,22 @@ function urlclick(currentLang,changeLang){
 										</div>
 										</li>
 										<li class="is-mobile-wl">
-										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>account"><i class="fa fa-heart"></i></a>
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('account')?>"><i class="fa fa-heart"></i></a>
 										</li>
 										<li class="is-mobile-cart">
-										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>cart"><i class="fa fa-shopping-cart"></i></a>
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('cart')?>"><i class="fa fa-shopping-cart"></i></a>
 										</li>
 									</ul>
 								</div>
 								<div class="collapse navbar-collapse">
 									<ul class="nav navbar-nav hoverMenuWrapper">
 										<li class="nav-item active">
-										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?><?php echo __('home');?>">
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('home')?>">
 										<span><?php echo __("Home"); ?></span>
 										</a>
 										</li>
 										<li class="dropdown mega-menu">
-										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection" class="dropdown-toggle dropdown-link" data-toggle="dropdown" onclick="window.location.href= '<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection'">
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" class="dropdown-toggle dropdown-link" data-toggle="dropdown" onclick="window.location.href= '<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection'">
 										<span><?php echo __("Collections"); ?></span>
 										<i class="fa fa-caret-down"></i>
 										<i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
@@ -331,12 +331,12 @@ function urlclick(currentLang,changeLang){
 										</div>
 										</li>
 										<li class="nav-item">
-										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>contact">
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('contact')?>">
 										<span><?php echo __("Contact"); ?></span>
 										</a>
 										</li>
 										<li class="nav-item">
-											<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>diamond-search">
+											<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('diamond-search')?>">
 											<span><?php echo __("Diamond Search"); ?></span>
 											</a>
 										</li>
@@ -373,7 +373,7 @@ function urlclick(currentLang,changeLang){
 							<i class="sub-dropdown"></i>
 							</span>
 							</a>
-							<form id="header-search" class="search-form dropdown-menu" action="<?php echo $__MAINDOMAIN__.$lang.'/'?>collection" method="get">
+							<form id="header-search" class="search-form dropdown-menu" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('collection')?>" method="get">
 								<input type="hidden" name="type" value="product">
 								<input type="text" name="q" accesskey="4" autocomplete="off" placeholder="<?php echo __('Search Product'); ?>" value="<?php echo $searchTag; ?>">
 								<button type="submit" class="btn"><?php echo __("Search"); ?></button>
@@ -381,7 +381,7 @@ function urlclick(currentLang,changeLang){
 						</div>
 					</li>
 					<li class="mobile-search visible-xs">
-						<form id="mobile-search" class="search-form" action="<?php echo $__MAINDOMAIN__.$lang.'/'?>collection" method="get">
+						<form id="mobile-search" class="search-form" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('collection')?>" method="get">
 							<input type="hidden" name="type" value="product">
 							<input type="text" class="" name="q" accesskey="4" autocomplete="off" placeholder="<?php echo __('Search Product'); ?>" value="<?php echo $searchTag; ?>">
 							<button type="submit" class="search-submit" title="<?php echo __('Search'); ?>"><i class="fa fa-search"></i></button>
@@ -415,7 +415,7 @@ function urlclick(currentLang,changeLang){
 					<li class="umbrella hidden-xs">
 						<div id="umbrella" class="list-inline unmargin">
 							<div class="cart-link">
-								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>cart" class="dropdown-toggle dropdown-link" data-toggle="dropdown" style="white-space: nowrap;">
+								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('cart')?>" class="dropdown-toggle dropdown-link" data-toggle="dropdown" style="white-space: nowrap;">
 									<i class="sub-dropdown1"></i>
 									<i class="sub-dropdown"></i>
 									<div class="num-items-in-cart">
@@ -538,7 +538,7 @@ function urlclick(currentLang,changeLang){
 												</div>';
 										?>
 										<div class="action">
-											<a class="btn btn-1" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>cart"><?php echo __("View Cart"); ?></a>
+											<a class="btn btn-1" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('cart')?>"><?php echo __("View Cart"); ?></a>
 										</div>
 									</div>
 								</div>

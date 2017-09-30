@@ -116,7 +116,7 @@ if ( isset($_POST['removeFromFav'])) {
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
+								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
 								<span>/</span>
 								<span class="page-title"><?php echo __("My Account"); ?></span>
 							</div>
@@ -286,7 +286,7 @@ if ( isset($_POST['removeFromFav'])) {
 																<span class="status_authorized"><a class="btn btn-custom" href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'">'.__("View").'</a></span>
 															</td>
 															<td>
-																<span class="total"><form method="post"><button class="btn btn-custom" name="removeFromFav" value="'. $item .'">'.__("Remove").'</button></form></span>
+																<span class="total"><form method="post" action="'.$__MAINDOMAIN__.$lang.'/'.__('account').'"><button class="btn btn-custom" name="removeFromFav" value="'. $item .'">'.__("Remove").'</button></form></span>
 															</td>
 														</tr>';
 													} else {
@@ -302,7 +302,7 @@ if ( isset($_POST['removeFromFav'])) {
 																<span class="status_authorized">'.__("N/A").'</span>
 															</td>
 															<td>
-																<span class="total"><form method="post"><button class="btn btn-custom" name="removeFromFav" value="'. $item .'">'.__("Remove").'</button></form></span>
+																<span class="total"><form method="post" action="'.$__MAINDOMAIN__.$lang.'/'.__('account').'"><button class="btn btn-custom" name="removeFromFav" value="'. $item .'">'.__("Remove").'</button></form></span>
 															</td>
 														</tr>';
 													}
@@ -338,7 +338,7 @@ if ( isset($_POST['removeFromFav'])) {
 				<div class="quick-shop-modal-bg" style="display: none;">
 				</div>
 				<div class="row">
-				<form method="post">
+				<form method="post" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('account')  ?>">
 				<?php
 				$fetchInfo = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user");
 				$fetchInfo->execute(array(":user" => $_USERNAME));

@@ -146,7 +146,7 @@ if ( isset($_GET['verify']) ) {
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
+								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
 								<span>/</span>
 								<span class="page-title"><?php echo __("Create Account"); ?></span>
 							</div>
@@ -191,13 +191,13 @@ if ( isset($_GET['verify']) ) {
 							?>
 							</div>
 							<div id="col-main" class="col-md-12 register-page clearfix">
-							<form id="create_customer" accept-charset="UTF-8" method="post">
+							<form id="create_customer" accept-charset="UTF-8" method="post" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('register') ?>">
 									<input value="create_customer" name="form_type" type="hidden"><input name="utf8" value="✓" type="hidden">
 									<ul id="" class="row list-unstyled">
 										<li id="last_namef">
 										<label class="control-label" for="username"><?php echo __("Username"); ?> <span class="req">*</span></label>
 											<div class="input-group">
-												<input name="customer[username]" pattern="[a-zA-Z0-9-+$_^!]{2,32}"  id="username" class="form-control invalid" type="text" style="border-right: none;" required>
+	<input name="customer[username]" pattern="[a-zA-Z0-9-+$_^!]{2,32}"  id="username" class="form-control invalid" type="text" style="border-right: none;"  title="<?php echo __('please fill out this field.'); ?>" required >
 												<span class="input-group-addon" id="username_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="username_fa" class="fa"></i></span>
 											</div>
 										</li>
@@ -205,7 +205,7 @@ if ( isset($_GET['verify']) ) {
 										<li id="emailf" class="">
 										<label class="control-label" for="email"><?php echo __("Email"); ?> <span class="req">*</span></label>
 											<div class="input-group">
-												<input name="customer[email]" id="email" class="form-control invalid" type="email" style="border-right: none;"  required>
+												<input name="customer[email]" id="email" class="form-control invalid" type="email" style="border-right: none;" title="<?php echo __('please fill out this field.'); ?>" required>
 												<span class="input-group-addon" id="email_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="email_fa" class="fa"></i></span>
 											</div>
 										</li>

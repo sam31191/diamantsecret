@@ -56,7 +56,7 @@ $alert = "";
           <div itemprop="breadcrumb" class="container">
             <div class="row">
               <div class="col-md-24">
-                <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage");?>">Home</a>
+                <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage");?>">Home</a>
                 <span>/</span>
                 <span class="page-title"><?php echo __("My Account"); ?></span>
               </div>

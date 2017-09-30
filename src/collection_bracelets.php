@@ -91,11 +91,11 @@ pconsole($_POST);
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
                                 <span>/</span>
-                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
+                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
                                 <span>/</span>
-                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets" title="<?php echo __("View All"); ?>"><?php echo __("Bracelets"); ?></a></span>
+                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>" title="<?php echo __("View All"); ?>"><?php echo __("Bracelets"); ?></a></span>
                             </div>
                         </div>
                     </div>
@@ -187,7 +187,7 @@ pconsole($_POST);
                                                         <input id="filterQuality" name="quality" hidden />
                                                         <input id="filterStone" name="stone" hidden />
                                                     </form>
-                                                    <h6 class="sb-title"><?php echo __("Filter"); ?> <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" style="float:right;"><?php echo __("Apply"); ?></button></h6>
+                                                    <h6 class="sb-title"><?php echo __("Filter"); ?> <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" style="float:right;"><?php echo __("Apply"); ?></button></h6>
                                                     <!-- tags groupd 1 -->
                                                     <div class="tag-group" id="coll-filter-1">
                                                         <p class="title">
@@ -376,7 +376,7 @@ pconsole($_POST);
                                                         <ul>
                                                         </ul>
 
-                                                        <h6 class="sb-title"><?php echo __("Filter"); ?> <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" style="float:right;"><?php echo __("Apply"); ?></button></h6>
+                                                        <h6 class="sb-title"><?php echo __("Filter"); ?> <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" style="float:right;"><?php echo __("Apply"); ?></button></h6>
                                                     </div>
 
                                                     <?php
@@ -393,19 +393,19 @@ pconsole($_POST);
                                                 <h6 class="sb-title"><?php echo __("Product Categories"); ?></h6>
                                                 <ul class="list-unstyled sb-content list-styled">
                                                     <li>
-                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings"><span><i class="fa fa-circle"></i> <?php echo __("Rings"); ?></span><span class="collection-count"></span></a>
+                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('rings')?>"><span><i class="fa fa-circle"></i> <?php echo __("Rings"); ?></span><span class="collection-count"></span></a>
                                                     </li>
                                                     <li>
-                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings"><span><i class="fa fa-circle"></i> <?php echo __("Earrings"); ?></span><span class="collection-count"></span></a>
+                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>"><span><i class="fa fa-circle"></i> <?php echo __("Earrings"); ?></span><span class="collection-count"></span></a>
                                                     </li>
                                                     <li>
-                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants"><span><i class="fa fa-circle"></i> <?php echo __("Pendants"); ?></span><span class="collection-count"></span></a>
+                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>"><span><i class="fa fa-circle"></i> <?php echo __("Pendants"); ?></span><span class="collection-count"></span></a>
                                                     </li>
                                                     <li>
-                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>necklaces"><span><i class="fa fa-circle"></i> <?php echo __("Necklaces"); ?></span><span class="collection-count"></span></a>
+                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('necklaces')?>"><span><i class="fa fa-circle"></i> <?php echo __("Necklaces"); ?></span><span class="collection-count"></span></a>
                                                     </li>
                                                     <li>
-                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets"><span><i class="fa fa-circle"></i> <?php echo __("Bracelets"); ?></span><span class="collection-count"></span></a>
+                                                    <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>"><span><i class="fa fa-circle"></i> <?php echo __("Bracelets"); ?></span><span class="collection-count"></span></a>
                                                     </li>
                                                 </ul>
                                             </div>  

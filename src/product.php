@@ -104,9 +104,9 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
                                 <span>/</span>
-                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection" title="">Collection</a>
+                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" title="">Collection</a>
                                 <span>/</span>
                                 <?php
                                     $_GET['view'];
@@ -150,7 +150,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                         
                                         //pconsole($itemInfo);
 
-                                        echo '<a href="'.$__MAINDOMAIN__.''.$lang.'/'. $category.'" style="text-transform:capitalize;">'. $category .'</a>';
+                                    echo '<a href="'.$__MAINDOMAIN__.$lang.'/'.$category.'" style="text-transform:capitalize;">'.__("$category").'</a>';
                                         echo '<span>/</span>';
                                         echo '<span>'. $item['item_name'] .'</span>';
                                     } else {
@@ -323,7 +323,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                     <div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
                                                         <meta itemprop="priceCurrency" content="USD">              
                                                         <link itemprop="availability" href="http://schema.org/InStock">
-                                                        <form method="post" class="variants" id="product-actions">
+                                                        <form method="post" class="variants" id="product-actions" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('product')?>">
                                                             <div id="product-actions-1293235843" class="options clearfix">
                                                                 <style scoped>
                                                                   label[for="product-select-option-0"] { display: none; }
@@ -835,7 +835,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                         </li>
                                     </ul>
                                 </div>
-                                <form method="post" enctype="multipart/form-data">
+                                <form method="post" enctype="multipart/form-data" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('product') ?>">
                                     <div id="quick-shop-price-container" class="detail-price">
                                         
                                     </div>

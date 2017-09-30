@@ -350,7 +350,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
+                                <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
                                 <span>/</span>
                                 <span class="page-title"><?php echo __("Cart"); ?></span>
                             </div>
@@ -364,9 +364,9 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                             <div id="page-header" class="col-md-24">
                                 <ul class="nav nav-pills nav-justified nav-cart">
                                     <li name="1"><?php echo __("Cart"); ?></li>
-                                    <li name="2"><?php echo __("Account"); ?><?php echo __("</li>"); ?>
-                                    <li name="3"><?php echo __("Address"); ?><?php echo __("</li>"); ?>
-                                    <li name="4"><?php echo __("Payment"); ?><?php echo __("</li>"); ?>
+                                    <li name="2"><?php echo __("Account"); ?></li>
+                                    <li name="3"><?php echo __("Address"); ?></li>
+                                    <li name="4"><?php echo __("Payment"); ?></li>
                                 </ul>
                             </div>
                             <?php 
@@ -378,8 +378,8 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                             </script>
                             <div class="col-sm-24">
                                 <div id="col-main" class="col-md-24 cart-page content">
-                                    <form method="post" id="removeItemForm"></form>
-                                    <form method="post" id="cartform" class="clearfix">
+                                    <form method="post" id="removeItemForm" action="<?php  echo $__MAINDOMAIN__.$lang.'/'.__('cart')?>"></form>
+                                    <form method="post" id="cartform" class="clearfix" action="<?php  echo $__MAINDOMAIN__.$lang.'/'.__('cart');?>">
                                         <div class="row table-cart">
                                             <div class="wrap-table">
                                                 <table class="cart-items haft-border">
@@ -678,8 +678,8 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
 
                                                     
                                                 </h3>
-                                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>cart" class="btn btn-success"><i class="fa fa-caret-left"></i> <?php echo __("Cart"); ?></a>
-                                                    <form style="float: right;" method="post" action=""><button class="btn btn-success" name="CART[STEP]" value="3"><?php echo __("Checkout"); ?> <i class="fa fa-caret-right"></i> </button></form>
+                                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('cart')?>" class="btn btn-success"><i class="fa fa-caret-left"></i> <?php echo __("Cart"); ?></a>
+                                                    <form style="float: right;" method="post" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('cart')?> "><button class="btn btn-success" name="CART[STEP]" value="3"><?php echo __("Checkout"); ?> <i class="fa fa-caret-right"></i> </button></form>
                                             </div>
                                             <?php
                                         } else {
@@ -687,8 +687,8 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                             <div class="col-md-24">
                                                 <h4><?php echo __("Not Logged In"); ?></h4>
                                                 <div class="col-md-12">
-                                                    <form method="post" action="<?php echo $__MAINDOMAIN__.$lang.'/'?>login" id="customer_login" accept-charset="UTF-8"><input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
-                                                      <input type="hidden" name="redir" value="<?php echo $__MAINDOMAIN__.$lang.'/'?>cart" />
+                                                    <form method="post" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('login') ?>" id="customer_login" accept-charset="UTF-8"><input type="hidden" value="customer_login" name="form_type"><input type="hidden" name="utf8" value="✓">
+                                                      <input type="hidden" name="redir" value="<?php echo $__MAINDOMAIN__.$lang.'/'.__('cart')?>" />
                                                       <div id="bodyBox">
                                                         <ul class="control-container customer-accounts list-unstyled">
                                                           <li class="clearfix">
@@ -711,7 +711,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                 </div>
                                                 <div class="col-md-12 text-center">
                                                     <h4><?php echo __("New User"); ?>?</h4><br/>
-                                                    <a class="btn btn-success" href="<?php echo $__MAINDOMAIN__.$lang.'/'?>register"><?php echo __("Sign Up"); ?></a>
+                                                    <a class="btn btn-success" href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('register')?>"><?php echo __("Sign Up"); ?></a>
                                                 </div>
                                             </div>
                                             <?php
@@ -727,7 +727,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                         </script>
 
                                         <div class="col-md-24 text-left">
-                                            <form method="post">
+                                            <form method="post" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('cart')?>">
                                                 <div class="col-md-12">
                                                     <h4><?php echo __("Billing Address"); ?></h4>
                                                     <textarea class="form-control" placeholder="<?php echo __('Address Line'); ?>1&#013;&#010;<?php echo __('Address Line'); ?> 2&#013;&#010;<?php echo __('City'); ?>&#013;&#010;<?php echo __('State'); ?>&#013;&#010;<?php echo __('Zip Code'); ?>&#013;&#010;<?php echo __('Country'); ?>" style="min-height: 150px;" name="billing_address" required><?php 
@@ -759,7 +759,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
 
                                         <h4 class="text-center"><?php echo __("You would now be redirected to the payment portal"); ?></h4>
                                         <?php
-                                        echo '<form method="post" action="url/post.php" class="text-center">';
+                                        echo '<form method="post" action="'. $__MAINDOMAIN__.'url/post.php" class="text-center">';
                                         if ( isset($_POST['billing_address']) && isset($_POST['shipping_address']) ) {
                                             echo '<input type="hidden" name="Paypal[BillingAddress]" value="'. $_POST['billing_address'] .'" />';
                                             echo '<input type="hidden" name="Paypal[ShippingAddress]" value="'. $_POST['shipping_address'] .'" />';

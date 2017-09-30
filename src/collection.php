@@ -85,9 +85,9 @@ pconsole($_POST);
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>home" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
 								<span>/</span>
-								<span class="page-title"><a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>collection" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
+								<span class="page-title"><a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('collection')?>" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
 							</div>
 						</div>
 					</div>
@@ -160,9 +160,9 @@ pconsole($_POST);
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings"><?php echo __("Rings"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('rings')?>"><?php echo __("Rings"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="<?php echo $__MAINDOMAIN__;?>rings"><?php echo __("See the Collection"); ?></a>
+																						<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('rings')?>"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -170,12 +170,12 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings" title="<?php echo __("Browse our Earrings"); ?>">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>" title="<?php echo __("Browse our Earrings"); ?>">
 																					<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/earring_270x270.png" alt="Earrings">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings"><?php echo __("Earrings"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>"><?php echo __("Earrings"); ?></a></span>
 																					<div class="collection-action">
 																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings"><?php echo __("See the Collection"); ?></a>
 																					</div>
@@ -185,14 +185,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants" title="<?php echo __("Browse our Pendants") ;?>">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>" title="<?php echo __("Browse our Pendants") ;?>">
 																					<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/pendant_270x270.png" alt="Pendants">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants"><?php echo __("Pendants"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>"><?php echo __("Pendants"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>pendants"><?php echo __("See the Collection"); ?></a>
+																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -200,14 +200,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>necklaces" title="<?php echo __("Browse our Necklaces"); ?>">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('necklaces')?>" title="<?php echo __("Browse our Necklaces"); ?>">
 																					<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/necklace_270x270.png" alt="Necklaces">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>necklaces"><?php echo __("Necklaces"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('necklaces')?>"><?php echo __("Necklaces"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>necklaces"><?php echo __("See the Collection"); ?></a>
+																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('necklaces')?>"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -215,14 +215,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets" title="<?php echo __("Browse our Bracelets"); ?>">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>" title="<?php echo __("Browse our Bracelets"); ?>">
 																						<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/bracelet_270x270.png" alt="Bracelets">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets"><?php echo __("Bracelets"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>"><?php echo __("Bracelets"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>bracelets"><?php echo __("See the Collection"); ?></a>
+																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -614,7 +614,7 @@ pconsole($_POST);
 										</li>
 									</ul>
 								</div>
-								<form method="post" enctype="multipart/form-data">
+								<form method="post" enctype="multipart/form-data" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('collection')?>">
 									<div id="quick-shop-price-container" class="detail-price">
 										
 									</div>
