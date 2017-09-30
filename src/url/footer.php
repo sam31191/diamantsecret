@@ -93,7 +93,7 @@
     event.preventDefault();
     email = $("#email-input").val();
     $.ajax({
-      url: './url/ajax.php?subscribe='+email,
+      url: '<?php echo $__MAINDOMAIN__;?>url/ajax.php?subscribe='+email,
       type: 'GET',
       beforeSend: function(){
         $("#subscribe-loading-img").show();

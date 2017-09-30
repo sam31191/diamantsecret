@@ -344,7 +344,7 @@ function urlclick(currentLang,changeLang){
 											if ( isset($_SESSION['admin']) && $_SESSION['admin'] > 0 ) {
 												echo '
 													<li class="nav-item">
-													<a href="./admin/login.php">
+													<a href="'.$__MAINDOMAIN__.'admin/login.php">
 													<span>'.__("Admin").'</span>
 													</a>
 													</li>';

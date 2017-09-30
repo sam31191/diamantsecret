@@ -57,7 +57,7 @@ if ( isset($_GET['verifyLogin']) ) {
 				$_SESSION['admin'] = $creds['type'];
 			}
 
-			header("Location: ./index.php");
+			header("Location: $__MAINDOMAIN__$lang/home");
 			exit();
 		} else {
 			$alert = __("Verification Link has expired");

@@ -323,7 +323,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                     <div itemprop="offers" itemscope="" itemtype="http://schema.org/Offer" class="col-sm-24 group-variants">
                                                         <meta itemprop="priceCurrency" content="USD">              
                                                         <link itemprop="availability" href="http://schema.org/InStock">
-                                                        <form method="post" class="variants" id="product-actions" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('product')?>">
+                                                        <form method="post" class="variants" id="product-actions" action="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
                                                             <div id="product-actions-1293235843" class="options clearfix">
                                                                 <style scoped>
                                                                   label[for="product-select-option-0"] { display: none; }
@@ -835,7 +835,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                         </li>
                                     </ul>
                                 </div>
-                                <form method="post" enctype="multipart/form-data" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('product') ?>">
+                                <form method="post" enctype="multipart/form-data" action="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
                                     <div id="quick-shop-price-container" class="detail-price">
                                         
                                     </div>
