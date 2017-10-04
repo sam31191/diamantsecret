@@ -39,7 +39,7 @@ include './url/pre.php';
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/spr.css" rel="stylesheet" type="text/css" media="all">
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/addthis.css" rel="stylesheet" type="text/css" media="all">
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
-    <link rel="icon" href="<?php echo $__MAINDOMAIN__;?>images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
+   <link rel="icon" href="<?php echo $__MAINDOMAIN__;?>images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
     
     <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
     <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.imagesloaded.min.js" type="text/javascript"></script>

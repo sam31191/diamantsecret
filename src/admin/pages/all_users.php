@@ -162,7 +162,7 @@ if ( isset($_POST['user']) ) {
 
                         $getUsers = $pdo->prepare("SELECT * FROM accounts". $selectedSiteFilter);
                         $getUsers->execute();
-
+                       
                         if ( $getUsers->rowCount() > 0 ) {
                             foreach ( $getUsers->fetchAll() as $user ) {
                                 if ( $user['type'] == 1 && $user['username'] !== $_SESSION['username'] ) {
@@ -198,7 +198,7 @@ if ( isset($_POST['user']) ) {
 
                                 $websiteName = $pdo->prepare("SELECT label FROM tb_websites WHERE id = :id");
                                 $websiteName->execute(array(":id" => $user['site_id']));
-
+                               
                                 if ( $websiteName->rowCount() > 0 ) {
                                     $websiteName = $websiteName->fetch(PDO::FETCH_ASSOC)['label'];
                                 } else {

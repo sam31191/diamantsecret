@@ -4,6 +4,12 @@ if ( session_status() == PHP_SESSION_NONE ) {
 }
 include 'conf/config.php';
 include './url/pre.php';
+
+
+
+
+
+
 ?>
 <!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -85,7 +91,7 @@ pconsole($_POST);
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home");?></a>
 								<span>/</span>
 								<span class="page-title"><a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('collection')?>" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
 							</div>
@@ -110,6 +116,7 @@ pconsole($_POST);
 								
 									if ( isset($_GET['material']) ) {
 										$materialTag = $_GET['material'];
+
 										#echo '<label class="label label-info">'. $_GET['material'] .'</label>';
 									} else {
 										$materialTag = "";

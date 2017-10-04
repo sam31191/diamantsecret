@@ -322,7 +322,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 }
 
 if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
-
+    echo "tester";
     $item = explode("|", trim($_POST['removeItem'], ",") );
 
     $_POST['unique_key'] = $item[0];

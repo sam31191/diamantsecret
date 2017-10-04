@@ -3,8 +3,10 @@ if ( session_status() == PHP_SESSION_NONE ) {
     session_start();
 }
 
+
 include 'conf/config.php';
 include './url/pre.php';
+
 ?>
 <!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -35,7 +37,7 @@ include './url/pre.php';
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/ion.rangeSlider.skinFlat.css" rel="stylesheet" type="text/css" media="all">
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/ion.rangeSlider.css" rel="stylesheet" type="text/css" media="all">
-    <link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
+    <link rel="icon" href="<?php echo $__MAINDOMAIN__;?>images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
     
     <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
     <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.imagesloaded.min.js" type="text/javascript"></script>
@@ -147,6 +149,7 @@ pconsole($_POST);
 
                                       $data=$pdo->prepare("select id from ring_subcategory WHERE category='".ucwords(strtolower(str_replace("-"," ", $ringTag)))." Ring' and category_id = 1");
                                       $data->execute();
+                                      
                                       $subCatQryAns = $data->fetch();
 
                                       if(isset($subCatQryAns['id'])) {
@@ -169,6 +172,7 @@ pconsole($_POST);
                                     } else {
                                         $orderTag = "ASC";
                                     }
+
                                     if ( isset($_GET['price_range']) ) {
                                         $priceTag = $_GET['price_range'];
                                     } else {
@@ -757,6 +761,7 @@ pconsole($_POST);
                                                     }
                                                     if ( isset($_GET['page']) ) {
                                                         $offset = $_GET['page'] * $perPage;
+
                                                     } else {
                                                         $offset = 0;
                                                     }
