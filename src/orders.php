@@ -19,20 +19,20 @@ include './conf/config.php';
   <meta name="description" content="" />
   <title><?php echo __("My Orders"); ?></title>
   
-    <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
-  <link href="./assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">  
-  <link href="./assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
-  <link href="./assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
-  <link href="./assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
-  <link href="./assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
-  <link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
-  <link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
-  <link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
-  <link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
+  <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">  
+  <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
+  <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
+  <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
+  <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
+  <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
+  <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
+  <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+  <link rel="icon" href="<?php echo $__MAINDOMAIN__;?>images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
   
-  <script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
-  <script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
+  <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+  <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
 </head>
 
 <?php
@@ -56,7 +56,7 @@ $alert = "";
           <div itemprop="breadcrumb" class="container">
             <div class="row">
               <div class="col-md-24">
-                <a href="./index.php" class="homepage-link" title="<?php echo __("Back to the frontpage");?>">Home</a>
+                <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage");?>">Home</a>
                 <span>/</span>
                 <span class="page-title"><?php echo __("My Account"); ?></span>
               </div>
@@ -144,7 +144,7 @@ $alert = "";
                               <span class="note">'. $status .'</span>
                             </td>
                             <td>
-                              <span class="status_authorized"><a class="btn btn-custom" href="#" onclick="viewCartInfo(\''. $item['invoice_number'] .'\')">'.__("View").'</a></span>
+                              <span class="status_authorized"><a class="btn btn-custom" href="javascript:void(0);" onclick="viewCartInfo(\''. $item['invoice_number'] .'\')">'.__("View").'</a></span>
                             </td>
                             <td>
                               <span class="note">'. $item['create_time'] .'</span>
@@ -195,7 +195,7 @@ $alert = "";
       url: './url/ajax.php?paymentInfo='+ invoice,
       type: 'GET',
       beforeSend: function() {
-        $("#modalContent").html('<div class="col-sm-8 col-sm-offset-8 text-center"><img src="./images/gfx/cube_lg.gif" /><br/><h5><?php echo addslashes(__("Fetching Info")); ?></h5></div>');
+        $("#modalContent").html('<div class="col-sm-8 col-sm-offset-8 text-center"><img src="<?php echo $__MAINDOMAIN__;?>images/gfx/cube_lg.gif" /><br/><h5><?php echo addslashes(__("Fetching Info")); ?></h5></div>');
         $("#settingsModal").modal("toggle");
       },
       success: function(result) {

@@ -25,7 +25,7 @@
     
     $host = "localhost";
 
-    $dbname = "diamantsecret";
+    $dbname = "testsite_diamantsecret";
     $user = "root";
     $pass = "";
 
@@ -39,9 +39,13 @@
     $mailSenderName = "Diamant Secret";
     $__ADMINMAIL__ = "contact@diamantsecret.com";
     $__ADMINNAME__ = "Admin";
-    $__MAINDOMAIN__ = "http://www.diamantsecret.com/testsite/";
+    $__MAINDOMAIN__ = "http://localhost/diamantsecret/src/";
     $__SITE = "diamant_secret";
-    
+    $lang = 'fr';
+    if (isset($_REQUEST['lang']) && ($_REQUEST['lang'] == 'fr' || $_REQUEST['lang'] == 'en')) {
+        $lang = $_REQUEST['lang'];
+		
+    }
     
     /* Test site options */
     $testSite = false;
@@ -848,5 +852,50 @@ if (strpos($actual_link,'admin') !== false) {
  } else {
     include 'translation/french.php';
  }
+
+function processUrlParameter($urlParam){
+    $urlParam = strtolower($urlParam);
+    $urlParam = str_replace(" ", "-", $urlParam);
+    $urlParam = str_replace("'", "", $urlParam);
+    return $urlParam;
+}
+function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$product_name,$unique_key)
+{
+    global $pdo,$__MAINDOMAIN__,$lang;
+    if(is_numeric($subcategory))
+    {
+        $name = $pdo->prepare("SELECT  category FROM ring_subcategory WHERE id = '".$subcategory."'");
+        $name->execute(); 
+         $subcategoryQry = $name->fetch();
+
+      if(isset($subcategoryQry['category'])) {
+        $subcategory = $subcategoryQry['category'];
+      }
+
+    }
+    //gold_quality
+    $gold_quality = $pdo->prepare("SELECT  gold_quality FROM gold_quality WHERE id = '".$gold_quality."'");
+    $gold_quality->execute(); 
+    $goldQtyQry = $gold_quality->fetch();
+
+    $gold_quality_str = '';
+      if(isset($goldQtyQry['gold_quality'])) {
+        $gold_quality_str = $goldQtyQry['gold_quality'];
+      }
+    //Material
+   
+    $materials = $pdo->prepare("SELECT  category FROM materials WHERE id = '".$materil."'");
+    $materials->execute();
+     $materialsQry = $materials->fetch();
+
+    $materials_str = '';
+      if(isset($materialsQry['category'])) {
+        $materials_str = $materialsQry['category'];
+      }
+
+
+    return $__MAINDOMAIN__.$lang.'/'.__('product').'/'.str_replace(" ", "-", strtolower($subcategory)).'/'.str_replace(".", "", $carat).'-ct-'.$gold_quality_str.'-'.str_replace(" ", "-", strtolower($materials_str)).'-'.str_replace(" ", "-", strtolower($product_name)).'/'.$unique_key;
+
+}
 
 ?>

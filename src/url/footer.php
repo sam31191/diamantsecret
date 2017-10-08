@@ -5,7 +5,7 @@
         <div class="container">            
           <div class="newsletter col-md-24">
           <form method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
-            <span class="news-desc"><?php echo __("We promise only send the good things"); ?></span><img id="subscribe-loading-img" src="./images/gfx/cube.gif" style="margin: 0px 10px; width: 20px; display:none;" />
+            <span class="news-desc"><?php echo __("We promise only send the good things"); ?></span><img id="subscribe-loading-img" src="<?php echo $__MAINDOMAIN__;?>images/gfx/cube.gif" style="margin: 0px 10px; width: 20px; display:none;" />
             <div class="group_input">
             <input class="form-control" type="email" placeholder="<?php echo __("Your Email Address"); ?>" name="email" id="email-input" required="true">
             <div class="unpadding-top"><button class="btn btn-1" type="submit" name="subscribe"><i class="fa fa-paper-plane"></i></button></div>
@@ -24,7 +24,7 @@
               <li class="list-unstyled">
               </li>           
               <li class="list-unstyled">
-              <a href="./contact.php"><?php echo __("Contact Us"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>contact"><?php echo __("Contact Us"); ?></a>
               </li>             
             </ul>
             </div>
@@ -34,19 +34,19 @@
             <h5 class="general-title"><?php echo __("Collections"); ?></h5>            
             <ul class="list-unstyled list-styled">              
               <li class="list-unstyled">
-              <a href="./collection_rings.php"><?php echo __("Rings"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Rings'))?>"><?php echo __("Rings"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="./collection_earrings.php"><?php echo __("Earrings"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Earrings'))?>"><?php echo __("Earrings"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="./collection_pendants.php"><?php echo __("Pendants"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Pendants'))?>"><?php echo __("Pendants"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="./collection_necklaces.php"><?php echo __("Necklaces"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Necklaces'))?>"><?php echo __("Necklaces"); ?></a>
               </li>            
               <li class="list-unstyled">
-              <a href="./collection_bracelets.php"><?php echo __("Bracelets"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Bracelets'))?>"><?php echo __("Bracelets"); ?></a>
               </li>             
             </ul>
             </div>
@@ -56,13 +56,13 @@
             <h5 class="general-title"><?php echo __("Account"); ?></h5>            
             <ul class="list-unstyled list-styled">              
               <li class="list-unstyled">
-              <a href="./account.php"><?php echo __("Preferences"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>login"><?php echo __("Preferences"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="./cart.php"><?php echo __("My Cart"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>cart"><?php echo __("My Cart"); ?></a>
               </li>             
               <li class="list-unstyled">
-              <a href="./account.php"><?php echo __("Favorites"); ?></a>
+              <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>account"><?php echo __("Favorites"); ?></a>
               </li>             
             </ul>
             </div>
@@ -73,10 +73,10 @@
       <div class="footer-content footer-content-bottom clearfix">
         <div class="container">
           <div class="copyright col-md-12">
-            © 2016 <a href="./contact.php">Diamant Secret</a>. <?php echo __("All Rights Reserved"); ?>.
+            © 2016 <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>contact">Diamant Secret</a>. <?php echo __("All Rights Reserved"); ?>.
           </div>
           <div id="widget-payment" class="col-md-12" style="text-align:right">
-            <img src="./images/gfx/logo.png" style="width:200px" />
+            <img src="<?php echo $__MAINDOMAIN__;?>images/gfx/logo.png" style="width:200px" />
           </div>
         </div>
       </div>
@@ -93,7 +93,7 @@
     event.preventDefault();
     email = $("#email-input").val();
     $.ajax({
-      url: './url/ajax.php?subscribe='+email,
+      url: '<?php echo $__MAINDOMAIN__;?>url/ajax.php?subscribe='+email,
       type: 'GET',
       beforeSend: function(){
         $("#subscribe-loading-img").show();

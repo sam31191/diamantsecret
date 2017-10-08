@@ -4,6 +4,12 @@ if ( session_status() == PHP_SESSION_NONE ) {
 }
 include 'conf/config.php';
 include './url/pre.php';
+
+
+
+
+
+
 ?>
 <!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -16,39 +22,39 @@ include './url/pre.php';
   <meta name="description" content="" />
   <title><?php echo __("Collection"); ?></title>
   
-	<link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
     
-	<link href="./assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 
-	<link href="./assets/stylesheets/jquery.camera.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/application.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/swatch.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/jquery.owl.carousel.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/jquery.bxslider.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
-	<link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
-  	<link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
-  	<link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.camera.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/application.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/swatch.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.owl.carousel.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.bxslider.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
+	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
+  	<link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+  	<link rel="icon" href="<?php echo $__MAINDOMAIN__;?>images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
 	
-	<script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.imagesloaded.min.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.easing.1.3.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.camera.min.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.mobile.customized.min.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/cookies.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/modernizr.js" type="text/javascript"></script>  
-	<script src="./assets/javascripts/application.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.owl.carousel.min.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.bxslider.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/skrollr.min.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.fancybox-buttons.js" type="text/javascript"></script>
-	<script src="./assets/javascripts/jquery.zoom.js" type="text/javascript"></script>	
-	<script src="./assets/javascripts/cs.script.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.imagesloaded.min.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.easing.1.3.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.camera.min.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.mobile.customized.min.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/cookies.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/modernizr.js" type="text/javascript"></script>  
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/application.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.owl.carousel.min.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.bxslider.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/skrollr.min.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.fancybox-buttons.js" type="text/javascript"></script>
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery.zoom.js" type="text/javascript"></script>	
+	<script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/cs.script.js" type="text/javascript"></script>
 </head>
 
 <?php
@@ -85,9 +91,9 @@ pconsole($_POST);
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="./index.php" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home");?></a>
 								<span>/</span>
-								<span class="page-title"><a href="./collection.php" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
+								<span class="page-title"><a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('collection')?>" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
 							</div>
 						</div>
 					</div>
@@ -110,6 +116,7 @@ pconsole($_POST);
 								
 									if ( isset($_GET['material']) ) {
 										$materialTag = $_GET['material'];
+
 										#echo '<label class="label label-info">'. $_GET['material'] .'</label>';
 									} else {
 										$materialTag = "";
@@ -155,14 +162,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="./collection_rings.php" title="<?php echo __("Browse our Rings"); ?>">
-																						<img src="./images/gfx/ring_270x270.png" alt="Rings">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings" title="<?php echo __("Browse our Rings"); ?>">
+																						<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/ring_270x270.png" alt="Rings">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="./collection_rings.php"><?php echo __("Rings"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('rings')?>"><?php echo __("Rings"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="./collection_rings.php"><?php echo __("See the Collection"); ?></a>
+																						<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('rings')?>"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -170,14 +177,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="./collection_earrings.php" title="<?php echo __("Browse our Earrings"); ?>">
-																					<img src="./images/gfx/earring_270x270.png" alt="Earrings">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>" title="<?php echo __("Browse our Earrings"); ?>">
+																					<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/earring_270x270.png" alt="Earrings">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="./collection_earrings.php"><?php echo __("Earrings"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>"><?php echo __("Earrings"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="./collection_earrings.php"><?php echo __("See the Collection"); ?></a>
+																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -185,14 +192,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="./collection_pendants.php" title="<?php echo __("Browse our Pendants") ;?>">
-																					<img src="./images/gfx/pendant_270x270.png" alt="Pendants">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>" title="<?php echo __("Browse our Pendants") ;?>">
+																					<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/pendant_270x270.png" alt="Pendants">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="./collection_pendants.php"><?php echo __("Pendants"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>"><?php echo __("Pendants"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="./collection_pendants.php"><?php echo __("See the Collection"); ?></a>
+																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -200,14 +207,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="./collection_necklaces.php" title="<?php echo __("Browse our Necklaces"); ?>">
-																					<img src="./images/gfx/necklace_270x270.png" alt="Necklaces">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('necklaces')?>" title="<?php echo __("Browse our Necklaces"); ?>">
+																					<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/necklace_270x270.png" alt="Necklaces">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="./collection_necklaces.php"><?php echo __("Necklaces"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('necklaces')?>"><?php echo __("Necklaces"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="./collection_necklaces.php"><?php echo __("See the Collection"); ?></a>
+																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('necklaces')?>"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -215,14 +222,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="./collection_bracelets.php" title="<?php echo __("Browse our Bracelets"); ?>">
-																						<img src="./images/gfx/bracelet_270x270.png" alt="Bracelets">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>" title="<?php echo __("Browse our Bracelets"); ?>">
+																						<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/bracelet_270x270.png" alt="Bracelets">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="./collection_bracelets.php"><?php echo __("Bracelets"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>"><?php echo __("Bracelets"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="./collection_bracelets.php"><?php echo __("See the Collection"); ?></a>
+																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -376,6 +383,7 @@ pconsole($_POST);
 													$allItems = $getAll->fetchAll();
 
 													foreach ( $allItems as $item) {
+														
 														switch ($item['category']) {
 															case 1: {
 																$getItemInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :unique_key");
@@ -396,7 +404,7 @@ pconsole($_POST);
 														}
 														$getItemInfo->execute(array(":unique_key" => $item['unique_key']));
 														$itemInfo = $getItemInfo->fetch(PDO::FETCH_ASSOC);
-
+														
 														$images = explode(",", $itemInfo['images']);
 														if ( $images == "" || $itemInfo['images'] == "" ) {
 															$images[0] = "0.png";
@@ -425,12 +433,19 @@ pconsole($_POST);
 														if ( !is_file( './images/images_md/'. $images[0] ) ) {
 															$images[0] = "0.png";
 														}
-
+														$urlSubcategory = '';
+                                                         if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+                                                            $urlSubcategory = $ringTag;
+                                                        } else if ( isset($_GET['_sc'])) {
+                                                            $urlSubcategory = $_GET['_sc'];
+                                                         } else {
+                                                            $urlSubcategory = $itemInfo['ring_subcategory'];
+                                                         }  
 														$element = '<li class="element no_full_width" data-alpha="" data-price="20000">
 																<ul class="row-container list-unstyled clearfix">
 																	<li class="row-left">
-																	<a href="./product.php?view='. $item['unique_key'] .'" class="container_item">
-																	<img src="./images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive  img-custom-collection" alt="">
+																	<a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'" class="container_item">
+																	<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive  img-custom-collection" alt="">
 																	'. $sale .'
 																	</a>
 																	<div class="hbw">
@@ -439,7 +454,7 @@ pconsole($_POST);
 																	</li>
 																	<li class="row-right parent-fly animMix">
 																	<div class="product-content-left">
-																		<a class="title-5" href="./product.php?view='. $item['unique_key'] .'">'. $itemInfo['product_name'] .'</a>
+																		<a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'">'. $itemInfo['product_name'] .'</a>
 																		<span class="spr-badge" id="spr_badge_129323961956" data-rating="0.0">
 																		<span class="spr-badge-caption">
 																		'.__("No reviews").' </span>
@@ -454,7 +469,7 @@ pconsole($_POST);
 																		'. $itemInfo['description'] .'
 																	</div>
 																	<div class="hover-appear">
-																		<a href="product.php?view='. $itemInfo['unique_key'] .'" style="margin:0px 20px; line-height:50px; font-size:13px; font-weight:700; text-transform:uppercase;"><i class="fa fa-bars" aria-hidden="true" style="padding-right:10px;"></i>'.__("View Product").'</a>
+																		<a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'" style="margin:0px 20px; line-height:50px; font-size:13px; font-weight:700; text-transform:uppercase;"><i class="fa fa-bars" aria-hidden="true" style="padding-right:10px;"></i>'.__("View Product").'</a>
 																		<div class="product-ajax-qs hidden-xs hidden-sm">
 																			<div class="quick_shop" onclick="quickShop(\''. $item['unique_key'] .'\')">
 																				<i class="fa fa-eye" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>																		
@@ -606,7 +621,7 @@ pconsole($_POST);
 										</li>
 									</ul>
 								</div>
-								<form method="post" enctype="multipart/form-data">
+								<form method="post" enctype="multipart/form-data" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('collection')?>">
 									<div id="quick-shop-price-container" class="detail-price">
 										
 									</div>
@@ -701,7 +716,7 @@ function quickShop(id) {
 				if ( result['images'] == "" ) {
 					images[0] = "0.png";
 				}	
-				$("#quick-shop-image .main-image img").attr("src", "./images/images_md/" + images[0]) + "?v=" + Date.now();
+				$("#quick-shop-image .main-image img").attr("src", "<?php echo $__MAINDOMAIN__;?>images/images_md/" + images[0]) + "?v=" + Date.now();
 				
 				//Remove old Thumbs if any
 				var currentThumbs = $(".image-thumb").length;
@@ -711,7 +726,7 @@ function quickShop(id) {
 				}
 				//Item Thumbnals
 				for ( var i = 0; i < images.length-1; i++ ) {
-					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/images_md/'+ images[i] +'?v='+ Date.now() +'" ><img src="./images/images_sm/'+ images[i] +'?v='+ Date.now() +'" alt=""/></a>';
+					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/images_md/'+ images[i] +'?v='+ Date.now() +'" ><img src="<?php echo $__MAINDOMAIN__;?>images/images_sm/'+ images[i] +'?v='+ Date.now() +'" alt=""/></a>';
 					//console.log("1 Item Added");
 					$('#gallery_main_qs').owlCarousel().data('owlCarousel').addItem(content);
 					$('.owl-item').toggleClass('show-item');
@@ -786,8 +801,8 @@ function quickShop(id) {
 			}
 		}, false);
 
-		xmlhttp.open("GET","./url/fetch_item_info.php?id="+id, false);
-		$("#quick-shop-image .main-image img").attr("src", "./images/gfx/cube_lg.gif");
+		xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/fetch_item_info.php?id="+id, false);
+		$("#quick-shop-image .main-image img").attr("src", "<?php echo $__MAINDOMAIN__;?>images/gfx/cube_lg.gif");
 		xmlhttp.send();
 
 	}
@@ -834,7 +849,7 @@ function addToWishlist(key) {
 			  	console.log(xmlhttp.responseText);
 	  		};
 	  	}
-	xmlhttp.open("GET","url/ajax.php?addtoFav="+key,true);
+	xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/ajax.php?addtoFav="+key,true);
 	xmlhttp.send();
 }
 
@@ -864,7 +879,7 @@ function removeFromWishlist(key) {
 		  console.log(xmlhttp.responseText);
       }
   };
-  xmlhttp.open("GET","url/ajax.php?removeFromFav="+key,true);
+  xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/ajax.php?removeFromFav="+key,true);
   xmlhttp.send();
 }
 

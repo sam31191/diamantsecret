@@ -14,20 +14,20 @@ include 'conf/config.php';
   <meta name="description" content="" />
   <title><?php echo __("Diamond Search"); ?></title>
   
-    <link href="./assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
-    <link href="./assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">    
-    <link href="./assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
-    <link href="./assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
-    <link rel="icon" href="./images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">    
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/bootstrap.min.3x.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.bootstrap.3x.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.animate.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.global.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.style.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/cs.media.3x.css" rel="stylesheet" type="text/css" media="all">
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/site.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="icon" href="<?php echo $__MAINDOMAIN__;?>images/gfx/favicon.png?v=1" type="image/png" sizes="16x16">
     
-    <script src="./assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
-    <script src="./assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="<?php echo $__MAINDOMAIN__;?>assets/javascripts/bootstrap.min.3x.js" type="text/javascript"></script>
     <script type="text/javascript">
     	function resizeFrame(elem) {
     		setInterval(function() {
@@ -52,7 +52,7 @@ include 'conf/config.php';
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="index.php" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
                                 <span>/</span>
                                 <span class="page-title"><?php echo __("Diamond Search"); ?></span>
                             </div>
@@ -85,7 +85,7 @@ include 'conf/config.php';
                     <input type="hidden" name="style" value="<?php echo DIAMOND_SEARCH_THEME; ?>" />
                     </form>
 
-                    <iframe name="dsframe" id="dsframe" width="100%" height="1500" src="./dssearch.php" frameborder="0" scrolling="no" onload="resizeFrame(this)"></iframe>
+                    <iframe name="dsframe" id="dsframe" width="100%" height="1500" src="<?php echo $__MAINDOMAIN__.$lang.'/'?>dssearch" frameborder="0" scrolling="no" onload="resizeFrame(this)"></iframe>
                 </section>        
             </div>
         </div>

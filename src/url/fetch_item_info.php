@@ -1,4 +1,5 @@
 <?php
+
   if ( session_status() == PHP_SESSION_NONE ) {
     session_start();
   }
@@ -8,14 +9,16 @@
 
   include '../conf/config.php';
 
-  $fetch = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
+  $fetch = $pdo->prepare("select * from items WHERE unique_key = :key");
   $fetch->execute(array(":key" => $_GET['id']));
-
+  
   if ( $fetch->rowCount() > 0 ) {
+
     $item = $fetch->fetch(PDO::FETCH_ASSOC);
-	
+
 	switch($item['category']) {
 		case 1: {
+
 			$fetchInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :key");
 			$fetchInfo->execute(array(
 				":key" => $item['unique_key']
@@ -27,6 +30,7 @@
 			$fetchInfo->execute(array(
 				":key" => $item['unique_key']
 			));
+
 			break;
 		}
 		case 3: {
@@ -48,6 +52,7 @@
 			$fetchInfo->execute(array(
 				":key" => $item['unique_key']
 			));
+
 			break;
 		}
 	}
@@ -55,6 +60,9 @@
 	$itemInfo = $fetchInfo->fetch(PDO::FETCH_ASSOC);
 
 	$array = array_merge($item, $itemInfo);
+	if(isset($array['description_french'])) {
+		$array['description_french'] = htmlentities($array['description_french']);
+	}
     echo json_encode($array);
   }
   else {

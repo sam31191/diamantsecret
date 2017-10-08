@@ -6,8 +6,67 @@ RewriteBase /diamantsecret/src/
 RewriteCond %{QUERY_STRING} !lang=(en|fr)
 RewriteRule ^$ fr/ [R=301,L]
 
-# url is ONLY '/en' or '/de' -> redirect to /en/ or /de/ (adding slash)
+# url is ONLY '/en' or '/fr' -> redirect to /en/ or /fr/ (adding slash)
 RewriteRule ^(en|fr)$  $1/ [R=301,L]
 
-# now all urls have en/ de/ -> parse them
-RewriteRule ^(en|fr)/(.*)$  $2?lang=$1&%{query_STRING} [L]
+# now all urls have en/ fr/ -> parse them
+#RewriteRule ^(en|fr)/(.*)$  $2?lang=$1&%{query_STRING} [L]
+
+RewriteRule    ^(en|fr)/earrings/(.*)$  collection_earrings.php?lang=$1&_sc=$1&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/earrings   collection_earrings.php?lang=$1&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/boucles-doreilles/(.*)$  collection_earrings.php?lang=$1&_sc=$1&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/boucles-doreilles   collection_earrings.php?lang=$1&%{query_STRING} [L]
+
+RewriteRule    ^(en|fr)/rings/(.*)$ collection_rings.php?lang=$1&_sc=$2&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/rings   collection_rings.php?lang=$1&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/bagues/(.*)$ collection_rings.php?lang=$1&_sc=$2&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/bagues   collection_rings.php?lang=$1&%{query_STRING} [L]
+
+RewriteRule    ^(en|fr)/pendants/(.*)$ collection_pendants.php?lang=$1&_sc=$2&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/pendants   collection_pendants.php?lang=$1&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/pendentifs/(.*)$ collection_pendants.php?lang=$1&_sc=$2&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/pendentifs   collection_pendants.php?lang=$1&%{query_STRING} [L]
+
+RewriteRule    ^(en|fr)/necklaces/(.*)$ collection_necklaces.php?lang=$1&_sc=$2&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/necklaces   collection_necklaces.php?lang=$1&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/colliers/(.*)$ collection_necklaces.php?lang=$1&_sc=$2&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/colliers   collection_necklaces.php?lang=$1&%{query_STRING} [L]
+
+#bracelets, english and french dona ch same ch hunda
+RewriteRule    ^(en|fr)/bracelets/(.*)$ collection_bracelets.php?lang=$1&_sc=$2&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/bracelets   collection_bracelets.php?lang=$1&%{query_STRING} [L]
+
+RewriteRule    ^(en|fr)/$ index.php?lang=$1 [L]
+RewriteRule    ^(en|fr)/home index.php?lang=$1 [L]
+RewriteRule    ^(en|fr)/maison index.php?lang=$1 [L]
+
+RewriteRule    ^(en|fr)/cart  cart.php?lang=$1 [L]
+RewriteRule    ^(en|fr)/chariot  cart.php?lang=$1 [L]
+
+
+RewriteRule    ^(en|fr)/contact  contact.php?lang=$1 [L]
+RewriteRule    ^(en|fr)/login/(.*)$  login.php?lang=$1&unsub=$2 [L]
+RewriteRule    ^(en|fr)/login  login.php?lang=$1 [L]
+RewriteRule    ^(en|fr)/se-connecter/(.*)$  login.php?lang=$1&unsub=$2 [L]
+RewriteRule    ^(en|fr)/se-connecter  login.php?lang=$1 [L]
+
+RewriteRule    ^(en|fr)/register  register.php?lang=$1 [L]
+RewriteRule    ^(en|fr)/registre  register.php?lang=$1 [L]
+
+RewriteRule    ^(en|fr)/account  account.php?lang=$1 [L]
+RewriteRule    ^(en|fr)/compte  account.php?lang=$1 [L]
+
+RewriteRule    ^(en|fr)/collection  collection.php?lang=$1&%{query_STRING} [L]
+
+RewriteRule    ^(en|fr)/diamond-search diamond_search.php?lang=$1 [L]
+RewriteRule    ^(en|fr)/recherche-de-diamants diamond_search.php?lang=$1 [L]
+
+
+RewriteRule    ^(en|fr)/orders  orders.php?lang=$1 [L]
+RewriteRule    ^(en|fr)/ordres  orders.php?lang=$1 [L]
+
+RewriteRule    ^(en|fr)/dssearch  dssearch.php?lang=$1 [L]
+
+
+RewriteRule    ^(en|fr)/product/(.*)/(.*)/(.*) product.php?lang=$1&view=$4 [L]
+RewriteRule    ^(en|fr)/produit/(.*)/(.*)/(.*) product.php?lang=$1&view=$4 [L]

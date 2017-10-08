@@ -2,6 +2,7 @@
 if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
+
 include './../conf/config.php';
 require("./../lib/PayPal/vendor/autoload.php");
 use PayPal\Api\Payment;
@@ -58,7 +59,7 @@ if ( isset($_GET['subscribe']) ) {
 		require './PHPMailerAutoload.php';
 
 		$mailBody = file_get_contents('./../conf/mail_formats/subscription_email.html');
-		$mailBody = str_replace("__UNSUBURL__", $__MAINDOMAIN__ . 'login.php?unsub=' . $hash, $mailBody);
+		$mailBody = str_replace("__UNSUBURL__", $__MAINDOMAIN__ .$lang.'/'.__("login").'/'. $hash, $mailBody);
 		$mailBody = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $mailBody);
 
 		if ( $testSite ) {
