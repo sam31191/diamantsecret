@@ -2676,7 +2676,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->setActiveSheetIndex(0);
 	$outputExcel->getActiveSheet()->setTitle('products');
 
-	$outputExcel->getActiveSheet()->getStyle('A1:AE1')->getFont()->setBold(true);
+	$outputExcel->getActiveSheet()->getStyle('A1:AF1')->getFont()->setBold(true);
 	$outputExcel->getActiveSheet()->setCellValue('A1', "Company Id" );
 	$outputExcel->getActiveSheet()->setCellValue('B1', "Category Id" );
 	$outputExcel->getActiveSheet()->setCellValue('C1', "Internal Id" );
@@ -2708,6 +2708,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->getActiveSheet()->setCellValue('AC1', "Description" ) ;
 	$outputExcel->getActiveSheet()->setCellValue('AD1', "Description (French)");
 	$outputExcel->getActiveSheet()->setCellValue('AE1', "Diamond Color");
+	$outputExcel->getActiveSheet()->setCellValue('AF1', "Family");
 
 	#$outputExcel->getActiveSheet()->getStyle('V1:V'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
 	#$outputExcel->getActiveSheet()->getStyle('U1:U'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
@@ -2804,6 +2805,7 @@ if ( isset($_GET['importThis']) ) {
 		$outputExcel->getActiveSheet()->setCellValue('AC' . $row, $itemInfo['description'] ) ;
 		$outputExcel->getActiveSheet()->setCellValue('AD' . $row, $itemInfo['description_french']);
 		$outputExcel->getActiveSheet()->setCellValue('AE' . $row, $itemInfo['diamond_color']);
+		$outputExcel->getActiveSheet()->setCellValue('AF' . $row, $item['family']);
 
 
 		$row++;
@@ -2839,7 +2841,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->setActiveSheetIndex(0);
 	$outputExcel->getActiveSheet()->setTitle('products');
 
-	$outputExcel->getActiveSheet()->getStyle('A1:AE1')->getFont()->setBold(true);
+	$outputExcel->getActiveSheet()->getStyle('A1:AF1')->getFont()->setBold(true);
 	$outputExcel->getActiveSheet()->setCellValue('A1', "Company Id" );
 	$outputExcel->getActiveSheet()->setCellValue('B1', "Category Id" );
 	$outputExcel->getActiveSheet()->setCellValue('C1', "Internal Id" );
@@ -2871,6 +2873,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->getActiveSheet()->setCellValue('AC1', "Description" ) ;
 	$outputExcel->getActiveSheet()->setCellValue('AD1', "Description (French)");
 	$outputExcel->getActiveSheet()->setCellValue('AE1', "Diamond Color");
+	$outputExcel->getActiveSheet()->setCellValue('AF1', "Family");
 
 	#$outputExcel->getActiveSheet()->getStyle('V1:V'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
 	#$outputExcel->getActiveSheet()->getStyle('U1:U'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
@@ -2984,6 +2987,7 @@ if ( isset($_GET['importThis']) ) {
 		$outputExcel->getActiveSheet()->setCellValue('AC' . $row, $itemInfo['description'] ) ;
 		$outputExcel->getActiveSheet()->setCellValue('AD' . $row, $itemInfo['description_french']);
 		$outputExcel->getActiveSheet()->setCellValue('AE' . $row, $itemInfo['diamond_color']);
+		$outputExcel->getActiveSheet()->setCellValue('AF' . $row, $item['family']);
 
 
 			$row++;
@@ -3024,7 +3028,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->setActiveSheetIndex(0);
 	$outputExcel->getActiveSheet()->setTitle('products');
 
-	$outputExcel->getActiveSheet()->getStyle('A1:AE1')->getFont()->setBold(true);
+	$outputExcel->getActiveSheet()->getStyle('A1:AF1')->getFont()->setBold(true);
 	$outputExcel->getActiveSheet()->setCellValue('A1', "Company Id" );
 	$outputExcel->getActiveSheet()->setCellValue('B1', "Category Id" );
 	$outputExcel->getActiveSheet()->setCellValue('C1', "Internal Id" );
@@ -3056,6 +3060,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->getActiveSheet()->setCellValue('AC1', "Description" ) ;
 	$outputExcel->getActiveSheet()->setCellValue('AD1', "Description (French)");
 	$outputExcel->getActiveSheet()->setCellValue('AE1', "Diamond Color");
+	$outputExcel->getActiveSheet()->setCellValue('AF1', "Family");
 
 	#$outputExcel->getActiveSheet()->getStyle('V1:V'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
 	#$outputExcel->getActiveSheet()->getStyle('U1:U'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
@@ -3162,6 +3167,7 @@ if ( isset($_GET['importThis']) ) {
 		$outputExcel->getActiveSheet()->setCellValue('AC' . $row, $itemInfo['description'] ) ;
 		$outputExcel->getActiveSheet()->setCellValue('AD' . $row, $itemInfo['description_french']);
 		$outputExcel->getActiveSheet()->setCellValue('AE' . $row, $itemInfo['diamond_color']);
+		$outputExcel->getActiveSheet()->setCellValue('AF' . $row, $item['family']);
 
 
 		$row++;
@@ -3198,7 +3204,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->getActiveSheet()->setTitle('products');
 
 	#Adding Columns
-	$outputExcel->getActiveSheet()->getStyle('A1:AE1')->getFont()->setBold(true);
+	$outputExcel->getActiveSheet()->getStyle('A1:AF1')->getFont()->setBold(true);
 	$outputExcel->getActiveSheet()->setCellValue('A1', "Company Id" );
 	$outputExcel->getActiveSheet()->setCellValue('B1', "Category Id" );
 	$outputExcel->getActiveSheet()->setCellValue('C1', "Internal Id" );
@@ -3230,6 +3236,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->getActiveSheet()->setCellValue('AC1', "Description" ) ;
 	$outputExcel->getActiveSheet()->setCellValue('AD1', "Description (French)");
 	$outputExcel->getActiveSheet()->setCellValue('AE1', "Diamond Color");
+	$outputExcel->getActiveSheet()->setCellValue('AF1', "Family");
 
 	#$outputExcel->getActiveSheet()->getStyle('V1:V'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
 	#$outputExcel->getActiveSheet()->getStyle('U1:U'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
@@ -3357,6 +3364,7 @@ if ( isset($_GET['importThis']) ) {
 		$outputExcel->getActiveSheet()->setCellValue('AC' . $row, $itemInfo['description'] ) ;
 		$outputExcel->getActiveSheet()->setCellValue('AD' . $row, $itemInfo['description_french']);
 		$outputExcel->getActiveSheet()->setCellValue('AE' . $row, $itemInfo['diamond_color']);
+		$outputExcel->getActiveSheet()->setCellValue('AF' . $row, $item['family']);
 
 
 			$row++;
@@ -3486,7 +3494,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->setActiveSheetIndex(0);
 	$outputExcel->getActiveSheet()->setTitle('products');
 
-	$outputExcel->getActiveSheet()->getStyle('A1:AE1')->getFont()->setBold(true);
+	$outputExcel->getActiveSheet()->getStyle('A1:AF1')->getFont()->setBold(true);
 	$outputExcel->getActiveSheet()->setCellValue('A1', "Company Id" );
 	$outputExcel->getActiveSheet()->setCellValue('B1', "Category Id" );
 	$outputExcel->getActiveSheet()->setCellValue('C1', "Internal Id" );
@@ -3518,6 +3526,7 @@ if ( isset($_GET['importThis']) ) {
 	$outputExcel->getActiveSheet()->setCellValue('AC1', "Description" ) ;
 	$outputExcel->getActiveSheet()->setCellValue('AD1', "Description (French)");
 	$outputExcel->getActiveSheet()->setCellValue('AE1', "Diamond Color");
+	$outputExcel->getActiveSheet()->setCellValue('AF1', "Family");
 
 	#$outputExcel->getActiveSheet()->getStyle('V1:V'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
 	#$outputExcel->getActiveSheet()->getStyle('U1:U'.$outputExcel->getActiveSheet()->getHighestRow())->getAlignment()->setWrapText(true);
