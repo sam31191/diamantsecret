@@ -3,6 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include 'conf/config.php';
+include 'includes/fb_config.php';
 ini_set('memory_limit', $__MAX_MEMORY_LIMIT__);
 ini_set('max_execution_time', 0);
 $item = [];
@@ -17,18 +18,21 @@ use Facebook\FacebookRequestException;
 use Facebook\FacebookAuthorizationException;
 use Facebook\GraphObject;
 use Facebook\GraphUser;
-$app_id = '362791974171752';
-$app_secret = 'cd991b49b4e34f36a668c4ff69c6d128';
+
+$getTokenSelect = $pdo->prepare("SELECT * from fb_access_tokens");
+$getTokenSelect->execute();
+$getTokenData = $getTokenSelect->fetch();
+
 FacebookSession::enableAppSecretProof(false);
-FacebookSession::setDefaultApplication($app_id, $app_secret);
-$session1 = new FacebookSession("EAAFJ9RaZCdGgBACbS4fWVL0PrGzEDrofQ0h0ZAlXtkAbT9497psYi4FmZAEoFSZCT5og4ZB8m3ZCfSccGuOKUJZBaTxPzl5ZCwaEeWOOEYeCKs8ZAFzuQlCrbZApDOpvvjTwjVHL0iHWZAvqm3UrLuzZBJeDpxxdKvfh0sePPh7QWZBhmrzeJSg9ZBLrdmeycBApQCiP8ZD");
-$session2 = new FacebookSession("EAAFJ9RaZCdGgBACbS4fWVL0PrGzEDrofQ0h0ZAlXtkAbT9497psYi4FmZAEoFSZCT5og4ZB8m3ZCfSccGuOKUJZBaTxPzl5ZCwaEeWOOEYeCKs8ZAFzuQlCrbZApDOpvvjTwjVHL0iHWZAvqm3UrLuzZBJeDpxxdKvfh0sePPh7QWZBhmrzeJSg9ZBLrdmeycBApQCiP8ZD");
-$session3 = new FacebookSession("EAAFJ9RaZCdGgBACbS4fWVL0PrGzEDrofQ0h0ZAlXtkAbT9497psYi4FmZAEoFSZCT5og4ZB8m3ZCfSccGuOKUJZBaTxPzl5ZCwaEeWOOEYeCKs8ZAFzuQlCrbZApDOpvvjTwjVHL0iHWZAvqm3UrLuzZBJeDpxxdKvfh0sePPh7QWZBhmrzeJSg9ZBLrdmeycBApQCiP8ZD");
-$session4 = new FacebookSession("EAAFJ9RaZCdGgBACbS4fWVL0PrGzEDrofQ0h0ZAlXtkAbT9497psYi4FmZAEoFSZCT5og4ZB8m3ZCfSccGuOKUJZBaTxPzl5ZCwaEeWOOEYeCKs8ZAFzuQlCrbZApDOpvvjTwjVHL0iHWZAvqm3UrLuzZBJeDpxxdKvfh0sePPh7QWZBhmrzeJSg9ZBLrdmeycBApQCiP8ZD");
-$session5 = new FacebookSession("EAAFJ9RaZCdGgBACbS4fWVL0PrGzEDrofQ0h0ZAlXtkAbT9497psYi4FmZAEoFSZCT5og4ZB8m3ZCfSccGuOKUJZBaTxPzl5ZCwaEeWOOEYeCKs8ZAFzuQlCrbZApDOpvvjTwjVHL0iHWZAvqm3UrLuzZBJeDpxxdKvfh0sePPh7QWZBhmrzeJSg9ZBLrdmeycBApQCiP8ZD");
-$session6 = new FacebookSession("EAAFJ9RaZCdGgBACbS4fWVL0PrGzEDrofQ0h0ZAlXtkAbT9497psYi4FmZAEoFSZCT5og4ZB8m3ZCfSccGuOKUJZBaTxPzl5ZCwaEeWOOEYeCKs8ZAFzuQlCrbZApDOpvvjTwjVHL0iHWZAvqm3UrLuzZBJeDpxxdKvfh0sePPh7QWZBhmrzeJSg9ZBLrdmeycBApQCiP8ZD");
-$session7 = new FacebookSession("EAAFJ9RaZCdGgBACbS4fWVL0PrGzEDrofQ0h0ZAlXtkAbT9497psYi4FmZAEoFSZCT5og4ZB8m3ZCfSccGuOKUJZBaTxPzl5ZCwaEeWOOEYeCKs8ZAFzuQlCrbZApDOpvvjTwjVHL0iHWZAvqm3UrLuzZBJeDpxxdKvfh0sePPh7QWZBhmrzeJSg9ZBLrdmeycBApQCiP8ZD");
-$session8 = new FacebookSession("EAAFJ9RaZCdGgBACbS4fWVL0PrGzEDrofQ0h0ZAlXtkAbT9497psYi4FmZAEoFSZCT5og4ZB8m3ZCfSccGuOKUJZBaTxPzl5ZCwaEeWOOEYeCKs8ZAFzuQlCrbZApDOpvvjTwjVHL0iHWZAvqm3UrLuzZBJeDpxxdKvfh0sePPh7QWZBhmrzeJSg9ZBLrdmeycBApQCiP8ZD");
+FacebookSession::setDefaultApplication(FB_APP_ID, FB_APP_SECRET);
+$session1 = new FacebookSession($getTokenData['site_0']);
+$session2 = new FacebookSession($getTokenData['site_1']);
+$session3 = new FacebookSession($getTokenData['site_2']);
+$session4 = new FacebookSession($getTokenData['site_3']);
+$session5 = new FacebookSession($getTokenData['site_4']);
+$session6 = new FacebookSession($getTokenData['site_5']);
+$session7 = new FacebookSession($getTokenData['site_6']);
+$session8 = new FacebookSession($getTokenData['site_7']);
 $pdo->exec("SET NAMES 'utf8';");
 $getitemID = $pdo->prepare("SELECT product_name, images, description_french, item_value, itemId, site_0, site_1, site_2, site_3, site_4, site_5, site_6, site_7 FROM ((SELECT product_name, images, description_french, item_value, items.id as itemId, site_0, site_1, site_2, site_3, site_4, site_5, site_6, site_7 FROM rings INNER JOIN items ON items.unique_key = rings.unique_key WHERE items.fb_status = 0 order by items.id desc limit 2)
 UNION

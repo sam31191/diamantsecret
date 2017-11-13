@@ -9,8 +9,8 @@ class facebookApi {
 
     function __construct() {
         $this->fb = new \Facebook\Facebook([
-            'app_id' => '1353579178102818',
-            'app_secret' => '1cc4c5515583dc317292932e55aa7cfb',
+            'app_id' => FB_APP_ID,
+            'app_secret' => FB_APP_SECRET,
             'default_graph_version' => 'v2.10',
                 //'default_access_token' => FB_ACCESS_TOKEN, // optional
         ]);
@@ -117,5 +117,23 @@ class facebookApi {
         }
         $graphNode = $response->getGraphObject();
         return $graphNode;
+    }
+
+    function exchangedAccessToken($accessToken) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://graph.facebook.com/oauth/access_token?client_id=".FB_APP_ID."&client_secret=".FB_APP_SECRET."&grant_type=fb_exchange_token&fb_exchange_token=".$accessToken."");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close ($ch);
+        $accessToken = json_decode($result, true);
+        if(!empty($accessToken['access_token'])) {
+            return $accessToken['access_token'];
+        } else {
+            return false;
+        }
     }
 }
