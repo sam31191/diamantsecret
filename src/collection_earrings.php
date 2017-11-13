@@ -93,11 +93,11 @@ pconsole($_POST);
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'; ?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo ucfirst(__('home')); ?></a>
                                 <span>/</span>
-                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
+                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Collection')); ?>" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
                                 <span>/</span>
-                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>" title="<?php echo __("View All"); ?>"><?php echo __("Earrings"); ?></a></span>
+                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(str_replace(" ","-",str_replace("'","",__('earrings')))); ?>" title="<?php echo __("View All"); ?>"><?php echo __("Earrings"); ?></a></span>
                             </div>
                         </div>
                     </div>
@@ -189,7 +189,7 @@ pconsole($_POST);
                                                         <input id="filterQuality" name="quality" hidden />
                                                         <input id="filterStone" name="stone" hidden />
                                                     </form>
-                                                    <h6 class="sb-title"><?php echo __("Filter"); ?> <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" style="float:right;"><?php echo __("Apply"); ?></button></h6>
+                                                    <h6 class="sb-title"><?php echo __("Filter"); ?> <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(str_replace(" ","-",str_replace("'","",__('earrings'))));?>" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" style="float:right;"><?php echo __("Apply"); ?></button></h6>
                                                     <!-- tags groupd 1 -->
                                                     <div class="tag-group" id="coll-filter-1">
                                                         <p class="title">
@@ -378,7 +378,7 @@ pconsole($_POST);
                                                         <ul>
                                                         </ul>
 
-                                                        <h6 class="sb-title"><?php echo __("Filter"); ?> <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" style="float:right;"><?php echo __("Apply"); ?></button></h6>
+                                                        <h6 class="sb-title"><?php echo __("Filter"); ?> <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(str_replace(" ","-",str_replace("'","",__('earrings'))));?>" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" style="float:right;"><?php echo __("Apply"); ?></button></h6>
                                                     </div>
 
                                                     <?php

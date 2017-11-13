@@ -52,7 +52,7 @@ if ( isset($_POST['login']['username']) ) {
                     
                     header("Location: ". $_POST['redir']); 
                 } else {
-                    header("Location: $__MAINDOMAIN__$lang/home");
+                    header("Location: $__MAINDOMAIN__$lang");
                 }
 
                 exit();
@@ -292,7 +292,7 @@ function generatePass($length = 10) {
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+                                <a href="<?php echo $__MAINDOMAIN__.$lang.'/'; ?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo ucfirst(__("home")); ?></a>
                                 <span>/</span>
                                 <span class="page-title"><?php echo __("Login"); ?></span>
                             </div>

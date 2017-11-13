@@ -2,8 +2,8 @@ ErrorDocument 404 /en/404.php
 RewriteEngine On
 RewriteBase /diamantsecret/src/ 
 
-RewriteCond %{HTTPS} !=on
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteCond %{HTTP} !=on
+#RewriteRule ^ http://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # empty url -> redirect to en/
 RewriteCond %{QUERY_STRING} !lang=(en|fr)

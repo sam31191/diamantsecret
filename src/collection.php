@@ -92,9 +92,9 @@ pconsole($_POST);
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home");?></a>
+								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'; ?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo ucfirst(__("home")); ?></a>
 								<span>/</span>
-								<span class="page-title"><a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('collection')?>" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
+								<span class="page-title"><a href="<?php echo $__MAINDOMAIN__.$lang.'/'.strtolower(__('Collection')); ?>" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
 							</div>
 						</div>
 					</div>
@@ -178,14 +178,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>" title="<?php echo __("Browse our Earrings"); ?>">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(str_replace(" ","-",str_replace("'","",__('earrings')))); ?>" title="<?php echo __("Browse our Earrings"); ?>">
 																					<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/earring_270x270.png" alt="Earrings">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>"><?php echo __("Earrings"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(str_replace(" ","-",str_replace("'","",__('earrings')))); ?>"><?php echo __("Earrings"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings"><?php echo __("See the Collection"); ?></a>
+																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(str_replace(" ","-",str_replace("'","",__('earrings')))); ?>"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -193,14 +193,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>" title="<?php echo __("Browse our Pendants") ;?>">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Pendants'));?>" title="<?php echo __("Browse our Pendants") ;?>">
 																					<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/pendant_270x270.png" alt="Pendants">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>"><?php echo __("Pendants"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Pendants')); ?>"><?php echo __("Pendants"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>"><?php echo __("See the Collection"); ?></a>
+																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Pendants')); ?>"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -622,7 +622,7 @@ pconsole($_POST);
 										</li>
 									</ul>
 								</div>
-								<form method="post" enctype="multipart/form-data" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('collection')?>">
+								<form method="post" enctype="multipart/form-data" action="<?php echo $__MAINDOMAIN__.$lang.'/'.strtolower(__('Collection')); ?>">
 									<div id="quick-shop-price-container" class="detail-price">
 										
 									</div>

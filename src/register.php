@@ -57,7 +57,7 @@ if ( isset($_GET['verifyLogin']) ) {
 				$_SESSION['admin'] = $creds['type'];
 			}
 
-			header("Location: $__MAINDOMAIN__$lang/home");
+			header("Location: $__MAINDOMAIN__$lang");
 			exit();
 		} else {
 			$alert = __("Verification Link has expired");
@@ -146,7 +146,7 @@ if ( isset($_GET['verify']) ) {
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home"); ?></a>
+								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'; ?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo ucfirst(__("home")); ?></a>
 								<span>/</span>
 								<span class="page-title"><?php echo __("Create Account"); ?></span>
 							</div>

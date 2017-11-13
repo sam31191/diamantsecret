@@ -105,9 +105,9 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'; ?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo ucfirst(__("home")); ?></a>
                                 <span>/</span>
-                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" title="">Collection</a>
+                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Collection')); ?>" title="">Collection</a>
                                 <span>/</span>
                                 <?php
                                     $_GET['view'];

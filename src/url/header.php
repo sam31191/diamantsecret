@@ -10,7 +10,7 @@ if ( isset($_POST['action']['logout']) ) {
 	session_unset();
 	session_destroy();
 
-	echo '<script> window.location.href = "'.$__MAINDOMAIN__.$lang.'/home"; </script>';
+	echo '<script> window.location.href = "'.$__MAINDOMAIN__.$lang.'/"; </script>';
 	die();
 }
 if ( !isset($_SESSION['loggedIn']) ) {
@@ -154,7 +154,7 @@ function urlclick(currentLang,changeLang){
 			<div class="top-navigation">
 				<ul class="list-inline">
 					<li class="top-logo">
-						<a id="site-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('home')?>" title="Diamant Secret">          
+						<a id="site-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'; ?>" title="Diamant Secret">          
 						<img class="img-responsive" src="<?php echo $__MAINDOMAIN__;?>images/gfx/logo.png" alt="Diamant Secret" style="max-width: 220px; margin:2px">
 						</a>
 					</li>
@@ -224,12 +224,12 @@ function urlclick(currentLang,changeLang){
 								<div class="collapse navbar-collapse">
 									<ul class="nav navbar-nav hoverMenuWrapper">
 										<li class="nav-item active">
-										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('home')?>">
-										<span><?php echo __("Home"); ?></span>
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>">
+										<span><?php echo ucfirst(__("home")); ?></span>
 										</a>
 										</li>
 										<li class="dropdown mega-menu">
-										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" class="dropdown-toggle dropdown-link" data-toggle="dropdown" onclick="window.location.href= '<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection'">
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Collection')); ?>" class="dropdown-toggle dropdown-link" data-toggle="dropdown" onclick="window.location.href= '<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection'">
 										<span><?php echo __("Collections"); ?></span>
 										<i class="fa fa-caret-down"></i>
 										<i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
@@ -251,7 +251,7 @@ function urlclick(currentLang,changeLang){
 																$tag = $option['category'];
 																$tag = str_replace("Ring", " ", $tag);
 
-																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.''.$lang.'/'.processUrlParameter(__('Rings')).'/'. str_replace("-ring","",str_replace(" ","-",strtolower($option['category']))) .'">'. $tag .'</a></li>';
+																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.''.$lang.'/'.processUrlParameter(__('Rings')).'/'. str_replace("-ring","",str_replace(" ","-",strtolower(__($option['category'])))) .'">'. $tag .'</a></li>';
 															}
 														}
 														?>

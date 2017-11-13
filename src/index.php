@@ -17,7 +17,7 @@ include './url/pre.php';
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
   <meta name="description" content="" />
-  <title>Home</title>
+  <title><?php echo ucfirst(__("home")); ?></title>
   
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
@@ -99,7 +99,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 				<div class="camera_wrap" id="home-slider"  style="max-height: 650px;">
 					<div data-src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-1.jpg">
 						<div class="camera_caption camera_title_1 fadeIn">
-						  <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" style="color:#010101;"><?php echo __("Live the moment"); ?></a>
+						  <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Collection')); ?>" style="color:#010101;"><?php echo __("Live the moment"); ?></a>
 						</div>
 						<div class="camera_caption camera_caption_1 fadeIn" style="color: rgb(1, 1, 1);">
 						</div>
@@ -107,18 +107,18 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 							<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-caption-1.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
-							<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('collection')?>" class="btn"><?php echo __("See Collection"); ?></a>
+							<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.strtolower(__('Collection')); ?>" class="btn"><?php echo __("See Collection"); ?></a>
 						</div>
 					</div>
 					<div data-src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-2.jpg">
 						<div class="camera_caption camera_title_2 moveFromLeft">
-						  <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" style="color:#666666;"><?php echo __("Love’s embrace"); ?></a>
+						  <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Collection')); ?>" style="color:#666666;"><?php echo __("Love’s embrace"); ?></a>
 						</div>
 						<div class="camera_caption camera_image-caption_2 moveFromLeft" style="visibility: hidden;">
 							<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-caption-2.png" alt="image_caption">
 						</div>
 						<div class="camera_cta_1">
-							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" class="btn"><?php echo __("See Collection"); ?></a>
+							<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Collection')); ?>" class="btn"><?php echo __("See Collection"); ?></a>
 						</div>
 					</div>
 					<div data-src="<?php echo $__MAINDOMAIN__;?>images/gfx/slide-image-3.jpg">
@@ -167,7 +167,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
-																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>"><?php echo __("Earrings"); ?></a></span>
+																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(str_replace(" ","-",str_replace("'","",__('earrings')))); ?>"><?php echo __("Earrings"); ?></a></span>
 																			<div class="collection-action">
 																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>"><?php echo __("See the Collection"); ?></a>
 																			</div>
@@ -397,7 +397,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 									?>
 									</div>
 									<div class="home-banner-action">
-										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>"><?php echo __("Shop Now"); ?></a>
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Collection')); ?>"><?php echo __("Shop Now"); ?></a>
 									</div>
 								</div>
 							</div>

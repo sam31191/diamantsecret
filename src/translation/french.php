@@ -25,4 +25,3 @@ require_once("lib/gettext.php");
 	}
 
 ?>
-
