@@ -111,7 +111,13 @@
 
   });
 
+function getImgTag(id){
 
+    var setNewAlt = $('#'+id+'-getAltTag').attr('alt');
+    
+    document.getElementById('newAlt').setAttribute('alt',setNewAlt);
+
+}
   </script>
 
 

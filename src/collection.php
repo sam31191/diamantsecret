@@ -383,8 +383,12 @@ pconsole($_POST);
 													$getAll->execute();
 													$allItems = $getAll->fetchAll();
 
+													$S_no =0;
+
 													foreach ( $allItems as $item) {
 														
+														$S_no++;
+
 														switch ($item['category']) {
 															case 1: {
 																$getItemInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :unique_key");
@@ -441,12 +445,15 @@ pconsole($_POST);
                                                             $urlSubcategory = $_GET['_sc'];
                                                          } else {
                                                             $urlSubcategory = $itemInfo['ring_subcategory'];
-                                                         }  
+                                                         }
+
+                                                         $img_alt =  makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key'],$alt_tag=1);
+
 														$element = '<li class="element no_full_width" data-alpha="" data-price="20000">
 																<ul class="row-container list-unstyled clearfix">
 																	<li class="row-left">
 																	<a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'" class="container_item">
-																	<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive  img-custom-collection" alt="">
+																	<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive  img-custom-collection" id="'.$S_no.'-getAltTag" alt="'.$img_alt.'">
 																	'. $sale .'
 																	</a>
 																	<div class="hbw">
@@ -473,7 +480,7 @@ pconsole($_POST);
 																		<a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'" style="margin:0px 20px; line-height:50px; font-size:13px; font-weight:700; text-transform:uppercase;"><i class="fa fa-bars" aria-hidden="true" style="padding-right:10px;"></i>'.__("View Product").'</a>
 																		<div class="product-ajax-qs hidden-xs hidden-sm">
 																			<div class="quick_shop" onclick="quickShop(\''. $item['unique_key'] .'\')">
-																				<i class="fa fa-eye" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>																		
+																				<i class="fa fa-eye" onclick="return getImgTag('.$S_no.')" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>																		
 																			</div>
 																		</div>
 																		'. $wishlist .'
@@ -599,7 +606,7 @@ pconsole($_POST);
 					<div class="row">
 						<div class="col-md-12 product-image">
 							<div id="quick-shop-image" class="product-image-wrapper">
-								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="" data-zoom-image="" alt=""/></a>
+								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="" data-zoom-image="" id="newAlt" alt=""/></a>
 								<div id="gallery_main_qs" class="product-image-thumb">
 								</div>	
 							</div>
@@ -920,4 +927,5 @@ function orderView(e) {
 		}
 	});
 }
+
 </script>

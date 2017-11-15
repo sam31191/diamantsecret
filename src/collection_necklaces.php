@@ -141,7 +141,7 @@ pconsole($_POST);
                                     } else {
                                         $clarityTag = "";
                                     }
-                                    if ( isset($_GET['_sc']) ) {
+                                    if ( isset($_GET['_sc']) && !empty($_GET['_sc']) ) {
                                        
                                       $ringTag = $_GET['_sc'];
 
@@ -422,6 +422,9 @@ pconsole($_POST);
                                                                 $getItem->execute();
                                                                 $allItems = $getItem->fetchAll();
                                                                 foreach ( $allItems as $item) {
+
+                                                                    $S_no++;
+
                                                                     switch ($item['category']) {
                                                                         case 1: {
                                                                             $getItemInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :unique_key");
@@ -478,7 +481,7 @@ pconsole($_POST);
                                                                      $urlSubcategory = '';
                                                          if ( isset($_GET['_sc']) && (int)$ringTag>0) {
                                                             $urlSubcategory = $ringTag;
-                                                        } else if ( isset($_GET['_sc'])) {
+                                                        } else if ( isset($_GET['_sc']) && !empty($_GET['_sc'])) {
                                                             $urlSubcategory = $_GET['_sc'];
                                                          } else {
                                                             $urlSubcategory = $itemInfo['ring_subcategory'];
@@ -489,7 +492,7 @@ pconsole($_POST);
                                                                             <ul class="row-container list-unstyled clearfix">
                                                                                 <li class="row-left">
                                                                                 <a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'" class="container_item"style="max-height:100px">
-                                                                                <img src="'.$__MAINDOMAIN__.'images/images_sm/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="'. $itemInfo['product_name'] .'">
+                                                                                <img src="'.$__MAINDOMAIN__.'images/images_sm/'. $images[0] .'?v='. time() .'" class="img-responsive"  alt="'.$img_alt.'">
                                                                                 </a>
                                                                                 </li>
                                                                                 <li class="row-right parent-fly animMix">
@@ -763,7 +766,12 @@ pconsole($_POST);
                                                     pconsole("Found:". $getAll->rowCount());
                                                     $allItems = $getAll->fetchAll();
 
+                                                    $S_no = 0;
+
                                                     foreach ( $allItems as $item) {
+
+                                                        $S_no++;
+
                                                         $getItemInfo = $pdo->prepare("SELECT * FROM `necklaces` WHERE `unique_key` = :unique_key"); 
                                                         $getItemInfo->execute(array(":unique_key" => $item['unique_key']));
                                                         $itemInfo = $getItemInfo->fetch(PDO::FETCH_ASSOC);
@@ -798,16 +806,19 @@ pconsole($_POST);
 														 $urlSubcategory = '';
                                                          if ( isset($_GET['_sc']) && (int)$ringTag>0) {
                                                             $urlSubcategory = $ringTag;
-                                                        } else if ( isset($_GET['_sc'])) {
+                                                        } else if ( isset($_GET['_sc']) && !empty($_GET['_sc'])) {
                                                             $urlSubcategory = $_GET['_sc'];
                                                          } else {
                                                             $urlSubcategory = $item['ring_subcategory'];
-                                                         }    
+                                                         }
+
+                                                        $img_alt =  makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key'],$alt_tag=1);
+
                                                         $element = '<li class="element no_full_width" data-alpha="" data-price="20000">
                                                                 <ul class="row-container list-unstyled clearfix">
                                                                     <li class="row-left">
                                                                     <a href="'.makeProductDetailPageUrl($urlSubcategory,$item['total_carat_weight'],$item['gold_quality'],$item['material'],$item['item_name'],$item['unique_key']) .'" class="container_item">
-                                                                    <img src="'. $__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive img-custom-collection" alt="">
+                                                                    <img src="'. $__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive img-custom-collection" id="'.$S_no.'-getAltTag" alt="'.$img_alt.'">
                                                                     '. $sale .'
                                                                     </a>
                                                                     <div class="hbw">
@@ -835,7 +846,7 @@ pconsole($_POST);
                                                                         <a href="'.makeProductDetailPageUrl($urlSubcategory,$item['total_carat_weight'],$item['gold_quality'],$item['material'],$item['item_name'],$item['unique_key']) .'" style="margin:0px 20px; line-height:50px; font-size:13px; font-weight:700; text-transform:uppercase;"><i class="fa fa-bars" aria-hidden="true" style="padding-right:10px;"></i>'.__("View Product").'</a>
                                                                         <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                             <div class="quick_shop" onclick="quickShop(\''. $item['unique_key'] .'\')">
-                                                                                <i class="fa fa-eye" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>                                                                       
+                                                                                <i class="fa fa-eye" onclick="return getImgTag('.$S_no.');" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>                                                                       
                                                                             </div>
                                                                         </div>
                                                                         '. $wishlist .'
@@ -901,7 +912,7 @@ pconsole($_POST);
                     <div class="row">
                         <div class="col-md-12 product-image">
                             <div id="quick-shop-image" class="product-image-wrapper">
-                                <a class="main-image"><img class="img-zoom img-responsive image-fly" src="" data-zoom-image="" alt=""/></a>
+                                <a class="main-image"><img class="img-zoom img-responsive image-fly" src="" data-zoom-image="" id="newAlt" alt=""/></a>
                                 <div id="gallery_main_qs" class="product-image-thumb">
                                 </div>  
                             </div>

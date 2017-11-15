@@ -836,7 +836,7 @@ function processUrlParameter($urlParam){
     $urlParam = str_replace("'", "", $urlParam);
     return $urlParam;
 }
-function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$product_name,$unique_key)
+function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$product_name,$unique_key,$alt_tag="")
 {
     global $pdo,$__MAINDOMAIN__,$lang;
     if(is_numeric($subcategory))
@@ -870,7 +870,11 @@ function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$pr
         $materials_str = $materialsQry['category'];
       }
 
+      if(!empty($alt_tag)){
 
+        return strtolower($product_name).' '.strtolower(str_replace("-", " ", __($materials_str))).' '.strtolower(str_replace("-", " ", __($subcategory))).' '.$carat.' ct '.' '.$gold_quality_str;
+      }
+    
     return $__MAINDOMAIN__.$lang.'/'.__('product').'/'.str_replace(" ", "-", strtolower(__($subcategory))).'/'.str_replace(".", "", $carat).'-ct-'.$gold_quality_str.'-'.str_replace(" ", "-", strtolower($materials_str)).'-'.str_replace(" ", "-", strtolower($product_name)).'/'.$unique_key;
 }
 ?>

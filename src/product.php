@@ -190,8 +190,8 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                     <div class="container">
                         <div class="row">              
                             <div id="col-main" class="product-page col-xs-24 col-sm-24 ">
-                                <div itemscope="" itemtype="http://schema.org/Product">
-                                    <meta itemprop="url" content="/products/donec-condime-fermentum">
+                                <div itemscope itemtype="http://schema.org/JewelryStore">
+                                    <meta itemprop="url" content="<?php echo $_SERVER['HTTP_HOST'].''.$_SERVER['REQUEST_URI']; ?>">
                                     <div id="product" class="content clearfix">      
                                         <h1 id="page-title" class="text-center">
                                             <span itemprop="name"><?php echo $itemInfo['product_name']; ?></span>
@@ -264,13 +264,13 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                     <div class="description">
                                                         <fieldset>
                                                             <legend><?php echo __("Description"); ?></legend>
-                                                            <p><?php
+                                                            <p itemprop="description"><?php
                                                             echo $itemInfo['description'];
                                                             ?></p>
                                                         </fieldset>
                                                         <fieldset>
                                                             <legend>La description</legend>
-                                                            <p><?php
+                                                            <p itemprop="description"><?php
                                                             echo $itemInfo['description_french'];
                                                             ?></p>
                                                         </fieldset>
@@ -672,7 +672,10 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                    
 
                                                     $delay = 0;
+                                                    $S_no = 0;
                                                     foreach ( $featuredItems as $product ) {
+
+                                                        $S_no++;
 
                                                         switch ($product['category']) {
                                                         case 1: {
@@ -726,18 +729,20 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             $urlSubcategory = '';
                                                          if ( isset($_GET['_sc']) && (int)$ringTag>0) {
                                                             $urlSubcategory = $ringTag;
-                                                        } else if ( isset($_GET['_sc'])) {
+                                                        } else if ( isset($_GET['_sc']) && !empty($_GET['_sc'])) {
                                                             $urlSubcategory = $_GET['_sc'];
                                                          } else {
                                                             $urlSubcategory = $info['ring_subcategory'];
                                                          } 
+
+                                                         $img_alt =  makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key'],$alt_tag=1);
 
                                                         echo '                                                                                          
                                                     <div class="element no_full_width bounceIn not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
                                                         <ul class="row-container list-unstyled clearfix">
                                                             <li class="row-left">
                                                             <a href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'" class="container_item" style="height:277px;">
-                                                            <img src="'. $__MAINDOMAIN__.'images/images_md/'. $images[0] .'" class="img-responsive" alt="">
+                                                            <img src="'. $__MAINDOMAIN__.'images/images_md/'. $images[0] .'" class="img-responsive" id="'.$S_no.'-getAltTag" alt="'.$img_alt.'" itemprop="photo">
                                                             '. $sale .'
                                                             </a>
                                                             <div class="hbw">
@@ -767,7 +772,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                     <div class="quick_shop" onclick="quickShop(\''. $product['unique_key'] .'\')">
-                                                                        <i class="fa fa-eye" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>                                                                       
+                                                                        <i class="fa fa-eye" onclick="return getImgTag('.$S_no.');" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>                                                                       
                                                                     </div>
                                                                 </div>
                                                                 '. $wishlist .'
@@ -813,7 +818,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                     <div class="row">
                         <div class="col-md-12 product-image">
                             <div id="quick-shop-image" class="product-image-wrapper">
-                                <a class="main-image" style="display: inline-block; max-height: 354px; overflow: hidden;"><img class="img-zoom img-responsive image-fly" src="<?php echo $__MAINDOMAIN__;?>assets/images/demo_354x354.png" data-zoom-image="<?php echo $__MAINDOMAIN__;?>assets/images/demo_354x354.png" alt=""/></a>
+                                <a class="main-image" style="display: inline-block; max-height: 354px; overflow: hidden;"><img class="img-zoom img-responsive image-fly" src="<?php echo $__MAINDOMAIN__;?>assets/images/demo_354x354.png" data-zoom-image="<?php echo $__MAINDOMAIN__;?>assets/images/demo_354x354.png" id="newAlt" alt=""/></a>
                                 <div id="gallery_main_qs" class="product-image-thumb">
                                 </div>  
                             </div>
@@ -857,7 +862,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                         </div>
                                     </div>
                 
-                                    <label class="label-quick-shop"><?php echo __("Material"); ?>" <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label>
+                                    <label class="label-quick-shop"><?php echo __("Material"); ?> <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label>
                                     <input id="quick-shop-material-value" name="material" hidden />
                                     <div class="input-group" id="quick-shop-material">
                                         <a class="btn material-badge" name="1"><?php echo __("Yellow Gold"); ?></a>
@@ -1091,6 +1096,15 @@ function selectImage(image) {
         cursor: "crosshair"
     }); 
 }
+
+function getImgTag(id){
+    
+    var setNewAlt = $('#'+id+'-getAltTag').attr('alt');
+    
+    document.getElementById('newAlt').setAttribute('alt',setNewAlt);
+
+}
+
 function quickDisplay(src) {
     //alert($(src).attr("value"));
     
