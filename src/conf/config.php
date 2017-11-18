@@ -1,4 +1,38 @@
 <?php
+    $__MAINDOMAIN__ = "http://localhost/diamantsecret/src/";
+    $lang = 'fr';
+    
+    $cookie_name = "selectedLang";
+
+if(!isset($_COOKIE[$cookie_name])){
+    try{
+        //$ip = "165.72.200.11"; // European IP address.
+        //$ip = "124.253.3.51"; // It's our IP address.
+        $ip = $_SERVER['REMOTE_ADDR'];       
+        //Using the API to get information about this IP
+        $details = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=$ip"));
+        //Using the geoplugin to get the continent for this IP
+        $continent=$details->geoplugin_continentCode;
+        //And for the country
+        $countryName = $details->geoplugin_countryCode;
+        //If continent is Europe
+
+        if($continent=="EU"){
+            header('location:'.$__MAINDOMAIN__.$lang);
+        }else{
+            $lang = 'en';
+            header('location:'.$__MAINDOMAIN__.$lang);     
+        }
+
+        setcookie($cookie_name, $lang, time() + (3600), "/");
+    }
+    // If there is an exception occurs, redirected to French site url.
+    catch(Exception $e){
+        //header('location:'.$__MAINDOMAIN__.$lang);
+    }
+}
+
+
     /*  MySQL Configuration */
     $host = "localhost";
     $dbname = "diamantsecret";
@@ -16,9 +50,9 @@
     $mailSenderName = "Diamant Secret";
     $__ADMINMAIL__ = "contact@diamantsecret.com";
     $__ADMINNAME__ = "Admin";
-    $__MAINDOMAIN__ = "http://localhost/diamantsecret/src/";
+    //$__MAINDOMAIN__ = "http://localhost/diamantsecret/src/"; // Already defined on top
     $__SITE = "diamant_secret";
-    $lang = 'fr';
+    //$lang = 'fr'; // Already defined on top
     if (isset($_REQUEST['lang']) && ($_REQUEST['lang'] == 'fr' || $_REQUEST['lang'] == 'en')) {
         $lang = $_REQUEST['lang'];
 		
@@ -872,9 +906,11 @@ function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$pr
 
       if(!empty($alt_tag)){
 
-        return strtolower($product_name).' '.strtolower(str_replace("-", " ", __($materials_str))).' '.strtolower(str_replace("-", " ", __($subcategory))).' '.$carat.' ct '.' '.$gold_quality_str;
+        return strtolower($product_name).' '.strtolower(str_replace("-", " ", __($subcategory))).' '.strtolower(str_replace("-", " ", __($materials_str))).' '.$carat.' ct '.' '.$gold_quality_str;
       }
-    
-    return $__MAINDOMAIN__.$lang.'/'.__('product').'/'.str_replace(" ", "-", strtolower(__($subcategory))).'/'.str_replace(".", "", $carat).'-ct-'.$gold_quality_str.'-'.str_replace(" ", "-", strtolower($materials_str)).'-'.str_replace(" ", "-", strtolower($product_name)).'/'.$unique_key;
+
+    return $__MAINDOMAIN__.$lang.'/'.__('product').'/'.processUrlParameter(__(processUrlParameter($subcategory))).'/'.str_replace(".", "", $carat).'-ct-'.$gold_quality_str.'-'.processUrlParameter(__($materials_str)).'-'.str_replace(" ", "-", strtolower($product_name)).'/'.$unique_key;
 }
+
+
 ?>

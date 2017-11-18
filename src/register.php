@@ -197,7 +197,7 @@ if ( isset($_GET['verify']) ) {
 										<li id="last_namef">
 										<label class="control-label" for="username"><?php echo __("Username"); ?> <span class="req">*</span></label>
 											<div class="input-group">
-	<input name="customer[username]" pattern="[a-zA-Z0-9-+$_^!]{2,32}"  id="username" class="form-control invalid" type="text" style="border-right: none;"  title="<?php echo __('please fill out this field.'); ?>" required >
+	<input name="customer[username]" pattern="[a-zA-Z0-9-+$_^!]{2,32}"  id="username" class="form-control invalid" type="text" style="border-right: none;"  title="<?php echo __('please fill out this field.'); ?>"  >
 												<span class="input-group-addon" id="username_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="username_fa" class="fa"></i></span>
 											</div>
 										</li>
@@ -205,7 +205,7 @@ if ( isset($_GET['verify']) ) {
 										<li id="emailf" class="">
 										<label class="control-label" for="email"><?php echo __("Email"); ?> <span class="req">*</span></label>
 											<div class="input-group">
-												<input name="customer[email]" id="email" class="form-control invalid" type="email" style="border-right: none;" title="<?php echo __('please fill out this field.'); ?>" required>
+												<input name="customer[email]" id="email" class="form-control invalid" type="email" style="border-right: none;" title="<?php echo __('please fill out this field.'); ?>" >
 												<span class="input-group-addon" id="email_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="email_fa" class="fa"></i></span>
 											</div>
 										</li>
@@ -213,36 +213,52 @@ if ( isset($_GET['verify']) ) {
 										<li id="passwordf" class="">
 											<label class="control-label" for="password"><?php echo __("Password"); ?> <span class="req">*</span></label>
 											<div class="input-group">
-												<input value="" name="customer[password]" id="password" pattern=".{6,}" title="<?php echo __("Minimum 6 Characters"); ?>" class="form-control password" type="password" style="border-right: none;" required>
+												<input value="" name="customer[password]" id="password" pattern=".{6,}" title="<?php echo __("Minimum 6 Characters"); ?>" class="form-control password" type="password" style="border-right: none;" >
 												<span class="input-group-addon" id="password_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="password_fa" class="fa"></i></span>
 											</div>
 										</li>
 										<li id="passwordf" class="">
 											<label class="control-label" for="password"><?php echo __("Confirm Password"); ?> <span class="req">*</span></label>
 											<div class="input-group">
-												<input value="" name="customer[confirm_password]" id="password_confirm" pattern=".{6,}" title="<?php echo __("Minimum 6 Characters"); ?>" class="form-control password" type="password" style="border-right: none;" required>
+												<input value="" name="customer[confirm_password]" id="password_confirm" pattern=".{6,}" title="<?php echo __("Minimum 6 Characters"); ?>" class="form-control password" type="password" style="border-right: none;" >
 												<span class="input-group-addon" id="password_confirm_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="password_confirm_fa" class="fa"></i></span>
 											</div>
 										</li>
 										<li class="clearfix"></li>
 										<li>
 										<label class="control-label" for="first_name"><?php echo __("First Name"); ?></label>
-										<input name="customer[first_name]" id="first_name" class="form-control" type="text">
+											<div class="input-group">
+												<input name="customer[first_name]" id="first_name" class="form-control" type="text" style="border-right: none;">
+												<span class="input-group-addon" id="first_name_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="first_name_fa" class="fa"></i>
+												</span>
+											</div>
 										</li>
 										<li class="clearfix"></li>
 										<li id="last_namef">
 										<label class="control-label" for="last_name"><?php echo __("Last Name"); ?></label>
-										<input name="customer[last_name]" id="last_name" class="form-control " type="text">
+										<div class="input-group">
+											<input name="customer[last_name]" id="last_name" class="form-control " type="text" style="border-right: none;">
+												<span class="input-group-addon" id="last_name_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="last_name_fa" class="fa"></i>
+												</span>
+										</div>
 										</li>
 										<li class="clearfix"></li>
 										<li id="passwordf" class="">
 										<label class="control-label" for="password"><?php echo __("Phone Number"); ?></label>
-										<input value="" name="customer[phone_number]" id="phone_number" class="form-control" type="text" pattern="[0-9+ ]{0,20}">
+										<div class="input-group">
+											<input value="" name="customer[phone_number]" id="phone_number" class="form-control" type="text" pattern="[0-9+ ]{0,20}" style="border-right: none;">
+												<span class="input-group-addon" id="phone_number_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="phone_number_fa" class="fa"></i>
+												</span>
+											</div>
 										</li>
 										<li class="clearfix"></li>
 										<li id="passwordf" class="">
 										<label class="control-label" for="password"><?php echo __("Address"); ?></label>
-										<input value="" name="customer[address]" id="address" class="form-control" type="text">
+										<div class="input-group">
+											<input value="" name="customer[address]" id="address" class="form-control" type="text" style="border-right: none;">
+											<span class="input-group-addon" id="address_span" style="background: #ffffff; border: solid thin #dedede; border-left: none;"><i id="address_fa" class="fa"></i>
+											</span>
+										</div>
 										</li>
 										<li class="clearfix"></li>
 										<li class="unpadding-top action-last">
@@ -365,6 +381,86 @@ $("#password_confirm").keyup(function(event){
 
 });
 
+$("#first_name").focusout(function(event){
+	$("#first_name").keyup();
+});
+
+$("#first_name").keyup(function(event){
+	if ( $("#first_name").val().length>1 ) {
+		$("#first_name").removeClass("invalid");
+		$("#first_name").addClass("valid");
+		$("#first_name_fa").removeClass("fa-close");
+		$("#first_name_fa").addClass("fa-check");
+		$("#first_name_span").attr("style", "background: #DCEDC8");
+	} else {
+		$("#first_name").removeClass("valid");
+		$("#first_name").addClass("invalid");
+		$("#first_name_fa").removeClass("fa-check");
+		$("#first_name_fa").addClass("fa-close");
+		$("#first_name_span").attr("style", "background: #FFCDD2");
+	}
+});
+
+$("#last_name").focusout(function(event){
+	$("#last_name").keyup();
+});
+
+$("#last_name").keyup(function(event){
+	if ( $("#last_name").val().length>1 ) {
+		$("#last_name").removeClass("invalid");
+		$("#last_name").addClass("valid");
+		$("#last_name_fa").removeClass("fa-close");
+		$("#last_name_fa").addClass("fa-check");
+		$("#last_name_span").attr("style", "background: #DCEDC8");
+	} else {
+		$("#last_name").removeClass("valid");
+		$("#last_name").addClass("invalid");
+		$("#last_name_fa").removeClass("fa-check");
+		$("#last_name_fa").addClass("fa-close");
+		$("#last_name_span").attr("style", "background: #FFCDD2");
+	}
+});
+
+$("#phone_number").focusout(function(event){
+	$("#phone_number").keyup();
+});
+
+$("#phone_number").keyup(function(event){
+	if ( $("#phone_number").val().length < 21 ) {
+		$("#phone_number").removeClass("invalid");
+		$("#phone_number").addClass("valid");
+		$("#phone_number_fa").removeClass("fa-close");
+		$("#phone_number_fa").addClass("fa-check");
+		$("#phone_number_span").attr("style", "background: #DCEDC8");
+	} else {
+		$("#phone_number").removeClass("valid");
+		$("#phone_number").addClass("invalid");
+		$("#phone_number_fa").removeClass("fa-check");
+		$("#phone_number_fa").addClass("fa-close");
+		$("#phone_number_span").attr("style", "background: #FFCDD2");
+	}
+});
+
+$("#address").focusout(function(event){
+	$("#address").keyup();
+});
+
+$("#address").keyup(function(event){
+	if ( $("#address").val().length>1 ) {
+		$("#address").removeClass("invalid");
+		$("#address").addClass("valid");
+		$("#address_fa").removeClass("fa-close");
+		$("#address_fa").addClass("fa-check");
+		$("#address_span").attr("style", "background: #DCEDC8");
+	} else {
+		$("#address").removeClass("valid");
+		$("#address").addClass("invalid");
+		$("#address_fa").removeClass("fa-check");
+		$("#address_fa").addClass("fa-close");
+		$("#address_span").attr("style", "background: #FFCDD2");
+	}
+});
+
 $("#create_customer").submit(function(event){
 	event.preventDefault();
 
@@ -372,44 +468,75 @@ $("#create_customer").submit(function(event){
 		if ( $("#email").hasClass("valid") ) {
 			if ( $("#password").hasClass("valid") ) {
 				if ( $("#password").val() == $("#password_confirm").val() ) {
-					$.ajax({
-						url: '<?php echo $__MAINDOMAIN__;?>url/ajax.php?register=' + $("#username").val(),
-						type: 'POST',
-						data: $("#create_customer").serialize(),
-						beforeSend: function(){
-							$("#submitButton img").show();
-							$("#submitButton img").focus();
-							$("#submitButton span").text("Registering..");
-						},
-						success: function(result) {
-							console.log(result);
-							$("#submitButton img").hide();
-							$("#submitButton span").text("Registered");
-							$("#notificationBox").html("<span>"+ result +"</span>");
-		        			if ( $("#notificationBox").is(":hidden") ) {
-					          $("#notificationBox").toggle(500).delay(10000).toggle(500);
-					      	}
+					if ( $("#first_name").hasClass("valid") ) {
+						if ( $("#last_name").hasClass("valid") ) {
+							if ( $("#phone_number").hasClass("valid") ) {
+								if ( $("#address").hasClass("valid") ) {
+							$.ajax({
+								url: '<?php echo $__MAINDOMAIN__;?>url/ajax.php?register=' + $("#username").val(),
+								type: 'POST',
+								data: $("#create_customer").serialize(),
+								beforeSend: function(){
+									$("#submitButton img").show();
+									$("#submitButton img").focus();
+									$("#submitButton span").text("Registering..");
+								},
+								success: function(result) {
+									console.log(result);
+									$("#submitButton img").hide();
+									$("#submitButton span").text("Registered");
+									$("#notificationBox").html("<span>"+ result +"</span>");
+				        			if ( $("#notificationBox").is(":hidden") ) {
+							          $("#notificationBox").toggle(500).delay(10000).toggle(500);
+							      	}
 
-					      	$("#stubAlert").val(result);
-					      	$("#stubAlertForm").submit();						
-					      }
-					});
+							      	$("#stubAlert").val(result);
+							      	$("#stubAlertForm").submit();						
+							      }
+							});
+
+
+
 				} else { 
-					$("#notificationBox").html("<span>Please check your passwords</span>");
+					$("#notificationBox").html("<span><?php echo addslashes(__("Please enter your address")); ?></span>");
+		        	if ( $("#notificationBox").is(":hidden") ) {
+			          $("#notificationBox").toggle(500).delay(10000).toggle(500); 
+			      	}
+				}
+			} else { 
+					$("#notificationBox").html("<span><?php echo addslashes(__("Please enter your phone number")); ?></span>");
+		        	if ( $("#notificationBox").is(":hidden") ) {
+			          $("#notificationBox").toggle(500).delay(10000).toggle(500); 
+			      	}
+				}
+			} else { 
+					$("#notificationBox").html("<span><?php echo addslashes(__("Please enter your last name")); ?></span>");
+		        	if ( $("#notificationBox").is(":hidden") ) {
+			          $("#notificationBox").toggle(500).delay(10000).toggle(500); 
+			      	}
+				}
+			} else { 
+					$("#notificationBox").html("<span><?php echo addslashes(__("Please enter your first name")); ?></span>");
+		        	if ( $("#notificationBox").is(":hidden") ) {
+			          $("#notificationBox").toggle(500).delay(10000).toggle(500); 
+			      	}
+				}
+			} else { 
+					$("#notificationBox").html("<span><?php echo addslashes(__("Please check your passwords")); ?></span>");
 		        	if ( $("#notificationBox").is(":hidden") ) {
 			          $("#notificationBox").toggle(500).delay(10000).toggle(500); 
 			      	}
 				}
 
 			} else {
-		        $("#notificationBox").html("<span>Please check your passwords</span>");
+		        $("#notificationBox").html("<span><?php echo addslashes(__("Please check your passwords")); ?></span>");
 		        if ( $("#notificationBox").is(":hidden") ) {
 		          $("#notificationBox").toggle(500).delay(10000).toggle(500); 
 		      	}
 		      	$("#password").focus();
 			}
 		} else {
-	        $("#notificationBox").html("<span>Invalid Email</span>");
+	        $("#notificationBox").html("<span><?php echo addslashes(__("Invalid Email")); ?></span>");
 	        if ( $("#notificationBox").is(":hidden") ) {
 	          $("#notificationBox").toggle(500).delay(10000).toggle(500); 
 	      	}
@@ -417,7 +544,7 @@ $("#create_customer").submit(function(event){
 			// Invalid Email
 		}
 	} else {
-        $("#notificationBox").html("<span>Username not available</span>");
+        $("#notificationBox").html("<span><?php echo addslashes(__("Username not available")); ?></span>");
         if ( $("#notificationBox").is(":hidden") ) {
           $("#notificationBox").toggle(500).delay(10000).toggle(500); 
       	}

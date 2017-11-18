@@ -162,14 +162,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																<div class="home_collections_item">
 																	<div class="home_collections_item_inner">
 																		<div class="collection-details">
-																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>" title="<?php echo __("Browse our Earrings"); ?>">
+																			<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.processUrlParameter(__('earrings')); ?>" title="<?php echo __("Browse our Earrings"); ?>">
 																			<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/earring_270x270.png" alt="Earrings">
 																			</a>
 																		</div>
 																		<div class="hover-overlay">
 																			<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(str_replace(" ","-",str_replace("'","",__('earrings')))); ?>"><?php echo __("Earrings"); ?></a></span>
 																			<div class="collection-action">
-																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>"><?php echo __("See the Collection"); ?></a>
+																				<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.processUrlParameter(__('earrings')); ?>"><?php echo __("See the Collection"); ?></a>
 																			</div>
 																		</div>
 																	</div>
