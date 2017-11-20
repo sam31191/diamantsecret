@@ -906,7 +906,7 @@ function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$pr
 
       if(!empty($alt_tag)){
 
-        return strtolower($product_name).' '.strtolower(str_replace("-", " ", __($subcategory))).' '.strtolower(str_replace("-", " ", __($materials_str))).' '.$carat.' ct '.' '.$gold_quality_str;
+        return strtolower($product_name).' '.strtolower(str_replace("-", " ", __($subcategory))).' '.strtolower(str_replace("-", " ", __($materials_str))).' '.$carat.' ct '.$gold_quality_str;
       }
 
     return $__MAINDOMAIN__.$lang.'/'.__('product').'/'.processUrlParameter(__(processUrlParameter($subcategory))).'/'.str_replace(".", "", $carat).'-ct-'.$gold_quality_str.'-'.processUrlParameter(__($materials_str)).'-'.str_replace(" ", "-", strtolower($product_name)).'/'.$unique_key;

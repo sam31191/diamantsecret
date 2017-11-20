@@ -1,5 +1,8 @@
 <?php
+ob_start();
+session_start();
 if ( session_status() == PHP_SESSION_NONE ) {
+    
     session_start();
 }
 if ( !isset($_GET['view']) || empty($_GET['view']) ) {
@@ -9,6 +12,50 @@ if ( !isset($_GET['view']) || empty($_GET['view']) ) {
 include 'conf/config.php';
 include './url/pre.php';
 
+$_GET['view'];
+$getItem = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :unique_key AND site_0 = 1 AND disabled = 0");
+
+$getItem->execute(array(":unique_key" => $_GET['view']));
+
+if ( $getItem->rowCount() > 0 ) {
+    $item = $getItem->fetch(PDO::FETCH_ASSOC);
+
+    $getCategory = $pdo->prepare("SELECT * FROM `categories` WHERE `id` = :id");
+    $getCategory->execute(array(":id" => $item['category']));
+    $category = $getCategory->fetch(PDO::FETCH_ASSOC);
+    
+    $category = $category['category'];
+  
+    $table = '`'. $category .'`';
+
+    $itemInfo = $pdo->prepare("SELECT * FROM ". $table ." WHERE `unique_key` = :unique_key");
+    $itemInfo->execute(array(":unique_key" => $_GET['view']));
+
+    $itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
+
+    $images = explode(",", $itemInfo['images']);
+} else {   
+    $itemInfo['description'] = "";   
+}
+
+$urlSubcategory = '';
+if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+    $urlSubcategory = $ringTag;
+} else if ( isset($_GET['_sc']) && !empty($_GET['_sc'])) {
+    $urlSubcategory = $_GET['_sc'];
+} else {
+    $urlSubcategory = $itemInfo['ring_subcategory'];
+}
+
+$img_alt =  makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key'],$alt_tag=1);
+
+
+//echo $new_rul =  makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']);
+
+
+if ( !is_file( './images/images_md/'. $images[0] ) ) {
+    $images[0] = "0.png";
+}
 ?>
 <!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -19,10 +66,10 @@ include './url/pre.php';
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
-  <meta name="description" content="" />  
+  <meta name="description" content="<?php echo $itemInfo['description']; ?>" /> 
   <title></title>
-  
-    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
+  <?php require 'metaTags.php'; ?>
+  <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.camera.css" rel="stylesheet" type="text/css" media="all">
@@ -93,6 +140,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 
 <body onload="setPageTitle();" style="height: 2671px;" itemscope="" itemtype="http://schema.org/WebPage" class="templateProduct notouch">
   
+  <input type="hidden" id="changeURL" value="<?php echo makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']); ?>">
     <!-- Header -->
     <!-- Header -->
     <?php include './url/header.php'; ?>
@@ -196,6 +244,22 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                         <h1 id="page-title" class="text-center">
                                             <span itemprop="name"><?php echo $itemInfo['product_name']; ?></span>
                                         </h1>
+                                        <?php $urlSubcategory = '';
+                                                        if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+                                                            $urlSubcategory = $ringTag;
+                                                        } else if ( isset($_GET['_sc']) && !empty($_GET['_sc'])) {
+                                                            $urlSubcategory = $_GET['_sc'];
+                                                         } else {
+                                                            $urlSubcategory = $itemInfo['ring_subcategory'];
+                                                         }
+                                            $total_carat_weight =  $itemInfo['total_carat_weight'];
+                                            $gold_quality =  $itemInfo['gold_quality'];
+                                            $material =  $itemInfo['material'];
+                                            $product_name =  $itemInfo['product_name'];
+                                            $unique_key =  $itemInfo['unique_key'];
+
+
+                                         ?>                                    
                                         <div id="product-image" class="product-image row ">  
                                             <div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated" data-animate="fadeInRight">
                                                 <div id="gallery_main" class="product-image-thumb thumbs full_width ">
@@ -792,8 +856,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             </div>
                                                             </li>
                                                         </ul>
-                                                    </div>';
-
+                                                    </div>';                                                   
                                                     $delay += 200;
                                                     }
                                                     ?>                        
@@ -1135,4 +1198,16 @@ function setPageTitle(){
         document.title = '<?php echo __("Product"); ?>';
     }
 }
+/*if(!isset($_SESSION['change_lang']) && empty($_SESSION['change_lang'])){
+    echo "string";
+    echo $_SESSION['change_lang']=1;*/ 
+
+    
+ 
+    
+//}
+
+?>
+ 
 </script>
+<!--<script type="text/javascript">alert(); window.location.href = "<?php echo $new_rul  ?>"</script> -->

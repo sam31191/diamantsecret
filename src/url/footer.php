@@ -83,7 +83,8 @@
     </div>   
   </footer>
 
-  <script>
+
+  <script type="text/javascript">
 
   $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
@@ -118,6 +119,31 @@ function getImgTag(id){
     document.getElementById('newAlt').setAttribute('alt',setNewAlt);
 
 }
+
+
+
+
+/*function urlclick(currentLang,changeLang){
+
+  <?php //unset($_SESSION['change_lang']); ?>
+  
+  var current_url = document.URL;
+  
+  current_url = current_url.replace("/"+currentLang+"/", "/"+changeLang+"/"); 
+
+  var lastPart = current_url.substr(current_url.lastIndexOf('/') + 1);*/
+
+  //window.location.href = current_url;
+
+//var product_url = $("#changeURL").val();
+
+//alert(product_url);
+<?php //unset($_SESSION['change_lang']); ?>
+  // window.location.href = current_url;
+
+
+//}
+
   </script>
 
 

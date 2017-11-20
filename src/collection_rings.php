@@ -83,15 +83,24 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 pconsole($_POST);
 
 
+    /*$en_arr = array('diamond-ring' => '',
+                )
+
+    $fr_arr = array('' => 'diamond-ring',
+                )*/
+
 ?>
 
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templateCollection notouch">
+    
+    <?php if(isset($_GET['lang']) && $_GET['lang']=='en'){ ?>
+            <input type="text" name="changeURL" id="changeURL" value="bagues<?php if(isset($_REQUEST['_sc']) && trim($_REQUEST['_sc']) !='' && isset($en_arr[$_REQUEST['_sc'].'-ring'])) {  echo "/".$en_arr[$_REQUEST['_sc'].'-ring'];  } ?>">
+
+    <?php }else{  ?>
+            <input type="text" name="changeURL" id="changeURL" value="rings<?php if(isset($_REQUEST['_sc']) && trim($_REQUEST['_sc']) !='' && isset($fr_arr['bague-'.$fr_arr[$_REQUEST['_sc']]])) {  echo "/".$fr_arr['bague-'.$fr_arr[$_REQUEST['_sc']]];  } ?>">
+    <?php } ?>
     <!-- Header -->
-    <?php include './url/header.php'; 
-
-
-
-    ?>
+    <?php include './url/header.php'; ?>
   
     <div id="content-wrapper-parent">
         <div id="content-wrapper">  

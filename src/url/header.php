@@ -43,15 +43,25 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 	echo '<script>$("#notificationBox").toggle(500).delay(2000).toggle(500);  $("#notificationBox").html("<span>'. $notify .'</span>");  </script>';
 
 }*/
+
 ?>
 <script type="text/javascript">
 function urlclick(currentLang,changeLang){
 	
 	var current_url = document.URL;
-	
-	current_url = current_url.replace("/"+currentLang+"/", "/"+changeLang+"/");
-	
-	window.location.href = current_url;
+
+	var productUrl = '';
+	if($("#changeURL").length > 0){
+		productUrl = $("#changeURL").val();
+	}	
+
+	if(productUrl!=''){
+		
+		window.location.href = "<?php echo $__MAINDOMAIN__;?>"+changeLang+"/"+productUrl;
+	}else{
+		current_url = current_url.replace("/"+currentLang+"/", "/"+changeLang+"/");
+		window.location.href = current_url;
+	}
 
 }
 </script>
