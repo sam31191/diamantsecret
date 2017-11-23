@@ -81,6 +81,20 @@ pconsole($_POST);
 ?>
 
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templateCollection notouch">
+    <?php
+        $makeInLang = 'en';
+        $opposite_category = "bracelets";
+        $makeOppositeSubcategory = '';
+        
+        if(isset($_GET['lang']) && $_GET['lang']=='en'){ 
+            $makeInLang = 'fr';
+            $opposite_category = "bracelets";
+        }
+        if(isset($_REQUEST['_sc']) && trim($_REQUEST['_sc'])!='') {
+            $makeOppositeSubcategory = trim($_REQUEST['_sc']);
+        }
+    ?>
+    <input type="hidden" name="changeURL" id="changeURL" value="<?php echo makeOppositeUrlFromCurrentLang($opposite_category,$makeOppositeSubcategory,$makeInLang,0);?>">
     <!-- Header -->
     <?php include './url/header.php'; ?>
   
@@ -143,7 +157,16 @@ pconsole($_POST);
                                     }
                                     if ( isset($_GET['_sc']) && !empty($_GET['_sc']) ) {
                                         
-                                      $ringTag = $_GET['_sc'];
+                                      
+                                        $ringTag = $_GET['_sc'];
+
+                                        if($_GET['lang']){
+                                            if(!empty($ringTag) && $_GET['lang']=='fr'){
+                                                $ringTag = $fr_subcategory_arr[$ringTag];
+                                            }else if(!empty($ringTag) && $_GET['lang']=='en'){
+                                                $ringTag = $_GET['_sc'];
+                                            }
+                                        }
 
                                       $data=$pdo->prepare("select id from ring_subcategory WHERE category='".ucwords(strtolower(str_replace("-"," ", $ringTag)))." Bracelet' and category_id = 5");
                                       $data->execute();

@@ -1,15 +1,9 @@
 <?php
-if ( session_status() == PHP_SESSION_NONE ) {
-	session_start();
-}
-include 'conf/config.php';
-include './url/pre.php';
-
-
-
-
-
-
+	if ( session_status() == PHP_SESSION_NONE ) {
+		session_start();
+	}
+	include 'conf/config.php';
+	include './url/pre.php';
 ?>
 <!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -160,7 +154,7 @@ pconsole($_POST);
 												<div class="home_collections">
 													<div class="home_collections_wrapper">												
 														<div id="home_collections">
-																		<div class="home_collections_item" style="width: 200px;">
+															<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
 																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings" title="<?php echo __("Browse our Rings"); ?>">

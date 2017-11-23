@@ -4,6 +4,7 @@
     
     $cookie_name = "selectedLang";
 
+require_once('subCategoryArrays.php');
 if(!isset($_COOKIE[$cookie_name])){
     try{
         //$ip = "165.72.200.11"; // European IP address.
@@ -24,7 +25,7 @@ if(!isset($_COOKIE[$cookie_name])){
             header('location:'.$__MAINDOMAIN__.$lang);     
         }
 
-        setcookie($cookie_name, $lang, time() + (3600), "/");
+        setcookie($cookie_name, $lang, time() + (86400), "/");
     }
     // If there is an exception occurs, redirected to French site url.
     catch(Exception $e){
@@ -36,7 +37,7 @@ if(!isset($_COOKIE[$cookie_name])){
     /*  MySQL Configuration */
     $host = "localhost";
     $dbname = "diamantsecret";
-    $dbname = "db_diamantsecret_v6";
+    //$dbname = "db_diamantsecret_v6";
     $user = "root";
     $pass = "";
 
@@ -905,12 +906,64 @@ function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$pr
       }
 
       if(!empty($alt_tag)){
+          $subcategory = strtolower($subcategory);
+          $subcategory = strtolower(str_replace(" ","-",$subcategory));
+          $subcategory = strtolower(__($subcategory));
 
-        return strtolower($product_name).' '.strtolower(str_replace("-", " ", __($subcategory))).' '.strtolower(str_replace("-", " ", __($materials_str))).' '.$carat.' ct '.$gold_quality_str;
+        return strtolower($product_name).' '.str_replace("-"," ",$subcategory).' '.strtolower(str_replace("-", " ", __($materials_str))).' '.$carat.' ct '.$gold_quality_str;
       }
-
-    return $__MAINDOMAIN__.$lang.'/'.__('product').'/'.processUrlParameter(__(processUrlParameter($subcategory))).'/'.str_replace(".", "", $carat).'-ct-'.$gold_quality_str.'-'.processUrlParameter(__($materials_str)).'-'.str_replace(" ", "-", strtolower($product_name)).'/'.$unique_key;
+      
+        return $__MAINDOMAIN__.$lang.'/'.__('product').'/'.processUrlParameter(__(processUrlParameter($subcategory))).'/'.str_replace(".", "", $carat).'-ct-'.$gold_quality_str.'-'.processUrlParameter(__($materials_str)).'-'.str_replace(" ", "-", strtolower($product_name)).'/'.$unique_key;
+    
 }
 
+function makeOppositeUrlFromCurrentLang($category,$subcategory,$makeInLang,$pickSameArr = 0){
+    global $en_subcategory_arr, $fr_subcategory_arr, $cat_fr_to_en;
+    $url = strtolower($category);
+
+    
+    $category = strtolower($category);
+    
+    if(isset($cat_fr_to_en) && isset($cat_fr_to_en[$category])) {
+        $category = $cat_fr_to_en[$category];
+    }
+    
+    $subcategory = strtolower($subcategory);
+    
+    //replace plural category name like rings from subcategory
+    $subcategory = str_replace($category,"",$subcategory);
+
+    //replace singular category name like ring from subcategory
+    $remove_last_s_from_category = substr($category,0,strlen($category)-1);    
+    $subcategory = str_replace($remove_last_s_from_category,"",$subcategory);
+
+    //remove last space from subcategory
+    $subcategory = trim($subcategory); 
+
+    //replace all white spaces with hyphen
+    $subcategory = preg_replace('/\s+/', '-', $subcategory);
+   
+
+
+    switch ($makeInLang) {
+        case 'fr':
+            if(trim($subcategory)!='' && isset($en_subcategory_arr[trim($subcategory)])) {
+                //for opposite url
+                $url .= '/'.$en_subcategory_arr[trim($subcategory)];
+            } 
+            break;
+        case 'en':
+            if(trim($subcategory)!='' && $pickSameArr == 1) {
+              $url .= '/'.trim($subcategory);  
+            } else if(trim($subcategory)!='' && isset($fr_subcategory_arr[trim($subcategory)])) {
+                $url .= '/'.$fr_subcategory_arr[trim($subcategory)];
+            } 
+            break;
+        default:
+           
+            break;
+    }
+    return $url; 
+}
 
 ?>

@@ -139,8 +139,8 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 ?>
 
 <body onload="setPageTitle();" style="height: 2671px;" itemscope="" itemtype="http://schema.org/WebPage" class="templateProduct notouch">
-  
-  <input type="hidden" id="changeURL" value="<?php echo makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']); ?>">
+  <!-- input type="hidden"  id="changeURL" -->
+  <input type="hidden"  value="<?php echo makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']); ?>">
     <!-- Header -->
     <!-- Header -->
     <?php include './url/header.php'; ?>
@@ -148,6 +148,15 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
     <div id="content-wrapper-parent">
         <div id="content-wrapper">  
             <!-- Content -->
+
+            <input type="hidden" name="urlSubcategory" id="urlSubcategory" value="<?php echo $urlSubcategory;?>">
+            <input type="hidden" name="total_carat_weight" id="total_carat_weight" value="<?php echo $itemInfo['total_carat_weight']?>">
+            <input type="hidden" name="gold_quality" id="gold_quality" value="<?php echo $itemInfo['gold_quality']?>">
+            <input type="hidden" name="material" id="material" value="<?php echo $itemInfo['material']?>">
+            <input type="hidden" name="product_name" id="product_name" value="<?php echo $itemInfo['product_name']?>">
+
+            <input type="hidden" name="product_id" id="product_id" value="<?php echo $itemInfo['unique_key']?>">
+          
             <div id="content" class="clearfix">        
                 <div id="breadcrumb" class="breadcrumb">
                     <div itemprop="breadcrumb" class="container">
@@ -1207,7 +1216,7 @@ function setPageTitle(){
     
 //}
 
-?>
+
  
 </script>
-<!--<script type="text/javascript">alert(); window.location.href = "<?php echo $new_rul  ?>"</script> -->
+<!--<script type="text/javascript">alert(); window.location.href = "<php echo $new_rul  ?>"</script> -->
