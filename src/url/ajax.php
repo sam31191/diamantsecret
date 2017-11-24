@@ -7,8 +7,6 @@ include './../conf/config.php';
 require("./../lib/PayPal/vendor/autoload.php");
 use PayPal\Api\Payment;
 
-
-print_r($_REQUEST);
 if ( isset($_GET['addtoFav'])) {
 	if ( !$_SESSION['loggedIn'] ) {
 		die();
@@ -46,6 +44,7 @@ if ( isset($_GET['removeFromFav'])) {
 }
 
 if ( isset($_GET['subscribe']) ) {
+
 	$email = trim($_GET['subscribe']);
 
 	$checkSub = $pdo->prepare("SELECT * FROM `subscribers` WHERE `email` = :email AND `site_id` = 1");

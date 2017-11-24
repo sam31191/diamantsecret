@@ -73,7 +73,7 @@
 		<div class="footer-content footer-content-bottom clearfix">
 			<div class="container">
 				<div class="copyright col-md-12">
-					© 2016 <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>contact">Diamant Secret</a>. <?php echo __("All Rights Reserved"); ?>.
+					© <?php echo date("Y") ?> <a href="<?php echo $__MAINDOMAIN__.$lang.'/'?>contact">Diamant Secret</a>. <?php echo __("All Rights Reserved"); ?>.
 				</div>
 				<div id="widget-payment" class="col-md-12" style="text-align:right">
 					<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/logo.png" style="width:200px" />
@@ -93,7 +93,7 @@
 		event.preventDefault();
 		email = $("#email-input").val();
 		$.ajax({
-			url: '<?php echo $__MAINDOMAIN__;?>url/ajax.php?subscribe='+email,
+			url: '<?php echo $__MAINDOMAIN__;?>url/ajax.php?subscribe='+email+"&lang=<?php  echo $_GET['lang']?>",
 			type: 'GET',
 			beforeSend: function(){
 				$("#subscribe-loading-img").show();

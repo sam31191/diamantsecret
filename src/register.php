@@ -109,6 +109,7 @@ if ( isset($_POST['register']) ) {
 if ( isset($_POST['q']) ) {
 	$alert = __($_POST['q']);
 }
+
 if ( isset($_GET['verify']) ) {
 	$verify = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :verify");
 	$verify->execute(array(":verify" => $_GET['verify']));
