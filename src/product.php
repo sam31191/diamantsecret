@@ -208,7 +208,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                         
                                         //pconsole($itemInfo);
 
-                                    echo '<a href="'.$__MAINDOMAIN__.$lang.'/'.$category.'" style="text-transform:capitalize;">'.__("$category").'</a>';
+                                    echo '<a href="'.$__MAINDOMAIN__.$lang.'/'.processUrlParameter(__($category)).'" style="text-transform:capitalize;">'.__($category).'</a>';
                                         echo '<span>/</span>';
                                         echo '<span>'. $item['item_name'] .'</span>';
                                     } else {
