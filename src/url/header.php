@@ -10,7 +10,7 @@ if ( isset($_POST['action']['logout']) ) {
 	session_unset();
 	session_destroy();
 
-	echo '<script> window.location.href = "'.$__MAINDOMAIN__.$lang.'/home"; </script>';
+	echo '<script> window.location.href = "'.$__MAINDOMAIN__.$lang.'/"; </script>';
 	die();
 }
 if ( !isset($_SESSION['loggedIn']) ) {
@@ -43,17 +43,36 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 	echo '<script>$("#notificationBox").toggle(500).delay(2000).toggle(500);  $("#notificationBox").html("<span>'. $notify .'</span>");  </script>';
 
 }*/
+
 ?>
 <script type="text/javascript">
-function urlclick(currentLang,changeLang){
-	
-	var current_url = document.URL;
-	
-	current_url = current_url.replace("/"+currentLang+"/", "/"+changeLang+"/");
-	
-	window.location.href = current_url;
+  /*function urlclick(currentLang,changeLang){
+    
+    var current_url = document.URL;
+   
+    /*current_url = current_url.replace("/"+currentLang+"/", "/"+changeLang+"/");
 
-}
+    window.location.href = current_url;*/
+
+    /*var phpLang = '';
+	<?php if(isset($_GET['lang']) && trim($_GET['lang'])!='') {?>
+		phpLang = '<?php echo $_GET['lang']; ?>';
+	<?php } ?>
+	var productUrl = '';
+	if($("#changeURL").length > 0){
+		productUrl = $("#changeURL").val();
+	}	
+
+	if(productUrl!='' && phpLang!=changeLang){
+		
+		window.location.href = "<?php echo $__MAINDOMAIN__;?>"+changeLang+"/"+productUrl;
+	}else{
+		current_url = current_url.replace("/"+currentLang+"/", "/"+changeLang+"/");
+		window.location.href = current_url;
+	}*/
+    
+
+  /*}*/
 </script>
 	<header id="top" class="clearfix" style="    background: rgba(255,255,255,0.6);">
 		<!--top-->
@@ -154,7 +173,7 @@ function urlclick(currentLang,changeLang){
 			<div class="top-navigation">
 				<ul class="list-inline">
 					<li class="top-logo">
-						<a id="site-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('home')?>" title="Diamant Secret">          
+						<a id="site-title" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'; ?>" title="Diamant Secret">          
 						<img class="img-responsive" src="<?php echo $__MAINDOMAIN__;?>images/gfx/logo.png" alt="Diamant Secret" style="max-width: 220px; margin:2px">
 						</a>
 					</li>
@@ -224,12 +243,12 @@ function urlclick(currentLang,changeLang){
 								<div class="collapse navbar-collapse">
 									<ul class="nav navbar-nav hoverMenuWrapper">
 										<li class="nav-item active">
-										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('home')?>">
-										<span><?php echo __("Home"); ?></span>
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>">
+										<span><?php echo ucfirst(__("home")); ?></span>
 										</a>
 										</li>
 										<li class="dropdown mega-menu">
-										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" class="dropdown-toggle dropdown-link" data-toggle="dropdown" onclick="window.location.href= '<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection'">
+										<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Collection')); ?>" class="dropdown-toggle dropdown-link" data-toggle="dropdown" onclick="window.location.href= '<?php echo $__MAINDOMAIN__.''.$lang.'/'?>collection'">
 										<span><?php echo __("Collections"); ?></span>
 										<i class="fa fa-caret-down"></i>
 										<i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
@@ -248,10 +267,21 @@ function urlclick(currentLang,changeLang){
 															$query = $query->fetchAll();
 
 															foreach ( $query as $option ) {
-																$tag = $option['category'];
-																$tag = str_replace("Ring", " ", $tag);
+																
+																if(isset($_GET['lang'])){
+																	
+																	if($_GET['lang']=='fr'){
+																		$tag = $option['category'];
 
-																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.''.$lang.'/'.processUrlParameter(__('Rings')).'/'. str_replace("-ring","",str_replace(" ","-",strtolower($option['category']))) .'">'. $tag .'</a></li>';
+																		$tag = strtolower(str_replace(" ","-",$tag));
+																		$tag = str_replace("Bague ", " ", __($tag));
+																	}else{
+																		$tag = $option['category'];
+																		$tag = str_replace("Ring", " ", $tag);
+																	}
+															  	}
+
+																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.$lang.'/'.makeOppositeUrlFromCurrentLang(__('Rings'),$option['category'],$lang,1).'">'. $tag .'</a></li>';
 															}
 														}
 														?>
@@ -266,11 +296,21 @@ function urlclick(currentLang,changeLang){
 														if ( $query->rowCount() > 0 ) {
 															$query = $query->fetchAll();
 															foreach ( $query as $option ) {
-																$tag = $option['category'];
-																$tag = str_replace("Earrings", " ", $tag);
+																
+																if(isset($_GET['lang'])){
+																	
+																	if($_GET['lang']=='fr'){
+																		$tag = $option['category'];
 
+																		$tag = strtolower(str_replace(" ","-",$tag));
+																		$tag = str_replace("Boucles d'oreilles ", " ", __($tag));
+																	}else{
+																		$tag = $option['category'];
+																		$tag = str_replace("Earrings", " ", $tag);
+																	}
+															  	}
 
-																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Earrings')).'/'. str_replace("-earrings","",str_replace(" ","-",strtolower($option['category']))) .'">'. $tag .'</a></li>';
+																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.$lang.'/'.makeOppositeUrlFromCurrentLang(processUrlParameter(__("Earrings")),$option['category'],$lang,1).'">'. $tag .'</a></li>';
 															}
 														}
 														?>
@@ -285,9 +325,21 @@ function urlclick(currentLang,changeLang){
 														if ( $query->rowCount() > 0 ) {
 															$query = $query->fetchAll();
 															foreach ( $query as $option ) {
-																$tag = $option['category'];
-																$tag = str_replace("Pendant", " ", $tag);
-																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Pendants')).'/'. str_replace("-pendant","",str_replace(" ","-",strtolower($option['category']))) .'">'.  $tag .'</a></li>';
+																
+																if(isset($_GET['lang'])){
+																	
+																	if($_GET['lang']=='fr'){
+																		$tag = $option['category'];
+
+																		$tag = strtolower(str_replace(" ","-",$tag));
+																		$tag = str_replace("Pendentif ", " ", __($tag));
+																	}else{
+																		$tag = $option['category'];
+																		$tag = str_replace("Pendant", " ", $tag);
+																	}
+															  	}
+
+																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.$lang.'/'.makeOppositeUrlFromCurrentLang(__('Pendants'),$option['category'],$lang,1).'">'. $tag .'</a></li>';
 															}
 														}
 														?>
@@ -302,9 +354,21 @@ function urlclick(currentLang,changeLang){
 														if ( $query->rowCount() > 0 ) {
 															$query = $query->fetchAll();
 															foreach ( $query as $option ) {
-																$tag = $option['category'];
-																$tag = str_replace("Necklace", " ", $tag);
-																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Necklaces')).'/'. str_replace("-necklace","",str_replace(" ","-",strtolower($option['category']))) .'">'. $tag .'</a></li>';
+																
+																if(isset($_GET['lang'])){
+																	
+																	if($_GET['lang']=='fr'){
+																		$tag = $option['category'];
+
+																		$tag = strtolower(str_replace(" ","-",$tag));
+																		$tag = str_replace("Collier ", " ", __($tag));
+																	}else{
+																		$tag = $option['category'];
+																		$tag = str_replace("Necklace", " ", $tag);
+																	}
+															  	}
+																
+																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.$lang.'/'.makeOppositeUrlFromCurrentLang(__('Necklaces'),$option['category'],$lang,1).'">'. $tag .'</a></li>';
 															}
 														}
 														?>
@@ -319,9 +383,21 @@ function urlclick(currentLang,changeLang){
 														if ( $query->rowCount() > 0 ) {
 															$query = $query->fetchAll();
 															foreach ( $query as $option ) {
-																$tag = $option['category'];
-																$tag = str_replace("Bracelet", " ", $tag);
-																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('Bracelets')).'/'. str_replace("-bracelet","",str_replace(" ","-",strtolower($option['category']))) .'">'. $tag .'</a></li>';
+
+																if(isset($_GET['lang'])){
+																	
+																	if($_GET['lang']=='fr'){
+																		$tag = $option['category'];
+
+																		$tag = strtolower(str_replace(" ","-",$tag));
+																		$tag = str_replace("Bracelet ", " ", __($tag));
+																	}else{
+																		$tag = $option['category'];
+																		$tag = str_replace("Bracelet", " ", $tag);
+																	}
+															  	}
+
+																echo '<li><a class="collection-link" href="'.$__MAINDOMAIN__.$lang.'/'.makeOppositeUrlFromCurrentLang(__('Bracelets'),$option['category'],$lang,1).'">'. $tag .'</a></li>';
 															}
 														}
 														?>

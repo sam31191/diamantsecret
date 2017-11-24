@@ -1,5 +1,8 @@
 <?php
+ob_start();
+session_start();
 if ( session_status() == PHP_SESSION_NONE ) {
+    
     session_start();
 }
 if ( !isset($_GET['view']) || empty($_GET['view']) ) {
@@ -9,6 +12,50 @@ if ( !isset($_GET['view']) || empty($_GET['view']) ) {
 include 'conf/config.php';
 include './url/pre.php';
 
+$_GET['view'];
+$getItem = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :unique_key AND site_0 = 1 AND disabled = 0");
+
+$getItem->execute(array(":unique_key" => $_GET['view']));
+
+if ( $getItem->rowCount() > 0 ) {
+    $item = $getItem->fetch(PDO::FETCH_ASSOC);
+
+    $getCategory = $pdo->prepare("SELECT * FROM `categories` WHERE `id` = :id");
+    $getCategory->execute(array(":id" => $item['category']));
+    $category = $getCategory->fetch(PDO::FETCH_ASSOC);
+    
+    $category = $category['category'];
+  
+    $table = '`'. $category .'`';
+
+    $itemInfo = $pdo->prepare("SELECT * FROM ". $table ." WHERE `unique_key` = :unique_key");
+    $itemInfo->execute(array(":unique_key" => $_GET['view']));
+
+    $itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
+
+    $images = explode(",", $itemInfo['images']);
+} else {   
+    $itemInfo['description'] = "";   
+}
+
+$urlSubcategory = '';
+if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+    $urlSubcategory = $ringTag;
+} else if ( isset($_GET['_sc']) && !empty($_GET['_sc'])) {
+    $urlSubcategory = $_GET['_sc'];
+} else {
+    $urlSubcategory = $itemInfo['ring_subcategory'];
+}
+
+$img_alt =  makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key'],$alt_tag=1);
+
+
+//echo $new_rul =  makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']);
+
+
+if ( !is_file( './images/images_md/'. $images[0] ) ) {
+    $images[0] = "0.png";
+}
 ?>
 <!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -19,10 +66,10 @@ include './url/pre.php';
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="/" />
-  <meta name="description" content="" />
-  <title><?php echo __("Product"); ?> </title>
-  
-    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
+  <meta name="description" content="<?php echo $itemInfo['description']; ?>" /> 
+  <title></title>
+  <?php require 'metaTags.php'; ?>
+  <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.camera.css" rel="stylesheet" type="text/css" media="all">
@@ -91,8 +138,9 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 //pconsole($_POST);
 ?>
 
-<body style="height: 2671px;" itemscope="" itemtype="http://schema.org/WebPage" class="templateProduct notouch">
-  
+<body onload="setPageTitle();" style="height: 2671px;" itemscope="" itemtype="http://schema.org/WebPage" class="templateProduct notouch">
+  <!-- input type="hidden"  id="changeURL" -->
+  <input type="hidden"  value="<?php echo makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']); ?>">
     <!-- Header -->
     <!-- Header -->
     <?php include './url/header.php'; ?>
@@ -100,14 +148,23 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
     <div id="content-wrapper-parent">
         <div id="content-wrapper">  
             <!-- Content -->
+
+            <input type="hidden" name="urlSubcategory" id="urlSubcategory" value="<?php echo $urlSubcategory;?>">
+            <input type="hidden" name="total_carat_weight" id="total_carat_weight" value="<?php echo $itemInfo['total_carat_weight']?>">
+            <input type="hidden" name="gold_quality" id="gold_quality" value="<?php echo $itemInfo['gold_quality']?>">
+            <input type="hidden" name="material" id="material" value="<?php echo $itemInfo['material']?>">
+            <input type="hidden" name="product_name" id="product_name" value="<?php echo $itemInfo['product_name']?>">
+
+            <input type="hidden" name="product_id" id="product_id" value="<?php echo $itemInfo['unique_key']?>">
+          
             <div id="content" class="clearfix">        
                 <div id="breadcrumb" class="breadcrumb">
                     <div itemprop="breadcrumb" class="container">
                         <div class="row">
                             <div class="col-md-24">
-                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>">Home</a>
+                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'; ?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo ucfirst(__("home")); ?></a>
                                 <span>/</span>
-                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" title="">Collection</a>
+                                <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Collection')); ?>" title="">Collection</a>
                                 <span>/</span>
                                 <?php
                                     $_GET['view'];
@@ -190,24 +247,53 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                     <div class="container">
                         <div class="row">              
                             <div id="col-main" class="product-page col-xs-24 col-sm-24 ">
-                                <div itemscope="" itemtype="http://schema.org/Product">
-                                    <meta itemprop="url" content="/products/donec-condime-fermentum">
+                                <div itemscope itemtype="http://schema.org/JewelryStore">
+                                    <meta itemprop="url" content="<?php echo $_SERVER['HTTP_HOST'].''.$_SERVER['REQUEST_URI']; ?>">
                                     <div id="product" class="content clearfix">      
                                         <h1 id="page-title" class="text-center">
                                             <span itemprop="name"><?php echo $itemInfo['product_name']; ?></span>
                                         </h1>
+                                        <?php $urlSubcategory = '';
+                                                        if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+                                                            $urlSubcategory = $ringTag;
+                                                        } else if ( isset($_GET['_sc']) && !empty($_GET['_sc'])) {
+                                                            $urlSubcategory = $_GET['_sc'];
+                                                         } else {
+                                                            $urlSubcategory = $itemInfo['ring_subcategory'];
+                                                         }
+                                            $total_carat_weight =  $itemInfo['total_carat_weight'];
+                                            $gold_quality =  $itemInfo['gold_quality'];
+                                            $material =  $itemInfo['material'];
+                                            $product_name =  $itemInfo['product_name'];
+                                            $unique_key =  $itemInfo['unique_key'];
+
+
+                                         ?>                                    
                                         <div id="product-image" class="product-image row ">  
                                             <div id="detail-left-column" class="hidden-xs left-coloum col-sm-6 col-sm-6 fadeInRight not-animated" data-animate="fadeInRight">
                                                 <div id="gallery_main" class="product-image-thumb thumbs full_width ">
                                                     <ul class="slide-product-image">
                                                         <?php
+                                                        $urlSubcategory = '';
+                                                        $S_no = 0;
+                                                        if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+                                                            $urlSubcategory = $ringTag;
+                                                        } else if ( isset($_GET['_sc']) && !empty($_GET['_sc'])) {
+                                                            $urlSubcategory = $_GET['_sc'];
+                                                         } else {
+                                                            $urlSubcategory = $itemInfo['ring_subcategory'];
+                                                         }
+                                                        $img_alt =  makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key'],$alt_tag=1);
+
+                                                        
                                                         $imageIndex = 0;
                                                         foreach ( $images as $image ) {
+                                                            $S_no++;
                                                             if ( !empty($image) ) {
                                                                 echo '                                                  
                                                                 <li class="image">
                                                                     <a href="'. $__MAINDOMAIN__.'images/images_md/'. $image .'" class="cloud-zoom-gallery active">
-                                                                        <img src="'. $__MAINDOMAIN__.'images/images_sm/'. $image .'" onClick="selectImage(\'./images/images/'. $image .'\')" alt="">
+                                                                        <img src="'. $__MAINDOMAIN__.'images/images_sm/'. $image .'" onClick="selectImage(\'./images/images/'. $image .'\')" alt="'.ucfirst($img_alt).' '.$S_no.'">
                                                                     </a>
                                                                 </li>   
                                                                 ';
@@ -235,10 +321,11 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                             </div>      
                                             <div class="image featured col-smd-12 col-sm-12 fadeInUp not-animated" data-animate="fadeInUp" style="max-height:570px; display: inline-block; text-align: center;" >
                                                 <?php 
+
                                                 if ( !is_file( './images/images_md/'. $images[0] ) ) {
                                                     $images[0] = "0.png";
                                                 }
-                                                echo '<img src="'. $__MAINDOMAIN__.'images/images_md/'. $images[0] .'" alt="'. $itemInfo['product_name'] .'" data-zoom-image="'. $__MAINDOMAIN__.'images/images/'. $images[0] .'"  data-imageIndex="0" id="mainImage">' ?>
+                                                echo '<img src="'. $__MAINDOMAIN__.'images/images_md/'. $images[0] .'" id="bigImg" alt="'.addslashes(ucfirst($img_alt)).'" data-zoom-image="'. $__MAINDOMAIN__.'images/images/'. $images[0] .'"  data-imageIndex="0" id="mainImage">' ?>
                                             </div>
                                             <div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
                                                 <ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
@@ -248,7 +335,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 echo '                                                  
                                                                 <li class="image">
                                                                     <a href="'. $__MAINDOMAIN__.'images/images_md/'. $image .'" class="cloud-zoom-gallery">
-                                                                        <img src="'. $__MAINDOMAIN__.'images/images_sm/'. $image .'" alt="">
+                                                                        <img src="'. $__MAINDOMAIN__.'images/images_sm/'. $image .'" alt="'.$img_alt.'">
                                                                     </a>
                                                                 </li>   
                                                                 ';
@@ -264,13 +351,13 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                     <div class="description">
                                                         <fieldset>
                                                             <legend><?php echo __("Description"); ?></legend>
-                                                            <p><?php
+                                                            <p itemprop="description"><?php
                                                             echo $itemInfo['description'];
                                                             ?></p>
                                                         </fieldset>
                                                         <fieldset>
                                                             <legend>La description</legend>
-                                                            <p><?php
+                                                            <p itemprop="description"><?php
                                                             echo $itemInfo['description_french'];
                                                             ?></p>
                                                         </fieldset>
@@ -298,7 +385,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             $material = $getMaterial->fetch(PDO::FETCH_ASSOC);
                                                             $material = $material['category'];
                                                             echo '
-                                                            <a href="'.$__MAINDOMAIN__.''.$lang.'/'. $category .'?material='. $itemInfo['material'] .'">
+                                                            <a href="'.$__MAINDOMAIN__.''.$lang.'/'. processUrlParameter(__($category)) .'?material='. $itemInfo['material'] .'">
                                                             '. $material .'<span>,</span>
                                                             </a>
                                                             ';
@@ -308,11 +395,11 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             $getColor->execute(array(":id" => $itemInfo["color"]));
                                                             $getColor = $getColor->fetch(PDO::FETCH_ASSOC);
 
-                                                            $color = '<a href="'.$__MAINDOMAIN__.''.$lang.'/'. $category .'?color='. $getColor['id'] .'">'. $getColor["color"] .'<span>,</span>
+                                                            $color = '<a href="'.$__MAINDOMAIN__.''.$lang.'/'. processUrlParameter(__($category)) .'?color='. $getColor['id'] .'">'. $getColor["color"] .'<span>,</span>
                                                                         </a>';
                                                             echo $color;
 
-                                                            echo '<a href="'.$__MAINDOMAIN__.''.$lang.'/'. $category .'?clarity='. $itemInfo['clarity'] .'">
+                                                            echo '<a href="'.$__MAINDOMAIN__.''.$lang.'/'. processUrlParameter(__($category)) .'?clarity='. $itemInfo['clarity'] .'">
                                                                         '. $itemInfo['clarity'] .'<span></span>
                                                                         </a>';
                                                             ?>
@@ -674,6 +761,8 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                     $delay = 0;
                                                     foreach ( $featuredItems as $product ) {
 
+                                                        $S_no++;
+
                                                         switch ($product['category']) {
                                                         case 1: {
                                                             
@@ -723,21 +812,23 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                         } else {
                                                             $wishlist = '<a class="wish-list" href="javascript:void(0);" id="fav_'. $product['unique_key'] .'_FEAT" onClick="addToWishlist(\''. $product['unique_key'] .'\')"><i class="fa fa-heart"></i><span class="list-mode">'.__("Add to Wishlist").'</span></a>';
                                                         }
-                                                            $urlSubcategory = '';
+                                                            //$urlSubcategory = '';
                                                          if ( isset($_GET['_sc']) && (int)$ringTag>0) {
                                                             $urlSubcategory = $ringTag;
-                                                        } else if ( isset($_GET['_sc'])) {
+                                                        } else if ( isset($_GET['_sc']) && !empty($_GET['_sc'])) {
                                                             $urlSubcategory = $_GET['_sc'];
                                                          } else {
                                                             $urlSubcategory = $info['ring_subcategory'];
                                                          } 
+
+                                                         $img_alt =  makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key'],$alt_tag=1);
 
                                                         echo '                                                                                          
                                                     <div class="element no_full_width bounceIn not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
                                                         <ul class="row-container list-unstyled clearfix">
                                                             <li class="row-left">
                                                             <a href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'" class="container_item" style="height:277px;">
-                                                            <img src="'. $__MAINDOMAIN__.'images/images_md/'. $images[0] .'" class="img-responsive" alt="">
+                                                            <img src="'. $__MAINDOMAIN__.'images/images_md/'. $images[0] .'" class="img-responsive" id="'.$S_no.'-getAltTag" alt="'.ucfirst($img_alt).'" itemprop="photo">
                                                             '. $sale .'
                                                             </a>
                                                             <div class="hbw">
@@ -767,15 +858,14 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                 </form>
                                                                 <div class="product-ajax-qs hidden-xs hidden-sm">
                                                                     <div class="quick_shop" onclick="quickShop(\''. $product['unique_key'] .'\')">
-                                                                        <i class="fa fa-eye" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>                                                                       
+                                                                        <i class="fa fa-eye" onclick="return getImgTag('.$S_no.');" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>                                                                       
                                                                     </div>
                                                                 </div>
                                                                 '. $wishlist .'
                                                             </div>
                                                             </li>
                                                         </ul>
-                                                    </div>';
-
+                                                    </div>';                                                   
                                                     $delay += 200;
                                                     }
                                                     ?>                        
@@ -813,7 +903,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                     <div class="row">
                         <div class="col-md-12 product-image">
                             <div id="quick-shop-image" class="product-image-wrapper">
-                                <a class="main-image" style="display: inline-block; max-height: 354px; overflow: hidden;"><img class="img-zoom img-responsive image-fly" src="<?php echo $__MAINDOMAIN__;?>assets/images/demo_354x354.png" data-zoom-image="<?php echo $__MAINDOMAIN__;?>assets/images/demo_354x354.png" alt=""/></a>
+                                <a class="main-image" style="display: inline-block; max-height: 354px; overflow: hidden;"><img class="img-zoom img-responsive image-fly" src="<?php echo $__MAINDOMAIN__;?>assets/images/demo_354x354.png" data-zoom-image="<?php echo $__MAINDOMAIN__;?>assets/images/demo_354x354.png" id="newAlt" alt=""/></a>
                                 <div id="gallery_main_qs" class="product-image-thumb">
                                 </div>  
                             </div>
@@ -857,7 +947,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                         </div>
                                     </div>
                 
-                                    <label class="label-quick-shop"><?php echo __("Material"); ?>" <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label>
+                                    <label class="label-quick-shop"><?php echo __("Material"); ?> <span id="material-carat" style="font-size: 12px; color: #aaa; font-weight: bold;"></span></label>
                                     <input id="quick-shop-material-value" name="material" hidden />
                                     <div class="input-group" id="quick-shop-material">
                                         <a class="btn material-badge" name="1"><?php echo __("Yellow Gold"); ?></a>
@@ -1091,10 +1181,42 @@ function selectImage(image) {
         cursor: "crosshair"
     }); 
 }
+
+function getImgTag(id){
+    
+    var setNewAlt = $('#'+id+'-getAltTag').attr('alt');
+    
+    document.getElementById('newAlt').setAttribute('alt',setNewAlt);
+
+}
+
 function quickDisplay(src) {
     //alert($(src).attr("value"));
     
     $("#quick-shop-image .main-image img").attr("src", $(src).attr("value"));
     //$('#quick-shop-img').attr("src", src);
 }
+
+function setPageTitle(){
+    
+    var bigImg = $("#bigImg").attr('alt');
+
+    if(bigImg!=''){
+        document.title = bigImg;
+    }else{
+        document.title = '<?php echo __("Product"); ?>';
+    }
+}
+/*if(!isset($_SESSION['change_lang']) && empty($_SESSION['change_lang'])){
+    echo "string";
+    echo $_SESSION['change_lang']=1;*/ 
+
+    
+ 
+    
+//}
+
+
+ 
 </script>
+<!--<script type="text/javascript">alert(); window.location.href = "<php echo $new_rul  ?>"</script> -->

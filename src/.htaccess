@@ -1,6 +1,9 @@
 ErrorDocument 404 /en/404.php
 RewriteEngine On
-RewriteBase /diamantsecret/src/
+RewriteBase /diamantsecret/src/ 
+
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # empty url -> redirect to en/
 RewriteCond %{QUERY_STRING} !lang=(en|fr)
@@ -12,9 +15,9 @@ RewriteRule ^(en|fr)$  $1/ [R=301,L]
 # now all urls have en/ fr/ -> parse them
 #RewriteRule ^(en|fr)/(.*)$  $2?lang=$1&%{query_STRING} [L]
 
-RewriteRule    ^(en|fr)/earrings/(.*)$  collection_earrings.php?lang=$1&_sc=$1&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/earrings/(.*)$  collection_earrings.php?lang=$1&_sc=$2&%{query_STRING} [L]
 RewriteRule    ^(en|fr)/earrings   collection_earrings.php?lang=$1&%{query_STRING} [L]
-RewriteRule    ^(en|fr)/boucles-doreilles/(.*)$  collection_earrings.php?lang=$1&_sc=$1&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/boucles-doreilles/(.*)$  collection_earrings.php?lang=$1&_sc=$2&%{query_STRING} [L]
 RewriteRule    ^(en|fr)/boucles-doreilles   collection_earrings.php?lang=$1&%{query_STRING} [L]
 
 RewriteRule    ^(en|fr)/rings/(.*)$ collection_rings.php?lang=$1&_sc=$2&%{query_STRING} [L]

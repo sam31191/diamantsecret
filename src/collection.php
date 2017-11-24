@@ -1,15 +1,9 @@
 <?php
-if ( session_status() == PHP_SESSION_NONE ) {
-	session_start();
-}
-include 'conf/config.php';
-include './url/pre.php';
-
-
-
-
-
-
+	if ( session_status() == PHP_SESSION_NONE ) {
+		session_start();
+	}
+	include 'conf/config.php';
+	include './url/pre.php';
 ?>
 <!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -92,9 +86,9 @@ pconsole($_POST);
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('home')?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo __("Home");?></a>
+								<a href="<?php echo $__MAINDOMAIN__.$lang.'/'; ?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo ucfirst(__("home")); ?></a>
 								<span>/</span>
-								<span class="page-title"><a href="<?php echo $__MAINDOMAIN__.$lang.'/'.__('collection')?>" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
+								<span class="page-title"><a href="<?php echo $__MAINDOMAIN__.$lang.'/'.strtolower(__('Collection')); ?>" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
 							</div>
 						</div>
 					</div>
@@ -160,7 +154,7 @@ pconsole($_POST);
 												<div class="home_collections">
 													<div class="home_collections_wrapper">												
 														<div id="home_collections">
-																		<div class="home_collections_item" style="width: 200px;">
+															<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
 																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings" title="<?php echo __("Browse our Rings"); ?>">
@@ -178,14 +172,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>" title="<?php echo __("Browse our Earrings"); ?>">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(str_replace(" ","-",str_replace("'","",__('earrings')))); ?>" title="<?php echo __("Browse our Earrings"); ?>">
 																					<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/earring_270x270.png" alt="Earrings">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('earrings')?>"><?php echo __("Earrings"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(str_replace(" ","-",str_replace("'","",__('earrings')))); ?>"><?php echo __("Earrings"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>earrings"><?php echo __("See the Collection"); ?></a>
+																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(str_replace(" ","-",str_replace("'","",__('earrings')))); ?>"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -193,14 +187,14 @@ pconsole($_POST);
 																		<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>" title="<?php echo __("Browse our Pendants") ;?>">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Pendants'));?>" title="<?php echo __("Browse our Pendants") ;?>">
 																					<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/pendant_270x270.png" alt="Pendants">
 																					</a>
 																				</div>
 																				<div class="hover-overlay">
-																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>"><?php echo __("Pendants"); ?></a></span>
+																					<span class="col-name"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Pendants')); ?>"><?php echo __("Pendants"); ?></a></span>
 																					<div class="collection-action">
-																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('pendants')?>"><?php echo __("See the Collection"); ?></a>
+																						<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('Pendants')); ?>"><?php echo __("See the Collection"); ?></a>
 																					</div>
 																				</div>
 																			</div>
@@ -383,8 +377,12 @@ pconsole($_POST);
 													$getAll->execute();
 													$allItems = $getAll->fetchAll();
 
+													$S_no =0;
+
 													foreach ( $allItems as $item) {
 														
+														$S_no++;
+
 														switch ($item['category']) {
 															case 1: {
 																$getItemInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :unique_key");
@@ -441,12 +439,15 @@ pconsole($_POST);
                                                             $urlSubcategory = $_GET['_sc'];
                                                          } else {
                                                             $urlSubcategory = $itemInfo['ring_subcategory'];
-                                                         }  
+                                                         }
+
+                                                         $img_alt =  makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key'],$alt_tag=1);
+
 														$element = '<li class="element no_full_width" data-alpha="" data-price="20000">
 																<ul class="row-container list-unstyled clearfix">
 																	<li class="row-left">
 																	<a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'" class="container_item">
-																	<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive  img-custom-collection" alt="">
+																	<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive  img-custom-collection" id="'.$S_no.'-getAltTag" alt="'.$img_alt.'">
 																	'. $sale .'
 																	</a>
 																	<div class="hbw">
@@ -473,7 +474,7 @@ pconsole($_POST);
 																		<a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'" style="margin:0px 20px; line-height:50px; font-size:13px; font-weight:700; text-transform:uppercase;"><i class="fa fa-bars" aria-hidden="true" style="padding-right:10px;"></i>'.__("View Product").'</a>
 																		<div class="product-ajax-qs hidden-xs hidden-sm">
 																			<div class="quick_shop" onclick="quickShop(\''. $item['unique_key'] .'\')">
-																				<i class="fa fa-eye" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>																		
+																				<i class="fa fa-eye" onclick="return getImgTag('.$S_no.')" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>																		
 																			</div>
 																		</div>
 																		'. $wishlist .'
@@ -599,7 +600,7 @@ pconsole($_POST);
 					<div class="row">
 						<div class="col-md-12 product-image">
 							<div id="quick-shop-image" class="product-image-wrapper">
-								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="" data-zoom-image="" alt=""/></a>
+								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="" data-zoom-image="" id="newAlt" alt=""/></a>
 								<div id="gallery_main_qs" class="product-image-thumb">
 								</div>	
 							</div>
@@ -622,7 +623,7 @@ pconsole($_POST);
 										</li>
 									</ul>
 								</div>
-								<form method="post" enctype="multipart/form-data" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('collection')?>">
+								<form method="post" enctype="multipart/form-data" action="<?php echo $__MAINDOMAIN__.$lang.'/'.strtolower(__('Collection')); ?>">
 									<div id="quick-shop-price-container" class="detail-price">
 										
 									</div>
@@ -920,4 +921,5 @@ function orderView(e) {
 		}
 	});
 }
+
 </script>

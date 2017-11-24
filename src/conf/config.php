@@ -1,9 +1,44 @@
 <?php
+    $__MAINDOMAIN__ = "http://localhost/diamantsecret/src/";
+    $lang = 'fr';
+    
+    $cookie_name = "selectedLang";
+
+require_once('subCategoryArrays.php');
+if(!isset($_COOKIE[$cookie_name])){
+    try{
+        //$ip = "165.72.200.11"; // European IP address.
+        //$ip = "124.253.3.51"; // It's our IP address.
+        $ip = $_SERVER['REMOTE_ADDR'];       
+        //Using the API to get information about this IP
+        $details = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=$ip"));
+        //Using the geoplugin to get the continent for this IP
+        $continent=$details->geoplugin_continentCode;
+        //And for the country
+        $countryName = $details->geoplugin_countryCode;
+        //If continent is Europe
+
+        if($continent=="EU"){
+            header('location:'.$__MAINDOMAIN__.$lang);
+        }else{
+            $lang = 'en';
+            header('location:'.$__MAINDOMAIN__.$lang);     
+        }
+
+        setcookie($cookie_name, $lang, time() + (86400), "/");
+    }
+    // If there is an exception occurs, redirected to French site url.
+    catch(Exception $e){
+        //header('location:'.$__MAINDOMAIN__.$lang);
+    }
+}
+
 
     /*  MySQL Configuration */
     $host = "localhost";
     $dbname = "diamantsecret";
     $dbname = "testsite_diamantsecret";
+
     $user = "root";
     $pass = "";
 
@@ -17,9 +52,9 @@
     $mailSenderName = "Diamant Secret";
     $__ADMINMAIL__ = "contact@diamantsecret.com";
     $__ADMINNAME__ = "Admin";
-    $__MAINDOMAIN__ = "http://localhost/diamantsecret/src/";
+    //$__MAINDOMAIN__ = "http://localhost/diamantsecret/src/"; // Already defined on top
     $__SITE = "diamant_secret";
-    $lang = 'fr';
+    //$lang = 'fr'; // Already defined on top
     if (isset($_REQUEST['lang']) && ($_REQUEST['lang'] == 'fr' || $_REQUEST['lang'] == 'en')) {
         $lang = $_REQUEST['lang'];
 		
@@ -837,7 +872,7 @@ function processUrlParameter($urlParam){
     $urlParam = str_replace("'", "", $urlParam);
     return $urlParam;
 }
-function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$product_name,$unique_key)
+function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$product_name,$unique_key,$alt_tag="")
 {
     global $pdo,$__MAINDOMAIN__,$lang;
     if(is_numeric($subcategory))
@@ -871,9 +906,65 @@ function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$pr
         $materials_str = $materialsQry['category'];
       }
 
+      if(!empty($alt_tag)){
+          $subcategory = strtolower($subcategory);
+          $subcategory = strtolower(str_replace(" ","-",$subcategory));
+          $subcategory = strtolower(__($subcategory));
 
-    return $__MAINDOMAIN__.$lang.'/'.__('product').'/'.str_replace(" ", "-", strtolower($subcategory)).'/'.str_replace(".", "", $carat).'-ct-'.$gold_quality_str.'-'.str_replace(" ", "-", strtolower($materials_str)).'-'.str_replace(" ", "-", strtolower($product_name)).'/'.$unique_key;
+        return strtolower($product_name).' '.str_replace("-"," ",$subcategory).' '.strtolower(str_replace("-", " ", __($materials_str))).' '.$carat.' ct '.$gold_quality_str;
+      }
+      
+        return $__MAINDOMAIN__.$lang.'/'.__('product').'/'.processUrlParameter(__(processUrlParameter($subcategory))).'/'.str_replace(".", "", $carat).'-ct-'.$gold_quality_str.'-'.processUrlParameter(__($materials_str)).'-'.str_replace(" ", "-", strtolower($product_name)).'/'.$unique_key;
+    
+}
 
+function makeOppositeUrlFromCurrentLang($category,$subcategory,$makeInLang,$pickSameArr = 0){
+    global $en_subcategory_arr, $fr_subcategory_arr, $cat_fr_to_en;
+    $url = strtolower($category);
+
+    
+    $category = strtolower($category);
+    
+    if(isset($cat_fr_to_en) && isset($cat_fr_to_en[$category])) {
+        $category = $cat_fr_to_en[$category];
+    }
+    
+    $subcategory = strtolower($subcategory);
+    
+    //replace plural category name like rings from subcategory
+    $subcategory = str_replace($category,"",$subcategory);
+
+    //replace singular category name like ring from subcategory
+    $remove_last_s_from_category = substr($category,0,strlen($category)-1);    
+    $subcategory = str_replace($remove_last_s_from_category,"",$subcategory);
+
+    //remove last space from subcategory
+    $subcategory = trim($subcategory); 
+
+    //replace all white spaces with hyphen
+    $subcategory = preg_replace('/\s+/', '-', $subcategory);
+   
+
+
+    switch ($makeInLang) {
+        case 'fr':
+            if(trim($subcategory)!='' && isset($en_subcategory_arr[trim($subcategory)])) {
+                //for opposite url
+                $url .= '/'.$en_subcategory_arr[trim($subcategory)];
+            } 
+            break;
+        case 'en':
+            if(trim($subcategory)!='' && $pickSameArr == 1) {
+              $url .= '/'.trim($subcategory);  
+            } else if(trim($subcategory)!='' && isset($fr_subcategory_arr[trim($subcategory)])) {
+                $url .= '/'.$fr_subcategory_arr[trim($subcategory)];
+            } 
+            break;
+        default:
+           
+            break;
+    }
+    return $url; 
 }
 
 ?>
