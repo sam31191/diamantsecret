@@ -325,7 +325,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                 if ( !is_file( './images/images_md/'. $images[0] ) ) {
                                                     $images[0] = "0.png";
                                                 }
-                                                echo '<img src="'. $__MAINDOMAIN__.'images/images_md/'. $images[0] .'" id="bigImg" alt="'.addslashes(ucfirst($img_alt)).'" data-zoom-image="'. $__MAINDOMAIN__.'images/images/'. $images[0] .'"  data-imageIndex="0" id="mainImage">' ?>
+                                                echo '<img src="'. $__MAINDOMAIN__.'images/images_md/'. $images[0] .'" id="bigImg" alt="'.ucfirst($img_alt).'" data-zoom-image="'. $__MAINDOMAIN__.'images/images/'. $images[0] .'"  data-imageIndex="0" id="mainImage">' ?>
                                             </div>
                                             <div id="gallery_main_mobile" class="visible-xs product-image-thumb thumbs mobile_full_width ">
                                                 <ul style="opacity: 0; display: block;" class="slide-product-image owl-carousel owl-theme">
@@ -577,7 +577,8 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                         <?php echo __("Metal"); ?>
                                                                     </div>
                                                                     <?php
-                                                                    echo '<div class="header"><small>'. getMaterial($itemInfo['material'], $pdo) .'</small></div>';
+                                                                    $materialName = getMaterial($itemInfo['material'], $pdo);
+                                                                    echo '<div class="header"><small>'. __($materialName) .'</small></div>';
                                                                     ?>                                                                  
                                                                 </div>
                                                                 <div class="swatch color clearfix" data-option-index="0">
@@ -637,7 +638,8 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                         <?php echo __("Diamond Shape"); ?>
                                                                     </div>
                                                                     <?php
-                                                                    echo '<div class="header"><small>'. getDiamondShape($itemInfo['diamond_shape'], $pdo) .'</small></div>';
+                                                                    $diamondShapeName = getDiamondShape($itemInfo['diamond_shape'], $pdo);
+                                                                    echo '<div class="header"><small>'. __($diamondShapeName) .'</small></div>';
                                                                     ?>                                                                  
                                                                 </div>
                                                                 <!--<div class="swatch color clearfix" data-option-index="0">
