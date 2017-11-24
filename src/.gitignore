@@ -1,2 +1,2 @@
-.htaccess
-/conf/config.php
+src/.htaccess
+src/conf/config.php

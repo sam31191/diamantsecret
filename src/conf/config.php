@@ -870,6 +870,7 @@ function processUrlParameter($urlParam){
     $urlParam = str_replace("'", "", $urlParam);
     return $urlParam;
 }
+
 function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$product_name,$unique_key,$alt_tag="")
 {
     global $pdo,$__MAINDOMAIN__,$lang;
