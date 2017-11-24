@@ -1,37 +1,36 @@
 <?php
     $__MAINDOMAIN__ = "http://localhost/diamantsecret/src/";
     $lang = 'fr';
-    
     $cookie_name = "selectedLang";
+    $directory_path = "C:\laragon\www\diamantsecret\src/";
+    require_once($directory_path."subCategoryArrays.php");
+    if(!isset($_COOKIE[$cookie_name])){
+        try{
+            //$ip = "165.72.200.11"; // European IP address.
+            //$ip = "124.253.3.51"; // It's our IP address.
+            $ip = $_SERVER['REMOTE_ADDR'];       
+            //Using the API to get information about this IP
+            $details = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=$ip"));
+            //Using the geoplugin to get the continent for this IP
+            $continent=$details->geoplugin_continentCode;
+            //And for the country
+            $countryName = $details->geoplugin_countryCode;
+            //If continent is Europe
 
-require_once('subCategoryArrays.php');
-if(!isset($_COOKIE[$cookie_name])){
-    try{
-        //$ip = "165.72.200.11"; // European IP address.
-        //$ip = "124.253.3.51"; // It's our IP address.
-        $ip = $_SERVER['REMOTE_ADDR'];       
-        //Using the API to get information about this IP
-        $details = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=$ip"));
-        //Using the geoplugin to get the continent for this IP
-        $continent=$details->geoplugin_continentCode;
-        //And for the country
-        $countryName = $details->geoplugin_countryCode;
-        //If continent is Europe
+            if($continent=="EU"){
+                header('location:'.$__MAINDOMAIN__.$lang);
+            }else{
+                $lang = 'en';
+                header('location:'.$__MAINDOMAIN__.$lang);     
+            }
 
-        if($continent=="EU"){
-            header('location:'.$__MAINDOMAIN__.$lang);
-        }else{
-            $lang = 'en';
-            header('location:'.$__MAINDOMAIN__.$lang);     
+            setcookie($cookie_name, $lang, time() + (86400), "/");
         }
-
-        setcookie($cookie_name, $lang, time() + (86400), "/");
+        // If there is an exception occurs, redirected to French site url.
+        catch(Exception $e){
+            //header('location:'.$__MAINDOMAIN__.$lang);
+        }
     }
-    // If there is an exception occurs, redirected to French site url.
-    catch(Exception $e){
-        //header('location:'.$__MAINDOMAIN__.$lang);
-    }
-}
 
 
     /*  MySQL Configuration */
@@ -865,7 +864,6 @@ if (strpos($actual_link,'admin') !== false) {
  } else {
     include 'translation/french.php';
  }
-
 function processUrlParameter($urlParam){
     $urlParam = strtolower($urlParam);
     $urlParam = str_replace(" ", "-", $urlParam);

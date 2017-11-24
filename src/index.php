@@ -319,14 +319,16 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             $urlSubcategory = $_GET['_sc'];
                                                          } else {
                                                             $urlSubcategory = $info['ring_subcategory'];
-                                                         }  
+                                                         }
+
+                                                    $img_alt =  makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key'],$alt_tag=1);  
 
 													echo '
 												<div class="element no_full_width bounceIn col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
 															<a href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'" class="container_item"  style="max-height:375px !important;">
-															<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="">
+															<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="'.ucfirst($img_alt).'">
 															'. $sale .'
 															</a>
 															<div class="hbw">
@@ -510,12 +512,15 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                          } else {
                                                             $urlSubcategory = $info['ring_subcategory'];
                                                          }   
+														
+                                                         $img_alt =  makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key'],$alt_tag=1);
+
 														echo '   																						
 													<div class="element no_full_width bounceIn not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
 															<a href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'" class="container_item" style="height:277px;">
-															<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="">
+															<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="'.ucfirst($img_alt).'">
 															'. $sale .'
 															</a>
 															<div class="hbw">
