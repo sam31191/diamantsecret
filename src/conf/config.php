@@ -1,5 +1,5 @@
 <?php
-    $__MAINDOMAIN__ = "http://localhost/diamantsecret/src/";
+    $__MAINDOMAIN__ = "http://localhost/diamantsecret/src/"; 
     $lang = 'fr';
     $cookie_name = "selectedLang";
     $directory_path = "C:\laragon\www\diamantsecret\src/";

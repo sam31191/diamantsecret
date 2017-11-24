@@ -166,7 +166,7 @@ if ( isset($_POST['recover']) ) {
 
         $recoveryMail = file_get_contents('./conf/mail_formats/password_recovery_request.html');
         $recoveryMail = str_replace("__CLIENT__", $userInfo['username'], $recoveryMail);
-        $recoveryMail = str_replace("__RECOVERURL__", $__MAINDOMAIN__ . 'login.php?recoverHash='. $recoverHash, $recoveryMail);
+        $recoveryMail = str_replace("__RECOVERURL__", $__MAINDOMAIN__ .$_REQUEST['lang'].'/login?recoverHash='. $recoverHash, $recoveryMail);
         $recoveryMail = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $recoveryMail);
 
 

@@ -7,6 +7,8 @@ include './../conf/config.php';
 require("./../lib/PayPal/vendor/autoload.php");
 use PayPal\Api\Payment;
 
+
+print_r($_REQUEST);
 if ( isset($_GET['addtoFav'])) {
 	if ( !$_SESSION['loggedIn'] ) {
 		die();
@@ -212,7 +214,7 @@ if ( isset($_GET['register']) ) {
 				":address" => trim($_POST['customer']['address']),
 				":hash" => $verifyHash,
 			));
-			$alert = __('Registration Successful. Please follow the instructions in your Email to continue');
+			$alert = __("Registration Successful. Please follow the instructions in your Email to continue");
 		}
 	}
 
@@ -228,15 +230,15 @@ if ( isset($_GET['paymentInfo']) ) {
     if ( $paymentInfo->rowCount() > 0 ) {
         $paymentInfo = $paymentInfo->fetch(PDO::FETCH_ASSOC);
 
-        $paymentId = $paymentInfo['id'];
+		$paymentId = $paymentInfo['id'];
         try {
             $apiContext = new \PayPal\Rest\ApiContext(
               new \PayPal\Auth\OAuthTokenCredential(
                 PAYPAL_CLIENT_ID,
                 PAYPAL_CLIENT_SECRET
               )
-            );
-            $payment = Payment::get($paymentId, $apiContext);
+			);
+			$payment = Payment::get($paymentId, $apiContext);
 
             $status = '<label class="label label-danger" style="font-size: 14px;" >'.__("Unknown").'</label>';
 

@@ -23,16 +23,11 @@ if ( $getItem->rowCount() > 0 ) {
     $getCategory = $pdo->prepare("SELECT * FROM `categories` WHERE `id` = :id");
     $getCategory->execute(array(":id" => $item['category']));
     $category = $getCategory->fetch(PDO::FETCH_ASSOC);
-    
     $category = $category['category'];
-  
     $table = '`'. $category .'`';
-
     $itemInfo = $pdo->prepare("SELECT * FROM ". $table ." WHERE `unique_key` = :unique_key");
     $itemInfo->execute(array(":unique_key" => $_GET['view']));
-
     $itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
-
     $images = explode(",", $itemInfo['images']);
 } else {   
     $itemInfo['description'] = "";   
@@ -61,15 +56,15 @@ if ( !is_file( './images/images_md/'. $images[0] ) ) {
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <head>
-  <?php include_once("analyticstracking.php") ?>
-  <meta charset="UTF-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-  <link rel="canonical" href="/" />
-  <meta name="description" content="<?php echo $itemInfo['description']; ?>" /> 
-  <title></title>
-  <?php require 'metaTags.php'; ?>
-  <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
+    <?php include_once("analyticstracking.php") ?>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <link rel="canonical" href="/" />
+    <meta name="description" content="<?php echo $itemInfo['description']; ?>" /> 
+    <title></title>
+    <?php require 'metaTags.php'; ?>
+    <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
   
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"> 
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/jquery.camera.css" rel="stylesheet" type="text/css" media="all">
@@ -753,9 +748,9 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                     <div id="prod-related-wrapper">
                                         <div class="prod-related clearfix">
                                         
-                                                    <?php
-                                                    $fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat AND site_0 = 1 AND disabled = 0 LIMIT 10");
-                                                    $fetchFeatured->execute(array(":cat" => $item['category']));
+                                            <?php
+                                                $fetchFeatured = $pdo->prepare("SELECT * FROM `items` WHERE `category` = :cat AND site_0 = 1 AND disabled = 0 LIMIT 10");
+                                                $fetchFeatured->execute(array(":cat" => $item['category']));
 
                                                     $featuredItems = $fetchFeatured->fetchAll();
                                                    
@@ -795,7 +790,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                     $images = $info['images'];
                                                     $images = explode(",", $images);
 
-                                                    if ( $images[0] == "" ) {
+                                                    if ( $images[0] == "" || !is_file( './images/images_md/'. $images[0] ) ) {
                                                         $images[0] = "0.png";
                                                     }
 
@@ -1018,119 +1013,7 @@ function addToWishlist(key) {
     xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/ajax.php?addtoFav="+key,true);
     xmlhttp.send();
 }
-function quickShop(id) {
-    if (id == "") {
-        document.getElementById("quick-shop-modal").innerHTML = "";
-        return;
-    } else { 
-        if (window.XMLHttpRequest) {
-            // code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            // code for IE6, IE5
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                var result = JSON.parse(xmlhttp.responseText);
-                console.log(result);
-                images = result['images'].split(",");
-                //$("#quick-shop-modal").html(xmlhttp.responseText);
-                //console.log(xmlhttp.responseText);
-                //Item Image
-                if ( result['images'] == "" ) {
-                    images[0] = "0.png";
-                }   
-                $("#quick-shop-image .main-image img").attr("src", "./images/images_md/" + images[0]);
-                
-                //Remove old Thumbs if any
-                var currentThumbs = $(".image-thumb").length;
-                for (var i = 0; i < currentThumbs; i++ ) {
-                    //console.log("1 Item Removed");
-                    $('#gallery_main_qs').owlCarousel().data('owlCarousel').removeItem();
-                }
-                //Item Thumbnals
-                for ( var i = 0; i < images.length-1; i++ ) {
-                    content = '<a class="image-thumb" onClick="quickDisplay(this)" value="./images/images_md/'+ images[i] +'" ><img src="./images/images_sm/'+ images[i] +'" alt=""/></a>';
-                    //console.log("1 Item Added");
-                    $('#gallery_main_qs').owlCarousel().data('owlCarousel').addItem(content);
-                    $('.owl-item').toggleClass('show-item');
-                }
-                //Item Name
-                $("#quick-shop-title a").text(result['item_name']);
-                $("#quick-shop-title a").attr("href", "./product.php?view=" + result['unique_key']);
-                
-                //Desc
-                $("#quick-shop-description").html(result['description']);
-                
-                //Price
-                if ( result['discount'] > 0 ) {
-                    discount = result['item_value'] - ( (result['discount'] / 100 ) * result['item_value']);
-                    price = '<span class="price_sale">€'+ discount.toFixed(2) +'</span><span class="dash">/</span><del class="price_compare">€'+ result['item_value'] +'</del>';
-                } else {
-                    price = '<span class="price">€'+ result['item_value'] +'</span><span class="dash">';
-                }
-                $("#quick-shop-price-container").html(price);
 
-                //Quantity 
-                $("#qs-quantity").attr("max", result['pieces_in_stock']);
-                
-                //Material
-                $("#material-carat").text(result['total_carat_weight'] + " ct.");
-                $("#quick-shop-material a").each(function(index, element) {
-                    //alert ($(element).attr("name"));
-                    if ( $(element).attr("name") !== result['material'] ) {
-                        $(element).attr("disabled", true);
-                    } else {
-                        $(element).attr("disabled", false);
-                    }
-                });
-                
-                //Size
-                if ( result['category'] == 1 ) {
-                    sizehtml = "";
-                    sizes = result['ring_size'].split(",");
-                    for ( var i = 0; i < sizes.length; i++ ) {
-                        
-                        if ( sizes[i].indexOf('-') > -1 ) {
-                            sizesRange = sizes[i].split('-');
-                            for ( var j = sizesRange[0]; j <= sizesRange[1]; j++ ) {
-                                sizehtml += '<a class="btn size-badge" name="'+ j +'" onClick="selectSize(this)">'+ j +'</a>';
-                            }
-                        } else {
-                            sizehtml += '<a class="btn size-badge" name="'+ sizes[i] +'" onClick="selectSize(this)">'+ sizes[i] +'</a>';
-                        }
-                    }
-                    //console.log(sizehtml);
-                    $("#quick-shop-size-container").html(sizehtml);
-                    $("#quick-shop-size").show();
-                } else {
-                    $("#quick-shop-size").hide();
-                }
-
-                if ( result['pieces_in_stock'] <= 0 ) {
-                    $("#buttonDiv").html('<button class="btn" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;" disabled><?php echo __("Out of Stock"); ?></button>');
-                } else {
-                    $("#buttonDiv").html('<button class="btn" type="submit" name="addToCart" style="position: fixed; bottom: 15px; right: 15px; width: 200px;"><?php echo __("Add to Cart"); ?></button>');
-                }
-
-                $("#quick-shop-unique-key").val(result['unique_key']);
-                $("#quick-shop-modal").modal("toggle");
-            }
-        };
-
-        xmlhttp.addEventListener( "progress" ,function(e) {
-            if ( e.lengthComputable ) {
-                setTimeout(3000);
-                console.log(e.loaded);
-            }
-        }, false);
-
-        xmlhttp.open("GET","<?php echo $__MAINDOMAIN__;?>url/fetch_item_info.php?id="+id, false);
-        xmlhttp.send();
-
-    }
-}
 function removeFromWishlist(key) {
   if (window.XMLHttpRequest) {
       // code for IE7+, Firefox, Chrome, Opera, Safari

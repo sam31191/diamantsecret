@@ -251,8 +251,9 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 												
 												$newProducts = $fetchNew->fetchAll();
 												$delay = 0;
-												
+												$S_no = 0;
 												foreach ( $newProducts as $product ) {
+													$S_no++;
 													switch ($product['category']) {
 														case 1: {
 															
@@ -328,7 +329,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 														<ul class="row-container list-unstyled clearfix">
 															<li class="row-left">
 															<a href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'" class="container_item"  style="max-height:375px !important;">
-															<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="'.ucfirst($img_alt).'">
+															<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive" id="'.$S_no.'-getAltTag" alt="'.ucfirst($img_alt).'">
 															'. $sale .'
 															</a>
 															<div class="hbw">
@@ -361,7 +362,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 																</form>
 																<div class="product-ajax-qs hidden-xs hidden-sm">
 																	<div class="quick_shop" onclick="quickShop(\''. $product['unique_key'] .'\')">
-																		<i class="fa fa-eye" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>																		
+																		<i class="fa fa-eye" onclick="return getImgTag('.$S_no.');" title="'.__("Quick View").'"></i><span class="list-mode">'.__("Quick View").'</span>																		
 																	</div>
 																</div>
 																'. $wishlist .'
@@ -610,7 +611,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 					<div class="row">
 						<div class="col-md-12 product-image">
 							<div id="quick-shop-image" class="product-image-wrapper">
-								<a class="main-image"><img class="img-zoom img-responsive image-fly" src="<?php echo $__MAINDOMAIN__;?>images/gfx/cube_lg.gif" data-zoom-image="<?php echo $__MAINDOMAIN__;?>images/gfx/cube_lg.gif" alt=""/></a>
+								<a class="main-image"><img class="img-zoom img-responsive image-fly" id="newAlt" src="<?php echo $__MAINDOMAIN__;?>images/gfx/cube_lg.gif" data-zoom-image="<?php echo $__MAINDOMAIN__;?>images/gfx/cube_lg.gif" alt=""/></a>
 								<div id="gallery_main_qs" class="product-image-thumb">
 								</div>	
 							</div>
