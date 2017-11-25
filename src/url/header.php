@@ -3,7 +3,7 @@
 
 if ( $testSite && !isset($_SESSION['admin']) ) {
 	echo "tester";
-	echo '<script> window.location.href = "./under_construction/index.php"; </script>';
+	echo '<script> window.location.href = "./under_construction/'.$_REQUEST['lang'].'index.php"; </script>';
 	die();
 } 
 if ( isset($_POST['action']['logout']) ) {

@@ -23,5 +23,4 @@ if(isset($_GET['lang'])){
 <meta name="twitter:title" content="<?php echo $itemInfo['product_name']; ?>">
 <meta name="twitter:description" content="<?php echo $description; ?>">
 <meta name="twitter:image" content="<?php echo $__MAINDOMAIN__.'images/images_md/'.$images[0]; ?>"> <!-- If real product image does not exist, then a dummy image appears on 0-index -->
-<link rel="alternate" href="<?php echo $__MAINDOMAIN__.$lang.'/fr/bagues/diamant'; ?>" hreflang="fr">
-<link rel="alternate" href="<?php echo $__MAINDOMAIN__.$lang.'/en/rings/diamond';?>" hreflang="en">
+<link rel="alternate" href="<?php echo $__MAINDOMAIN__.substr($_SERVER['REQUEST_URI'],1); ?>" hreflang="<?php echo $lang; ?>">

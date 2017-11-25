@@ -60,8 +60,11 @@ if ( $fetch->rowCount() > 0 ) {
 	$images = array_filter(explode(",", $array['images']));
 	$str ="";
 	foreach ($images as $key => $image) {
-		if ( !is_file( './images/images_md/'. $image ) ) {
+
+		if ( !is_file( '../images/images_md/'. $image ) ) {
 			$str .= "0.png,";
+		} else {
+			$str .= $image.",";
 		}
 	}
 	$array['images'] = $str;
