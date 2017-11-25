@@ -385,7 +385,7 @@ if ( isset($_POST['removeFromFav'])) {
 					</div>
 
 					<div class="col-md-24" style="text-align:right;">
-						<button type="submit" name="saveInfo" class="btn btn-custom" style="margin: 15px 20px; width: 100px;">'.__("Save").'</button>
+						<button type="submit" name="saveInfo" class="btn btn-custom" style="margin: 15px 20px; ">'.__("Save").'</button>
 					</div>
 					';
 				}

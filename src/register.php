@@ -107,7 +107,7 @@ if ( isset($_POST['register']) ) {
 }
 
 if ( isset($_POST['q']) ) {
-	$alert = $_POST['q'];
+	$alert = __($_POST['q']);
 }
 
 if ( isset($_GET['verify']) ) {

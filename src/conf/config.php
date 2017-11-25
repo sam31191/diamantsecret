@@ -1,5 +1,5 @@
 <?php
-    $__MAINDOMAIN__ = "http://localhost/diamantsecret/src/";
+    $__MAINDOMAIN__ = "http://localhost/diamantsecret/src/"; 
     $lang = 'fr';
     $cookie_name = "selectedLang";
     $directory_path = "C:\laragon\www\diamantsecret\src/";
@@ -36,7 +36,8 @@
     /*  MySQL Configuration */
     $host = "localhost";
     $dbname = "diamantsecret";
-    //$dbname = "db_diamantsecret_v6";
+    $dbname = "testsite_diamantsecret";
+
     $user = "root";
     $pass = "";
 
