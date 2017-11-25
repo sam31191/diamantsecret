@@ -93,6 +93,8 @@ pconsole($_POST);
         if(isset($_REQUEST['_sc']) && trim($_REQUEST['_sc'])!='') {
             $makeOppositeSubcategory = trim($_REQUEST['_sc']);
         }
+        
+
     ?>
     <input type="hidden" name="changeURL" id="changeURL" value="<?php echo makeOppositeUrlFromCurrentLang($opposite_category,$makeOppositeSubcategory,$makeInLang,0);?>">
     <!-- Header -->
@@ -108,9 +110,9 @@ pconsole($_POST);
                             <div class="col-md-24">
                                 <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'; ?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo ucfirst(__('home')); ?></a>
                                 <span>/</span>
-                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
+                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('collection'))?>" title="<?php echo __("View All"); ?>"><?php echo __("Collection"); ?></a></span>
                                 <span>/</span>
-                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('bracelets')?>" title="<?php echo __("View All"); ?>"><?php echo __("Bracelets"); ?></a></span>
+                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('bracelets'))?>" title="<?php echo __("View All"); ?>"><?php echo __("Bracelets"); ?></a></span>
                             </div>
                         </div>
                     </div>
@@ -158,15 +160,7 @@ pconsole($_POST);
                                     if ( isset($_GET['_sc']) && !empty($_GET['_sc']) ) {
                                         
                                       
-                                        $ringTag = $_GET['_sc'];
-
-                                        if($_GET['lang']){
-                                            if(!empty($ringTag) && $_GET['lang']=='fr'){
-                                                $ringTag = $fr_subcategory_arr[$ringTag];
-                                            }else if(!empty($ringTag) && $_GET['lang']=='en'){
-                                                $ringTag = $_GET['_sc'];
-                                            }
-                                        }
+                                        //-------------------------------
 
                                       $data=$pdo->prepare("select id from ring_subcategory WHERE category='".ucwords(strtolower(str_replace("-"," ", $ringTag)))." Bracelet' and category_id = 5");
                                       $data->execute();

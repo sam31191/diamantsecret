@@ -107,9 +107,9 @@ pconsole($_POST);
                             <div class="col-md-24">
                                 <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'; ?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo ucfirst(__('home')); ?></a>
                                 <span>/</span>
-                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('collection')?>" title="<?php echo __("View All"); ?>">Collection</a></span>
+                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('collection'))?>" title="<?php echo __("View All"); ?>">Collection</a></span>
                                 <span>/</span>
-                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('necklaces')?>" title="<?php echo __("View All"); ?>"><?php echo __("Necklace"); ?></a></span>
+                                <span class="page-title"><a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.strtolower(__('necklaces'))?>" title="<?php echo __("View All"); ?>"><?php echo __("Necklace"); ?></a></span>
                             </div>
                         </div>
                     </div>

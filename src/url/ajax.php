@@ -175,7 +175,7 @@ if ( isset($_GET['register']) ) {
 
 			$alert = __("Email Already Registered. Please [v6] Login [v7] Instead");
 			
-			$alert = str_replace("[v6]", "<a href='./login.php'  style='color: #607D8B;'>", $alert);
+			$alert = str_replace("[v6]", "<a href='".$__MAINDOMAIN__.$lang."/login.php'  style='color: #607D8B;'>", $alert);
 			$alert = str_replace("[v7]", "</a>", $alert);
 		}
 		
@@ -205,7 +205,7 @@ if ( isset($_GET['register']) ) {
 		$mailBody = str_replace("__CLIENT__", $_POST['customer']['username'], $mailBody);
 		$mailBody = str_replace("__VERIFICATIONHASH__", $verifyHash, $mailBody);
 		$mailBody = str_replace("__USERNAME__", $_POST['customer']['username'], $mailBody);
-		$mailBody = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $mailBody);
+		$mailBody = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__.$lang."/", $mailBody);
 
 		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
 
@@ -257,7 +257,6 @@ if ( isset($_GET['register']) ) {
 }
 
 if ( isset($_GET['paymentInfo']) ) {
-
 
     $paymentInfo = $pdo->prepare("SELECT * FROM tb_paypal_payments WHERE `invoice_number` = :invoice");
     $paymentInfo->execute(array(":invoice" => $_GET['paymentInfo']));

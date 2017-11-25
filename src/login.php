@@ -224,6 +224,7 @@ if ( isset($_POST['recover']) ) {
 }
 
 if ( isset($_GET['recoverHash']) && !empty($_GET['recoverHash']) ) {
+
     $checkHash = $pdo->prepare("SELECT * FROM `accounts` WHERE `recover_hash` = :hash");
     $checkHash->execute(array(":hash" => $_GET['recoverHash']));
 
@@ -249,7 +250,6 @@ if ( isset($_GET['recoverHash']) && !empty($_GET['recoverHash']) ) {
         $recoveryMail2 = str_replace("__CLIENT__", $userInfo['username'], $recoveryMail2);
         $recoveryMail2 = str_replace("__NEWPASS__", $newPass, $recoveryMail2);
         $recoveryMail2 = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $recoveryMail2);
-
 
         $testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
 
