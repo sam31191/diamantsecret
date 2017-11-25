@@ -55,13 +55,36 @@ if ( isset($_GET['subscribe']) ) {
 	} else {
     	$hash = strtoupper((hash("MD5", $email . "RAND123HASH")));
 		$addSub = $pdo->prepare("INSERT INTO `subscribers` (`email`, `hash`, `site_id`) VALUES (:email, :hash, 1)");
-		$addSub->execute(array(":email" => $email, ":hash" => $hash));
+		//$addSub->execute(array(":email" => $email, ":hash" => $hash));
 
 		require './PHPMailerAutoload.php';
 
 		$mailBody = file_get_contents('./../conf/mail_formats/subscription_email.html');
+		$mailBody = str_replace("Greetings", __("Greetings"), $mailBody);
+		$mailBody = str_replace("Thank you for subscribing", __("Thank you for subscribing"), $mailBody);
+		$mailBody = str_replace("You have succesfully subscribed to our newsletter", __("You have succesfully subscribed to our newsletter"), $mailBody);
+		$mailBody = str_replace("We make sure to only send relevant stuff", __("We make sure to only send relevant stuff"), $mailBody);
+		
+		$newStr = __("If this was not you, please [linkTagStart]Click Here[linkTagEnd] to unsubscribe to the newsletter");
+
+		$mailBody = str_replace('If this was not you, please <a href="__UNSUBURL__">Click Here</a> to unsubscribe to the newsletter',$newStr, $mailBody);
+
+
+		$mailBody = str_replace('[linkTagStart]', '<a href="__UNSUBURL__">', $mailBody);
+		$mailBody = str_replace('[linkTagEnd]', '</a>', $mailBody);
+		
+		$mailBody = str_replace("Thanks for choosing Diamant Secret", __("Thanks for choosing Diamant Secret"), $mailBody);
+		
+		$newStr2 = __("Copyright [copyrightLogo] [Y] Diamant Secret. All Rights Reserved.");
+		
+		$mailBody = str_replace("Copyright &copy; 2016 Diamant Secret. All Rights Reserved.", $newStr2, $mailBody);
+		$mailBody = str_replace("[copyrightLogo]", "&copy;", $mailBody);
+		$year = date('Y');
+		$mailBody = str_replace("[Y]", $year, $mailBody);
+		
 		$mailBody = str_replace("__UNSUBURL__", $__MAINDOMAIN__ .$lang.'/'.__("login").'/'. $hash, $mailBody);
 		$mailBody = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $mailBody);
+		
 
 		if ( $testSite ) {
 			$testSiteSubject = $__TESTSITEPREFIX__;
@@ -166,6 +189,19 @@ if ( isset($_GET['register']) ) {
 		$verifyHash = hash("md5", $email . "VERIFICATIONH1337ASH");
 
 		$mailBody = file_get_contents("./../conf/mail_formats/registration_verification.html");
+		$mailBody = str_replace("Greetings", __("Greetings"), $mailBody);		
+		$mailBody = str_replace("Thank you for registering to Diamant Secret", __("Thank you for registering to Diamant Secret"), $mailBody);
+		$mailBody = str_replace("To verify your account, click the link below<", __("To verify your account, click the link below<"), $mailBody);
+		$mailBody = str_replace("Verify Me", __("Verify Me"), $mailBody);
+		$mailBody = str_replace("Alternatively, you can simply login from here.", __("Alternatively, you can simply login from here."), $mailBody);
+		$mailBody = str_replace("Thanks for choosing Diamant Secret", __("Thanks for choosing Diamant Secret"), $mailBody);
+		$newStr2 = __("Copyright [copyrightLogo] [Y] Diamant Secret. All Rights Reserved.");
+		
+		$mailBody = str_replace("Copyright &copy; 2016 Diamant Secret. All Rights Reserved.", $newStr2, $mailBody);
+		$mailBody = str_replace("[copyrightLogo]", "&copy;", $mailBody);
+		$year = date('Y');
+		$mailBody = str_replace("[Y]", $year, $mailBody);
+
 		$mailBody = str_replace("__CLIENT__", $_POST['customer']['username'], $mailBody);
 		$mailBody = str_replace("__VERIFICATIONHASH__", $verifyHash, $mailBody);
 		$mailBody = str_replace("__USERNAME__", $_POST['customer']['username'], $mailBody);

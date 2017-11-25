@@ -36,7 +36,7 @@
     /*  MySQL Configuration */
     $host = "localhost";
     $dbname = "diamantsecret";
-    $dbname = "testsite_diamantsecret";
+    //$dbname = "testsite_diamantsecret";
 
     $user = "root";
     $pass = "";
