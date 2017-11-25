@@ -41,7 +41,18 @@ include 'conf/config.php';
 
 ?>
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templatePage notouch" >
-  
+<?php
+    $link = '';
+    if(isset($_GET['lang'])){
+        if($_GET['lang']=='fr'){
+            $link = 'diamond-search';
+        }else{
+            $link = 'recherche-de-diamants';
+        }
+    }
+?>
+    <input type="hidden" name="changeURL" id="changeURL" value="<?php echo $link; ?>">
+    
     <?php include'./url/header.php'; ?>
   
     <div id="content-wrapper-parent">

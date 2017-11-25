@@ -238,6 +238,28 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 
             #$mailToCustomer = mailToCustomer($_SESSION['username'], $orderedItems, $subtotal);
             $mailToCustomer = file_get_contents('./conf/mail_formats/purchase_request_client.html');
+            $mailToCustomer = str_replace("Greetings", __("Greetings"), $mailToCustomer);
+            $mailToCustomer = str_replace("Your purchase request has been placed, details are as follow", __("Your purchase request has been placed, details are as follow"), $mailToCustomer);
+            $mailToCustomer = str_replace("Type", __("Type"), $mailToCustomer);
+            $mailToCustomer = str_replace("Item", __("Item"), $mailToCustomer);
+            $mailToCustomer = str_replace("Size", __("Size"), $mailToCustomer);
+            $mailToCustomer = str_replace("Mtrl", __("Mtrl"), $mailToCustomer);
+            $mailToCustomer = str_replace("Shape", __("Shape"), $mailToCustomer);
+            $mailToCustomer = str_replace("Clrty", __("Clrty"), $mailToCustomer);
+            $mailToCustomer = str_replace("Price", __("Price"), $mailToCustomer);
+            $mailToCustomer = str_replace("Disc", __("Disc"), $mailToCustomer);
+            $mailToCustomer = str_replace("VAT", __("VAT"), $mailToCustomer);
+            $mailToCustomer = str_replace("Qty", __("Qty"), $mailToCustomer);
+            $mailToCustomer = str_replace("S.Total", __("S.Total"), $mailToCustomer);
+            $mailToCustomer = str_replace("Total", __("Total"), $mailToCustomer);
+            $mailToCustomer = str_replace("You Saved", __("You Saved"), $mailToCustomer);
+            $mailToCustomer = str_replace("Our sales person would process your order, and get in touch with you as soon as possible.", __("Our sales person would process your order, and get in touch with you as soon as possible."), $mailToCustomer);           
+            $mailToCustomer = str_replace("Thank you for choosing Diamant Secret", __("Thank you for choosing Diamant Secret"), $mailToCustomer);
+            $newStr2 = __("Copyright [copyrightLogo] [Y] Diamant Secret. All Rights Reserved.");        
+            $mailToCustomer = str_replace("Copyright &copy; 2016 Diamant Secret. All Rights Reserved.", $newStr2, $mailToCustomer);
+            $mailToCustomer = str_replace("[copyrightLogo]", "&copy;", $mailToCustomer);
+            $year = date('Y');
+            $mailToCustomer = str_replace("[Y]", $year, $mailToCustomer);
             $mailToCustomer = str_replace("__CLIENT__", $_SESSION['username'], $mailToCustomer);
             $mailToCustomer = str_replace("__ITEMS__", $orderedItems, $mailToCustomer);
             $mailToCustomer = str_replace("__USERNAME__", $_SESSION['username'], $mailToCustomer);
@@ -335,7 +357,17 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
 } 
 ?>
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templateCart notouch">
-  
+<?php
+    $link = '';
+    if(isset($_GET['lang'])){
+        if($_GET['lang']=='fr'){
+            $link = 'cart';
+        }else{
+            $link = 'chariot';
+        }
+    }
+?>
+    <input type="hidden" name="changeURL" id="changeURL" value="<?php echo $link; ?>">
     <!-- Header -->
     <?php 
     include './url/header.php'; 

@@ -585,7 +585,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 											</div>';
 									?>
 									<div class="action">
-										<a class="btn btn-1" href="<?php echo $__MAINDOMAIN__.''.$lang.'/cart'?>"><?php echo __("View Cart"); ?></a>
+										<a class="btn btn-1" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('cart')?>"><?php echo __("View Cart"); ?></a>
 									</div>
 								</div>
 							</div>

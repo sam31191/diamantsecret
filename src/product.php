@@ -425,9 +425,9 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                                     echo '
                                                                     <div data-value="blue" class="swatch-element color blue available">
                                                                         <div class="tooltip">
-                                                                            '. $colorName["color"] .'
+                                                                            '. __($colorName["color"]) .'
                                                                         </div>
-                                                                        <a class="btn material-badge" name="'. $colorName["color"] .'">'. $colorName["color"] .'</a>
+                                                                        <a class="btn material-badge" name="'. $colorName["color"] .'">'. __($colorName["color"]) .'</a>
                                                                         </label>
                                                                     </div>';
                                                                     ?>                                                                  

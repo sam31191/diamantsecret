@@ -2,8 +2,8 @@
 
 //error_reporting(0);
 
-require_once("lib/streams.php");
-require_once("lib/gettext.php");
+	require_once("lib/streams.php");
+	require_once("lib/gettext.php");
 
 	$locle_lang = 'en';
 
@@ -23,6 +23,7 @@ require_once("lib/gettext.php");
  	}else{
   		$locale_file = new FileReader("translation/locale/$locle_lang/LC_MESSAGES/diamantsecret_fr.mo");
  	}
+
 
 	$locale_fetch = new gettext_reader($locale_file);
 

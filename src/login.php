@@ -150,7 +150,7 @@ if ( isset($_GET['unsub']) ) {
         $unsub = $pdo->prepare("DELETE FROM `subscribers` WHERE `hash` = :hash AND `site_id` = 1");
         $unsub->execute(array(":hash" => $_GET['unsub']));
 
-        $error = "You have unsubscribed from our newsletter";
+        $error = __("You have unsubscribed from our newsletter");
     }
 }
 
@@ -165,6 +165,16 @@ if ( isset($_POST['recover']) ) {
         $recoverHash = strtoupper(hash("md5", $_POST['recover']['email'] . 'RECOVER!@#HASH' . generatePass(10)));
 
         $recoveryMail = file_get_contents('./conf/mail_formats/password_recovery_request.html');
+        $recoveryMail = str_replace("Greetings", __("Greetings"), $recoveryMail);        
+        $recoveryMail = str_replace("Password Reset", __("Password Reset"), $recoveryMail);
+        $recoveryMail = str_replace("Click the following link to reset your password", __("Click the following link to reset your password"), $recoveryMail);
+        $recoveryMail = str_replace("Reset my password", __("Reset my password"), $recoveryMail);
+        $recoveryMail = str_replace("Thanks for choosing Diamant Secret", __("Thanks for choosing Diamant Secret"), $recoveryMail);
+        $newStr2 = __("Copyright [copyrightLogo] [Y] Diamant Secret. All Rights Reserved.");
+        $recoveryMail = str_replace("Copyright &copy; 2016 Diamant Secret. All Rights Reserved.", $newStr2, $recoveryMail);
+        $recoveryMail = str_replace("[copyrightLogo]", "&copy;", $recoveryMail);
+        $year = date('Y');
+        $recoveryMail = str_replace("[Y]", $year, $recoveryMail); 
         $recoveryMail = str_replace("__CLIENT__", $userInfo['username'], $recoveryMail);
         $recoveryMail = str_replace("__RECOVERURL__", $__MAINDOMAIN__ .$_REQUEST['lang'].'/login?recoverHash='. $recoverHash, $recoveryMail);
         $recoveryMail = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $recoveryMail);
@@ -224,6 +234,19 @@ if ( isset($_GET['recoverHash']) && !empty($_GET['recoverHash']) ) {
 
         require './url/PHPMailerAutoload.php';
         $recoveryMail2 = file_get_contents('./conf/mail_formats/password_recovery.html');
+        $recoveryMail2 = str_replace("Greetings", __("Greetings"), $recoveryMail2);
+        $recoveryMail2 = str_replace("Your password has been reset", __("Your password has been reset"), $recoveryMail2);
+        $recoveryMail2 = str_replace("As you requested, we have reset your password.", __("As you requested, we have reset your password."), $recoveryMail2);
+        $recoveryMail2 = str_replace("Your new Password", __("Your new Password"), $recoveryMail2);
+        $recoveryMail2 = str_replace("Login Now", __("Login Now"), $recoveryMail2);
+        $recoveryMail2 = str_replace("We recommend you change your password as soon as possible", __("We recommend you change your password as soon as possible"), $recoveryMail2);
+        $recoveryMail2 = str_replace("Thanks for choosing Diamant Secret", __("Thanks for choosing Diamant Secret"), $recoveryMail2);
+        $recoveryMail2 = str_replace("Greetings", __("Greetings"), $recoveryMail2);
+        $newStr2 = __("Copyright [copyrightLogo] [Y] Diamant Secret. All Rights Reserved.");
+        $recoveryMail2 = str_replace("Copyright &copy; 2016 Diamant Secret. All Rights Reserved.", $newStr2, $recoveryMail2);
+        $recoveryMail2 = str_replace("[copyrightLogo]", "&copy;", $recoveryMail2);
+        $year = date('Y');
+        $recoveryMail2 = str_replace("[Y]", $year, $recoveryMail2);
         $recoveryMail2 = str_replace("__CLIENT__", $userInfo['username'], $recoveryMail2);
         $recoveryMail2 = str_replace("__NEWPASS__", $newPass, $recoveryMail2);
         $recoveryMail2 = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $recoveryMail2);
@@ -283,8 +306,19 @@ function generatePass($length = 10) {
 }
 ?>
     <!-- Header -->
-    <?php include './url/header.php'; ?>
-  
+<?php 
+    include './url/header.php'; 
+    
+    $link = '';
+    if(isset($_GET['lang'])){
+        if($_GET['lang']=='fr'){
+            $link = 'login';
+        }else{
+            $link = 'se-connecter';
+        }
+    }
+?>
+    <input type="hidden" name="changeURL" id="changeURL" value="<?php echo $link; ?>"> 
     <div id="content-wrapper-parent">
         <div id="content-wrapper">  
             <!-- Content -->

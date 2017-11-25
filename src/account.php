@@ -3,12 +3,13 @@ if ( session_status() == PHP_SESSION_NONE ) {
 	session_start();
 }
 
+include './conf/config.php';
+
 if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
 
-	header("location: $__MAINDOMAIN__.$lang/login");
+	header("location: $__MAINDOMAIN__$lang/".__('login'));
 	exit();
 }
-include './conf/config.php';
 ?><!doctype html>
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
@@ -104,7 +105,17 @@ if ( isset($_POST['removeFromFav'])) {
 
 ?>
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templateCustomersRegister notouch">
-  
+<?php
+  $link = '';
+    if(isset($_GET['lang'])){
+        if($_GET['lang']=='fr'){
+            $link = 'account';
+        }else{
+            $link = 'compte';
+        }
+    }
+?>
+    <input type="hidden" name="changeURL" id="changeURL" value="<?php echo $link; ?>"> 
 	<!-- Header -->
 	<?php include './url/header.php'; ?>
   
