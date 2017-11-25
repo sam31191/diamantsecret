@@ -41,6 +41,17 @@ include './conf/config.php';
 	$alert = "";
 ?>
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templateCustomersRegister notouch">
+<?php
+	$link = '';
+	if(isset($_GET['lang'])){
+		if($_GET['lang']=='fr'){
+			$link = 'orders';
+		}else{
+			$link = 'ordres';
+		}
+	}
+?>
+	<input type="hidden" name="changeURL" id="changeURL" value="<?php echo $link; ?>">
 	<!-- Header -->
 	<?php include './url/header.php'; ?>
 

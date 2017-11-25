@@ -134,6 +134,17 @@ if ( isset($_GET['verify']) ) {
 ?>
 
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templateCustomersRegister notouch">
+<?php
+	$link = '';
+	if(isset($_GET['lang'])){
+		if($_GET['lang']=='fr'){
+			$link = 'register';
+		}else{
+			$link = 'registre';
+		}
+	}
+?>
+	<input type="hidden" name="changeURL" id="changeURL" value="<?php echo $link; ?>">
   
 	<!-- Header -->
 	<?php include './url/header.php'; ?>

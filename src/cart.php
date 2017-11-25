@@ -358,7 +358,17 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
 } 
 ?>
 <body itemscope="" itemtype="http://schema.org/WebPage" class="templateCart notouch">
-  
+<?php
+    $link = '';
+    if(isset($_GET['lang'])){
+        if($_GET['lang']=='fr'){
+            $link = 'cart';
+        }else{
+            $link = 'chariot';
+        }
+    }
+?>
+    <input type="hidden" name="changeURL" id="changeURL" value="<?php echo $link; ?>">
     <!-- Header -->
     <?php 
     include './url/header.php'; 

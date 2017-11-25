@@ -55,7 +55,7 @@ if ( isset($_GET['subscribe']) ) {
 	} else {
     	$hash = strtoupper((hash("MD5", $email . "RAND123HASH")));
 		$addSub = $pdo->prepare("INSERT INTO `subscribers` (`email`, `hash`, `site_id`) VALUES (:email, :hash, 1)");
-		//$addSub->execute(array(":email" => $email, ":hash" => $hash));
+		$addSub->execute(array(":email" => $email, ":hash" => $hash));
 
 		require './PHPMailerAutoload.php';
 

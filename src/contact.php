@@ -97,7 +97,7 @@ if ( isset($_POST['addToCart']) ) {
 					<div itemprop="breadcrumb" class="container">
 						<div class="row">
 							<div class="col-md-24">
-								<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'; ?>" class="homepage-link" title="Back to the frontpage"><?php echo ucfirst(__("home")); ?></a>
+								<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'; ?>" class="homepage-link" title="<?php echo __("Back to the frontpage"); ?>"><?php echo ucfirst(__("home")); ?></a>
 								<span>/</span>
 								<span class="page-title">Contact</span>
 							</div>

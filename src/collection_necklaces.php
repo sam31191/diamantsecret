@@ -264,7 +264,7 @@ pconsole($_POST);
                                                                     if ( $checkIfOptionExists->rowCount() > 0 ) {
                                                                         $optionCount = $checkIfOptionExists->fetch(PDO::FETCH_ASSOC)['optionCount'];
                                                                         if ( $optionCount > 0 ) {
-                                                                            echo '<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. $materialOption["category"] .'" value="'. $materialOption["id"] .'" onclick="filterMaterial(this, this.value)">'. $materialOption["category"] .'</button></li>';
+                                                                            echo '<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. __($materialOption["category"]) .'" value="'. $materialOption["id"] .'" onclick="filterMaterial(this, this.value)">'. __($materialOption["category"]) .'</button></li>';
                                                                         }
                                                                     }
                                                                 }
@@ -336,7 +336,7 @@ pconsole($_POST);
 
                                                             if ( $fetchAvailableStoneTypes->rowCount() > 0 ) {
                                                                 foreach ( $fetchAvailableStoneTypes->fetchAll() as $materialOption ) {
-                                                                    echo '<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. $materialOption["color"] .'" value="'. $materialOption["id"] .'" onclick="filterStone(this, this.value)">'. $materialOption["color"] .'</button></li>';
+                                                                    echo '<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. __($materialOption["color"]) .'" value="'. $materialOption["id"] .'" onclick="filterStone(this, this.value)">'. __($materialOption["color"]) .'</button></li>';
                                                                 }
                                                             }
                                                             ?>

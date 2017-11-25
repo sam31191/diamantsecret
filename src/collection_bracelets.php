@@ -16,7 +16,7 @@ include './url/pre.php';
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <link rel="canonical" href="https://diamantsecret.com/en/collection_bracelets.php" />
   <meta name="description" content="Looking for top quality of bracelets to buy online? We at DiamantSecret have the best collection of diamond bracets, gemstone bracelets, pearl bracelets etc." />
-  <title><?php echo __("Collection of Best Diamond Bracelets - Gemstone Bracelets"); ?></title>
+  <title><?php echo __("Collection of Best Diamond Bracelets").'-'.__("Gemstone Bracelets"); ?></title>
   
     <link href="<?php echo $__MAINDOMAIN__;?>assets/stylesheets/font.css" rel='stylesheet' type='text/css'>
     
@@ -260,7 +260,7 @@ pconsole($_POST);
                                                                     if ( $checkIfOptionExists->rowCount() > 0 ) {
                                                                         $optionCount = $checkIfOptionExists->fetch(PDO::FETCH_ASSOC)['optionCount'];
                                                                         if ( $optionCount > 0 ) {
-                                                                            echo '<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. $materialOption["category"] .'" value="'. $materialOption["id"] .'" onclick="filterMaterial(this, this.value)">'. $materialOption["category"] .'</button></li>';
+                                                                            echo '<li><button class="material-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. __($materialOption["category"]) .'" value="'. $materialOption["id"] .'" onclick="filterMaterial(this, this.value)">'. __($materialOption["category"]) .'</button></li>';
                                                                         }
                                                                     }
                                                                 }
@@ -332,7 +332,7 @@ pconsole($_POST);
 
                                                             if ( $fetchAvailableStoneTypes->rowCount() > 0 ) {
                                                                 foreach ( $fetchAvailableStoneTypes->fetchAll() as $materialOption ) {
-                                                                    echo '<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. $materialOption["color"] .'" value="'. $materialOption["id"] .'" onclick="filterStone(this, this.value)">'. $materialOption["color"] .'</button></li>';
+                                                                    echo '<li><button class="stone-tag btooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="'. __($materialOption["color"]) .'" value="'. $materialOption["id"] .'" onclick="filterStone(this, this.value)">'. __($materialOption["color"]) .'</button></li>';
                                                                 }
                                                             }
                                                             ?>
@@ -525,7 +525,7 @@ pconsole($_POST);
                                                                                 </div>
                                                                                 <div class="effect-ajax-cart">
                                                                                     <input name="quantity" value="1" type="hidden">
-                                                                                    <button class="select-option" type="button" onclick="window.location.href=\'product.php?view='. $item['unique_key'] .'\'">'.__("View").'</button>
+                                                                                    <button class="select-option" type="button" onclick="window.location.href=\''.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'\'">'.__("View").'</button>
                                                                                 </div>
                                                                                 </li>
                                                                             </ul>

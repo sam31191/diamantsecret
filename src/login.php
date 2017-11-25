@@ -306,8 +306,19 @@ function generatePass($length = 10) {
 }
 ?>
     <!-- Header -->
-    <?php include './url/header.php'; ?>
-  
+<?php 
+    include './url/header.php'; 
+    
+    $link = '';
+    if(isset($_GET['lang'])){
+        if($_GET['lang']=='fr'){
+            $link = 'login';
+        }else{
+            $link = 'se-connecter';
+        }
+    }
+?>
+    <input type="hidden" name="changeURL" id="changeURL" value="<?php echo $link; ?>"> 
     <div id="content-wrapper-parent">
         <div id="content-wrapper">  
             <!-- Content -->
