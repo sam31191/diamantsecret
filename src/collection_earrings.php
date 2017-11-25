@@ -516,7 +516,7 @@ pconsole($_POST);
 
 																	echo '
 																	<div class="element full_width fadeInUp animated" data-animate="fadeInUp" data-delay="0">
-																		<form action="'.$__MAINDOMAIN__.$lang.'/'.__('earrings').'" method="post">
+																		<form action="'.$__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('earrings')).'" method="post">
 																			<ul class="row-container list-unstyled clearfix">
 																				<li class="row-left">
 																				<a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'" class="container_item"style="max-height:100px">
@@ -962,7 +962,7 @@ pconsole($_POST);
 										</li>
 									</ul>
 								</div>
-								<form method="post" enctype="multipart/form-data" action="<?php echo $__MAINDOMAIN__.$lang.'/'.__('earrings') ?>">
+								<form method="post" enctype="multipart/form-data" action="<?php echo $__MAINDOMAIN__.$lang.'/'.processUrlParameter(__('earrings')) ?>">
 									<div id="quick-shop-price-container" class="detail-price">
 										
 									</div>

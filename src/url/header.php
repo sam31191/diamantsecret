@@ -512,18 +512,19 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 														$cartItemInfo = $getCartItemInfo->fetch(PDO::FETCH_ASSOC);
 														
 														$images = explode(",", $cartItemInfo['images']);
-														if ( $images[0] == "" ) {
+														if ( $images[0] == "" && !is_file( '../images/images_sm/'. $images[0]) ) {
 															$images[0] = '0.png';
 														}
 														
 														$urlSubcategory = '';
-															if ( isset($_GET['_sc']) && (int)$ringTag>0) {
-															$urlSubcategory = $ringTag;
-														} else if ( isset($_GET['_sc'])) {
-															$urlSubcategory = $_GET['_sc'];
-															} else {
-															$urlSubcategory = $cartItemInfo['ring_subcategory'];
-															} 
+														// 	if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+														// 	$urlSubcategory = $ringTag;
+														// } else if ( isset($_GET['_sc'])) {
+														// 	$urlSubcategory = $_GET['_sc'];
+														// 	} else {
+														// 	$urlSubcategory = $cartItemInfo['ring_subcategory'];
+														// 	} 
+														$urlSubcategory = $cartItemInfo['ring_subcategory'];
 														
 														echo '
 															<div class="items control-container">
@@ -584,7 +585,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 											</div>';
 									?>
 									<div class="action">
-										<a class="btn btn-1" href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('cart')?>"><?php echo __("View Cart"); ?></a>
+										<a class="btn btn-1" href="<?php echo $__MAINDOMAIN__.''.$lang.'/cart'?>"><?php echo __("View Cart"); ?></a>
 									</div>
 								</div>
 							</div>
