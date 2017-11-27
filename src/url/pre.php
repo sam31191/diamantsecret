@@ -1,8 +1,6 @@
 <?php 
 if ( isset($_POST['addToCart']) && !$_SESSION['loggedIn'] ) {
-	
 	$cartElement = $_POST['unique_key'] . '|' . $_POST['size'] . '|';
-
 	if ( isset($_COOKIE[COOKIE_CART]) ) {
 		$currentCart = $_COOKIE[COOKIE_CART];
 	} else {

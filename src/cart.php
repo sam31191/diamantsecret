@@ -344,7 +344,6 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 }
 
 if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
-    echo "tester";
     $item = explode("|", trim($_POST['removeItem'], ",") );
 
     $_POST['unique_key'] = $item[0];
@@ -401,13 +400,10 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                     <li name="4"><?php echo __("Payment"); ?></li>
                                 </ul>
                             </div>
-                            <?php 
-                            pconsole($_POST);
-                            if ( !isset($_POST['CART']['STEP']) ) {
-                            ?>
-                            <script type="text/javascript">
-                                $(".nav.nav-pills.nav-justified.nav-cart > li[name=\"1\"]").addClass("active");
-                            </script>
+                            <?php pconsole($_POST); if ( !isset($_POST['CART']['STEP']) ) {?>
+                                <script type="text/javascript">
+                                    $(".nav.nav-pills.nav-justified.nav-cart > li[name=\"1\"]").addClass("active");
+                                </script>
                             <div class="col-sm-24">
                                 <div id="col-main" class="col-md-24 cart-page content">
                                     <form method="post" id="removeItemForm" action="<?php  echo $__MAINDOMAIN__.$lang.'/'.__('cart')?>"></form>
@@ -424,27 +420,13 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                 </colgroup>
                                                 <thead>
                                                 <tr class="top-labels">
-                                                    <th>
-                                                        <?php echo __("Items"); ?>
-                                                    </th>
-                                                    <th>
-                                                        <?php echo __("Price"); ?>
-                                                    </th>
-                                                    <th>
-                                                        <?php echo __("Discount"); ?>
-                                                    </th>
-                                                    <th>
-                                                        <?php echo __("Qty"); ?>
-                                                    </th>
-                                                    <th>
-                                                        <small><?php echo __("Total"); ?></small> <?php echo __("VAT"); ?> 
-                                                    </th>
-                                                    <th>
-                                                        <?php echo __("Subtotal"); ?>
-                                                    </th>
-                                                    <th>
-                                                        &nbsp;
-                                                    </th>
+                                                    <th><?php echo __("Items"); ?></th>
+                                                    <th><?php echo __("Price"); ?></th>
+                                                    <th><?php echo __("Discount"); ?></th>
+                                                    <th><?php echo __("Qty"); ?></th>
+                                                    <th><small><?php echo __("Total"); ?></small> <?php echo __("VAT"); ?></th>
+                                                    <th><?php echo __("Subtotal"); ?></th>
+                                                    <th>&nbsp;</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -474,6 +456,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                 pconsole($cartItems);
                                                 foreach ( $cartItems as $item ) {
                                                     $itemVal = explode("|", $item);
+
                                                     if ( $item !== "" ) {
                                                         $itemCategory = $pdo->prepare("SELECT * FROM `items` WHERE `unique_key` = :key");
                                                         $itemCategory->execute(array(":key" => $itemVal[0]));
@@ -570,6 +553,8 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                          } else {
                                                             $urlSubcategory = $itemInfo['ring_subcategory'];
                                                          } 
+
+
                                                                 echo '
                                                                     <tr class="item donec-condime-fermentum">
                                                                         <td class="title text-center">
@@ -589,9 +574,7 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                                                 </li>
                                                                             </ul>
                                                                         </td>
-                                                                        <td class="title-1">
-                                                                            '. $price . '
-                                                                        </td>
+                                                                        <td class="title-1">'. $price . '</td>
                                                                         <td>'. $sale .'</td>
                                                                         <td>
                                                                             <input class="form-control input-1 replace" maxlength="5" size="5" id="updates_3947646083" name="updates[]" value="'. $itemVal[2] .'" disabled> '. $adjustedQuantity .'
@@ -602,7 +585,9 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                                         <td class="total title-1">
                                                                             €'. number_format($vatAmount, 2, ".", "") .'
                                                                         </td>
-                                                                        <td class="action"><button type="submit" form="removeItemForm" name="removeItem" value="'. $item .'"><i class="fa fa-times"></i>'.__("Remove").'</button>
+                                                                        <td class="action">';?>
+                                                                        <button type="button" onclick="removeCartItem('<?php echo $itemVal[0] ?>','<?php echo $itemVal[1] ?>','<?php echo $itemVal[2]?>')"><?php echo '
+                                                                        <i class="fa fa-times"></i>'.__("Remove").'</button>
                                                                         </td>
                                                                     </tr>';
                                                             } else {
@@ -640,8 +625,8 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                                         <td class="total title-1">
                                                                             <small>'.__("Out of Stock").'</small>
                                                                         </td>
-                                                                        <td class="action"><button type="submit" form="removeItemForm" name="removeItem" value="'. $item .'"><i class="fa fa-times"></i>'.__("Remove").'</button>
-                                                                        </td>
+                                                                        <td class="action">
+                                                                            <button type="button"><i class="fa fa-times"></i>'.__("Remove").'</button></td>
                                                                     </tr>';
                                                             }
                                                         }
@@ -652,29 +637,19 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
                                                 ?>
                                                 </tbody>
                                                 <tfoot>
-                                                <tr class="bottom-summary">
-                                                    <td>
-                                                        &nbsp;
-                                                    </td>
-                                                    <td>
-                                                        &nbsp;
-                                                    </td>
-                                                    <td>
-                                                        &nbsp;
-                                                    </td>
-                                                    <td>
-                                                        &nbsp;
-                                                    </td>
-                                                    <td>
-                                                        &nbsp;
-                                                    </td>
-                                                    <td class="subtotal title-1" style="text-align: left;">
-                                                        <?php echo '<small style="font-size:14px;">Total:</small> <br>€' . number_format($subtotalMain, 2, ".", ""); ?>
-                                                    </td>
-                                                    <td class="subtotal title-1" style="text-align: left;">
-                                                        <?php echo '<span style="font-size:18px; color: grey;"><small style="font-size:12px;">'.__("You save").':</small> <br>€' . number_format($youSave, 2, ".", "") . '</span>'; ?>
-                                                    </td>
-                                                </tr>
+                                                    <tr class="bottom-summary">
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                        <td class="subtotal title-1" style="text-align: left;">
+                                                            <?php echo '<small style="font-size:14px;">Total:</small> <br>€' . number_format($subtotalMain, 2, ".", ""); ?>
+                                                        </td>
+                                                        <td class="subtotal title-1" style="text-align: left;">
+                                                            <?php echo '<span style="font-size:18px; color: grey;"><small style="font-size:12px;">'.__("You save").':</small> <br>€' . number_format($youSave, 2, ".", "") . '</span>'; ?>
+                                                        </td>
+                                                    </tr>
                                                 </tfoot>
                                                 </table>
                                             </div>
@@ -809,6 +784,21 @@ if ( isset($_POST['removeItem']) && $_SESSION['loggedIn'] ) {
             </div>
         </div>
     </div>
+    <form method="post" id="removeCartItems" >
+        <input name="unique_key" value="" id="unique_key" type="hidden" >
+        <<input type="hidden" name="removeFromCart" value="removeFromCart">
+        <input name="size" value="0" id="size" type="hidden" >
+        <input name="quantity" value="0" id="qty" type="hidden" >
+    </form>
+    <script type="text/javascript">
+        function removeCartItem(uniqid,size,qty) {
+            $("#unique_key").val(uniqid);
+            $("#qty").val(qty);
+            $("#size").val(size);
+            $("#removeCartItems").submit();
+            
+        }        
+    </script>
 
     <?php include './url/footer.php'; ?>
   </body>

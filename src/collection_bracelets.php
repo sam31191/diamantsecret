@@ -160,7 +160,15 @@ pconsole($_POST);
                                     if ( isset($_GET['_sc']) && !empty($_GET['_sc']) ) {
                                         
                                       
-                                        //-------------------------------
+                                        $ringTag = $_GET['_sc'];
+
+										if($_GET['lang']){
+											if(!empty($ringTag) && $_GET['lang']=='fr'){
+												$ringTag = $fr_subcategory_arr[$ringTag];
+											}else if(!empty($ringTag) && $_GET['lang']=='en'){
+												$ringTag = $_GET['_sc'];
+											}
+										}
 
                                       $data=$pdo->prepare("select id from ring_subcategory WHERE category='".ucwords(strtolower(str_replace("-"," ", $ringTag)))." Bracelet' and category_id = 5");
                                       $data->execute();
@@ -825,14 +833,14 @@ pconsole($_POST);
                                                             $images[0] = "0.png";
                                                         }
 														$urlSubcategory = '';
-                                                         if ( isset($_GET['_sc']) && (int)$ringTag>0) {
+                                                        
+                                                        if ( isset($_GET['_sc']) && (int)$ringTag>0) {
                                                             $urlSubcategory = $ringTag;
                                                         } else if ( isset($_GET['_sc']) && !empty($_GET['_sc']) ) {
                                                             $urlSubcategory = $_GET['_sc'];
-                                                         } else {
+                                                        } else {
                                                             $urlSubcategory = $item['ring_subcategory'];
-                                                         }
-
+                                                        }
                                                         $img_alt =  makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key'],$alt_tag=1);
 
                                                         $element = '<li class="element no_full_width" data-alpha="" data-price="20000">
