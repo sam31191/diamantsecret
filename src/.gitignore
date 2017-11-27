@@ -1,2 +1,3 @@
 .htaccess
 conf/config.php
+src/PayPal.log

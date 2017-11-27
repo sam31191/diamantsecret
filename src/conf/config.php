@@ -1,13 +1,9 @@
 <?php
-    $__MAINDOMAIN__ = "https://testsite.diamantsecret.com/";
+    $__MAINDOMAIN__ = "http://localhost/diamantsecret/src/";
     $lang = 'fr';
-
-    $dir_path = "/home/diamantsecret/BUILD/TESTSITE/master/diamantsecret/src/";
-    
     $cookie_name = "selectedLang";
-    $dir_path.'subCategoryArrays.php';
-    include_once($dir_path.'subCategoryArrays.php');
-
+    $directory_path = "C:/laragon/www/diamantsecret/src/";
+    require_once($directory_path."subCategoryArrays.php");
     if(!isset($_COOKIE[$cookie_name])){
         try{
             //$ip = "165.72.200.11"; // European IP address.
@@ -37,13 +33,14 @@
     }
 
 
+    $siteIdd = 1;
+
     /*  MySQL Configuration */
     $host = "localhost";
     $dbname = "diamantsecret";
-    $dbname = "TESTSITE_DIAMANTSECRET";
-    $user = "diamants_test";
-    $pass = "test_diamants";
-
+    //$dbname = "db_diamantsecret_v6";
+    $user = "root";
+    $pass = "";
 
     /* Mail Configuration */
     $mailHost = 'mail.diamantsecret.com';
@@ -55,7 +52,6 @@
     $mailSenderName = "Diamant Secret";
     $__ADMINMAIL__ = "contact@diamantsecret.com";
     $__ADMINNAME__ = "Admin";
-    //$__MAINDOMAIN__ = "https://testsite.diamantsecret.com/";
     //$__MAINDOMAIN__ = "http://localhost/diamantsecret/src/"; // Already defined on top
     $__SITE = "diamant_secret";
     //$lang = 'fr'; // Already defined on top
@@ -85,9 +81,8 @@
 
     /* Diamond Search Params */
     define("DIAMOND_SEARCH_THEME", "gold");
-    //define("DIAMOND_SEARCH_URL", "http://198.57.197.106/~arhaandiam/testsite/diamond-search");
-    define("DIAMOND_SEARCH_URL", "https://www.testsite.arhaandiam.com/diamond-search");
-    define("DIAMOND_SEARCH_API", "61bc1c10-c71d-11e7-8bde-b3c83408746b");
+    define("DIAMOND_SEARCH_URL", "http://198.57.197.106/~arhaandiam/testsite/diamond-search");
+    define("DIAMOND_SEARCH_API", "47030ee0-2bf5-11e7-b396-17bd839c5425");
 
     /* COOKIES */
     define("COOKIE_CART", "TEMP_CART");
@@ -865,18 +860,16 @@ $product_images = array(
 
 if (strpos($actual_link,'admin') !== false) {
     
-}else if(basename($_SERVER['PHP_SELF']) == 'ajax.php' || basename($_SERVER['PHP_SELF']) == 'fetch_item_info.php' || basename($_SERVER['PHP_SELF']) == 'post.php') {
-    include '../translation/french.php';
- } else {
-    include 'translation/french.php';
+} else {
+    include $directory_path.'translation/french.php';
  }
-
 function processUrlParameter($urlParam){
     $urlParam = strtolower($urlParam);
     $urlParam = str_replace(" ", "-", $urlParam);
     $urlParam = str_replace("'", "", $urlParam);
     return $urlParam;
 }
+
 function makeProductDetailPageUrl($subcategory,$carat,$gold_quality,$materil,$product_name,$unique_key,$alt_tag="")
 {
     global $pdo,$__MAINDOMAIN__,$lang;

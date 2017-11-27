@@ -110,9 +110,10 @@ if ( isset($_POST['q']) ) {
 	$alert = __($_POST['q']);
 }
 if ( isset($_GET['verify']) ) {
-
+	
 	$verify = $pdo->prepare("SELECT * FROM `accounts` WHERE `verification_hash` = :verify");
 	$verify->execute(array(":verify" => $_GET['verify']));
+
 
 	if ( $verify->rowCount() > 0 ) {
 		$accountToActivate = $verify->fetch(PDO::FETCH_ASSOC);

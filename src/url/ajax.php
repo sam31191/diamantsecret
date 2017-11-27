@@ -37,8 +37,6 @@ if ( isset($_GET['removeFromFav'])) {
 
 	$currentFav = str_replace(',' . $_GET['removeFromFav'], "", $currentFav);
 
-	echo $currentFav;
-
 	$updateFav = $pdo->prepare("UPDATE `accounts` SET `favorites` = :favs WHERE `username` = :username AND `site_id` = 1");
 	$updateFav->execute ( array (":favs" => $currentFav, ":username" => $_USERNAME) );
 }
@@ -205,7 +203,8 @@ if ( isset($_GET['register']) ) {
 		$mailBody = str_replace("__CLIENT__", $_POST['customer']['username'], $mailBody);
 		$mailBody = str_replace("__VERIFICATIONHASH__", $verifyHash, $mailBody);
 		$mailBody = str_replace("__USERNAME__", $_POST['customer']['username'], $mailBody);
-		$mailBody = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__.$lang."/", $mailBody);
+		$mailBody = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $mailBody);
+		$mailBody = str_replace("__LANG__", $lang.'?', $mailBody);
 
 		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
 
@@ -324,12 +323,89 @@ if ( isset($_GET['paymentInfo']) ) {
             $result .= '<tbody>';
 
             foreach ( $payment->transactions[0]->item_list->items as $cartItem ) {
-                $result .= '<tr>';
-                $result .= '<td>'. $cartItem->name .'</td>';
-                $result .= '<td>&euro; '. number_format($cartItem->price, 2) .'</td>';
-                $result .= '<td>'. $cartItem->quantity .'</td>';
-                $result .= '<td><a class="btn btn-info" href="'.DOMAIN.'product.php?view='. $cartItem->sku .'" target="_blank">'.__("View").'</a></td>';
-                $result .= '</tr>';
+            	$p_unique_key = $cartItem->sku;
+            	$itemInfo = $pdo->prepare("SELECT category FROM items WHERE `unique_key` = :unique_key");
+    			$itemInfo->execute(array(":unique_key" => $p_unique_key));
+    			 $result .= '<tr>';
+	             $result .= '<td>'. $cartItem->name .'</td>';
+	             $result .= '<td>&euro; '. number_format($cartItem->price, 2) .'</td>';
+	             $result .= '<td>'. $cartItem->quantity .'</td>';
+
+	             $p_url = '';
+    			if ( $itemInfo->rowCount() > 0 ) {
+    				
+        			$itemInfo = $itemInfo->fetch(PDO::FETCH_ASSOC);
+        			if(isset($itemInfo['category']) && (int)$itemInfo['category'] >0 ){
+        				$urlSubcategory = 0;
+        				$total_carat_weight = 0;
+        				$p_gold_quality = 0;
+        				$p_material = '';
+        				$p_product_name = '';
+
+        				if((int)$itemInfo['category'] == 1) {
+        					
+        					$ringPro = $pdo->prepare("SELECT ring_subcategory,total_carat_weight,gold_quality,material,product_name FROM rings WHERE `unique_key` = :unique_key");
+    						$ringPro->execute(array(":unique_key" => $p_unique_key));
+        					
+        				} else if((int)$itemInfo['category'] == 2) {
+        					
+        					$ringPro = $pdo->prepare("SELECT ring_subcategory,total_carat_weight,gold_quality,material,product_name FROM earrings WHERE `unique_key` = :unique_key");
+    						$ringPro->execute(array(":unique_key" => $p_unique_key));
+
+    						
+        				
+        					
+        				} else if((int)$itemInfo['category'] == 3) {
+        					
+        					$ringPro = $pdo->prepare("SELECT ring_subcategory,total_carat_weight,gold_quality,material,product_name FROM pendants WHERE `unique_key` = :unique_key");
+    						$ringPro->execute(array(":unique_key" => $p_unique_key));
+
+    					} else if((int)$itemInfo['category'] == 4) {
+        					
+        					$ringPro = $pdo->prepare("SELECT ring_subcategory,total_carat_weight,gold_quality,material,product_name FROM necklaces WHERE `unique_key` = :unique_key");
+    						$ringPro->execute(array(":unique_key" => $p_unique_key));   						
+        				} else if((int)$itemInfo['category'] == 5) {
+        					
+        					$ringPro = $pdo->prepare("SELECT ring_subcategory,total_carat_weight,gold_quality,material,product_name FROM bracelets WHERE `unique_key` = :unique_key");
+    						$ringPro->execute(array(":unique_key" => $p_unique_key));
+        					
+        				}
+
+        				if ($ringPro->rowCount() > 0 ) {
+    							
+			        			$ringPro = $ringPro->fetch(PDO::FETCH_ASSOC);
+
+			        			if(isset($ringPro['ring_subcategory'])) {
+			        				$urlSubcategory = $ringPro['ring_subcategory'];
+			        			}
+			        			if(isset($ringPro['total_carat_weight'])) {
+			        				$total_carat_weight = $ringPro['total_carat_weight'];
+			        			}
+			        			if(isset($ringPro['gold_quality'])) {
+			        				$p_gold_quality = $ringPro['gold_quality'];
+			        			}
+			        			if(isset($ringPro['material'])) {
+			        				$p_material = $ringPro['material'];
+			        			}
+			        			if(isset($ringPro['product_name'])) {
+			        				$p_product_name = $ringPro['product_name'];
+			        			}
+			        			
+			        			 $result .= '<td><a class="btn btn-info" href="'.makeProductDetailPageUrl($urlSubcategory,$total_carat_weight,$p_gold_quality,$p_material,$p_product_name,$p_unique_key) .'" target="_blank">'.__("View").'</a></td>';
+			        		} else {
+			        			
+			        			$result .= '<td>&nbsp;</td>';
+			        		}
+
+        			} else {
+        				$result .= '<td>&nbsp;</td>';	
+        			}
+        				               
+	               
+            	} else {
+            		$result .= '<td>&nbsp;</td>';
+            	}
+            	$result .= '</tr>';
             } 
 
             $result .= '</tbody>';

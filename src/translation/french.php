@@ -17,10 +17,10 @@
 		basename($_SERVER['PHP_SELF']) == 'fetch_item_info.php' || 
 		basename($_SERVER['PHP_SELF']) == 'post.php')
 	{
-
 		$locale_file = new FileReader("../translation/locale/$locle_lang/LC_MESSAGES/diamantsecret_fr.mo");
 		  
  	}else{
+
   		$locale_file = new FileReader("translation/locale/$locle_lang/LC_MESSAGES/diamantsecret_fr.mo");
  	}
 

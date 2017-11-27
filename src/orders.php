@@ -187,7 +187,7 @@ include './conf/config.php';
 <script>
   function viewCartInfo(invoice) {
 	$.ajax({
-		url: '../url/ajax.php?paymentInfo='+ invoice,
+		url: '../url/ajax.php?paymentInfo='+ invoice+'&lang=<?php echo $lang; ?>',
 		type: 'GET',
 		beforeSend: function() {
 						$("#modalContent").html('<div class="col-sm-8 col-sm-offset-8 text-center"><img src="<?php echo $__MAINDOMAIN__;?>images/gfx/cube_lg.gif" /><br/><h5><?php echo addslashes(__("Fetching Info")); ?></h5></div>');

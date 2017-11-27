@@ -157,7 +157,7 @@ pconsole($_POST);
 															<div class="home_collections_item" style="width: 200px;">
 																			<div class="home_collections_item_inner">
 																				<div class="collection-details">
-																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'?>rings" title="<?php echo __("Browse our Rings"); ?>">
+																					<a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('rings'); ?>" title="<?php echo __("Browse our Rings"); ?>">
 																						<img src="<?php echo $__MAINDOMAIN__;?>images/gfx/ring_270x270.png" alt="Rings">
 																					</a>
 																				</div>

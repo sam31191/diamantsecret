@@ -381,7 +381,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             $material = $material['category'];
                                                             echo '
                                                             <a href="'.$__MAINDOMAIN__.''.$lang.'/'. processUrlParameter(__($category)) .'?material='. $itemInfo['material'] .'">
-                                                            '. $material .'<span>,</span>
+                                                            '. __($material) .'<span>,</span>
                                                             </a>
                                                             ';
 
@@ -390,7 +390,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             $getColor->execute(array(":id" => $itemInfo["color"]));
                                                             $getColor = $getColor->fetch(PDO::FETCH_ASSOC);
 
-                                                            $color = '<a href="'.$__MAINDOMAIN__.''.$lang.'/'. processUrlParameter(__($category)) .'?color='. $getColor['id'] .'">'. $getColor["color"] .'<span>,</span>
+                                                            $color = '<a href="'.$__MAINDOMAIN__.''.$lang.'/'. processUrlParameter(__($category)) .'?color='. $getColor['id'] .'">'. __($getColor["color"]) .'<span>,</span>
                                                                         </a>';
                                                             echo $color;
 
@@ -923,7 +923,15 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                         </li>
                                     </ul>
                                 </div>
-                                <form method="post" enctype="multipart/form-data" action="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
+                                <?php
+                                $my_protocol = 'https';
+                                if($_SERVER['HTTP_HOST']=='localhost' ) {
+                                    $my_protocol = 'http';
+                                }
+                                
+
+                                ?>
+                                <form method="post" enctype="multipart/form-data" action="<?php echo $my_protocol.'://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
                                     <div id="quick-shop-price-container" class="detail-price">
                                         
                                     </div>

@@ -45,10 +45,11 @@ if ( !isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn'] ) {
 #pre
 $alert = "";
 
+
 if ( isset($_POST['removeFromFav'])) {
 	pconsole($_POST['removeFromFav']);
-	$getcurrentFavs = $pdo->prepare("SELECT `favorites` FROM `accounts` WHERE `username` = :username");
-	$getcurrentFavs->execute(array(":username" => $_USERNAME));
+	$getcurrentFavs = $pdo->prepare("SELECT `favorites` FROM `accounts` WHERE `username` = :username and site_id = :siteIdd");
+	$getcurrentFavs->execute(array(":username" => $_USERNAME,":siteIdd" => $siteIdd));
 
 	$result = $getcurrentFavs->fetch(PDO::FETCH_ASSOC);
 	$currentFav = $result['favorites'];
@@ -115,10 +116,11 @@ if ( isset($_POST['removeFromFav'])) {
         }
     }
 ?>
-    <input type="hidden" name="changeURL" id="changeURL" value="<?php echo $link; ?>"> 
+    
 	<!-- Header -->
 	<?php include './url/header.php'; ?>
-  
+
+  <input type="hidden" name="changeURL" id="changeURL" value="<?php echo $link; ?>"> 
 	<div id="content-wrapper-parent">
 		<div id="content-wrapper">  
 			<!-- Content -->
@@ -221,13 +223,17 @@ if ( isset($_POST['removeFromFav'])) {
 										</thead>
 										<tbody>
 										<?php
-										$getFavs = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user");
-										$getFavs->execute(array(":user" => $_USERNAME));
+										
+
+										$getFavs = $pdo->prepare("SELECT * FROM `accounts` WHERE `username` = :user and site_id = :siteIdd");
+										$getFavs->execute(array(":user" => $_USERNAME,":siteIdd" => $siteIdd));
 
 										if ( $getFavs->rowCount() > 0 ) {
 											$user = $getFavs->fetch(PDO::FETCH_ASSOC);
 											
 											$favorites = explode(",", $user['favorites']);
+
+											
 
 											foreach ( $favorites as $item ) {
 												if ( !empty($item) ) {

@@ -82,6 +82,10 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
     }
 
 } else if ( isset($_POST['removeFromCart']) && $_SESSION['loggedIn']  ) {
+
+echo '------ ';
+die;
+
     $updateCart = $pdo->prepare("DELETE FROM tb_cart WHERE user_id = :uid AND product_id = :pid AND size = :size AND quantity = :quantity");
     $updateCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $_POST['unique_key'], ":size" => $_POST['size'], ":quantity" => intval($_POST['quantity'])));
 
@@ -634,7 +638,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 										</li>
 									</ul>
 								</div>
-								<form method="post" enctype="multipart/form-data" action="<?php  echo $__MAINDOMAIN__.$lang.'/'.__('home') ?>">
+								<form method="post" enctype="multipart/form-data" action="<?php  echo $__MAINDOMAIN__.$lang; ?>">
 									<div id="quick-shop-price-container" class="detail-price">
 										
 									</div>

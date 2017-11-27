@@ -95,10 +95,11 @@ pconsole($_POST);
 		$makeOppositeSubcategory = trim($_REQUEST['_sc']);
 	 }
 	?>
-	<input type="hidden" name="changeURL" id="changeURL" value="<?php echo makeOppositeUrlFromCurrentLang($opposite_category,$makeOppositeSubcategory,$makeInLang,0);?>">
+	
 	<!-- Header -->
 	<?php include './url/header.php'; ?>
-  
+	
+  	<input type="hidden" name="changeURL" id="changeURL" value="<?php echo makeOppositeUrlFromCurrentLang($opposite_category,$makeOppositeSubcategory,$makeInLang,0);?>">
 	<div id="content-wrapper-parent">
 		<div id="content-wrapper">  
 			<!-- Content -->
@@ -155,17 +156,17 @@ pconsole($_POST);
 									} else {
 										$clarityTag = "";
 									}
+									
 									if ( isset($_GET['_sc']) && !empty($_GET['_sc'])) {
-										$ringTag = $_GET['_sc'];
+										$ringTag = $_GET['_sc'];										
 
 										if($_GET['lang']){
-											if(!empty($ringTag) && $_GET['lang']=='fr'){
+											if(!empty($ringTag) && $_GET['lang']=='fr' && !isset($_REQUEST['filterForm'])){											
 												$ringTag = $fr_subcategory_arr[$ringTag];
 											}else if(!empty($ringTag) && $_GET['lang']=='en'){
 												$ringTag = $_GET['_sc'];
 											}
-										}
-										  
+										}										
 
 										$data=$pdo->prepare("select id from ring_subcategory WHERE category='".ucwords(strtolower(str_replace("-"," ", $ringTag)))." Ring' and category_id = 1");
 										$data->execute();
@@ -211,8 +212,9 @@ pconsole($_POST);
 														<input id="filterMaterial" name="material" hidden />
 														<input id="filterQuality" name="quality" hidden />
 														<input id="filterStone" name="stone" hidden />
+														<input type="hidden" name="filterForm">
 													</form>
-													<h6 class="sb-title"><?php echo __("Filter"); ?> <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('rings')?>" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" style="float:right;"><?php echo __("Apply"); ?></button></h6>
+													<h6 class="sb-title"><?php echo __("Filter"); ?> <a href="<?php echo $__MAINDOMAIN__.''.$lang.'/'.__('rings')?>" style="font-size:12px"><?php echo __("clear selection"); ?></a><button class="btn" form="filterForm" type="submit" name ="filterform" style="float:right;"><?php echo __("Apply"); ?></button></h6>
 													<!-- tags groupd 1 -->
 													<div class="tag-group" id="coll-filter-1">
 														<p class="title">
@@ -363,7 +365,8 @@ pconsole($_POST);
 														<ul>
 														<select form="filterForm" name="_sc">
 															<option value=""><?php echo __("Select"); ?></option>
-															<?php 
+															<?php
+															$subCat = ''; 
 															$query = $pdo->prepare("SELECT * FROM `ring_subcategory` WHERE category_id = 1");
 															$query->execute();
 															if ( $query->rowCount() > 0 ) {
@@ -374,8 +377,12 @@ pconsole($_POST);
 
 																	if ( $checkIfOptionExists->rowCount() > 0 ) {
 																		$optionCount = $checkIfOptionExists->fetch(PDO::FETCH_ASSOC)['optionCount'];
+																		$subCat = strtolower($option['category']);
+																		$subCat = strtolower(str_replace(" ","-",$subCat));
+          																$subCat = strtolower(__($subCat));
+          																if(empty($subCat)) $subCat = $option['category'];
 																		if ( $optionCount > 0 ) {
-																			echo '<option value="'. $option['id'] .'">'. $option['category'] .'</option>';
+																			echo '<option value="'. $option['id'] .'">'. ucwords(str_replace("-"," ",$subCat)) .'</option>';
 																		}
 																	}
 																}
@@ -994,7 +1001,7 @@ pconsole($_POST);
 
 										if ( $fetchAvailableMaterials->rowCount() > 0 ) {
 											foreach ( $fetchAvailableMaterials->fetchAll() as $materialOption ) {
-												echo '<a class="btn material-badge" name="'. $materialOption['id'] .'">'. $materialOption['category'] .'</a>';
+												echo '<a class="btn material-badge" name="'. $materialOption['id'] .'">'. __($materialOption['category']) .'</a>';
 											}
 										}
 										?>

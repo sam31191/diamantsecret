@@ -53,8 +53,8 @@ RewriteRule    ^(en|fr)/login  login.php?lang=$1 [L]
 RewriteRule    ^(en|fr)/se-connecter/(.*)$  login.php?lang=$1&unsub=$2 [L]
 RewriteRule    ^(en|fr)/se-connecter  login.php?lang=$1 [L]
 
-RewriteRule    ^(en|fr)/register  register.php?lang=$1 [L]
-RewriteRule    ^(en|fr)/registre  register.php?lang=$1 [L]
+RewriteRule    ^(en|fr)/register  register.php?lang=$1&%{query_STRING} [L]
+RewriteRule    ^(en|fr)/registre  register.php?lang=$1&%{query_STRING} [L]
 
 RewriteRule    ^(en|fr)/account  account.php?lang=$1 [L]
 RewriteRule    ^(en|fr)/compte  account.php?lang=$1 [L]
