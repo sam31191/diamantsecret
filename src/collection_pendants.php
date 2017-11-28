@@ -160,7 +160,11 @@ pconsole($_POST);
 
 										if($_GET['lang']){
 											if(!empty($ringTag) && $_GET['lang']=='fr' && !isset($_REQUEST['filterForm'])){
-												$ringTag = $fr_subcategory_arr[$ringTag];
+												if(is_numeric($ringTag)) {
+													$ringTag = $ringTag;
+												} else {
+													$ringTag = $fr_subcategory_arr[$ringTag];
+												}
 											}else if(!empty($ringTag) && $_GET['lang']=='en'){
 												$ringTag = $_GET['_sc'];
 											}
@@ -845,7 +849,7 @@ pconsole($_POST);
 																<ul class="row-container list-unstyled clearfix">
 																	<li class="row-left">
 																	<a href="'.makeProductDetailPageUrl($urlSubcategory,$item['total_carat_weight'],$item['gold_quality'],$item['material'],$item['item_name'],$item['unique_key']) .'" class="container_item">
-																	<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive img-custom-collection" id="'.$S_no.'-getAltTag" alt="'.$img_alt.'">
+																	<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive img-custom-collection" id="'.$S_no.'-getAltTag" alt="'.ucfirst($img_alt).'">
 																	'. $sale .'
 																	</a>
 																	<div class="hbw">
@@ -854,7 +858,7 @@ pconsole($_POST);
 																	</li>
 																	<li class="row-right parent-fly animMix">
 																	<div class="product-content-left">
-																		<a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$item['total_carat_weight'],$item['gold_quality'],$item['material'],$item['item_name'],$item['unique_key']) .'">'. $itemInfo['product_name'] .'</a>
+																		<a class="title-5" id="'.$item['unique_key'].'-remOldUrl" href="'.makeProductDetailPageUrl($urlSubcategory,$item['total_carat_weight'],$item['gold_quality'],$item['material'],$item['item_name'],$item['unique_key']) .'">'. ucfirst($itemInfo['product_name']) .'</a>
 																		<span class="spr-badge" id="spr_badge_129323961956" data-rating="0.0">
 																		<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 																		<span class="spr-badge-caption">

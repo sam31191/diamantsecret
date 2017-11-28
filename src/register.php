@@ -491,12 +491,12 @@ $("#create_customer").submit(function(event){
 								beforeSend: function(){
 									$("#submitButton img").show();
 									$("#submitButton img").focus();
-									$("#submitButton span").text("Registering..");
+									$("#submitButton span").text('<?php echo __("Registering"); ?>..');
 								},
 								success: function(result) {
 									console.log(result);
 									$("#submitButton img").hide();
-									$("#submitButton span").text("Registered");
+									$("#submitButton span").text('<?php echo __("Registered"); ?>');
 									$("#notificationBox").html("<span>"+ result +"</span>");
 				        			if ( $("#notificationBox").is(":hidden") ) {
 							          $("#notificationBox").toggle(500).delay(10000).toggle(500);

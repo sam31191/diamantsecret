@@ -204,7 +204,15 @@ if ( isset($_GET['register']) ) {
 		$mailBody = str_replace("__VERIFICATIONHASH__", $verifyHash, $mailBody);
 		$mailBody = str_replace("__USERNAME__", $_POST['customer']['username'], $mailBody);
 		$mailBody = str_replace("__MAINDOMAIN__", $__MAINDOMAIN__, $mailBody);
-		$mailBody = str_replace("__LANG__", $lang.'?', $mailBody);
+
+		if(isset($continent) && $continent=='EU'){
+			$mailBody = str_replace("__LANG__", 'fr/', $mailBody);
+		} else if(isset($continent) && $continent!=''){
+			$mailBody = str_replace("__LANG__", 'en/', $mailBody);
+		} else {
+			$mailBody = str_replace("__LANG__", $lang.'/', $mailBody);	
+		}
+		
 
 		$testSiteSubject = ( $testSite ) ? $__TESTSITEPREFIX__ : "";
 

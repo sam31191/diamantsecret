@@ -151,15 +151,27 @@
 					$('#gallery_main_qs').owlCarousel().data('owlCarousel').removeItem();
 				}
 				//Item Thumbnals
+				var newThumbAlt = $("#newAlt").attr("alt");
+				var serialNo = 0;
 				for ( var i = 0; i < images.length-1; i++ ) {
-					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="<?php echo $__MAINDOMAIN__;?>images/images_md/'+ images[i] +'?v='+ Date.now() +'" ><img src="<?php echo $__MAINDOMAIN__;?>images/images_sm/'+ images[i] +'?v='+ Date.now() +'"  alt=""/></a>';
+					serialNo++;	
+					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="<?php echo $__MAINDOMAIN__;?>images/images_md/'+ images[i] +'?v='+ Date.now() +'" ><img id="'+serialNo+'-newThumbAlt" src="<?php echo $__MAINDOMAIN__;?>images/images_sm/'+ images[i] +'?v='+ Date.now() +'"  alt=""/></a>';
 					//console.log("1 Item Added");
 					$('#gallery_main_qs').owlCarousel().data('owlCarousel').addItem(content);
 					$('.owl-item').toggleClass('show-item');
+					$("#"+serialNo+"-newThumbAlt").attr("alt",newThumbAlt+" "+serialNo);
 				}
+
+				// New form action of add to cart on pop-up
+				var newFormAction = $("#"+id+"-newFom").attr("value");
+				$("#cartForm").attr("action","<?php echo $__MAINDOMAIN__.$lang;?>/"+newFormAction);
+
 				//Item Name
 				$("#quick-shop-title a").text(result['item_name']);
-				$("#quick-shop-title a").attr("href", "<?php echo $__MAINDOMAIN__;?>product?view=" + result['unique_key']);
+
+				//Product url in pop-up
+				var removeOldProUrl = $("#"+id+"-remOldUrl").attr("href");
+				$("#quick-shop-title a").attr("href", removeOldProUrl);				
 				
 				//Desc
 				$("#quick-shop-description").html(result['description']);

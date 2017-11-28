@@ -93,7 +93,7 @@ if ( isset($_POST['login']['username']) ) {
                     $_SESSION['admin'] = $result['type'];
                 }
 
-                header("Location:home");
+                header("Location:$__MAINDOMAIN__$lang");
                 exit();
             } else {
                 $error = __("Authentication Failed") ." / ". __("Check your credentials");

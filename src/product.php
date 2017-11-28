@@ -834,7 +834,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             </li>
                                                             <li class="row-right parent-fly animMix">
                                                             <div class="product-content-left">
-                                                                <a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'">'. $product['item_name'] .'</a>
+                                                                <a class="title-5" id="'.$info['unique_key'].'-remOldUrl" href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'">'. ucfirst($product['item_name']) .'</a>
                                                                 <span class="spr-badge" id="spr_badge_1293238211" data-rating="0.0">
                                                                 <span class="spr-badge-caption">
                                                                 '.__("No reviews").' </span>

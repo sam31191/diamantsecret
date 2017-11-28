@@ -253,6 +253,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 												$newProducts = $fetchNew->fetchAll();
 												$delay = 0;
 												$S_no = 0;
+												
 												foreach ( $newProducts as $product ) {
 													$S_no++;
 													switch ($product['category']) {
@@ -294,6 +295,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 													
 													$sale = "";
 													$price = '<span class="price">€'. $product['item_value'] .'</span>';
+													 
 													if ( $product['discount'] > 0 ) {
 														
 														$value = $product['item_value'] -  (($product['discount'] / 100 ) * $product['item_value']);
@@ -323,8 +325,10 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
                                                             $urlSubcategory = $info['ring_subcategory'];
                                                          }
 
-                                                    $img_alt =  makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key'],$alt_tag=1);  
-
+                                                    $img_alt =  makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key'],$alt_tag=1);
+													
+													echo '<input type="hidden" id="'.$info['unique_key'].'-newFom" value="'.get_catname($product['category']).'" />';
+													
 													echo '
 												<div class="element no_full_width bounceIn col-md-8 col-sm-8 not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
 														<ul class="row-container list-unstyled clearfix">
@@ -339,7 +343,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 															</li>
 															<li class="row-right parent-fly animMix">
 															<div class="product-content-left">
-																<a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'">'. $product['item_name'] .'</a>
+																<a class="title-5" id="'.$info['unique_key'].'-remOldUrl" href="'.makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key']) .'">'. ucfirst($product['item_name']) .'</a>
 																<span class="spr-badge" id="spr_badge_12932382113" data-rating="0.0">
 																<span class="spr-starrating spr-badge-starrating"><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i><i class="spr-icon spr-icon-star-empty" style=""></i></span>
 																<span class="spr-badge-caption">
@@ -373,7 +377,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 													</div> 
 													';
 
-													$delay += 100;
+													$delay += 100;													
 												}
 												?>
 													               
@@ -517,6 +521,8 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 														
                                                          $img_alt =  makeProductDetailPageUrl($urlSubcategory,$info['total_carat_weight'],$info['gold_quality'],$info['material'],$info['product_name'],$info['unique_key'],$alt_tag=1);
 
+                                                         echo '<input type="hidden" id="'.$info['unique_key'].'" value="'.get_catname($product['category']).'" />';
+
 														echo '   																						
 													<div class="element no_full_width bounceIn not-animated" data-animate="fadeInUp" data-delay="'. $delay .'">
 														<ul class="row-container list-unstyled clearfix">
@@ -635,7 +641,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 										</li>
 									</ul>
 								</div>
-								<form method="post" enctype="multipart/form-data" action="<?php  echo $__MAINDOMAIN__.$lang; ?>">
+								<form method="post" enctype="multipart/form-data" id="cartForm" action="<?php  echo $__MAINDOMAIN__.$lang; ?>">
 									<div id="quick-shop-price-container" class="detail-price">
 										
 									</div>
@@ -699,7 +705,7 @@ function quickDisplay(src) {
 	//$('#quick-shop-img').attr("src", src);
 }
 
-function quickShop(id) {
+/*function quickShop(id) {
 
 	if (id == "") {
 		document.getElementById("quick-shop-modal").innerHTML = "";
@@ -735,16 +741,23 @@ function quickShop(id) {
 					$('#gallery_main_qs').owlCarousel().data('owlCarousel').removeItem();
 				}
 				//Item Thumbnals
+				var newThumbAlt = $("#newAlt").attr("alt");
+				var serialNo = 0;
 				for ( var i = 0; i < images.length-1; i++ ) {
-					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="<?php echo $__MAINDOMAIN__;?>images/images/'+ images[i] +'?v='+ Date.now() +'" ><img src="<?php echo $__MAINDOMAIN__;?>images/images_sm/'+ images[i] +'?v='+ Date.now() +'" alt=""/></a>';
+					serialNo++;					
+					content = '<a class="image-thumb" onClick="quickDisplay(this)" value="<?php echo $__MAINDOMAIN__;?>images/images/'+ images[i] +'?v='+ Date.now() +'" ><img id="'+serialNo+'-newThumbAlt" src="<?php echo $__MAINDOMAIN__;?>images/images_sm/'+ images[i] +'?v='+ Date.now() +'" alt=""/></a>';
 					//console.log("1 Item Added");
 					$('#gallery_main_qs').owlCarousel().data('owlCarousel').addItem(content);
 					$('.owl-item').toggleClass('show-item');
-
+					$("#"+serialNo+"-newThumbAlt").attr("alt",newThumbAlt+" "+serialNo);
 				}
+				
+				// New form action of add to cart on pop-up
+				var newFormAction = $("#"+id+"-newFom").attr("value");
+				$("#cartForm").attr("action","<?php echo $__MAINDOMAIN__.$lang;?>/"+newFormAction);
+				
 				//Item Name
 				$("#quick-shop-title a").text(result['item_name']);
-				$("#quick-shop-title a").attr("href", "<?php echo $__MAINDOMAIN__;?>product.php?view=" + result['unique_key']);
 				
 				//Desc
 				$("#quick-shop-description").html(result['description']);
@@ -809,7 +822,7 @@ function quickShop(id) {
 		$("#quick-shop-image .main-image img").attr("src", "<?php echo $__MAINDOMAIN__;?>images/gfx/cube_lg.gif");
 		xmlhttp.send();
 	}
-}
+}*/
 
 function selectSize (e) {
 	$(".size-badge").each(function(index, element) {

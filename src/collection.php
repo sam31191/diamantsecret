@@ -447,7 +447,7 @@ pconsole($_POST);
 																<ul class="row-container list-unstyled clearfix">
 																	<li class="row-left">
 																	<a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'" class="container_item">
-																	<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive  img-custom-collection" id="'.$S_no.'-getAltTag" alt="'.$img_alt.'">
+																	<img src="'.$__MAINDOMAIN__.'images/images_md/'. $images[0] .'?v='. time() .'" class="img-responsive  img-custom-collection" id="'.$S_no.'-getAltTag" alt="'.ucfirst($img_alt).'">
 																	'. $sale .'
 																	</a>
 																	<div class="hbw">
@@ -456,7 +456,7 @@ pconsole($_POST);
 																	</li>
 																	<li class="row-right parent-fly animMix">
 																	<div class="product-content-left">
-																		<a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'">'. $itemInfo['product_name'] .'</a>
+																		<a class="title-5" id="'.$itemInfo['unique_key'].'-remOldUrl" href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'">'. ucfirst($itemInfo['product_name']) .'</a>
 																		<span class="spr-badge" id="spr_badge_129323961956" data-rating="0.0">
 																		<span class="spr-badge-caption">
 																		'.__("No reviews").' </span>
@@ -695,7 +695,7 @@ function quickDisplay(src) {
 	//$('#quick-shop-img').attr("src", src);
 }
 
-function quickShop(id) {
+/*function quickShop(id) {
 	if (id == "") {
 		document.getElementById("quick-shop-modal").innerHTML = "";
 		return;
@@ -808,7 +808,7 @@ function quickShop(id) {
 		xmlhttp.send();
 
 	}
-}
+}*/
 
 function selectSize (e) {
 	$(".size-badge").each(function(index, element) {
