@@ -512,7 +512,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 														$cartItemInfo = $getCartItemInfo->fetch(PDO::FETCH_ASSOC);
 														
 														$images = explode(",", $cartItemInfo['images']);
-														if ( $images[0] == "" && !is_file( '../images/images_sm/'. $images[0]) ) {
+														if ( $images[0] == "" || !is_file( '../images/images_sm/'. $images[0]) ) {
 															$images[0] = '0.png';
 														}
 														
@@ -525,6 +525,8 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 														// 	$urlSubcategory = $cartItemInfo['ring_subcategory'];
 														// 	} 
 														$urlSubcategory = $cartItemInfo['ring_subcategory'];
+
+														$img_alt = makeProductDetailPageUrl($urlSubcategory,$cartItemInfo['total_carat_weight'],$cartItemInfo['gold_quality'],$cartItemInfo['material'],$cartItemInfo['product_name'],$cartItemInfo['unique_key'],$alt_tag=1);
 														
 														echo '
 															<div class="items control-container">
@@ -537,7 +539,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 																	</form>
 																	<button class="cart-close" title="'.__("Remove").'" href="javascript:void(0);" style="background:transparent;" form="removeFromCart_'. $i .'" type="submit" name="removeFromCart"><i class="fa fa-times"></i></button>
 																	<div class="col-md-8 cart-left">
-																		<a class="cart-image" href="'.makeProductDetailPageUrl($urlSubcategory,$cartItemInfo['total_carat_weight'],$cartItemInfo['gold_quality'],$cartItemInfo['material'],$cartItemInfo['product_name'],$cartItemInfo['unique_key']) .'"><img src="'. $__MAINDOMAIN__.'images/images_sm/'. $images[0] .'" alt="" title=""></a>
+																		<a class="cart-image" href="'.makeProductDetailPageUrl($urlSubcategory,$cartItemInfo['total_carat_weight'],$cartItemInfo['gold_quality'],$cartItemInfo['material'],$cartItemInfo['product_name'],$cartItemInfo['unique_key']) .'"><img src="'. $__MAINDOMAIN__.'images/images_sm/'. $images[0] .'" alt="'.$img_alt.'" title=""></a>
 																	</div>
 																	<div class="col-md-16 cart-right">
 																		<div class="cart-title">
