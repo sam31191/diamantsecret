@@ -163,10 +163,6 @@
 					$("#"+serialNo+"-newThumbAlt").attr("alt",newThumbAlt+" "+serialNo);
 				}
 
-				// New form action of add to cart on pop-up
-				var newFormAction = $("#"+id+"-newFom").attr("value");
-				$("#cartForm").attr("action","<?php echo $__MAINDOMAIN__.$lang;?>/"+newFormAction);
-
 				//Item Name
 				$("#quick-shop-title a").text(result['item_name']);
 

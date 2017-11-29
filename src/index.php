@@ -68,8 +68,9 @@ include './url/pre.php';
 <body class="templateIndex notouch">
 
 <?php
-
+pconsole($_GET);
 if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
+
     $checkCart = $pdo->prepare("SELECT * FROM tb_cart WHERE user_id = :uid AND product_id = :pid AND size = :size");
     $checkCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $_POST['unique_key'], ":size" => $_POST['size']));
 
@@ -77,6 +78,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
         $updateCart = $pdo->prepare("UPDATE tb_cart SET quantity = quantity + :quantity WHERE user_id = :uid AND product_id = :pid AND size = :size");
         $updateCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $_POST['unique_key'], ":size" => $_POST['size'], ":quantity" => intval($_POST['quantity'])));
     } else {
+
         $updateCart = $pdo->prepare("INSERT INTO tb_cart (quantity, user_id, product_id, size) VALUES (:quantity, :uid, :pid, :size)");
         $updateCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $_POST['unique_key'], ":size" => $_POST['size'], ":quantity" => intval($_POST['quantity'])));
     }
@@ -87,7 +89,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
     $updateCart->execute(array(":uid" => $_SESSION['user_id'], ":pid" => $_POST['unique_key'], ":size" => $_POST['size'], ":quantity" => intval($_POST['quantity'])));
 
 }
-
+pconsole($_POST);
 ?>
   
 	<!-- Header -->
@@ -643,7 +645,7 @@ if ( isset($_POST['addToCart']) && $_SESSION['loggedIn']  ) {
 										</li>
 									</ul>
 								</div>
-								<form method="post" enctype="multipart/form-data" id="cartForm" action="<?php  echo $__MAINDOMAIN__.$lang; ?>">
+								<form method="post" enctype="multipart/form-data" id="cartForm" action="<?php  echo $__MAINDOMAIN__.$lang.'/'; ?>">
 									<div id="quick-shop-price-container" class="detail-price">
 										
 									</div>

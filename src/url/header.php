@@ -279,9 +279,11 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 
 																	$tag = strtolower(str_replace(" ","-",$tag));
 																	$tag = str_replace("Boucles d'oreilles ", " ", __($tag));
+																	$tag = str_replace("Boucle d'oreille ", " ", __($tag));
 																}else{
 																	$tag = $option['category'];
 																	$tag = str_replace("Earrings", " ", $tag);
+																	$tag = str_replace("Earring", " ", $tag);
 																}
 															}
 
