@@ -150,6 +150,7 @@
 					//console.log("1 Item Removed");
 					$('#gallery_main_qs').owlCarousel().data('owlCarousel').removeItem();
 				}
+				
 				//Item Thumbnals
 				var newThumbAlt = $("#newAlt").attr("alt");
 				var serialNo = 0;
