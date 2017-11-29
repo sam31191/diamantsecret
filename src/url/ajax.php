@@ -192,6 +192,8 @@ if ( isset($_GET['register']) ) {
 		$mailBody = str_replace("To verify your account, click the link below<", __("To verify your account, click the link below<"), $mailBody);
 		$mailBody = str_replace("Verify Me", __("Verify Me"), $mailBody);
 		$mailBody = str_replace("Alternatively, you can simply login from here.", __("Alternatively, you can simply login from here."), $mailBody);
+		$mailBody = str_replace("Password", __("Password"), $mailBody);
+		$mailBody = str_replace("Submit", __("Submit"), $mailBody);
 		$mailBody = str_replace("Thanks for choosing Diamant Secret", __("Thanks for choosing Diamant Secret"), $mailBody);
 		$newStr2 = __("Copyright [copyrightLogo] [Y] Diamant Secret. All Rights Reserved.");
 		

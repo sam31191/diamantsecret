@@ -452,10 +452,9 @@ pconsole($_POST);
                                                                 $getItem = $pdo->prepare("SELECT * FROM `items` WHERE `featured` = 1 AND `category` = 4 AND site_0 = 1 AND disabled = 0 ORDER BY `date_added` DESC LIMIT 5");
                                                                 $getItem->execute();
                                                                 $allItems = $getItem->fetchAll();
+                                                                $$S_no = 0;
                                                                 foreach ( $allItems as $item) {
-
                                                                     $S_no++;
-
                                                                     switch ($item['category']) {
                                                                         case 1: {
                                                                             $getItemInfo = $pdo->prepare("SELECT * FROM `rings` WHERE `unique_key` = :unique_key");
@@ -517,17 +516,21 @@ pconsole($_POST);
                                                          } else {
                                                             $urlSubcategory = $itemInfo['ring_subcategory'];
                                                          }    
+
+                                                                    $img_alt =  makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key'],$alt_tag=1);
+
+
                                                                     echo '
                                                                     <div class="element full_width fadeInUp animated" data-animate="fadeInUp" data-delay="0">
                                                                         <form action="'.$__MAINDOMAIN__.$lang.'/'.__('necklaces').'" method="post">
                                                                             <ul class="row-container list-unstyled clearfix">
                                                                                 <li class="row-left">
                                                                                 <a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'" class="container_item"style="max-height:100px">
-                                                                                <img src="'.$__MAINDOMAIN__.'images/images_sm/'. $images[0] .'?v='. time() .'" class="img-responsive"  alt="'.$img_alt.'">
+                                                                                <img src="'.$__MAINDOMAIN__.'images/images_sm/'. $images[0] .'?v='. time() .'" class="img-responsive"  alt="'.ucfirst($img_alt).'">
                                                                                 </a>
                                                                                 </li>
                                                                                 <li class="row-right parent-fly animMix">
-                                                                                <a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'">'. $itemInfo['product_name'] .'</a>
+                                                                                <a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'">'. ucfirst($itemInfo['product_name']) .'</a>
                                                                                 <div class="product-price">
                                                                                     '. $price .'
                                                                                 </div>

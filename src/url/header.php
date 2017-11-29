@@ -70,6 +70,11 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 							} else {
 								$ast = "";
 							}
+							if(isset($lang) && $lang=='fr'){
+								$orders = 'ordres';
+							}else{
+								$orders = 'orders';
+							}
 							echo'
 							<li class="login">    
 								<span id="loginButton" class="dropdown-toggle" data-toggle="dropdown">
@@ -83,7 +88,7 @@ if ( isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] ) {
 										<ul class="control-container customer-accounts list-unstyled" style="padding:0;">           
 											<a href="'.$__MAINDOMAIN__.$lang.'/'.__('account').'" class="dropdown-item">'.__("Favorites").'<span id="favorite_num_badge" style="padding: 2px 6px; background: #F9A825; border-radius: 100px; margin: 0px 0px 0px 5px; font-size: 12px; color: white; font-weight: bold;">'. intval(count(explode(",", $favorites)) - 1) .'</span></a>
 											<a href="'.$__MAINDOMAIN__.$lang.'/'.__('account').'?show=settings" class="dropdown-item">'.__("Settings").'</a>              
-											<a href="'.$__MAINDOMAIN__.$lang.'/orders" class="dropdown-item">'.__("Orders").'</a>              
+											<a href="'.$__MAINDOMAIN__.$lang.'/'.$orders.'" class="dropdown-item">'.__("Orders").'</a>              
 											<form method="post">
 											<button href="#" class="btn-logout" name="action[logout]" value="true">'.__("Logout").'</button>
 											</form>

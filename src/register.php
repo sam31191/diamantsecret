@@ -485,7 +485,7 @@ $("#create_customer").submit(function(event){
 							if ( $("#phone_number").hasClass("valid") ) {
 								if ( $("#address").hasClass("valid") ) {
 							$.ajax({
-								url: '<?php echo $__MAINDOMAIN__;?>url/ajax.php?register=' + $("#username").val(),
+								url: '<?php echo $__MAINDOMAIN__;?>url/ajax.php?register=' + $("#username").val()+'&lang=<?php if(isset($_GET["lang"])) echo $_GET["lang"]; ?>',
 								type: 'POST',
 								data: $("#create_customer").serialize(),
 								beforeSend: function(){

@@ -241,7 +241,6 @@ if ( isset($_GET['recoverHash']) && !empty($_GET['recoverHash']) ) {
         $recoveryMail2 = str_replace("Login Now", __("Login Now"), $recoveryMail2);
         $recoveryMail2 = str_replace("We recommend you change your password as soon as possible", __("We recommend you change your password as soon as possible"), $recoveryMail2);
         $recoveryMail2 = str_replace("Thanks for choosing Diamant Secret", __("Thanks for choosing Diamant Secret"), $recoveryMail2);
-        $recoveryMail2 = str_replace("Greetings", __("Greetings"), $recoveryMail2);
         $newStr2 = __("Copyright [copyrightLogo] [Y] Diamant Secret. All Rights Reserved.");
         $recoveryMail2 = str_replace("Copyright &copy; 2016 Diamant Secret. All Rights Reserved.", $newStr2, $recoveryMail2);
         $recoveryMail2 = str_replace("[copyrightLogo]", "&copy;", $recoveryMail2);

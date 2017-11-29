@@ -534,7 +534,7 @@ pconsole($_POST);
 																				</a>
 																				</li>
 																				<li class="row-right parent-fly animMix">
-																				<a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'">'. $itemInfo['product_name'] .'</a>
+																				<a class="title-5" href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'">'. ucfirst($itemInfo['product_name']) .'</a>
 																				<div class="product-price">
 																					'. $price .'
 																				</div>
