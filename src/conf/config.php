@@ -4,6 +4,7 @@
     $cookie_name = "selectedLang";
     $directory_path = "C:/laragon/www/diamantsecret/src/";
     require_once($directory_path."subCategoryArrays.php");
+    $continent = 'EU';
     if(!isset($_COOKIE[$cookie_name])){
         try{
             //$ip = "165.72.200.11"; // European IP address.
@@ -37,7 +38,7 @@
 
     /*  MySQL Configuration */
     $host = "localhost";
-    $dbname = "diamantsecret";
+    $dbname = "new_diamantsecret";
     //$dbname = "db_diamantsecret_v6";
     $user = "root";
     $pass = "";
@@ -963,6 +964,11 @@ function makeOppositeUrlFromCurrentLang($category,$subcategory,$makeInLang,$pick
             break;
     }
     return $url; 
+}
+
+function get_catname($catid){
+    $cat = array(1=>'rings',2=>'earrings',3=>'pendants',4=>'necklaces',5=>'bracelets');
+    return $cat[$catid];
 }
 
 ?>
