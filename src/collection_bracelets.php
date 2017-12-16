@@ -531,7 +531,7 @@ pconsole($_POST);
                                                                         <form action="#" method="post">
                                                                             <ul class="row-container list-unstyled clearfix">
                                                                                 <li class="row-left">
-                                                                                <a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'" class="container_item"style="max-height:100px">
+                                                                                <a href="'.makeProductDetailPageUrl($urlSubcategory,$itemInfo['total_carat_weight'],$itemInfo['gold_quality'],$itemInfo['material'],$itemInfo['product_name'],$itemInfo['unique_key']) .'" class="container_item"style="max-height:120px;min-height:120px;">
                                                                                 <img src="'.$__MAINDOMAIN__.'images/images_sm/'. $images[0] .'?v='. time() .'" class="img-responsive" alt="'. ucfirst($img_alt) .'">
                                                                                 </a>
                                                                                 </li>
